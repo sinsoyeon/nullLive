@@ -5,5 +5,47 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
  <mapper namespace="Member">
-
+	<resultMap type="Member" id="memberResultSet">
+		<id property="mno" column="MNO"/>
+		<result property="mid" column="MID"/>
+		<result property="mpwd" column="MPWD"/>
+		<result property="email" column="EMAIL"/>
+		<result property="emailC" column="EMAIL_CHECK"/>
+		<result property="phone" column="PHONE"/>
+		<result property="agency" column="AGENCY"/>
+		<result property="name" column="NAME"/>
+		<result property="nickName" column="NICK_NAME"/>
+		<result property="gender" column="GENDER"/>
+		<result property="enrollDate" column="ENROLL_DATE"/>
+		<result property="isAdmin" column="IS_ADMIN"/>
+		<result property="point" column="POINT"/>
+		<result property="receivedLikes" column="RECEIVED_LIKES"/>
+		<result property="cumulativeReport" column="CUMULATIVE_REPORT"/>
+		<result property="mstatus" column="M_STATUS"/>
+		<result property="pwdModifyDate" column="PWD_MODIFY_DATE"/>
+		<result property="withdrawalDate" column="WITHDRAWAL_DAET"/>
+		<result property="isStreamer" column="IS_STREAMER"/>
+	</resultMap>
+	
+	<select id="selectMember" resultMap="memberResultSet" parameterType="Member">
+		SELECT *
+		FROM MEMBER
+		WHERE MID = #{mid}
+		AND M_STATUS = 'Y'
+	</select>
+	
+	<select id="selectPwd" resultType="java.lang.String" parameterType="java.lang.String">
+		SELECT MPWD
+		FROM MEMBER
+		WHERE MID = #{mid}
+		AND M_STATUS = 'Y'
+	</select>
+	
+	<insert id="insertMember" parameterType="Member">
+		INSERT INTO MEMBER(MNO,MID,MPWD,EMAIL,EMAIL_CHECK,PHONE,AGENCY,NAME,NICK_NAME,
+				GENDER,ENROLL_DATE,POINT,IS_ADMIN,RECEIVED_LIKES,CUMULATIVE_REPORT,
+				M_STATUS,PWD_MODIFY_DATE,IS_STREAMER)
+		VALUES (SEQ_MNO.NEXTVAL,#{mid},#{mpwd},#{email},DEFAULT,#{phone},#{agency},#{name},#{name},
+		#{gender},SYSDATE,0,DEFAULT,0,0,DEFAULT,SYSDATE,DEFAULT)
+	</insert>
 </mapper>
