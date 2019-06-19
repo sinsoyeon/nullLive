@@ -1,0 +1,10 @@
+@charset "UTF-8";
+.container{
+	padding-left:50%;
+	diplay:inline-block;
+	position: relative;
+	padding-top:10%;
+}
+.input{
+	width:350px;
+}

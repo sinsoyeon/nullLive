@@ -1,0 +1,38 @@
+@charset "UTF-8";
+.profile{
+	text-align:center;
+}
+#profileImg{
+	margin-top: 20%;
+	height:150px;
+	width:150px;
+	background:white;
+}
+
+.sidebar{
+	background:#334d00;	
+	height:auto;
+	/* width: 20%; */
+}
+#sidemenu{
+	background:#334d00;
+	height: 50px;
+	font-size: 20px;
+}
+.streamerSideMenu h3{
+	padding-left:5%;
+	color:gray;
+}
+.streamerSideMenu ul li {
+	list-style:none;
+	height: 40px;
+}
+.streamerSideMenu ul li a{
+	font-size:15px;
+	color:white;
+	text-decoration:none;
+}
+.streamerSideMenu li a:hover{
+	color:black;
+	background:#ace600;
+}

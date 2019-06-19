@@ -303,7 +303,18 @@ main section h1 {
 				Maecenas in nisl fringilla, aliquet diam ut, facilisis ex. In dui
 				risus, porttitor convallis ultricies nec, ornare eu leo.</p>
 		
+		<button onclick="streamer()">방송자 메뉴화면</button>
 		</main>
+		
+
 	</div>
+	
+	
+	<script>
+		function streamer(){
+			location.href="streamer.me";
+		}
+	</script>
+	
 </body>
 </html>
