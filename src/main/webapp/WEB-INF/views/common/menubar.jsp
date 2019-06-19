@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,8 +35,14 @@
 			</form>
 			
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#">Notice</a></li>
-				<li><a href="#">Login</a></li>
+				<c:if test="${empty sessionScope.loginUser}">
+					<li><a href="join.me">Join</a></li>
+					<li><a href="loginPage.me">Login</a></li>
+				</c:if>
+				<c:if test="${!empty sessionScope.loginUser}">
+					<li><a href="logout.me">로그아웃</a></li>
+					<li><a href="myPage.me"><c:out value="${sessionScope.loginUser.name} 님"/></a></li>
+				</c:if>
 			</ul>
 			
 		</div>
