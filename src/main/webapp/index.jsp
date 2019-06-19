@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<button onclick="location.href=''"> </button>
+	<jsp:forward page="WEB-INF/views/main/main.jsp" />
 </body>
 </html>
