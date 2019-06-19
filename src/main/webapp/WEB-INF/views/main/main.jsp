@@ -13,7 +13,7 @@ input[type="checkbox"]#menu_state {
 }
 
 input[type="checkbox"]:checked ~ .sidebar {
-	width: 250px;
+	width: 210px;
 }
 
 input[type="checkbox"]:checked ~ .sidebar label[for="menu_state"] i::before
@@ -26,7 +26,6 @@ input[type="checkbox"]:checked ~ .sidebar ul {
 }
 
 input[type="checkbox"]:checked ~ .sidebar ul li a i {
-	border-right: 1px solid #2f343e;
 }
 
 input[type="checkbox"]:checked ~ .sidebar ul li a span {
@@ -35,7 +34,7 @@ input[type="checkbox"]:checked ~ .sidebar ul li a span {
 }
 
 input[type="checkbox"]:checked ~ main {
-	left: 250px;
+	left: 210px;
 }
 
 .sidebar {
@@ -44,8 +43,8 @@ input[type="checkbox"]:checked ~ main {
 	top: 0;
 	left: 0;
 	bottom: 0;
-	background: #383e49;
-	color: #9aa3a8;
+	background: #fcf8e3d1;
+	color: #6f8e30;
 	width: 50px;
 	font-family: 'Montserrat', sans-serif;
 	font-weight: lighter;
@@ -91,59 +90,28 @@ input[type="checkbox"]:checked ~ main {
 }
 
 .sidebar ul li {
-	border: 1px solid #2f343e;
 	position: relative;
-}
-
-.sidebar ul li.unread:after {
-	content: attr(data-content);
-	position: absolute;
-	top: 10px;
-	left: 25px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 15px;
-	height: 15px;
-	border-radius: 50%;
-	color: #fff;
-	background: #ef5952;
-	font-size: 8px;
+	height: 65px;
 }
 
 .sidebar
-
  
-
 ul
-
  
-
 li
-
-
 :not
-
  
-
 (
 :last-child
-
  
-
-)
-{
+){
 border-bottom
-
-
 :
-
  
-
 none
-
-
 ;
+
+
 }
 .sidebar ul li.active a {
 	background: #4c515d;
@@ -155,15 +123,14 @@ none
 	display: block;
 	white-space: nowrap;
 	text-decoration: none;
-	color: #9aa3a8;
+	color: #333;
 	height: 50px;
 	width: 100%;
 	transition: all 0.15s ease-in-out;
 }
 
 .sidebar ul li a:hover {
-	background: #4c515d;
-	color: #fff;
+	color: #6f8e30;
 }
 
 .sidebar ul li a * {
@@ -182,6 +149,7 @@ none
 }
 
 .sidebar ul li a span {
+    font-size: 16px;
 	padding-left: 25px;
 	opacity: 0;
 	line-height: 50px;
@@ -233,76 +201,70 @@ main section h1 {
 </head>
 <body>
 	<jsp:include page="../common/menubar.jsp" />
-
-	<div class="container-fluid">
+	
+	<div>
 		<input type="checkbox" id="menu_state" checked>
 		<nav class="sidebar">
 			<label for="menu_state"><i class="fa"></i></label>
 			<ul>
-				<li data-content="5" class="active unread"><a
-					href="javascript:void(0)"> <i class="fa fa-inbox"></i> <span>Inbox</span>
+				<li><a href="#"> <i class="fas fa-star fa-lg"></i> <span>즐겨찾기</span>
 				</a></li>
-				<li><a href="javascript:void(0)"> <i class="fa fa-heart"></i>
-						<span>Favorites</span>
+				<li><a href="#"> <i class="fas fa-play fa-lg"></i> <span>LIVE</span>
 				</a></li>
-				<li><a href="javascript:void(0)"> <i
-						class="fa fa-paper-plane"></i> <span>Sent</span>
+				<li><a href="#"> <i class="fas fa-video fa-lg"></i> <span>VOD</span>
 				</a></li>
-				<li><a href="javascript:void(0)"> <i class="fa fa-pencil"></i>
-						<span>Draft</span>
+				<li><a href="#"> <i class="fas fa-mouse-pointer fa-lg"></i> <span>소통센터</span>
 				</a></li>
-				<li data-content="2" class="unread"><a
-					href="javascript:void(0)"> <i class="fa fa-trash"></i> <span>Trash</span>
+				<li><a href="#"> <i class="fas fa-headphones fa-lg"></i> <span>고객센터</span>
 				</a></li>
 			</ul>
 		</nav>
 
 		<main>
-		
-			<h1>Proin sodales velit vel nisi bibendum tempor</h1>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-				Phasellus tristique massa eget volutpat volutpat. Class aptent
-				taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-				himenaeos. Sed consectetur turpis nulla, a euismod nisi sollicitudin
-				eu. Aliquam elit neque, tristique nec venenatis ut, pharetra vitae
-				enim. Fusce non urna in odio euismod finibus eget vel tortor.
-				Quisque a purus ipsum. Donec ante nibh, porta eget magna non,
-				pharetra sodales ante. Phasellus erat massa, venenatis et velit et,
-				tincidunt finibus lorem. Lorem ipsum dolor sit amet, consectetur
-				adipiscing elit. Cum sociis natoque penatibus et magnis dis
-				parturient montes, nascetur ridiculus mus. Integer luctus facilisis
-				bibendum. Integer in arcu pharetra tellus auctor bibendum sed sed
-				turpis. Vestibulum imperdiet lacus lectus, vitae ultricies nisi
-				eleifend et. Mauris rhoncus nec eros quis dictum. Proin sodales
-				velit vel nisi bibendum tempor. Aenean tristique ipsum nec dictum
-				vehicula.</p>
 
-			<p>Nullam sed metus a dui auctor sodales quis nec tellus. Duis
-				porttitor tortor pulvinar auctor mattis. Sed ultrices urna in augue
-				venenatis tempus. Proin fringilla sodales eros. Ut aliquet odio nec
-				sagittis dictum. Cras ullamcorper, neque ac imperdiet hendrerit,
-				sapien nunc porta sapien, quis maximus nulla purus sit amet lectus.
-				Mauris rhoncus lectus non vehicula lacinia. Suspendisse eu mollis
-				ex, sit amet ultrices lorem. Cras elit risus, bibendum ut massa nec,
-				commodo commodo augue.</p>
+		<h1>Proin sodales velit vel nisi bibendum tempor</h1>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+			Phasellus tristique massa eget volutpat volutpat. Class aptent taciti
+			sociosqu ad litora torquent per conubia nostra, per inceptos
+			himenaeos. Sed consectetur turpis nulla, a euismod nisi sollicitudin
+			eu. Aliquam elit neque, tristique nec venenatis ut, pharetra vitae
+			enim. Fusce non urna in odio euismod finibus eget vel tortor. Quisque
+			a purus ipsum. Donec ante nibh, porta eget magna non, pharetra
+			sodales ante. Phasellus erat massa, venenatis et velit et, tincidunt
+			finibus lorem. Lorem ipsum dolor sit amet, consectetur adipiscing
+			elit. Cum sociis natoque penatibus et magnis dis parturient montes,
+			nascetur ridiculus mus. Integer luctus facilisis bibendum. Integer in
+			arcu pharetra tellus auctor bibendum sed sed turpis. Vestibulum
+			imperdiet lacus lectus, vitae ultricies nisi eleifend et. Mauris
+			rhoncus nec eros quis dictum. Proin sodales velit vel nisi bibendum
+			tempor. Aenean tristique ipsum nec dictum vehicula.</p>
 
-			<p>Sed lacinia, ligula id venenatis auctor, libero turpis aliquet
-				nunc, sit amet ullamcorper dolor ligula quis felis. Vivamus
-				condimentum mi vel felis vehicula, eu placerat lacus semper. Sed
-				quis lacinia mauris. Donec aliquam vulputate metus, non imperdiet
-				lorem maximus a. Integer eget dignissim erat. Proin id finibus dui,
-				pretium consectetur turpis. Vivamus in tincidunt odio, eu iaculis
-				nisi. Integer in scelerisque mauris. Vivamus ac eros congue, mattis
-				nisl ac, venenatis lacus.</p>
+		<p>Nullam sed metus a dui auctor sodales quis nec tellus. Duis
+			porttitor tortor pulvinar auctor mattis. Sed ultrices urna in augue
+			venenatis tempus. Proin fringilla sodales eros. Ut aliquet odio nec
+			sagittis dictum. Cras ullamcorper, neque ac imperdiet hendrerit,
+			sapien nunc porta sapien, quis maximus nulla purus sit amet lectus.
+			Mauris rhoncus lectus non vehicula lacinia. Suspendisse eu mollis ex,
+			sit amet ultrices lorem. Cras elit risus, bibendum ut massa nec,
+			commodo commodo augue.</p>
 
-			<p>Nunc viverra vestibulum tempor. Nulla consectetur sit amet
-				mauris at rutrum. Mauris eu rhoncus eros. Integer convallis magna ac
-				tincidunt laoreet. Proin molestie vitae erat id venenatis. Donec eu
-				imperdiet risus. Fusce gravida placerat dui eget sollicitudin. Cras
-				leo ligula, laoreet dapibus euismod ut, vehicula sit amet nunc.
-				Maecenas in nisl fringilla, aliquet diam ut, facilisis ex. In dui
-				risus, porttitor convallis ultricies nec, ornare eu leo.</p>
-		
+		<p>Sed lacinia, ligula id venenatis auctor, libero turpis aliquet
+			nunc, sit amet ullamcorper dolor ligula quis felis. Vivamus
+			condimentum mi vel felis vehicula, eu placerat lacus semper. Sed quis
+			lacinia mauris. Donec aliquam vulputate metus, non imperdiet lorem
+			maximus a. Integer eget dignissim erat. Proin id finibus dui, pretium
+			consectetur turpis. Vivamus in tincidunt odio, eu iaculis nisi.
+			Integer in scelerisque mauris. Vivamus ac eros congue, mattis nisl
+			ac, venenatis lacus.</p>
+
+		<p>Nunc viverra vestibulum tempor. Nulla consectetur sit amet
+			mauris at rutrum. Mauris eu rhoncus eros. Integer convallis magna ac
+			tincidunt laoreet. Proin molestie vitae erat id venenatis. Donec eu
+			imperdiet risus. Fusce gravida placerat dui eget sollicitudin. Cras
+			leo ligula, laoreet dapibus euismod ut, vehicula sit amet nunc.
+			Maecenas in nisl fringilla, aliquet diam ut, facilisis ex. In dui
+			risus, porttitor convallis ultricies nec, ornare eu leo.</p>
+
 		</main>
 	</div>
 </body>
