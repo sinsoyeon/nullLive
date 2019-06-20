@@ -39,11 +39,16 @@ public class SoyeonController {
 	public String payController() {
 		return "member/paymentForm";
 	}	
-	
-	@RequestMapping("loadPay.me")
-	public String loadController(int price,Model model) {
-		System.out.println(price);
-		model.addAttribute("price", price);
-		return "common/testFormFolder/loadImport";
+
+	/**
+	 * @author : 소연
+	 * @date : 2019. 6. 20.
+	 * @comment : null point 결제 후 update
+	 */		
+	@RequestMapping("updateNP")
+	public void updateNullPoint() {
+		
 	}
+	
+	
 }
