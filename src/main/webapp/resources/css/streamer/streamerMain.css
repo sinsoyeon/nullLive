@@ -1,0 +1,9 @@
+@charset "UTF-8";
+.main{
+	diplay:inline-blck;
+}
+.container{
+	padding-left:50%;
+	position: relative;
+	padding-top:10%;
+}

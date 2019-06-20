@@ -11,6 +11,8 @@ public class StreamingController {
 	 * Date : 2019. 6. 20.
 	 * Comment : 스트리밍 시작 // 아래는 임시
 	 */
+	//스트리머 방송국 페이지로 이동
+
 	@RequestMapping("start.st")
 	public String startStreaming() {
 		return "streaming/streaming";
@@ -30,4 +32,9 @@ public class StreamingController {
 	public String screenSharing() {
 		return "streaming/screenSharing/screenSharing";
 	}
+		@RequestMapping("broadSetting.st")
+			public String broadSetting() {
+			
+			return "streaming/broadSetting";
+		}
 }
