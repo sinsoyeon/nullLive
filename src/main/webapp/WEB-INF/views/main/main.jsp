@@ -221,7 +221,7 @@ main section h1 {
 						</a></li>
 						<li><a href="#"> <i class="fas fa-video fa-lg"></i> <span>VOD</span>
 						</a></li>
-						<li><a href="#"> <i class="fas fa-mouse-pointer fa-lg"></i>
+						<li><a href="jobMain.bd"> <i class="fas fa-mouse-pointer fa-lg"></i>
 								<span>소통센터</span>
 						</a></li>
 						<li><a href="#"> <i class="fas fa-headphones fa-lg"></i>
