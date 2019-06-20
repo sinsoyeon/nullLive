@@ -62,11 +62,14 @@ ul li.unread:after {
 					</form>
 			<ul class="nav navbar-nav navbar-right">
 				<c:if test="${empty sessionScope.loginUser}">
-					<li><a href="join.me">Join</a></li>
-					<li><a href="loginPage.me">Login</a></li>
+					<li><a href="loginPage.me"><i class="fas fa-sign-in-alt fa-lg" style="color: #fff;"></i></a></li>
+					<li><a href="join.me"><i class="fas fa-user fa-lg" style="color: #fff;"></i></a></li>
 				</c:if>
 				<c:if test="${!empty sessionScope.loginUser}">
-					<li><a href="logout.me">로그아웃</a></li>
+					<li data-content="2" class="unread"><a href="#"> <i
+								class="fas fa-globe-asia fa-lg" style="color: #fff;"></i>
+						</a></li>
+					<li><a href="logout.me"><i class="fas fa-sign-out-alt fa-lg" style="color: #fff;"></i></a></li>
 					<li><a href="myPage.me"><c:out value="${sessionScope.loginUser.name} 님"/></a></li>
 				</c:if>
 			</ul>
