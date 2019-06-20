@@ -231,7 +231,11 @@ main section h1 {
 							</a></li>
 		        <li data-content="2" class="unread" onclick="location.href='testForm.me'"><a
 				  	href="javascript:void(0)"> <i class="fa fa-heart"></i> <span>테스트용 탭</span>
-				</a></li>            
+				</a></li> 
+				
+				<li><a href="main.ad"> <i class="fas fa-star fa-lg"></i> <span>관리자 테스트</span>
+						</a></li>
+				           
 					</ul>
 				</nav>
 				
