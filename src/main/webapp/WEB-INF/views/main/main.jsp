@@ -205,8 +205,9 @@ main section h1 {
 </style>
 </head>
 <body>
-	<div class="container-fluid">
+	<header style=" height: 50px; ">
 	<jsp:include page="../common/menubar.jsp" />
+	</header>
 	<div class="row">
 		<div class="col-md-12">
 
@@ -224,7 +225,7 @@ main section h1 {
 						<li><a href="#"> <i class="fas fa-mouse-pointer fa-lg"></i>
 								<span>소통센터</span>
 						</a></li>
-						<li><a href="#"> <i class="fas fa-headphones fa-lg"></i>
+						<li><a href="serviceMain.bo"> <i class="fas fa-headphones fa-lg"></i>
 								<span>고객센터</span>
 						</a></li>
 						<li><a><i class="fas fa-thumbs-up fa-lg"></i> <span>인기채널</span>
@@ -237,7 +238,6 @@ main section h1 {
 				
 				<!-- main content -->
 				<main style="padding-left: 2%;padding-right: 2%;">
-
 				<h1>Proin sodales velit vel nisi bibendum tempor</h1>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 					Phasellus tristique massa eget volutpat volutpat. Class aptent
@@ -285,7 +285,6 @@ main section h1 {
 				</main>
 			</div>
 		</div>
-	</div>
 	
 </body>
 </html>
