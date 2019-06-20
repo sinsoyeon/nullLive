@@ -207,7 +207,6 @@ main section h1 {
 <body>
 	<div class="container-fluid">
 	<jsp:include page="../common/menubar.jsp" />
-
 	<div class="row">
 		<div class="col-md-12">
 
@@ -230,6 +229,9 @@ main section h1 {
 						</a></li>
 						<li><a><i class="fas fa-thumbs-up fa-lg"></i> <span>인기채널</span>
 							</a></li>
+		        <li data-content="2" class="unread" onclick="location.href='testForm.me'"><a
+				  	href="javascript:void(0)"> <i class="fa fa-heart"></i> <span>테스트용 탭</span>
+				</a></li>            
 					</ul>
 				</nav>
 				
