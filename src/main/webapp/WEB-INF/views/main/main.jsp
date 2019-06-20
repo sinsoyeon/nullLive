@@ -233,7 +233,7 @@ main section h1 {
 					</ul>
 				</nav>
 				
-				<!-- main -->
+				<!-- main content -->
 				<main style="padding-left: 2%;padding-right: 2%;">
 
 				<h1>Proin sodales velit vel nisi bibendum tempor</h1>
