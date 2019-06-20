@@ -12,7 +12,6 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <title>Insert title here</title>
-<title>Insert title here</title>
 <link rel="stylesheet"
 	href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <style type="text/css">
@@ -222,7 +221,7 @@ main section h1 {
 						</a></li>
 						<li><a href="#"> <i class="fas fa-video fa-lg"></i> <span>VOD</span>
 						</a></li>
-						<li><a href="#"> <i class="fas fa-mouse-pointer fa-lg"></i>
+						<li><a href="jobMain.bd"> <i class="fas fa-mouse-pointer fa-lg"></i>
 								<span>소통센터</span>
 						</a></li>
 						<li><a href="serviceMain.bo"> <i class="fas fa-headphones fa-lg"></i>
@@ -232,7 +231,15 @@ main section h1 {
 							</a></li>
 		        <li data-content="2" class="unread" onclick="location.href='testForm.me'"><a
 				  	href="javascript:void(0)"> <i class="fa fa-heart"></i> <span>테스트용 탭</span>
-				</a></li>            
+				</a></li> 
+				
+				<li><a href="main.ad"> <i class="fas fa-star fa-lg"></i> <span>관리자 테스트</span>
+						</a></li>
+				 
+				</a></li>
+				<li data-content="2" class="unread" onclick="location.href='start.st'"><a
+				  	href="javascript:void(0)"> <i class="fa fa-heart"></i> <span>스트리머 탭</span>
+				</a></li>    
 					</ul>
 				</nav>
 				
