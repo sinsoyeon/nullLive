@@ -13,7 +13,8 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
 <style>
 ul li.unread:after {
 	content: attr(data-content);
@@ -33,29 +34,32 @@ ul li.unread:after {
 </style>
 </head>
 <body>
-	<!-- 소연 -->
+   <!-- 소연 -->
 	<c:set var="contextPath" value="${pageContext.servletContext.contextPath }" scope="application" />
-
-	<!-- 정언 -->
-	<nav class="navbar navbar-fixed-top navbar-inverse">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<img src="/nullLive/resources/image/logo.png" style=" width: 30px; float: left; height: 41px; padding-top: 5%; ">
-				<a class="navbar-brand" href="#" style=" width: 145.72px; padding-left: 15%; text-shadow: 3px 3px 2px #6f8e3085; font-size: 25px; color:#fff;"><b>NullLive</b></a>
-			</div>
-
-			<form class="navbar-form navbar-left" action="/action_page.php" style=" margin-left: 2%; ">
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Search"
-						name="search">
-					<div class="input-group-btn">
-						<button class="btn btn-default" type="submit">
-							<i class="glyphicon glyphicon-search"></i>
-						</button>
+	<!-- nav -->
+	<div class="row" style="display: inline;">
+		<div class="col-md-12">
+			<nav class="navbar navbar-fixed-top navbar-inverse">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<img src="/nullLive/resources/image/logo.png"
+							style="width: 30px; float: left; height: 41px; padding-top: 5%;">
+						<a class="navbar-brand" href="#"
+							style="width: 145.72px; padding-left: 15%; text-shadow: 3px 3px 2px #6f8e3085; font-size: 25px; color: #fff;"><b>NullLive</b></a>
 					</div>
-				</div>
-			</form>
 
+					<form class="navbar-form navbar-left" action="/action_page.php"
+						style="margin-left: 2%;">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Search"
+								name="search">
+							<div class="input-group-btn">
+								<button class="btn btn-default" type="submit">
+									<i class="glyphicon glyphicon-search"></i>
+								</button>
+							</div>
+						</div>
+					</form>
 			<ul class="nav navbar-nav navbar-right">
 				<c:if test="${empty sessionScope.loginUser}">
 					<li><a href="join.me">Join</a></li>
@@ -67,8 +71,9 @@ ul li.unread:after {
 				</c:if>
 			</ul>
 
+				</div>
+			</nav>
 		</div>
-	</nav>
-
+	</div>
 </body>
 </html>
