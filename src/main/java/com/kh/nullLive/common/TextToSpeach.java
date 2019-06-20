@@ -12,24 +12,28 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class TextToSpeach {
-	public static void main(String[] args) {
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Controller
+public class TextToSpeach {	
+	@RequestMapping("tts.me")
+	public void textToSpeach(@RequestParam("requestMsg")String requestMsg) {
 		  try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create()) {
 		      SynthesisInput input = SynthesisInput.newBuilder()
-		            .setText("tts 테스트입니다 하하하")
+		            .setText(requestMsg)
 		            .build();
 		      VoiceSelectionParams voice = VoiceSelectionParams.newBuilder()
 		          .setLanguageCode("ko-KR")
-		          //.setSsmlGender(SsmlVoiceGender.NEUTRAL)
-		          .setSsmlGender(SsmlVoiceGender.MALE)
+		          .setSsmlGender(SsmlVoiceGender.NEUTRAL)
+		          //.setSsmlGender(SsmlVoiceGender.MALE)
 		          .build();
 
 		      AudioConfig audioConfig = AudioConfig.newBuilder()
 		          .setAudioEncoding(AudioEncoding.MP3)
 		          .build();
 		      
-		      
-
 		      SynthesizeSpeechResponse response = textToSpeechClient.synthesizeSpeech(input, voice,
 		          audioConfig);
 

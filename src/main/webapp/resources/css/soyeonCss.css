@@ -1,0 +1,60 @@
+@charset "UTF-8";
+
+body{
+	background:#fff;
+}
+
+#nullArea{
+	align:center;
+	width : 350px;
+	text-align:center;
+	font-size : 12px;
+	left:100px;
+}
+
+td {
+	width:100px;
+	height:50px;
+}
+
+
+#nullArea > label {
+	font-weight : 10px;	
+	align:center;
+}
+
+
+#money{
+	border-radius:8px;
+	width:150px;
+}
+
+#infoArea{
+	height:100px;
+	border:6px solid #469840;
+	border-radius:8px;
+}
+
+#selectNull{
+	background:color:lightgray;
+	text-align:right;
+	font-size:10px;
+}
+
+#butn {
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 22px;
+  background: #469840;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  text-align:center;
+}
+
+#butn:hover {
+  background: #125c0b;
+  text-decoration: none;
+}
