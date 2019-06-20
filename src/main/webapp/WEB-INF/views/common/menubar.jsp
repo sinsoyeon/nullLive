@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +33,9 @@ ul li.unread:after {
 </style>
 </head>
 <body>
+	<!-- 소연 -->
+	<c:set var="contextPath" value="${pageContext.servletContext.contextPath }" scope="application" />
+
 	<!-- 정언 -->
 	<nav class="navbar navbar-fixed-top navbar-inverse">
 		<div class="container-fluid">
@@ -53,10 +57,14 @@ ul li.unread:after {
 			</form>
 
 			<ul class="nav navbar-nav navbar-right">
-				<li data-content="2" class="unread"><a
-					href="#"> <i class="fas fa-globe-asia fa-lg" style=" color: #fff; "></i>
-				</a></li>
-				<li><a href="#"><i class="fas fa-user fa-lg" style=" color: #fff; "></i></a></li>
+				<c:if test="${empty sessionScope.loginUser}">
+					<li><a href="join.me">Join</a></li>
+					<li><a href="loginPage.me">Login</a></li>
+				</c:if>
+				<c:if test="${!empty sessionScope.loginUser}">
+					<li><a href="logout.me">로그아웃</a></li>
+					<li><a href="myPage.me"><c:out value="${sessionScope.loginUser.name} 님"/></a></li>
+				</c:if>
 			</ul>
 
 		</div>

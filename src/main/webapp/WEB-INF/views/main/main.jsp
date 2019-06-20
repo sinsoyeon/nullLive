@@ -215,7 +215,8 @@ main section h1 {
 				</a></li>
 				<li><a href="#"> <i class="fas fa-mouse-pointer fa-lg"></i> <span>소통센터</span>
 				</a></li>
-				<li><a href="#"> <i class="fas fa-headphones fa-lg"></i> <span>고객센터</span>
+				<li data-content="2" class="unread" onclick="location.href='testForm.me'"><a
+					href="javascript:void(0)"> <i class="fa fa-heart"></i> <span>테스트용 탭</span>
 				</a></li>
 			</ul>
 		</nav>
