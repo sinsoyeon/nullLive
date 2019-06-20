@@ -12,7 +12,6 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <title>Insert title here</title>
-<title>Insert title here</title>
 <link rel="stylesheet"
 	href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <style type="text/css">
@@ -235,7 +234,11 @@ main section h1 {
 				
 				<li><a href="main.ad"> <i class="fas fa-star fa-lg"></i> <span>관리자 테스트</span>
 						</a></li>
-				           
+				 
+				</a></li>
+				<li data-content="2" class="unread" onclick="location.href='start.st'"><a
+				  	href="javascript:void(0)"> <i class="fa fa-heart"></i> <span>스트리머 탭</span>
+				</a></li>    
 					</ul>
 				</nav>
 				

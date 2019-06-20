@@ -30,4 +30,6 @@ public class Member implements java.io.Serializable{
 	private Date pwdModifyDate;	//PWD_MODIFY_DATE
 	private Date withdrawalDate;//WITHDRAWAL_DATE
 	private String isStreamer;	//IS_STREAMER
+	private Date birthday;		//BIRTHDAY
+	private String adult;		//ADULT
 }
