@@ -1,0 +1,14 @@
+@charset "UTF-8";
+.input{
+	width:350px;
+}
+.broadInfo table{
+	width:90%;
+	border: 1px solid lightgray;
+	text-align:center;
+}
+.broadEncoder table{
+	width:100%;
+	border: 1px solid lightgray;
+	
+}

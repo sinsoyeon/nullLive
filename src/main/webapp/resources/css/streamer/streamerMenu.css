@@ -1,0 +1,40 @@
+@charset "UTF-8";
+.profile{
+	text-align:center;
+}
+#profileImg{
+	margin-top: 20%;
+	height:150px;
+	width:150px;
+	background:white;
+}
+
+.sidebar{
+	background:#334d00;	
+	height:auto;
+	margin-top:-10px;
+}
+#sidemenu{
+	background:#334d00;
+	height: 50px;
+	font-size: 20px;
+	width:100%;
+}
+.streamerSideMenu h3{
+	padding-left:10%;
+	color:#ace600;
+}
+.streamerSideMenu ul li {
+	list-style:none;
+	height: 40px;
+}
+.streamerSideMenu ul li a{
+	padding-left:10%;
+	font-size:15px;
+	color:white;
+	text-decoration:none;
+}
+.streamerSideMenu li a:hover{
+	color:black;
+	/* background:#ace600; */
+}
