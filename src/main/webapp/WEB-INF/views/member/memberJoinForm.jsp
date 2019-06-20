@@ -21,7 +21,14 @@ body {
 	margin: 15px 0;
 }
 </style>
-
+<!-- jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<!-- iamport.payment.js -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script>
+//var IMP = window.IMP;
+IMP.init('imp29088388');
+</script>
 </head>
 <body>
 	<div class="container">
@@ -49,18 +56,22 @@ body {
 							<input type="radio" id="genderF" name="gender" value="F" /><label for="genderF">여</label>
 						</div>
 						<div>
+						<!-- <button onclick="IMP.certification()">인증</button> -->
 							<select name="agency" id="">
 								<option value="SKT">SKT</option>
 								<option value="KT">KT</option>
 								<option value="LGT">LGT</option>
-							</select> &nbsp; <input type="number" name="phone1" max="999"
+							</select> &nbsp; <input type="number" name="phone1" max="999" id="p1"
 								style="width: 50px;" />-<input type="number" name="phone2"
-								max="9999" style="width: 70px;" />-<input type="number"
-								name="phone3" max="9999" style="width: 70px;" />
+								max="9999" id="p2" style="width: 70px;" />-<input type="number"
+								name="phone3" max="9999" id="p3" style="width: 70px;" />
 						</div>
 						<div>
 							<input type="text" name="name" class="form-control"
-								placeholder="Name" />
+								placeholder="성함" />
+						</div>
+						<div>
+							<input type="date" name="birthday" class="form-control" placeholder="생년월일"/>
 						</div>
 						<div>
 							<button align="center" class="form-control btn btn-primary">회원가입</button>
@@ -74,5 +85,20 @@ body {
 			</div>
 		</div>
 	</div>
+<<script>
+// IMP.certification(param, callback) 호출
+IMP.certification({ // param
+ // merchant_uid: "ORD20180131-0000011",
+ // phone:($("#p1").val()+$("#p2").val()+$("#p3").val()),
+ // popup:true,
+  
+}, function (rsp) { // callback
+  if (rsp.success) {
+     console.log("ext");
+  } else {
+    console.log("fail");
+  }
+});
+</script>
 </body>
 </html>
