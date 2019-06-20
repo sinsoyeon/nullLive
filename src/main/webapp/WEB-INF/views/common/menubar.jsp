@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    	
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +15,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<!-- 소연 -->
+	<c:set var="contextPath" value="${pageContext.servletContext.contextPath }" scope="application" />
+
 	<!-- 정언 -->
 	<nav class="navbar navbar-fixed-top navbar-inverse">
 		<div class="container-fluid">

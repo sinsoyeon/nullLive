@@ -7,9 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	
-	<!--<jsp:forward page="WEB-INF/views/main/main.jsp" />-->
-	<jsp:forward page="WEB-INF/views/member/paymentForm.jsp" />
-	<>
+	<div align="center">
+		<button onclick="location.href='soyeon.me'" style="width:150px; height:150px; background:pink; color:white;" >소연</button>
+	</div>	
 </body>
 </html>
