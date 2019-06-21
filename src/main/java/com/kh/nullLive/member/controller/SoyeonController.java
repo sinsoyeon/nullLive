@@ -51,4 +51,9 @@ public class SoyeonController {
 	}
 	
 	
+	@RequestMapping("subscribeView.me")
+	public String subView() {
+		return "member/selectSubscribeForm";
+	}
+	
 }
