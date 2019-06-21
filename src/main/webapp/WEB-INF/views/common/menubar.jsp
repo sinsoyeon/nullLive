@@ -70,7 +70,7 @@ ul li.unread:after {
 								class="fas fa-globe-asia fa-lg" style="color: #fff;"></i>
 						</a></li>
 					<li><a href="logout.me"><i class="fas fa-sign-out-alt fa-lg" style="color: #fff;"></i></a></li>
-					<li><a href="myPage.me"><c:out value="${sessionScope.loginUser.name} 님"/></a></li>
+					<li><a href="myPage.me"><c:out value="${sessionScope.loginUser.nickName} 님"/></a></li>
 				</c:if>
 			</ul>
 

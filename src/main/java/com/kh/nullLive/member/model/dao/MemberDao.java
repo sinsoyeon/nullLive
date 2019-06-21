@@ -2,6 +2,7 @@ package com.kh.nullLive.member.model.dao;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.Member;
 
 public interface MemberDao {
@@ -25,5 +26,66 @@ public interface MemberDao {
 	 * @Comment : 회원가입
 	 */
 	int insertMember(SqlSessionTemplate sqlSession, Member m);
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 6. 21.
+	 * Comment : 회원가입한 번호 가져오기
+	 */
+	int getMno(SqlSessionTemplate sqlSession);
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 6. 21.
+	 * Comment : 개인정보수정
+	 */
+	int updateMember(SqlSessionTemplate sqlSession, Member m);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 6. 21.
+	 * Comment : 비밀번호 변경
+	 */
+	int updatePwd(SqlSessionTemplate sqlSession, Member m);
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 6. 21.
+	 * Comment : 회원가입 시 프로필 이미지 등록
+	 */
+	int insertProImage(SqlSessionTemplate sqlSession, Attachment att);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 6. 21.
+	 * Comment : 등록 프로필 attno가져오기
+	 */
+	int getAttno(SqlSessionTemplate sqlSession);
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 6. 21.
+	 * Comment : 회원가입 시 프로필 이미지 관리 등록
+	 * @param attno 
+	 */
+	int insertProImageManage(SqlSessionTemplate sqlSession, Member m, int attno);
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 6. 21.
+	 * Comment : 프로필이미지 변경
+	 */
+	int updateProImage(SqlSessionTemplate sqlSession, Member m, Attachment att);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 6. 21.
+	 * Comment : 마이페이지 프로필이미지 불러오기
+	 */
+	Attachment getProfile(SqlSessionTemplate sqlSession, int mno);
+
+
+
+	
 
 }

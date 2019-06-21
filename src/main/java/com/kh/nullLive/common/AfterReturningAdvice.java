@@ -17,6 +17,8 @@ public class AfterReturningAdvice {
 	public void afterLog(JoinPoint jp, Object returnObj) {
 		String methodName = jp.getSignature().getName();
 		
+		if(returnObj != null) {
 		System.out.println(methodName+"()메소드 리턴값 : "+returnObj.toString());
+		}
 	}
 }
