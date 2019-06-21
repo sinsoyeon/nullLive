@@ -1,8 +1,11 @@
 package com.kh.nullLive.member.model.dao;
 
+import java.util.HashMap;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.Member;
 
 @Repository
@@ -22,5 +25,50 @@ public class MemberDaoImpl implements MemberDao {
 	public int insertMember(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.insert("Member.insertMember",m);
 	}
+	//회원가입한 번호 가져오기
+	@Override
+	public int getMno(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Member.selectMno");
+	}
+	//개인정보수정
+	@Override
+	public int updateMember(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("Member.updateMember",m);
+	}
+	//비밀번호변경
+	@Override
+	public int updatePwd(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("Member.updatePwd",m);
+	}
+	//회원가입 시 프로필 이미지 등록
+	@Override
+	public int insertProImage(SqlSessionTemplate sqlSession, Attachment att) {
+		return sqlSession.insert("Member.insertProImage",att);
+	}
+	//등록 프로필 attno가져오기
+	@Override
+	public int getAttno(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Member.selectAttno");
+	}
+	//회원가입 시 프로필 이미지 관리 등록
+	@Override
+	public int insertProImageManage(SqlSessionTemplate sqlSession, Member m, int attno) {
+		HashMap<String,Object> hmap = new HashMap<String,Object>();
+		hmap.put("mno",m.getMno());
+		hmap.put("attno",attno);
+		return sqlSession.update("Member.insertProImageManage",hmap);
+	}
+	//프로필이미지 변경
+	@Override
+	public int updateProImage(SqlSessionTemplate sqlSession, Member m, Attachment att) {
+		return sqlSession.update("Member.updateProImage",att);
+	}
+	//마이페이지 프로필이미지 불러오기
+	@Override
+	public Attachment getProfile(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("Member.selectProfile",mno);
+	}
+	
+
 
 }

@@ -9,7 +9,6 @@
 <style>
 #contentArea {
 	padding-left: 200px;
-	padding-top: 80px;
 }
 </style>
 </head>
@@ -26,17 +25,16 @@
 	<div class="container-fluid" id="contentArea">
 		<div class="row">
 			<div class="col-md-12" style="display: inline; min-width: 1024;">
-				<div class="col-md-2" style="display: inline; float: left;">
-					<img src="${contextPath}/resources/image/profile_sample.PNG"
-						width="120" height="150" />
+				<div class="col-md-2" style="display: inline; float: left;" onclick="modifyProImage()">
+					<img src="${imgSource}" width="100px" />
 				</div>
-				<div class="col-md-9"
+				<div class="col-md-10"
 					style="display: inline; float: left; background: #e9e9e9;">
 					<h3>
 						<c:out value="${sessionScope.loginUser.name}" />
 					</h3>
 					<h5>
-						<c:out value="" />
+						<c:out value="${sessionScope.loginUser.nickName}"/> 님의 페이지입니다.
 					</h5>
 					<br /> <br />
 					<div class="col-md-5" style="display: inline; float: left;">
@@ -50,24 +48,22 @@
 				</div>
 			</div>
 		</div>
-		<div class="row" style="margin-left: 20px;">
-			<div class="col-md-5" style="height: 500px !important;">
+		<div class="row" style="margin-left: 20px;margin-top:20px;">
+			<div class="col-md-6" style="height: 450px !important;">
 				<h3>구독하는 방송</h3>
 			</div>
-			<div class="col-md-5" style="height: 500px !important;">
-				<div style="display: block; float: left;">
+			<div class="col-md-6" style="height: 450px !important;">
+				<div class="col-md-2" style="display: block; float: left; width:100px;">
 					<img src="${contextPath}/resources/image/profile_sample.PNG"
-						width="100" />
+						width="100px" />
 				</div>
-				<div style="display: block; float: left;" align="center"
-					width="100px">
+				<div class="col-md-3" style="display: block; float:left;margin-left:20px;margin-top:10px;width:200px;" align="center">
 					<button class="form-control btn btn-primary">방송국으로</button>
-					<br />
-					<button class="form-control btn btn-primary" onclick="location.href='start.st'">방송시작</button>
+					<button style="margin-top:10px;" class="form-control btn btn-primary" onclick="location.href='start.st'">방송시작</button>
 				</div>
-				<div style="display: block; clear: left;">
+				<div class="col-md-5" style="display: block; clear: left;">
 					<br />
-					<hr style="margin-top:10px;"/>
+					<hr style="margin-top:10px; width:300px;"/>
 					<div>
 						<h3>다시 보기</h3>
 					</div>
@@ -75,5 +71,11 @@
 			</div>
 		</div>
 	</div>
+	
+	<script>
+		function modifyProImage(){
+			var pwdWin = window.open('modifyProImagePage.me','new','width=420,height=400,menubar=no, status=no, toolbar=no');
+		}
+	</script>
 </body>
 </html>
