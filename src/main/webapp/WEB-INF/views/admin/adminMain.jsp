@@ -12,7 +12,7 @@
 	}
 	tr>th{
 		text-align: center;
-		background: #00c292;
+		background: #438c31;
 		color: white;
 	}
 </style>
@@ -23,10 +23,10 @@
 <div class="row" align="center">
   <div class="col-sm-1"></div>
   <div class="col-sm-5">
-  	<div onclick="location.href='memberStatisticsList.ad'"><h3>회원 통계</h3>
+  	<div onclick="location.href='memberStatisticsList.ad'"  data-toggle="tooltip" title="회원 통계 페이지로 이동"><h3>회원 통계</h3>
   	<br>
   	<br>
-  	<br>
+  	<br> 
   	<br>
   	<br>
   	<br>
@@ -37,7 +37,7 @@
   	</div>
   	
   </div>
-  <div class="col-sm-5"><div onclick="location.href='sitesStatisticsList.ad'"><h3>사이트 통계</h3>
+  <div class="col-sm-5"><div onclick="location.href='sitesStatisticsList.ad'" data-toggle="tooltip" title="사이트 통계 페이지로 이동"><h3>사이트 통계</h3>
   <br>
   	<br>
   	<br>
@@ -55,7 +55,7 @@
 <div class="row" align="center">
   <div class="col-sm-1"></div>
   <div class="col-sm-5">
-  	<div onclick="location.href='calculateList.ad'"><h3>정산</h3>
+  	<div onclick="location.href='calculateList.ad'" data-toggle="tooltip" title="정산 페이지로 이동"><h3>정산</h3>
 		<div>
   		<table class="table table-striped"  style="text-align: center;">
   			<thead>
@@ -97,7 +97,7 @@
   	</div>
   </div>
 	<div class="col-sm-5">
-		<div onclick="location.href='streamerReportList.ad'"><h3>스트리머 신고 관리</h3>
+		<div onclick="location.href='streamerReportList.ad'" data-toggle="tooltip" title="신고관리 페이지로 이동"><h3>스트리머 신고 관리</h3>
 		
 		<div>
   		<table class="table table-striped"  style="text-align: center;">
@@ -146,7 +146,7 @@
 <div class="row" align="center">
   <div class="col-sm-1"></div>
   <div class="col-sm-10">
-  	<div onclick="location.href='questionList.ad'"><h3>1:1 문의 내역</h3>
+  	<div onclick="location.href='questionList.ad'" data-toggle="tooltip" title="문의관리 페이지로 이동"><h3>1:1 문의 내역</h3>
   
   <div>
   		<table class="table table-striped"  style="text-align: center;">
@@ -212,6 +212,7 @@
 		$('li:eq(0)').addClass('active');
 		$('#home').addClass('active in');
 		$('#home a:eq(0)').css('font-weight','bold');
+		$('[data-toggle="tooltip"]').tooltip(); 
 	})
 </script>
 </html>

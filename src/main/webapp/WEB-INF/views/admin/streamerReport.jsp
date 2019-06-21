@@ -8,7 +8,7 @@
 <style>
 tr>th{
 		text-align: center;
-		background: #00c292;
+		background: #438c31;
 		color: white;
 	}
 	.col-sm-10>div>table{
@@ -71,6 +71,9 @@ tr>th{
 			$('li:eq(1)').addClass('active');
 			$('#menu1').addClass('active in');
 			$('#menu1 a:eq(1)').css('font-weight','bold');
+			$('td').click(function() {
+				location.href='streamerReportDetail.ad';
+			});
 	})
 </script>
 </html>
