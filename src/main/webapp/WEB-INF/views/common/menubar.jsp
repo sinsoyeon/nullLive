@@ -44,7 +44,7 @@ ul li.unread:after {
 					<div class="navbar-header">
 						<img src="/nullLive/resources/image/logo.png"
 							style="width: 30px; float: left; height: 41px; padding-top: 5%;">
-						<a class="navbar-brand" href="#"
+						<a class="navbar-brand" href="#" onclick="location.href='index.jsp'"
 							style="width: 145.72px; padding-left: 15%; text-shadow: 3px 3px 2px #6f8e3085; font-size: 25px; color: #fff;"><b>NullLive</b></a>
 					</div>
 
@@ -78,5 +78,11 @@ ul li.unread:after {
 			</nav>
 		</div>
 	</div>
+	
+	<script>
+		function main(){
+			location.href="index.jsp";
+		}
+	</script>
 </body>
 </html>

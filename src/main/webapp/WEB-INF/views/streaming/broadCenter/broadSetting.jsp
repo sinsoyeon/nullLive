@@ -14,7 +14,7 @@
 
 			<!-- sidebar -->
 			<div class="col-sm-3">
-				<jsp:include page="../streaming/streamerMenu.jsp" />
+				<jsp:include page="../broadCenter/streamerMenu.jsp" />
 			</div>
 
 			<!-- main content -->

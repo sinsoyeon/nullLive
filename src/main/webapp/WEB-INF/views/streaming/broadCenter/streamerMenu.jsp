@@ -17,7 +17,7 @@
 </style>
 </head>
 <body>
-	<jsp:include page="../common/menubar.jsp" />
+	<jsp:include page="../../common/menubar.jsp" />
 	<div class="row">
 		
 			<div class="sidebar">
@@ -33,22 +33,22 @@
 				<div class="streamerSideMenu">
 					<h3>방송 설정</h3>
 					<ul>
-						<li><a onclick="broadSetting()">방송 기능 설정</a></li>
-						<li><a href="">매니저 설정</a></li>
-						<li><a href="">블랙리스트 관리</a></li>
-						<li><a href="">방송 기록 관리</a></li>
-						<li><a href="">금칙어 설정</a></li>
-						<li><a href="">통계페이지</a></li>
+						<li><a onclick="location.href='broadSetting.st'">방송 기능 설정</a></li>
+						<li><a onclick="location.href='partnerManage.st'">매니저 설정</a></li>
+						<li><a onclick="location.href='blackListManage.st'">블랙리스트 관리</a></li>
+						<li><a onclick="">방송 기록 관리</a></li>
+						<li><a onclick="location.href='prohibitiveWordManage.st'">금칙어 설정</a></li>
+						<li><a onclick="">통계페이지</a></li>
 					</ul>
 					<h3>게시판</h3>
 					<ul>
-						<li><a href="">방송 공지 게시판</a></li>
-						<li><a href="">시청자 소통 게시판</a></li>
-						<li><a href="">신고 제보 게시판</a></li>
+						<li><a onclick="location.href='noticeBoard.st'">방송 공지 게시판</a></li>
+						<li><a onclick="location.href='communicationBoard.st'">시청자 소통 게시판</a></li>
+						<li><a onclick="location.href='reportBlackListBoard.st'">블랙리스트 제보 게시판</a></li>
 					</ul>
 					<h3>개인 페이지</h3>
 					<ul>
-						<li><a href="">개인정보 수정</a></li>
+						<li><a onclick="location.href='updateProfile.st'">개인정보 수정</a></li>
 					</ul>
 					<br>
 				</div>
@@ -56,11 +56,7 @@
 		
 	</div>
 
-	<script>
-		function broadSetting() {
-			location.href = "broadSetting.st";
-		}
-	</script>
+	
 
 </body>
 </html>
