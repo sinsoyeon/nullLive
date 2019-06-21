@@ -15,6 +15,9 @@
 <link rel="stylesheet"
 	href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <style type="text/css">
+body::-webkit-scrollbar {
+   display: none;
+}
 input[type="checkbox"]#menu_state {
 	display: none;
 }

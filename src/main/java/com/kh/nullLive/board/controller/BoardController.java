@@ -11,6 +11,8 @@ import com.kh.nullLive.board.model.service.BoardService;
 @Controller
 public class BoardController {
 	/* 소통센터 : job / 고객센터 : service */
+	@Autowired
+	private BoardService bs;
 	
 	/**
 	 * @Author : eon
@@ -19,11 +21,9 @@ public class BoardController {
 	 */
 	@RequestMapping("serviceMain.bo")
 	public String servicePage() {		
-		return "board/service/serviceCenterMain";
+		return "board/service/testMyQuestionSelect";
 	}
 	
-	@Autowired
-	private BoardService bs;
 	
 	
 
