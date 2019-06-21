@@ -14,6 +14,14 @@ tr>th{
 	.col-sm-10>div>table{
 		background: #ffffff;
 	}
+	#test{
+		width: 100px;
+		height: 100px;
+		background: red;
+		position: absolute;
+		top: 10px;
+		left: 50px;
+			}
 </style>
 </head>
 <body>
@@ -26,7 +34,8 @@ tr>th{
 		<div align="right" style="margin-bottom: 5px;">
 			<input type="text"> <button>검색</button>
 		</div>
-		<div>
+		<div style="border: 1px solid red;">
+		<div id="test">test</div>
 			<table class="table table-hover"  style="text-align: center; ">
 				<thead>
 					<tr>
