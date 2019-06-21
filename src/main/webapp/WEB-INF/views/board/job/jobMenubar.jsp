@@ -36,9 +36,9 @@
 	<!-- 메뉴 -->
 	<div class="nav">
 		<div class="menu" onclick="location.href='index.jsp'">NullLive</div>
-		<div class="menu" onclick="location.href='jobNoticeList.bd'">공지사항</div>
-		<div class="menu" onclick="location.href='jobMngList.bd'">매니저</div>
-		<div class="menu" onclick="location.href='jobContentList.bd'">콘텐츠제작자</div>
+		<div class="menu" onclick="location.href='jobNoticeList.bo'">공지사항</div>
+		<div class="menu" onclick="location.href='jobMngList.bo'">매니저</div>
+		<div class="menu" onclick="location.href='jobContentList.bo'">콘텐츠제작자</div>
 	</div>
 	<hr>
 </body>
