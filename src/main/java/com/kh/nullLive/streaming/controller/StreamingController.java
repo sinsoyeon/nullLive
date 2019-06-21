@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class StreamingController {
-	
+
 	/**
 	 * Author : ryan
 	 * Date : 2019. 6. 20.
@@ -17,24 +17,20 @@ public class StreamingController {
 	public String startStreaming() {
 		return "streaming/streaming";
 	}
-	
+
 	@RequestMapping("record.st")
 	public String recordStraming() {
 		return "streaming/recording/record";
 	}
-	
+
 	@RequestMapping("connect.st")
 	public String connectStreaming() {
 		return "streaming/peerConnection/connection";
 	}
-	
+
 	@RequestMapping("screenSharing.st")
 	public String screenSharing() {
 		return "streaming/screenSharing/screenSharing";
 	}
-		@RequestMapping("broadSetting.st")
-			public String broadSetting() {
-			
-			return "streaming/broadSetting";
-		}
+
 }

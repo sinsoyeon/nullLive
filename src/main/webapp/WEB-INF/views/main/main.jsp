@@ -237,7 +237,7 @@ main section h1 {
 						</a></li>
 				 
 				</a></li>
-				<li data-content="2" class="unread" onclick="location.href='start.st'"><a
+				<li data-content="2" class="unread" onclick="location.href='main.st'"><a
 				  	href="javascript:void(0)"> <i class="fa fa-heart"></i> <span>스트리머 탭</span>
 				</a></li>    
 					</ul>

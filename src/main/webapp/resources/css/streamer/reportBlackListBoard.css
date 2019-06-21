@@ -1,0 +1,27 @@
+@charset "UTF-8";@charset "UTF-8";
+.reportTable{
+	width:100%;
+	border:1px solid gray;
+	text-align:center;
+}
+.reportTable th{
+	text-align:center;
+	height:30px;
+	background:lightgray;
+}
+th, td{
+	border-bottom: 1px solid gray;
+	height:40px;
+}
+.button{
+	float:right;
+}
+tr:hover{
+	background:#79d279;
+}
+#update{
+	float:right;
+	width:130px;
+	height:50px;
+	font-size:14px;
+}
