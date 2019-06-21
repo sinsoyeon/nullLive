@@ -8,7 +8,7 @@
 <style>
 tr>th{
 		text-align: center;
-		background: #00c292;
+		background: #438c31;
 		color: white;
 	}
 	.col-sm-10>div>table{
@@ -50,7 +50,7 @@ tr>th{
 						<td>15,000</td>
 						<td>2018/06/<%=i+1 %></td>
 						<td>
-							<%if(i<3){%><button>정산하기</button><%}else{%>완료<%} %>
+							<%if(i<3){%><button data-toggle="modal" data-target="#myModal">정산하기</button><%}else{%>완료<%} %>
 						</td>					
 					</tr>
 					<%} %>
@@ -70,6 +70,48 @@ tr>th{
 		<button>5</button>
 		<button>></button>
 	</div>
+	
+	<!-- 단일 정산 -->
+	<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <!-- 다중 정산 -->
+	<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>Some text in the modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
 </body>
 <script>
 	$(function() {

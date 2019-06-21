@@ -48,8 +48,16 @@ public class AdminController {
 	}
 
 	// 검색
-
-	// 신고 상세보기
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 6. 21.
+	 * @comment : 신고 상세보기
+	 */
+	@RequestMapping("streamerReportDetail.ad")
+	public String adminStreamerReportDetail() {
+		return "admin/streamerReportDetail";
+	}
 
 	// 신고 처리 상태 적용
 
@@ -70,7 +78,15 @@ public class AdminController {
 
 	// 검색
 
-	// 신고 상세보기
+	/**
+	 * @author INHYO
+	 * @date : 2019. 6. 21.
+	 * @comment : 신고 상세보기
+	 */
+	@RequestMapping("memberReportDetail.ad")
+	public String adminMemberReportDetail() {
+		return "admin/memberReportDetail";
+	}
 
 	// 신고 처리 상태 적용
 
