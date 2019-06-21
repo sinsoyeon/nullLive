@@ -20,12 +20,13 @@
 	<div align="left">
 		<button data-toggle="modal" data-target="#logModal"
 			style="width: 150px; height: 150px; background: pink; color: white;">결제테스트</button>
+		<button onclick="location.href='subscribeView.me'"style="width: 150px; height: 150px; background: blue; color: white;">정기결제 폼</button>			
 	</div>
 
-	<div id="logModal" class="modal fade" role="dialog">
-		<div class="modal-dialog" role="document">
+	<div id="logModal" class="modal fade" role="dialog" style="z-index:99999; important">
+		<div class="modal-dialog" role="document" style="z-index:99999;">
 
-			<div class="modal-content">
+			<div class="modal-content" style="z-index:99999;">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">Login</h4>
@@ -92,6 +93,7 @@
 			
 		});
 	
+		
 		function payment(){
 			var requestMsg = $("#requestMsg").val();
 			$(function(){
