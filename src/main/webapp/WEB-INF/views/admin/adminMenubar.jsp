@@ -9,6 +9,7 @@
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
   <style>
 	body {
 		background: #f6f8fa;
@@ -45,12 +46,24 @@
 <body>
 	<div>
 		<div align="center" id="title" >
-			<div style="float: left; display: inline-block;"><button onclick="location.href='index.jsp'">홈</button></div>
-			<div style="display: inline-block;"><img src="/nullLive/resources/image/logo.png" style="width: 25px;height: 41px; padding-bottom: 35%"></div>
-			<div style="display: inline-block;"><a style=" text-shadow: 3px 3px 2px #6f8e3085; font-size: 30px; color: #fff; cursor: default;">
-				<b>NullLive</b>
-			</a></div>
-			<div style="float: right; display: inline-block;"><button onclick="location.href='logout.me'" >로그아웃</button></div>
+			<div style="float: left; display: inline-block; padding: 15px;">
+				<a href="index.jsp" >
+					<i class="fas fa-home fa-lg" style="color: #fff;"></i>
+				</a>
+			</div>
+			<div style="display: inline-block;">
+				<img src="/nullLive/resources/image/logo.png" style="width: 25px;height: 41px; padding-bottom: 35%">
+			</div>
+			<div style="display: inline-block;">
+				<a style=" text-shadow: 3px 3px 2px #6f8e3085; font-size: 30px; color: #fff; cursor: default;">
+					<b>NullLive</b>
+				</a>
+			</div>
+			<div style="float: right; display: inline-block; padding: 15px;">
+				<a href="logout.me" >
+					<i class="fas fa-sign-out-alt fa-lg" style="color: #fff;"></i>
+				</a>
+			</div>
 		</div>
 	</div>
 	<br>
@@ -58,7 +71,7 @@
 
   <ul class="nav nav-tabs nav-justified">
     <li><a data-toggle="tab" href="#home"><span class="glyphicon glyphicon-home"></span>&nbsp;메인</a></li>
-    <li><a data-toggle="tab" href="#menu1"><span class="glyphicon glyphicon-user"></span>&nbsp;회원관리</a></li>
+    <li><a data-toggle="tab" href="#menu1"><i class="fas fa-users"></i>&nbsp;회원관리</a></li>
     <li><a data-toggle="tab" href="#menu2"><span class="glyphicon glyphicon-stats"></span>&nbsp;통계</a></li>
     <li><a data-toggle="tab" href="#menu3"><span class="glyphicon glyphicon-piggy-bank"></span>&nbsp;정산</a></li>
     <li><a data-toggle="tab" href="#menu4"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;고객센터</a></li>
