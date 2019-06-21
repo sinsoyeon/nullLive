@@ -13,20 +13,17 @@
 		margin-right:auto;
 		margin-top:50px;
 	}
-	table {
-		border:1px solid black;
-	}
 	td{
 		text-align: center;
-		border: 1px solid black;
 		height: 30px;
+		border-bottom: 1px solid lightgray;
 	}
 	th{
-		border: 1px solid black;
+		border: 1px solid lightgray;
 	}
 	
 	.tableArea {
-		width:650px;
+		width:850px;
 		height:350px;
 		margin:0 auto;
 		
@@ -54,13 +51,12 @@
 </head>
 <body>
 	<jsp:include page="jobMenubar.jsp"/>
-	<h1 align="center">공지사항</h1>
-	<hr>
 	<div class="outer">
+		<jsp:include page="jobHeader.jsp"/>
 		<!-- 공지사항 리스트 -->
 		<div class="tableArea" align="center">
 			<hr>
-			<table align="center" class="col-lg-12">
+			<table align="center" class="table col-lg-12">
 				<tr>
 					<th width="10%">번호</th>
 					<th width="10%">작성자</th>
@@ -68,7 +64,7 @@
 					<th width="20%">등록일</th>
 					<th width="10%">조회수</th>
 				</tr>
-				<tr onclick="location.href='jobNoticeDetail.jsp'">
+				<tr onclick="location.href='selectOneJobNotice.bo'">
 					<td height="20px">1</td>
 					<td>운영자</td>
 					<td align="left">[안내] 구인구직게시판 오픈★</td>
@@ -81,7 +77,7 @@
 		</div>
 		<!-- 하단 버튼영역 -->
 		<div class="btnArea">
-			<button class="btn" onclick="location.href = 'jobNoticeInsertForm.bd'">글쓰기</button>
+			<button class="btn" onclick="location.href = 'jobNoticeInsertForm.bo'">글쓰기</button>
 		</div>
 		<br><br>
 		<!-- 페이징 영역 -->

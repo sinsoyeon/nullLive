@@ -17,14 +17,18 @@
 		border:1px solid white;
 	}
 	.tableArea {
-		width:650px;
+		width:850px;
 		height:350px;
 		margin:0 auto;
 		
 	}
-	td,th{
+	th{
+		border: 1px solid lightgray;
+	}
+	td{
 		text-align: center;
-		border: 1px solid black;
+		height: 30px;
+		border-bottom: 1px solid lightgray;
 	}
 	
 	
@@ -50,12 +54,13 @@
 </head>
 <body>
 	<jsp:include page="jobMenubar.jsp"/>
-	<h1 align="center">매니저 구인구직 게시판</h1>
+	
 	<div class="outer">
+		<jsp:include page="jobHeader.jsp"/>
 		<!-- 매니저 게시판 리스트 테이블 -->
 		<div class="tableArea" align="center">
 			<hr>
-			<table align="center" class="col-lg-12">
+			<table align="center" class="table col-lg-12">
 				<tr>
 					<th>번호</th>
 					<th>작성자</th>
@@ -65,7 +70,7 @@
 					<th>마감일</th>
 					<th>마감여부</th>
 				</tr>
-				<tr onclick="location.href='jobMngDetail.jsp'">
+				<tr onclick="location.href='jobMngDetail.bo'">
 					<td>1</td>
 					<td>최병욱</td>
 					<td>매니저구함</td>
@@ -80,7 +85,7 @@
 		<!-- 하단 버튼영역 -->
 		<div class="btnArea">
 			<button class="btn">내가 쓴 글</button>
-			<button onclick="location.href='jobMngInsertForm.bd'" class="btn">글쓰기</button>
+			<button onclick="location.href='jobMngInsertForm.bo'" class="btn">글쓰기</button>
 		</div>
 		<br><br><br>
 		<!-- 페이징 영역 -->

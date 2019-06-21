@@ -60,7 +60,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>board</servlet-name>
-		<url-pattern>*.bd</url-pattern>
+		<url-pattern>*.bo</url-pattern>
 	</servlet-mapping>
 
 	<!-- admin-servlet -->

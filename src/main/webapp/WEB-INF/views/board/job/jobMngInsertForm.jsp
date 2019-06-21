@@ -47,7 +47,7 @@
 			<div>
 				<!-- 구인구직 유형 -->
 				<div>
-					<select>
+					<select class="form-control">
 						<option>구인</option>
 						<option>구직</option>
 					</select>
@@ -55,20 +55,20 @@
 				<!-- 제목 -->
 				<div>
 					<h3>제목 </h3>
-					<input class="col-lg-12 col-md-12 col-sm-8" type="text" placeholder="제목을 입력하세요">
+					<input class="form-control col-lg-12 col-md-12 col-sm-8" type="text" placeholder="제목을 입력하세요">
 				</div>
 				<br><br><br>
 				<!-- 마감일 -->
 				<div>
 					<h3>마감일</h3>
-					<input type="date"> 
+					<input class="form-control" type="date"> 
 				</div>
 				<br>
 			</div>
 			<!-- 내용영역 -->
 			<div class="contentArea">
 				<h3>내용 </h3>
-				<textarea class="col-lg-12 col-md-12 col-sm-8" rows="30" required placeholder="내용을 입력해 주세요"></textarea>
+				<textarea class="form-control col-lg-12 col-md-12 col-sm-8" rows="30" required placeholder="내용을 입력해 주세요"></textarea>
 			</div>
 			<br>
 			<!-- 첨부파일 영역 -->
@@ -80,8 +80,8 @@
 			<br>
 			<!-- 하단 버튼영역 -->
 			<div align="center">
-				<button>등록하기</button>
-				<button onclick="location='jobMngList.jsp'">돌아가기</button>
+				<button class="btn">등록하기</button>
+				<button class="btn" onclick="location='jobMngList.jsp'">돌아가기</button>
 			</div>
 		</div>
 	</div>
