@@ -27,7 +27,7 @@ label{
 </head>
 <body>
 	<header>
-		<jsp:include page="../../common/menubar.jsp" />
+		<jsp:include page="serviceMenubar.jsp" />
 	</header>
 	<div class="container-fluid" style="padding-right: 30px; padding-left: 30px; padding-top: 15px;">
 		<div class="row">

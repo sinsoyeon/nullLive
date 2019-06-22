@@ -17,11 +17,41 @@ public class BoardController {
 	/**
 	 * @Author : eon
 	 * @Date : 2019. 6. 20.
-	 * @Comment : 고객센터 화면 호출
+	 * @Comment : 고객센터 메인화면 호출
 	 */
 	@RequestMapping("serviceMain.bo")
 	public String servicePage() {		
-		return "board/service/testMyQuestionSelect";
+		return "board/service/serviceCenterMain";
+	}
+	
+	/**
+	 * @Author : eon
+	 * @Date : 2019. 6. 22.
+	 * @Comment : 고객센터 문의화면 호출
+	 */
+	@RequestMapping("question.bo")
+	public String questionPage() {		
+		return "board/service/questionForm";
+	}
+	
+	/**
+	 * @Author : eon
+	 * @Date : 2019. 6. 22.
+	 * @Comment : 고객센터 신고화면 호출
+	 */
+	@RequestMapping("report.bo")
+	public String reportPage() {		
+		return "board/service/reportForm";
+	}
+	
+	/**
+	 * @Author : eon
+	 * @Date : 2019. 6. 22.
+	 * @Comment : 고객센터 나의문의내역 호출
+	 */
+	@RequestMapping("myQuestion.bo")
+	public String myQuestionPage() {		
+		return "board/service/myQuestionForm";
 	}
 	
 	

@@ -6,13 +6,18 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-body::-webkit-scrollbar {
-	display: none;
+.table .selectT{
+	border:none;
 }
 
-tbody tr:hover {
-	background: #e2f0d8;
-	color: #185819;
+#selectFaqT .sLabel{
+	width:15%;
+}
+.backBtn {
+	color: #fff;
+	background-color: #3790dc;
+	border-color: #3790dc;
+	width: 10%;
 }
 </style>
 </head>
@@ -45,7 +50,6 @@ tbody tr:hover {
 					NullLive 서비스에<br> 대해 궁금하신 점이 있으세요?<br> 고객센터를 통해 궁금증을
 					해결하세요.
 				</p>
-
 			</div>
 			<div class="col-md-8">
 				<div class="row">
@@ -77,56 +81,23 @@ tbody tr:hover {
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<div style="height: 240px;">
-							<table class="table">
-								<thead>
-									<tr>
-										<th>No.</th>
-										<th>질문</th>
-										<th>답변</th>
-									</tr>
-								</thead>
-								<tbody id="faqTable">
-									<tr>
-										<td>1</td>
-										<td>TB - Monthly</td>
-										<td>Default</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>TB - Monthly</td>
-										<td>Approved</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>TB - Monthly</td>
-										<td>Declined</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td>TB - Monthly</td>
-										<td>Pending</td>
-									</tr>
-									<tr>
-										<td>5</td>
-										<td>TB - Monthly</td>
-										<td>Call in to confirm</td>
-									</tr>
-								</tbody>
-							</table>
+					<div style="height: 240px;background: #faebd7a6;border-radius: 13px;padding: 2.5%;">
+						<table class="table">
+							<tbody id="selectFaqT">
+								<tr>
+									<th class="selectT sLabel">질문</th>
+									<td class="selectT" style="background: white; border-radius: 10px; "><b>Q. </b><span>질문</span></td>
+								</tr>
+								<tr style="height:10px;"></tr>
+								<tr>
+									<th class="selectT sLabel">답변</th>
+									<td class="selectT" style=" height: 160px; background: white; border-radius: 10px; "><b>A. </b><span>답변내용</span></td>
+								</tr>
+							</tbody>
+						</table>
 						</div>
 						<div style="text-align: center;">
-							<ul class="pagination">
-								<li class="page-item"><a class="page-link" href="#">Previous</a>
-								</li>
-								<li class="page-item"><a class="page-link" href="#">1</a></li>
-								<li class="page-item"><a class="page-link" href="#">2</a></li>
-								<li class="page-item"><a class="page-link" href="#">3</a></li>
-								<li class="page-item"><a class="page-link" href="#">4</a></li>
-								<li class="page-item"><a class="page-link" href="#">5</a></li>
-								<li class="page-item"><a class="page-link" href="#">Next</a>
-								</li>
-							</ul>
+							<button type="button" class="btn pull-right backBtn" style=" margin-top: 3%; ">이전</button>
 						</div>
 					</div>
 				</div>
@@ -172,68 +143,27 @@ tbody tr:hover {
 						<p style="color: #999; padding-top: 3%;">알려드립니다.</p>
 					</div>
 				</div>
-				<div style="height: 240px;">
-					<table class="table">
-						<thead>
-							<tr>
-								<th>No.</th>
-								<th>제목</th>
-								<th>내용</th>
-								<th>작성일</th>
-								<th>조회수</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>1</td>
-								<td>TB - Monthly</td>
-								<td>Default</td>
-								<td>01/04/2012</td>
-								<td>0</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>TB - Monthly</td>
-								<td>Approved</td>
-								<td>01/04/2012</td>
-								<td>0</td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>TB - Monthly</td>
-								<td>Declined</td>
-								<td>02/04/2012</td>
-								<td>0</td>
-							</tr>
-							<tr>
-								<td>4</td>
-								<td>TB - Monthly</td>
-								<td>Pending</td>
-								<td>03/04/2012</td>
-								<td>0</td>
-							</tr>
-							<tr>
-								<td>5</td>
-								<td>TB - Monthly</td>
-								<td>Call in to confirm</td>
-								<td>04/04/2012</td>
-								<td>0</td>
-							</tr>
-						</tbody>
-					</table>
+				<div style="height: 240px;background: #faebd7a6;border-radius: 13px;padding: 2.5%;">
+				<table class="table">
+					<tbody id="selectNoticeT">
+						<tr>
+							<th class="selectT" style=" width: 10%; ">제목</th>
+							<td class="selectT" style=" width: 40%; background: white; border-radius: 10px;">TB - Monthly</td>
+							<th class="selectT" style=" width: 10%; text-align: center;">작성일</th>
+							<td class="selectT" style="background: white; border-radius: 10px; width: 13%; text-align: center;">01/04/2012</td>
+							<th class="selectT" style=" width: 10%; text-align: center;">조회수</th>
+							<td class="selectT" style="background: white; border-radius: 10px; width: 13%; text-align: center;">0</td>
+						</tr>
+						<tr style="height:10px;"></tr>
+						<tr>
+							<th class="selectT">내용</th>
+							<td class="selectT" colspan="5" style="background: white; border-radius: 10px; height: 150px;">TB - Monthly</td>
+						</tr>
+					</tbody>
+				</table>
 				</div>
 				<div style="text-align: center;">
-					<ul class="pagination">
-						<li class="page-item"><a class="page-link" href="#">Previous</a>
-						</li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">4</a></li>
-						<li class="page-item"><a class="page-link" href="#">5</a></li>
-						<li class="page-item"><a class="page-link" href="#">Next</a>
-						</li>
-					</ul>
+					<button type="button" class="btn pull-right backBtn" style=" margin-top: 2.5%; ">이전</button>
 				</div>
 			</div>
 		</div>
