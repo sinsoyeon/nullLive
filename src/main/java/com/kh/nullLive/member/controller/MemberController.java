@@ -118,7 +118,7 @@ public class MemberController {
 	public String myPage(Model model,HttpServletRequest request) {
 		try {
 			Attachment att = ms.getProfile(((Member)(request.getSession().getAttribute("loginUser"))).getMno());
-			model.addAttribute("imgSource", att.getFilePath()+"\\"+att.getChangeName());
+			model.addAttribute("imgSource", att.getChangeName());
 			return "member/myPage/myPageMain";
 		} catch (ProfileException e) {
 			model.addAttribute("msg", e.getMessage());
@@ -226,15 +226,16 @@ public class MemberController {
 	public String modifyProImage(Model model, Member m, HttpServletRequest request,
 			@RequestParam(name="proImgFile",required=false)MultipartFile file) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		String filePath = root+"\\uploadFiles";
+		
+		String filePath = root+"\\uploadFiles\\profile_image";
 		System.out.println("filePath : "+filePath);
 		
 		String originName = file.getOriginalFilename();
 		String ext = originName.substring(originName.lastIndexOf("."));
 		String changeName = CommonUtils.getRandomString();
 		Attachment att = new Attachment();
-		att.setOriginName(originName);
-		att.setChangeName(changeName);
+		att.setOriginName(originName+ext);
+		att.setChangeName(changeName+ext);
 		att.setFilePath(filePath);
 			try {
 				file.transferTo(new File(filePath+"\\"+changeName+ext));

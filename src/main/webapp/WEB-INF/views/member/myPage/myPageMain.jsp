@@ -26,7 +26,7 @@
 		<div class="row">
 			<div class="col-md-12" style="display: inline; min-width: 1024;">
 				<div class="col-md-2" style="display: inline; float: left;" onclick="modifyProImage()">
-					<img src="${imgSource}" width="100px" />
+					<img src="${contextPath}/resources/uploadFiles/profile_image/${imgSource}" width="100px" />
 				</div>
 				<div class="col-md-10"
 					style="display: inline; float: left; background: #e9e9e9;">

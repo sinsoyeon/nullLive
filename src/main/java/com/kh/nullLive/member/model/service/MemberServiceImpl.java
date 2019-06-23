@@ -23,13 +23,13 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDao md;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
+
 	//로그인
 	@Override
 	public Member loginMember(Member m) throws LoginException {
 		Member loginMember = null;
 		String encPassword = md.selectEncPassword(sqlSession,m);
-		
+
 		if(!passwordEncoder.matches(m.getMpwd(), encPassword)) {
 			throw new LoginException("로그인 실패");
 		}else {
@@ -37,7 +37,7 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return loginMember;
 	}
-	
+
 	//회원가입
 	@Override
 	public void insertMember(Member m) throws InsertMemberException {
@@ -47,19 +47,19 @@ public class MemberServiceImpl implements MemberService {
 			throw new InsertMemberException("회원가입 실패");
 		}
 	}
-	
+
 	//회원가입한 번호 가져오기
 	@Override
 	public int getMno() {
 		return md.getMno(sqlSession);
 	}
-	
+
 	//프로필이미지 등록
 	@Override
 	public void insertProImage(Member m) throws InsertMemberException {
 		int result = 0;
 		Attachment att = new Attachment();
-		att.setFilePath("D:\\NullLive\\workspace\\nullLive\\src\\main\\webapp\\resources\\image");
+		att.setFilePath("resources\\uploadFiles\\profile_image");
 		att.setChangeName("profile_sample.PNG");
 		att.setOriginName("originName");
 		result = md.insertProImage(sqlSession,att);
@@ -104,27 +104,35 @@ public class MemberServiceImpl implements MemberService {
 		return md.selectMember(sqlSession, m);
 	}
 
-	//프로필이미지 변경
-	@Override
-	public void updateProImage(Member m, Attachment att) throws UpdateMemberException {
-		int result = 0;
-		result = md.updateProImage(sqlSession,m,att);
-		if(result <= 0) {
-			throw new UpdateMemberException("프로필이미지 수정 실패");
-		}
-	}
-
 	//마이페이지 프로필이미지 불러오기
 	@Override
 	public Attachment getProfile(int mno) throws ProfileException {
 		Attachment att = null;
-		
+
 		att = md.getProfile(sqlSession,mno);
-		
+
 		if(att == null) {
 			throw new ProfileException("프로필 불러오기 실패");
 		}
 		return att;
+	}
+
+	//프로필이미지 변경
+	@Override
+	public void updateProImage(Member m, Attachment att) throws UpdateMemberException {
+		int result = 0;
+		int oldAttno = md.getPreImageNo(sqlSession,m);
+		result = md.preImageDisable(sqlSession,oldAttno);
+		if(result > 0) {
+			result = md.updateProImage(sqlSession,m,att);
+		}else {
+			throw new UpdateMemberException("프로필이미지 수정 실패");
+		}
+		int newAttno = md.getAttno(sqlSession);
+		result = md.updateProImageManage(sqlSession, m,newAttno);
+		if(result <= 0) {
+			throw new UpdateMemberException("프로필이미지 수정 실패");
+		}
 	}
 
 

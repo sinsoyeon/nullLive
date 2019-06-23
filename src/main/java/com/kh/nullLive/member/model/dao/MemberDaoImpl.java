@@ -43,7 +43,7 @@ public class MemberDaoImpl implements MemberDao {
 	//회원가입 시 프로필 이미지 등록
 	@Override
 	public int insertProImage(SqlSessionTemplate sqlSession, Attachment att) {
-		return sqlSession.insert("Member.insertProImage",att);
+		return sqlSession.insert("Member.insertProImageDefault",att);
 	}
 	//등록 프로필 attno가져오기
 	@Override
@@ -58,17 +58,34 @@ public class MemberDaoImpl implements MemberDao {
 		hmap.put("attno",attno);
 		return sqlSession.update("Member.insertProImageManage",hmap);
 	}
-	//프로필이미지 변경
-	@Override
-	public int updateProImage(SqlSessionTemplate sqlSession, Member m, Attachment att) {
-		return sqlSession.update("Member.updateProImage",att);
-	}
 	//마이페이지 프로필이미지 불러오기
 	@Override
 	public Attachment getProfile(SqlSessionTemplate sqlSession, int mno) {
 		return sqlSession.selectOne("Member.selectProfile",mno);
 	}
-	
+	//이전 프로필사진 번호 가져오기
+	@Override
+	public int getPreImageNo(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.selectOne("Member.selectProfileNo",m);
+	}
+	//이전 프로필사진 비활성화
+	@Override
+	public int preImageDisable(SqlSessionTemplate sqlSession, int attno) {
+		return sqlSession.update("Member.updatePreProImage",attno);
+	}
+	//프로필이미지 변경
+	@Override
+	public int updateProImage(SqlSessionTemplate sqlSession, Member m, Attachment att) {
+		return sqlSession.insert("Member.insertProImage",att);
+	}
+	//이전 프로필사진 관리 수정
+	@Override
+	public int updateProImageManage(SqlSessionTemplate sqlSession, Member m, int newAttno) {
+		HashMap<String,Object> hmap = new HashMap<String,Object>();
+		hmap.put("mno",m.getMno());
+		hmap.put("attno",newAttno);
+		return sqlSession.update("Member.updateProImageManage",hmap);
+	}
 
 
 }

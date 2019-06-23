@@ -8,19 +8,19 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 </head>
 <body>
-	현재 : <img src="${contextPath}/resources/uploadFiles/${changeName}" alt="${contextPath}/resources/image/profile_sample.PNG"/>
 	<div onclick="change();">
 	파일 : <img id="fileImage" width="150px" height="180px"/>
 	</div>
 	<div style="display:none">
 		<form id="proImgForm" method="post" enctype="multipart/form-data">
-			<input type="text" name="mid" value="${loginUser.mid}"/>
+			<input type="text" name="mno" value="${loginUser.mno}"/>
 			<input type="file" id="proImgFile" name="proImgFile"/>
 		</form>
 	</div>
 	<button type="button" class="form-control btn btn-primary" onclick="changeProImg()">변경</button>
 </body>
 <script>
+var imageNotyet = false;
 $(function() {
     $("#proImgFile").on('change', function(){
         readURL(this);
@@ -37,6 +37,7 @@ function readURL(input) {
 
     reader.onload = function (e) {
             $('#fileImage').attr('src', e.target.result);
+            imageNotyet=true;
         }
 
       reader.readAsDataURL(input.files[0]);
@@ -44,7 +45,11 @@ function readURL(input) {
 }
 
 function changeProImg(){
-	$("#proImgForm").attr("action","modifyProImage.me").submit();
+	if(imageNotyet){
+		$("#proImgForm").attr("action","modifyProImage.me").submit();		
+	}else{
+		alert("이미지를 먼저 등록하세요!");
+	}
 }
 </script>
 </html>
