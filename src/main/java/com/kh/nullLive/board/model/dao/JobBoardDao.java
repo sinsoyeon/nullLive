@@ -1,12 +1,18 @@
 package com.kh.nullLive.board.model.dao;
 
+import java.util.ArrayList;
+
+import org.mybatis.spring.SqlSessionTemplate;
+
+import com.kh.nullLive.board.model.vo.Board;
+
 public interface JobBoardDao {
 
-	void selectListJobNotice();
+	ArrayList<Board> selectListJobNotice(SqlSessionTemplate sqlSession);
 
-	void selectOneJobNotice();
+	Board selectOneJobNotice(SqlSessionTemplate sqlSession, int bno);
 
-	void insertJobNotice();
+	int insertJobNotice(SqlSessionTemplate sqlSession, Board board);
 
 	void updateJobNotice();
 

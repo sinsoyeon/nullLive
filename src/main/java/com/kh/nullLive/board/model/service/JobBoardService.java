@@ -1,11 +1,17 @@
 package com.kh.nullLive.board.model.service;
 
+import java.util.ArrayList;
+
+import com.kh.nullLive.board.model.exception.SelectOneBoardException;
+import com.kh.nullLive.board.model.vo.Board;
+
 public interface JobBoardService {
-	void selectListJobNotice();
 
-	void selectOneJobNotice();
+	ArrayList<Board> selectListJobNotice();
 
-	void insertJobNotice();
+	Board selectOneJobNotice(int bno) throws SelectOneBoardException;
+
+	int insertJobNotice(Board board);
 
 	void updateJobNotice();
 

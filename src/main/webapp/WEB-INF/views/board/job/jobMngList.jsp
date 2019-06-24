@@ -70,7 +70,7 @@
 					<th>마감일</th>
 					<th>마감여부</th>
 				</tr>
-				<tr onclick="location.href='jobMngDetail.bo'">
+				<tr onclick="location.href='jobMngDetail.jbo'">
 					<td>1</td>
 					<td>최병욱</td>
 					<td>매니저구함</td>
@@ -85,7 +85,7 @@
 		<!-- 하단 버튼영역 -->
 		<div class="btnArea">
 			<button class="btn">내가 쓴 글</button>
-			<button onclick="location.href='jobMngInsertForm.bo'" class="btn">글쓰기</button>
+			<button onclick="location.href='jobMngInsertForm.jbo'" class="btn">글쓰기</button>
 		</div>
 		<br><br><br>
 		<!-- 페이징 영역 -->

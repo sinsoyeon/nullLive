@@ -78,10 +78,7 @@
 			</div>
 			
 			<!-- 내용영역 -->
-			<div class="contentArea">
-				<h3>내용 </h3>
-				<textarea class="form-control col-lg-12 col-md-12 col-sm-8" rows="30" required placeholder="내용을 입력해 주세요"></textarea>
-			</div>
+			<jsp:include page="contentInsertForm.jsp"/>
 			<br>
 			<!-- 첨부파일 영역 -->
 			<div>
@@ -93,7 +90,7 @@
 			<!-- 하단 버튼영역 -->
 			<div align="center">
 				<button class="btn btn-success">등록하기</button>
-				<button class="btn" onclick="location='jobContentList.bo'">돌아가기</button>
+				<button class="btn" onclick="location='jobContentList.jbo'">돌아가기</button>
 			</div>
 		</div>
 	</div>

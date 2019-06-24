@@ -62,7 +62,10 @@
 		<servlet-name>board</servlet-name>
 		<url-pattern>*.bo</url-pattern>
 	</servlet-mapping>
-
+	<servlet-mapping>
+		<servlet-name>board</servlet-name>
+		<url-pattern>*.jbo</url-pattern>
+	</servlet-mapping>
 	<!-- admin-servlet -->
 	<servlet>
 		<servlet-name>admin</servlet-name>
