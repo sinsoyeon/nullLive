@@ -16,7 +16,7 @@
 		<form id="pwdChangeForm" method="post">
 		<input type="hidden" name="mid" value="${loginUser.mid}"/>
 			<div>
-				비밀번호 : <input type="password" class="form-control" name="mpwd" id="mpwd1">
+				비밀번호 : <input type="password" class="form-control" name="mpwd" id="mpwd1" autofocus>
 			</div>
 			<div>
 				비밀번호 확인 : <input type="password" class="form-control" id="mpwd2">
