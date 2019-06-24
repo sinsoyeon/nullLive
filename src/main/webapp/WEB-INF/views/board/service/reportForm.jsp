@@ -78,7 +78,7 @@ label{
 					<div class="form-group">
 
 						<label for="rTitle"> 제목 </label> <input
-							type="email" class="form-control" id="rTitle" style=" width: 80%; "/>
+							type="text" class="form-control" id="rTitle" style=" width: 80%; "/>
 					</div>
 					<div class="form-group">
 
@@ -91,7 +91,7 @@ label{
 					</div>
 					
 					<button type="submit" class="btn pull-right rbtn" style=" margin-left: 1%; ">확인</button>
-					<button type="button" class="btn pull-right rbtn">취소</button>
+					<button type="button" class="btn pull-right rbtn" onclick="location.href='serviceMain.bo'">취소</button>
 				</form>
 			</div>
 		</div>

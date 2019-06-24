@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,10 +37,12 @@ tbody .center{
 				</h2>
 				<div class="input-group" style="margin-top: 20px; width: 240px;">
 					<input type="text" class="form-control" id="searchFaq"
-						placeholder="Search" style="border: 1px solid #8aad40;"> <span
-						class="input-group-addon"
-						style="background: #6e9a13; border: 1px solid #8aad40;"><i
-						class="glyphicon glyphicon-search" style="color: white;"></i></span>
+						placeholder="Search" style="border: 1px solid #8aad40;"> 
+					<div class="input-group-btn">
+						<button class="btn btn-default" type="submit" style="background: #6e9a13; border: 1px solid #8aad40;">
+							<i class="glyphicon glyphicon-search" style="color: white;"></i>
+						</button>
+					</div>
 				</div>
 				<div>
 				<img alt="faq" src="/nullLive/resources/image/faqImg.png"
@@ -91,31 +94,13 @@ tbody .center{
 									</tr>
 								</thead>
 								<tbody id="faqTable">
-									<tr>
-										<td>1</td>
-										<td>TB - Monthly</td>
-										<td>Default</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>TB - Monthly</td>
-										<td>Approved</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>TB - Monthly</td>
-										<td>Declined</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td>TB - Monthly</td>
-										<td>Pending</td>
-									</tr>
-									<tr>
-										<td>5</td>
-										<td>TB - Monthly</td>
-										<td>Call in to confirm</td>
-									</tr>
+									<c:forEach var="f" items="${list }">
+										<tr>
+											<td>${f.fno }</td>
+											<td>${f.bTitle }</td>
+											<td>${f.bContent }</td>
+										</tr>
+									</c:forEach>
 								</tbody>
 							</table>
 						</div>
@@ -136,31 +121,6 @@ tbody .center{
 				</div>
 			</div>
 		</div>
-		<script>
-			$(document)
-					.ready(
-							function() {
-								$("#searchFaq")
-										.on(
-												"keyup",
-												function() {
-													var value = $(this).val()
-															.toLowerCase();
-													$("#faqTable tr")
-															.filter(
-																	function() {
-																		$(this)
-																				.toggle(
-																						$(
-																								this)
-																								.text()
-																								.toLowerCase()
-																								.indexOf(
-																										value) > -1)
-																	});
-												});
-							});
-		</script>
 
 		<hr>
 
