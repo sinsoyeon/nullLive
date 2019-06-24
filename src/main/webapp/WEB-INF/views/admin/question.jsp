@@ -69,6 +69,9 @@ tr>th{
 			$('li:eq(4)').addClass('active');
 			$('#menu4').addClass('active in');
 			$('#menu4 a:eq(4)').css('font-weight','bold');
+			$('td').click(function() {
+				location.href='questionDetail.ad';
+			});
 	})
 </script>
 </html>

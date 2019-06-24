@@ -137,7 +137,7 @@ public class AdminController {
 	/**
 	 * @author INHYO
 	 * @date : 2019. 6. 20.
-	 * @comment : 고객센터 페이지 이동(페이징)
+	 * @comment : 1:1문의 페이지 이동(페이징)
 	 */
 	@RequestMapping("questionList.ad")
 	public String adminQuestionList() {
@@ -146,7 +146,15 @@ public class AdminController {
 
 	// 검색
 
-	// 상세보기
+	/**
+	 * @author INHYO
+	 * @date : 2019. 6. 24.
+	 * @comment : 1:1문의 상세보기 
+	 */
+	@RequestMapping("questionDetail.ad")
+	public String adminQuestionDetail() {
+		return "admin/questionDetail";
+	}
 
 	// 상세보기 닫기
 
