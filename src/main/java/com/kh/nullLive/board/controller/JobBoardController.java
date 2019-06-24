@@ -12,18 +12,16 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.service.JobBoardService;
 import com.kh.nullLive.board.model.vo.Board;
-
-import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpRequest;
+import com.kh.nullLive.board.model.vo.PageInfo;
+import com.kh.nullLive.common.Pagenation;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -89,15 +87,21 @@ public class JobBoardController {
 	 */
     @RequestMapping("selectListJobNotice.jbo")
 	public String selectListJobNotice(HttpServletRequest request) {
-		ArrayList<Board> blist = null;
+		int currentPage = 1;
 		
-		blist = jbs.selectListJobNotice();
-		/*
-		 * mv.addObject("blist",blist); System.out.println(" getModel : "
-		 * +mv.getModel()); mv.setViewName("board/job/jobNoticeList"); return mv;
-		 */
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+    	
+    	//게시글 갯수 가져옴
+    	int listCount = jbs.getListCount();
+    	
+    	PageInfo pi = Pagenation.getPageInfo(currentPage, listCount);
+    	
+    	ArrayList<Board> blist  = jbs.selectListJobNotice(pi);
+    	
 		request.setAttribute("blist", blist);
-		
+		request.setAttribute("pi", pi);
 		return "board/job/jobNoticeList";
 	}
 

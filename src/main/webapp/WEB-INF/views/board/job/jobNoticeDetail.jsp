@@ -48,9 +48,9 @@
 			<!-- 제목 -->
 			<div>
 				<div class="dateArea">
-					<b>19-06-19 22:00</b>
+					<b>${ board.writtenDate }</b>
 				</div>
-				<h3><b>[안내] 공지입니다.</b></h3>
+				<h3><b>${ board.btitle }</b></h3>
 			</div>
 			<br>
 		</div>
@@ -68,7 +68,7 @@
 		
 		<!-- 하단 버튼영역 -->
 		<div align="center">
-			<button>작성하기</button>
+			<button onclick="location.href='#'">수정하기</button>
 			<button onclick="location.href='jobNoticeList.jsp'">목록으로</button>
 		</div>
 	</div>

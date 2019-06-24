@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.nullLive.board.model.vo.Board;
+import com.kh.nullLive.board.model.vo.PageInfo;
 
 public interface JobBoardDao {
 
-	ArrayList<Board> selectListJobNotice(SqlSessionTemplate sqlSession);
+	ArrayList<Board> selectListJobNotice(SqlSessionTemplate sqlSession, PageInfo pi);
 
 	Board selectOneJobNotice(SqlSessionTemplate sqlSession, int bno);
 
@@ -39,6 +40,10 @@ public interface JobBoardDao {
 	void insertJobBoardReport();
 
 	void insertJobBoardNote();
+
+	int updateBoardCount(SqlSessionTemplate sqlSession, int bno);
+
+	int getListCount(SqlSessionTemplate sqlSession);
 
 
 }
