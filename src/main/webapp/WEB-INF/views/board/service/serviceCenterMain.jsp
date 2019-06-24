@@ -13,6 +13,10 @@ body::-webkit-scrollbar {
 tbody tr:hover {
 	background: #e2f0d8;
 	color: #185819;
+	cursor: pointer;
+}
+tbody .center{
+	text-align:center;
 }
 </style>
 </head>
@@ -81,8 +85,8 @@ tbody tr:hover {
 							<table class="table">
 								<thead>
 									<tr>
-										<th>No.</th>
-										<th>질문</th>
+										<th style=" width: 10%; ">No.</th>
+										<th style=" width: 40%; ">질문</th>
 										<th>답변</th>
 									</tr>
 								</thead>
@@ -115,7 +119,7 @@ tbody tr:hover {
 								</tbody>
 							</table>
 						</div>
-						<div style="text-align: center;">
+						<div id="pagingArea" align="center">
 							<ul class="pagination">
 								<li class="page-item"><a class="page-link" href="#">Previous</a>
 								</li>
@@ -176,11 +180,11 @@ tbody tr:hover {
 					<table class="table">
 						<thead>
 							<tr>
-								<th>No.</th>
-								<th>제목</th>
-								<th>내용</th>
-								<th>작성일</th>
-								<th>조회수</th>
+								<th style=" width: 7%; ">No.</th>
+								<th style=" width: 33%; ">제목</th>
+								<th style=" width: 40%; ">내용</th>
+								<th style=" width: 13%;text-align: center;">작성일</th>
+								<th style=" text-align: center;">조회수</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -188,41 +192,41 @@ tbody tr:hover {
 								<td>1</td>
 								<td>TB - Monthly</td>
 								<td>Default</td>
-								<td>01/04/2012</td>
-								<td>0</td>
+								<td class="center">01/04/2012</td>
+								<td class="center">0</td>
 							</tr>
 							<tr>
 								<td>2</td>
 								<td>TB - Monthly</td>
 								<td>Approved</td>
-								<td>01/04/2012</td>
-								<td>0</td>
+								<td class="center">01/04/2012</td>
+								<td class="center">0</td>
 							</tr>
 							<tr>
 								<td>3</td>
 								<td>TB - Monthly</td>
 								<td>Declined</td>
-								<td>02/04/2012</td>
-								<td>0</td>
+								<td class="center">02/04/2012</td>
+								<td class="center">0</td>
 							</tr>
 							<tr>
 								<td>4</td>
 								<td>TB - Monthly</td>
 								<td>Pending</td>
-								<td>03/04/2012</td>
-								<td>0</td>
+								<td class="center">03/04/2012</td>
+								<td class="center">0</td>
 							</tr>
 							<tr>
 								<td>5</td>
 								<td>TB - Monthly</td>
 								<td>Call in to confirm</td>
-								<td>04/04/2012</td>
-								<td>0</td>
+								<td class="center">04/04/2012</td>
+								<td class="center">0</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
-				<div style="text-align: center;">
+				<div id="pagingArea" align="center">
 					<ul class="pagination">
 						<li class="page-item"><a class="page-link" href="#">Previous</a>
 						</li>

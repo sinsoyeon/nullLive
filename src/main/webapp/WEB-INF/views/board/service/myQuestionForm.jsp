@@ -14,6 +14,7 @@ thead th, td{
 }
 tbody tr:hover{
 	background:#ffffffb5;
+	cursor: pointer;
 }
 </style>
 </head>
