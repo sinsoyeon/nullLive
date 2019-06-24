@@ -3,6 +3,7 @@ package com.kh.nullLive.member.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class SoyeonController {
@@ -50,10 +51,26 @@ public class SoyeonController {
 		
 	}
 	
-	
+	/**
+	 * @author : 소연
+	 * @date : 2019. 6. 21.
+	 * @comment : 구독 선택창 이동
+	 */		
 	@RequestMapping("subscribeView.me")
 	public String subView() {
 		return "member/selectSubscribeForm";
+	}
+	
+	/**
+	 * @author : 소연
+	 * @date : 2019. 6. 24.
+	 * @comment : 구독 상세 페이지로 이동
+	 */		
+	@RequestMapping("subForm.me")
+	public String subForm(@RequestParam("amount")int amount,Model model) {
+		model.addAttribute("amount",amount);
+		System.out.println(amount);
+		return "member/userInfo";
 	}
 	
 }

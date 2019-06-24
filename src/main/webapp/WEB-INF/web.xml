@@ -63,7 +63,21 @@
 		<url-pattern>*.bo</url-pattern>
 	</servlet-mapping>
 	
-
+	<!-- jobBoard-servlet -->
+	<servlet>
+		<servlet-name>board</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/jobBoard-context.xml</param-value>
+		</init-param>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>board</servlet-name>
+		<url-pattern>*.jbo</url-pattern>
+	</servlet-mapping>
 	
 	<!-- admin-servlet -->
 	<servlet>

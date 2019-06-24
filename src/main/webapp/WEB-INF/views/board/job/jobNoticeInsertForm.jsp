@@ -61,11 +61,10 @@
 				
 				<br>
 				<!-- 첨부파일 영역 -->
-				<div>
-					<h3>첨부파일</h3>
-					<input type="file" name="photo">
-					<input type="file">
-				</div>
+				<h3>첨부파일</h3>
+				<jsp:include page="attachmentForm.jsp"/>
+				
+				
 				<br>
 				<div align="center">
 					<input type="button" id="save" value="등록하기" class="btn">
@@ -75,21 +74,6 @@
 
 		</div>
 	</div>
-
-	<!-- <script>
-		$(function(){
-			$("#save").click(function(){
-				var bTitle = $("#btitle").val();
-				console.log($("#btitle").val());
-				if(bTitle == ""){
-					alert("제목을 입력해주세요");
-					$("#bTitle").focus();
-					return false;
-				}
-			});
-		});
-	</script> -->
-	
 </body>
 </html>
 

@@ -89,24 +89,9 @@
 	
 	<!-- 구인구직 공지사항 INSERT -->
 	<insert id="insertJobNotice" parameterType="Board">
-		INSERT INTO BOARD VALUES
-		(SEQ_BNO.NEXTVAL,
-		#{btitle},
-		#{bcontent},
-		SYSDATE,
-		SYSDATE,
-		DEFAULT,
-		#{btype},
-		NULL,
-		NULL,
-		NULL,
-		NULL,
-		#{bwriter},
-		NULL,
-		NULL,
-		NULL,
-		1
-		)
+		INSERT INTO 
+		BOARD(BNO,		 BTITLE,   BCONTENT,   WRITTEN_DATE,MODIFY_DATE,BCOUNT,   BTYPE,   BWRITER,B_STATUS) VALUES
+		(SEQ_BNO.NEXTVAL,#{btitle},#{bcontent},SYSDATE,		SYSDATE,	DEFAULT,  #{btype},#{bwriter},1)
 	</insert>
 	<!-- 구인구직 공지사항 목록 조회 -->
 	<select id="selectListJobNotice" resultMap="boardResultSet">
@@ -123,4 +108,17 @@
 		AND B_STATUS = '1'
 		AND BNO = #{bno}
 	</select>
+	<!-- 게시물 조회수 증가용 -->
+	<update id="updateBoardCount" parameterType="_int">
+		UPDATE BOARD SET BCOUNT = (SELECT BCOUNT FROM BOARD WHERE BNO = #{bno}) + 1
+		WHERE BNO = #{bno}
+	</update>
+	<!-- 게시물 갯수 조회용 -->
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD
+		WHERE B_STATUS = '1'
+	</select>
+	
+	
 </mapper>

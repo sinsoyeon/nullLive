@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.kh.nullLive.board.model.dao.JobBoardDao;
 import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.vo.Board;
+import com.kh.nullLive.board.model.vo.PageInfo;
+import com.kh.nullLive.common.Pagenation;
 
 @Service
 public class JobBoardServiceImpl implements JobBoardService{
@@ -28,8 +30,8 @@ public class JobBoardServiceImpl implements JobBoardService{
 	 * @comment : 구인구직 공지사항 목록조회
 	 */
 	@Override
-	public ArrayList<Board> selectListJobNotice() {
-		return jbd.selectListJobNotice(sqlSession);
+	public ArrayList<Board> selectListJobNotice(PageInfo pi) {
+		return jbd.selectListJobNotice(sqlSession,pi);
 	}
 
 	/**
@@ -41,6 +43,8 @@ public class JobBoardServiceImpl implements JobBoardService{
 	@Override
 	public Board selectOneJobNotice(int bno) throws SelectOneBoardException {
 		Board board = null;
+		int result = jbd.updateBoardCount(sqlSession,bno);
+		System.out.println(result);
 		board = jbd.selectOneJobNotice(sqlSession, bno); 
 		
 		if(board == null) {
@@ -118,6 +122,16 @@ public class JobBoardServiceImpl implements JobBoardService{
 	@Override
 	public void insertJobBoardNote() {
 		jbd.insertJobBoardNote();
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 6. 24.
+	 * @comment : 게시글 리스트 갯수 조회
+	 */
+	@Override
+	public int getListCount() {
+		return  jbd.getListCount(sqlSession);
 	}
 
 }

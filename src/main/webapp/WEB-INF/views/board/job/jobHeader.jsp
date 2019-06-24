@@ -12,7 +12,7 @@
 		padding-top : 50px;
 		padding-bottom : 50px;
 		padding-left : 50px;
-		background-color: lightgray;
+		background-color: #e2f0d8;
 	}
 </style>
 </head>

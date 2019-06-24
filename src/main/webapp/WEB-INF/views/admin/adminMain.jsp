@@ -4,6 +4,57 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawVisualization);
+google.charts.setOnLoadCallback(drawVisualization1);
+function drawVisualization() { 
+	var data = google.visualization.arrayToDataTable([
+			['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
+			['2004/05',  165,      938,         522,             998,           450,      614.6],
+			['2005/06',  135,      1120,        599,             1268,          288,      682],
+			['2006/07',  157,      1167,        587,             807,           397,      623],
+			['2007/08',  139,      1110,        615,             968,           215,      609.4],
+			['2008/09',  136,      691,         629,             1026,          366,      569.6]
+		]);
+	
+	var options = {
+			vAxis: {title: 'Cups'},
+			hAxis: {title: 'Month'}, 
+			seriesType: 'bars',
+			series: {5: {type: 'line'}},
+			height: 300,
+			width: 400
+		};
+	
+	var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+	chart.draw(data, options);
+	}
+	
+function drawVisualization1() { 
+	var data = google.visualization.arrayToDataTable([
+			['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
+			['2004/05',  165,      938,         522,             998,           450,      614.6],
+			['2005/06',  135,      1120,        599,             1268,          288,      682],
+			['2006/07',  157,      1167,        587,             807,           397,      623],
+			['2007/08',  139,      1110,        615,             968,           215,      609.4],
+			['2008/09',  136,      691,         629,             1026,          366,      569.6]
+		]);
+	
+	var options = {
+			vAxis: {title: 'Cups'},
+			hAxis: {title: 'Month'}, 
+			seriesType: 'bars',
+			series: {5: {type: 'line'}},
+			height: 300,
+			width: 400
+		};
+	
+	var chart = new google.visualization.ComboChart(document.getElementById('chart_div1'));
+	chart.draw(data, options);
+	}
+</script>
 <title>NullLive</title>
 <style>
 	.col-sm-5>div,.col-sm-10>div{
@@ -23,21 +74,13 @@
 <div class="row" align="center">
   <div class="col-sm-1"></div>
   <div class="col-sm-5">
-  	<div onclick="location.href='memberStatisticsList.ad'"  data-toggle="tooltip" title="회원 통계 페이지로 이동"><h3>회원 통계</h3>
-  	<br>
-  	<br>
-  	<br> 
-  	<br>
-  	<br>
-  	<br>
-  	<br>
-  	<br>
-  	<br>
-  	<br>
+  <h3>회원 통계</h3>
+  	<div onclick="location.href='memberStatisticsList.ad'"  data-toggle="tooltip" title="회원 통계 페이지로 이동" id="chart_div" >
   	</div>
   	
   </div>
-  <div class="col-sm-5"><div onclick="location.href='sitesStatisticsList.ad'" data-toggle="tooltip" title="사이트 통계 페이지로 이동"><h3>사이트 통계</h3>
+  <h3>사이트 통계</h3>
+  <div class="col-sm-5"><div onclick="location.href='sitesStatisticsList.ad'" data-toggle="tooltip" title="사이트 통계 페이지로 이동" id="chart_div1">
   <br>
   	<br>
   	<br>

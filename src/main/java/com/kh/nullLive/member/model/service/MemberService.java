@@ -79,5 +79,13 @@ public interface MemberService {
 	 */
 	void updateProImage(Member m, Attachment att) throws UpdateMemberException;
 
+	/**
+	 * Author : ryan
+	 * Date : 2019. 6. 24.
+	 * Comment : 아이디 중복체크 ajax
+	 * @return 
+	 */
+	int duplicateTest(String mid);
+
 	
 }

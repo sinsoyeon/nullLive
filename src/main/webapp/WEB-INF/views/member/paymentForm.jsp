@@ -71,7 +71,6 @@
 		});
 	
 		function payment(){
-			<script>
 			$(function(){
 				var amount = $("#inputMoney").val();
 				var IMP = window.IMP; // 생략가능
