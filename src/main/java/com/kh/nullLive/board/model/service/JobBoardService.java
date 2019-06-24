@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.vo.Board;
+import com.kh.nullLive.board.model.vo.PageInfo;
 
 public interface JobBoardService {
 
-	ArrayList<Board> selectListJobNotice();
+	ArrayList<Board> selectListJobNotice(PageInfo pi);
 
 	Board selectOneJobNotice(int bno) throws SelectOneBoardException;
 
@@ -38,5 +39,7 @@ public interface JobBoardService {
 	void insertJobBoardReport();
 
 	void insertJobBoardNote();
+
+	int getListCount();
 
 }
