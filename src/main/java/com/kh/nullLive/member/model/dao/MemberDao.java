@@ -105,6 +105,13 @@ public interface MemberDao {
 	 */
 	int updateProImageManage(SqlSessionTemplate sqlSession, Member m, int newAttno);
 
+	/**
+	 * Author : ryan
+	 * Date : 2019. 6. 24.
+	 * Comment : 아이디 중복체크
+	 */
+	int duplicateTest(SqlSessionTemplate sqlSession, String mid);
+
 
 
 }

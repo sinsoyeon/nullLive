@@ -131,4 +131,11 @@
 		ATTNO=#{attno}
 		WHERE MNO=#{mno}
 	</update>
+	
+	<select id="duplicateTest" parameterType="java.lang.String" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MID=#{mid}
+		AND M_STATUS='Y'
+	</select>
 </mapper>

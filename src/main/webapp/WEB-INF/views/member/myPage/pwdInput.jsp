@@ -16,7 +16,7 @@
 		<form id="pwdCheckForm" method="post">
 		<input type="hidden" name="mid" value="${loginUser.mid}"/>
 			<div>
-				비밀번호 : <input type="password" class="form-control" name="mpwd">
+				비밀번호 : <input type="password" class="form-control" name="mpwd" autofocus>
 			</div>
 			<div style="margin-top:20px;">
 				<button type="button" class="form-control btn btn-primary" onclick="pwdCheck()">입력</button>

@@ -135,6 +135,12 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
 
+	//아이디 중복체크
+	@Override
+	public int duplicateTest(String mid) {
+		return md.duplicateTest(sqlSession,mid);
+	}
+
 
 
 }

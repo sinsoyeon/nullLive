@@ -86,6 +86,11 @@ public class MemberDaoImpl implements MemberDao {
 		hmap.put("attno",newAttno);
 		return sqlSession.update("Member.updateProImageManage",hmap);
 	}
+	//아이디 중복체크
+	@Override
+	public int duplicateTest(SqlSessionTemplate sqlSession, String mid) {
+		return sqlSession.selectOne("Member.duplicateTest",mid);
+	}
 
 
 }

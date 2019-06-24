@@ -25,10 +25,6 @@ body {
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-<script>
-//var IMP = window.IMP;
-IMP.init('imp29088388');
-</script>
 </head>
 <body>
 	<div class="container">
@@ -40,15 +36,16 @@ IMP.init('imp29088388');
 				<div class="panel-body">
 					<form action="insert.me" id="login-form" method="post">
 						<div>
-							<input type="text" class="form-control" name="mid"
+							<input type="text" class="form-control" name="mid" id="inputMid"
 								placeholder="Id" autofocus>
+							<div id="idAvailable" style="margin:5px;float:left;width:200px;height:25px;"></div>
 						</div>
 						<div>
-							<input type="password" class="form-control" name="mpwd"
+							<input type="password" class="form-control" name="mpwd" id="inputMpwd"
 								placeholder="Password">
 						</div>
 						<div>
-							<input type="email" class="form-control" name="email"
+							<input type="email" class="form-control" name="email" id="inputEmail"
 								placeholder="Email" />
 						</div>
 						<div>
@@ -56,7 +53,7 @@ IMP.init('imp29088388');
 							<input type="radio" id="genderF" name="gender" value="F" /><label for="genderF">여</label>
 						</div>
 						<div>
-						<!-- <button onclick="IMP.certification()">인증</button> -->
+						<!-- <button type="button" onclick="IMP.certification()">인증</button> -->
 							<select name="agency" id="">
 								<option value="SKT">SKT</option>
 								<option value="KT">KT</option>
@@ -67,14 +64,14 @@ IMP.init('imp29088388');
 								name="phone3" max="9999" id="p3" style="width: 70px;" />
 						</div>
 						<div>
-							<input type="text" name="name" class="form-control"
+							<input type="text" name="name" class="form-control" id="inputName"
 								placeholder="성함" />
 						</div>
 						<div>
-							<input type="date" name="birthday" class="form-control" placeholder="생년월일"/>
+							<input type="date" name="birthday" class="form-control" placeholder="생년월일" id="birthday"/>
 						</div>
 						<div>
-							<button align="center" class="form-control btn btn-primary">회원가입</button>
+							<button align="center" id="joinBtn" class="form-control btn btn-primary" disabled>회원가입</button>
 						</div>
 					</form>
 					<div>
@@ -85,20 +82,98 @@ IMP.init('imp29088388');
 			</div>
 		</div>
 	</div>
-<<script>
-// IMP.certification(param, callback) 호출
+<script>
+//회원가입 유효화
+var idCheck = false;
+
+//var IMP = window.IMP;
+IMP.init('imp29088388');
+//IMP.certification(param, callback) 호출
 IMP.certification({ // param
- // merchant_uid: "ORD20180131-0000011",
  // phone:($("#p1").val()+$("#p2").val()+$("#p3").val()),
  // popup:true,
-  
+   merchant_uid : 'merchant_' + new Date().getTime() //본인인증과 연관된 가맹점 내부 주문번호가 있다면 넘겨주세요
 }, function (rsp) { // callback
   if (rsp.success) {
-     console.log("ext");
+	  console.log(rsp.imp_uid);
+      console.log(rsp.merchant_uid);
+      
+      $.ajax({
+				type : 'POST',
+				url : '/certifications/confirm',
+				dataType : 'json',
+				data : {
+					imp_uid : rsp.imp_uid
+				}
+		 }).done(function(rsp) {
+		 	console.log(rsp);	
+			 // 이후 Business Logic 처리하시면 됩니다.
+		 });
+      	
   } else {
-    console.log("fail");
+  	 // 인증취소 또는 인증실패
+      var msg = '인증에 실패하였습니다.';
+      msg += '에러내용 : ' + rsp.error_msg;
+
+      alert(msg);
   }
 });
+
+$("#inputMid").on("propertychange change paste input", function(){
+	var currentVal = $(this).val();
+	$.ajax({
+		url:"duplicateTest.me",
+		type:"POST",
+		data:{currentVal:currentVal},
+		success:function(data){
+			if(data == 'lengthError') {
+				console.log('길이부족');
+				$("#idAvailable").css("color","grey").text('길이가 부족합니다.');
+				idCheck=false;
+			}else if(data == 'duplicate') {
+				console.log('중복');
+				$("#idAvailable").css("color","red").text('중복된 아이디입니다.');
+				idCheck=false;
+			}else if(data == 'success') {
+				console.log('사용가능');
+				$("#idAvailable").css("color","green").text('사용가능한 아이디입니다.');
+				idCheck=true;
+			}
+		},
+		error:function(){
+			console.log("통신에러");
+		}
+	});
+});
+
+$("input").on("change",function(){
+	availTest();
+});
+
+function availTest(){
+	if(idCheck){
+		if($("#inputMpwd").val() != ""){
+			if($("#inputEmail").val() != ""){
+				if($("#inputName").val() != ""){
+					if($("#birthday").val() != ""){
+						$("#joinBtn").attr('disabled',false);
+					}else{
+						$("#joinBtn").attr('disabled',true);
+					}				
+				}else{
+					$("#joinBtn").attr('disabled',true);
+				}
+			}else{
+				$("#joinBtn").attr('disabled',true);
+			}
+		}else{
+			$("#joinBtn").attr('disabled',true);
+		}
+	}else{
+		$("#joinBtn").attr('disabled',true);
+	}
+		
+}
 </script>
 </body>
 </html>
