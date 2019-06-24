@@ -73,19 +73,38 @@ public interface MemberDao {
 	/**
 	 * Author : ryan
 	 * Date : 2019. 6. 21.
+	 * Comment : 마이페이지 프로필이미지 불러오기
+	 */
+	Attachment getProfile(SqlSessionTemplate sqlSession, int mno);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 6. 21.
+	 * Comment : 이전 프로필사진 번호 가져오기
+	 */
+	int getPreImageNo(SqlSessionTemplate sqlSession, Member m);
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 6. 21.
+	 * Comment : 이전 프로필사진 비활성화
+	 */
+	int preImageDisable(SqlSessionTemplate sqlSession, int attno);
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 6. 21.
 	 * Comment : 프로필이미지 변경
 	 */
 	int updateProImage(SqlSessionTemplate sqlSession, Member m, Attachment att);
 
 	/**
 	 * Author : ryan
-	 * Date : 2019. 6. 21.
-	 * Comment : 마이페이지 프로필이미지 불러오기
+	 * Date : 2019. 6. 22.
+	 * Comment : 이전 프로필사진 관리 수정
 	 */
-	Attachment getProfile(SqlSessionTemplate sqlSession, int mno);
+	int updateProImageManage(SqlSessionTemplate sqlSession, Member m, int newAttno);
 
 
-
-	
 
 }

@@ -65,20 +65,19 @@ public interface MemberService {
 	/**
 	 * Author : ryan
 	 * Date : 2019. 6. 21.
-	 * Comment : 프로필이미지 변경
-	 * @throws UpdateMemberException 
-	 */
-	void updateProImage(Member m, Attachment att) throws UpdateMemberException;
-
-	/**
-	 * Author : ryan
-	 * Date : 2019. 6. 21.
 	 * Comment : 마이페이지 프로필이미지 불러오기
 	 * @return 
 	 * @throws ProfileException 
 	 */
 	Attachment getProfile(int mno) throws ProfileException;
 
+	/**
+	 * Author : ryan
+	 * Date : 2019. 6. 21.
+	 * Comment : 프로필이미지 변경
+	 * @throws UpdateMemberException 
+	 */
+	void updateProImage(Member m, Attachment att) throws UpdateMemberException;
 
 	
 }

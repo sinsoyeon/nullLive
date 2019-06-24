@@ -81,7 +81,7 @@
 		WHERE MID=#{mid}
 	</update>
 	
-	<insert id="insertProImage" parameterType="Attachment">
+	<insert id="insertProImageDefault" parameterType="Attachment">
 		INSERT INTO ATTACHMENT(ATTNO,UPLOAD_DATE,FILE_PATH,MODIFY_DATE,DOWNLOAD,
 							ORIGIN_NAME,CHANGE_NAME,ATT_DIV,ATT_STATUS)
 		VALUES (SEQ_ATTNO.NEXTVAL,SYSDATE,#{filePath},SYSDATE,DEFAULT,
@@ -104,4 +104,31 @@
 		WHERE ATT_STATUS='Y'
 		AND MNO=#{mno}
 	</select>
+	
+	<select id="selectProfileNo" parameterType="Member" resultType="_int">
+		SELECT ATTNO
+		FROM ATTACHMENT
+		JOIN ATT_MANAGE M USING(ATTNO)
+		WHERE ATT_STATUS='Y'
+		AND MNO=#{mno}
+	</select>
+	
+	<update id="updatePreProImage" parameterType="_int">
+		UPDATE ATTACHMENT SET
+		ATT_STATUS='N'
+		WHERE ATTNO=#{attno}
+	</update>
+	
+	<insert id="insertProImage" parameterType="Attachment">
+		INSERT INTO ATTACHMENT(ATTNO,UPLOAD_DATE,FILE_PATH,MODIFY_DATE,DOWNLOAD,
+							ORIGIN_NAME,CHANGE_NAME,ATT_DIV,ATT_STATUS)
+		VALUES (SEQ_ATTNO.NEXTVAL,SYSDATE,#{filePath},SYSDATE,DEFAULT,
+				#{originName},#{changeName},'이미지',DEFAULT)
+	</insert>
+	
+	<update id="updateProImageManage" parameterType="java.util.HashMap">
+		UPDATE ATT_MANAGE SET
+		ATTNO=#{attno}
+		WHERE MNO=#{mno}
+	</update>
 </mapper>
