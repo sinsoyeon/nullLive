@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,8 +29,6 @@
 		margin:0 auto;
 		
 	}
-	
-	
 	.btnArea{
 		margin-left : auto;
 		margin-right: auto;
@@ -64,29 +63,25 @@
 					<th width="20%">등록일</th>
 					<th width="10%">조회수</th>
 				</tr>
-				<tr onclick="location.href='selectOneJobNotice.bo'">
-					<td height="20px">1</td>
-					<td>운영자</td>
-					<td align="left">[안내] 구인구직게시판 오픈★</td>
-					<td>2019-06-19</td>
-					<td>100</td>
-				</tr>
+				<c:forEach var="board" items="${ blist }">
+					<tr onclick="selectOneNotice()">
+						<td id="bno">${ board.bno }</td>
+						<td>${ board.bwriter }</td>
+						<td align="left">${ board.btitle }</td>
+						<td>${ board.writtenDate }</td>
+						<td>${ board.bcount }</td>
+					</tr>
+				</c:forEach>
 			</table>
 
 			
 		</div>
 		<!-- 하단 버튼영역 -->
 		<div class="btnArea">
-			<button class="btn" onclick="location.href = 'jobNoticeInsertForm.bo'">글쓰기</button>
+			<button class="btn" onclick="location.href = 'jobNoticeInsertForm.jbo'">글쓰기</button>
 		</div>
 		<br><br>
 		<!-- 페이징 영역 -->
-		<!-- <div class="paginArea" align="center">
-			<button>이전</button>
-			<button>1</button>
-			<button>2</button>
-			<button>다음</button>
-		</div> -->
 		<div>
 			<ul class="pager">
 				<li class="previous"><a href="#">Previous</a></li>
@@ -94,5 +89,18 @@
 			</ul>
 		</div>
 	</div>
+	<script>
+		function selectOneNotice(){
+			var bno = $("#bno").text();
+			console.log(bno);
+			console.log($("#bno"));
+			location.href='selectOneJobNotice.jbo?bno=' + bno ;
+		}
+		$(function(){
+			
+		})
+	</script>
+	
+	
 </body>
 </html>

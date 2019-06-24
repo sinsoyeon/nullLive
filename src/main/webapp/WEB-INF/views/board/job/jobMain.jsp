@@ -61,7 +61,7 @@
 					[안내] 매니저 / 콘텐츠제작자
 				</div>
 				<div class="col-lg-1 col-md-1" id="more">
-					<a href="jobNoticeList.bo"> 더보기 </a>
+					<a onclick="jobNoticeList()"> 더보기 </a>
 				</div>
 			</div>
 		</div>
@@ -111,11 +111,11 @@
 		/*  매니저 게시판 이동 */
 		$("#mngBoard").click(function() {
 			console.log("매니저");
-			location.href="jobMngList.bo";
+			location.href="jobMngList.jbo";
 		});
 		/*  콘텐츠제작자 게시판 이동 */
 		$("#conBoard").click(function(){
-			location.href="jobContentList.bo";
+			location.href="jobContentList.jbo";
 		});
 
 	</script>

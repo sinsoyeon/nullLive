@@ -4,18 +4,26 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.service.JobBoardService;
+import com.kh.nullLive.board.model.vo.Board;
+
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpRequest;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -27,16 +35,12 @@ public class JobBoardController {
 	private JobBoardService jbs;
 	
 
-	/*
-	 * @RequestMapping("/insertBoard.bo") public void submit(HttpServletRequest
-	 * request){ System.out.println("에디터 컨텐츠값:"+request.getParameter("editor")); }
-	 */
     /**
      * @author : uukk
      * @date : 2019. 6. 21.
      * @comment : 다중파일업로드
      */
-    @RequestMapping(value = "/insertBoard.bo",
+    @RequestMapping(value = "/uploadImg.jbo",
                   method = RequestMethod.POST)
     @ResponseBody
     public String multiplePhotoUpload(HttpServletRequest request) {
@@ -75,6 +79,7 @@ public class JobBoardController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println(sb.toString());
         return sb.toString();
     }
 	/**
@@ -82,23 +87,38 @@ public class JobBoardController {
 	 * @date : 2019. 6. 18.
 	 * @comment : 구인구직 공지사항 리스트 조회용 메소드
 	 */
-	public String selectListJobNotice() {
+    @RequestMapping("selectListJobNotice.jbo")
+	public String selectListJobNotice(HttpServletRequest request) {
+		ArrayList<Board> blist = null;
 		
-		jbs.selectListJobNotice();
+		blist = jbs.selectListJobNotice();
+		/*
+		 * mv.addObject("blist",blist); System.out.println(" getModel : "
+		 * +mv.getModel()); mv.setViewName("board/job/jobNoticeList"); return mv;
+		 */
+		request.setAttribute("blist", blist);
 		
-		return null;
+		return "board/job/jobNoticeList";
 	}
-	
+
 	/**
 	 * @author : uukk
 	 * @date : 2019. 6. 19.
 	 * @comment : 구인구직 공지사항 상세조회용 메소드
 	 */
-	@RequestMapping("selectOneJobNotice.bo")
-	public String selectOneJobNotice() {
+	@RequestMapping("selectOneJobNotice.jbo")
+	public String selectOneJobNotice(HttpServletRequest request, Model model) {
+		int bno = Integer.parseInt(request.getParameter("bno"));
 		
-		//jbs.selectOneJobNotice();
-		return "board/job/jobNoticeDetail";
+		try {
+			Board board = jbs.selectOneJobNotice(bno);
+			model.addAttribute("board",board);
+			return "board/job/jobNoticeDetail";
+		} catch (SelectOneBoardException e) {
+			model.addAttribute("msg",e.getMessage());
+			return "common/error";
+		}
+		
 	}
 	
 	/**
@@ -106,10 +126,20 @@ public class JobBoardController {
 	 * @date : 2019. 6. 19.
 	 * @comment : 구인구직 공지사항 글쓰기용 메소드
 	 */
-	@RequestMapping("insertJobNotice.bo")
-	public String insertJobNotice() {
-		System.out.println("도착");
-		return null;
+	@RequestMapping("insertBoard.jbo")
+	public String insertJobNotice(Board board, Model model) {
+		
+		System.out.println(board);
+		
+		int result = jbs.insertJobNotice(board);
+		
+		if(result> 0 ) {
+			return "redirect:index.jsp";
+		}else {
+			model.addAttribute("msg","공지사항 작성 실패");
+			return "common/board/jobNoticeList";
+		}
+		
 	}
 	
 	/**
@@ -117,7 +147,7 @@ public class JobBoardController {
 	 * @date : 2019. 6. 19.
 	 * @comment : 공지사항 업데이트용 메소드
 	 */
-	public String updateJobNotice() {
+	public String updateJobNotice(Board board,Model model) {
 		jbs.updateJobNotice();
 		return null;
 	}
@@ -127,7 +157,7 @@ public class JobBoardController {
 	 * @date : 2019. 6. 19.
 	 * @comment : 공지사항 삭제용 메소드
 	 */
-	public String deleteJobNotice() {
+	public String deleteJobNotice(Board board,Model model) {
 		jbs.deleteJobNotice();
 		return null;
 	}
@@ -137,7 +167,7 @@ public class JobBoardController {
 	 * @date : 2019. 6. 19.
 	 * @comment : 구인구직 게시판 리스트 조회용 메소드
 	 */
-	public String selectListJobBoard() {
+	public String selectListJobBoard(Board board,Model model) {
 		jbs.selectListJobBoard();
 		return null;
 	}
@@ -147,7 +177,7 @@ public class JobBoardController {
 	 * @date : 2019. 6. 19.
 	 * @comment : 구인구직 게시판 내가쓴글 조회용 메소드
 	 */
-	public String selectListJobMyBoard() {
+	public String selectListJobMyBoard(Board board,Model model) {
 		jbs.selectListJobMyBoard();
 		return null;
 	}
@@ -157,7 +187,7 @@ public class JobBoardController {
 	 * @date : 2019. 6. 19.
 	 * @comment : 구인구직 게시판 글쓰기
 	 */
-	public String insertJobBoard() {
+	public String insertJobBoard(Board board,Model model) {
 		jbs.insertJobBoard();
 		return null;
 	}
@@ -177,7 +207,7 @@ public class JobBoardController {
 	 * @date : 2019. 6. 19.
 	 * @comment : 구인구직 게시판 상세조회용 
 	 */
-	public String selectOneJobBoard() {
+	public String selectOneJobBoard(Board board,Model model) {
 		jbs.selectOneJobBoard();
 		return null;
 	}
@@ -250,7 +280,7 @@ public class JobBoardController {
 	 * @date : 2019. 6. 20.
 	 * @comment : 구인구직 메인으로 이동
 	 */
-	@RequestMapping("jobMain.bo")
+	@RequestMapping("jobMain.jbo")
 	public String showJobBoardMain() {
 		return "board/job/jobMain";
 	}
@@ -260,7 +290,7 @@ public class JobBoardController {
 	 * @date : 2019. 6. 20.
 	 * @comment : 구인구직 매니저 게시판 리스트
 	 */
-	@RequestMapping("jobMngList.bo")
+	@RequestMapping("jobMngList.jbo")
 	public String showJobBoardMngList() {
 		return "board/job/jobMngList";
 	}
@@ -269,7 +299,7 @@ public class JobBoardController {
 	 * @date : 2019. 6. 20.
 	 * @comment : 구인구직 공지사항 리스트
 	 */
-	@RequestMapping("jobNoticeList.bo")
+	@RequestMapping("jobNoticeList.jbo")
 	public String showJobNoticeList() {
 		return "board/job/jobNoticeList";
 	}
@@ -278,7 +308,7 @@ public class JobBoardController {
 	 * @date : 2019. 6. 20.
 	 * @comment : 구인구직 콘텐츠제작자 리스트
 	 */
-	@RequestMapping("jobContentList.bo")
+	@RequestMapping("jobContentList.jbo")
 	public String showJobBoardContentList() {
 		return "board/job/jobContentList";
 	}
@@ -288,7 +318,7 @@ public class JobBoardController {
 	 * @date : 2019. 6. 20.
 	 * @comment : 구인구직 공지사항 입력폼 보이기
 	 */
-	@RequestMapping("jobNoticeInsertForm.bo")
+	@RequestMapping("jobNoticeInsertForm.jbo")
 	public String showJobNoitceInsertForm() {
 		return "board/job/jobNoticeInsertForm";
 	}
@@ -297,7 +327,7 @@ public class JobBoardController {
 	 * @date : 2019. 6. 20.
 	 * @comment : 구인구직 매니저 입력폼 보이기
 	 */
-	@RequestMapping("jobMngInsertForm.bo")
+	@RequestMapping("jobMngInsertForm.jbo")
 	public String showJobMngInsertForm() {
 		return "board/job/jobMngInsertForm";
 	}
@@ -306,7 +336,7 @@ public class JobBoardController {
 	 * @date : 2019. 6. 20.
 	 * @comment : 구인구직 콘텐츠제작자 입력폼 보이기
 	 */
-	@RequestMapping("jobContentInsertForm.bo")
+	@RequestMapping("jobContentInsertForm.jbo")
 	public String showJobContentInsertForm() {
 		return "board/job/jobContentInsertForm";
 	}
