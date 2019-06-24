@@ -55,7 +55,7 @@
 				<img src="/nullLive/resources/image/logo.png" style="width: 25px;height: 41px; padding-bottom: 35%">
 			</div>
 			<div style="display: inline-block;">
-				<a style=" text-shadow: 3px 3px 2px #6f8e3085; font-size: 30px; color: #fff; cursor: default;">
+				<a style=" text-shadow: 3px 3px 2px #6f8e3085; font-size: 30px; color: #fff; cursor: pointer; " href="main.ad">
 					<b>NullLive</b>
 				</a>
 			</div>
