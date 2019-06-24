@@ -1,11 +1,19 @@
 package com.kh.nullLive.board.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.kh.nullLive.board.model.service.BoardService;
+import com.kh.nullLive.member.model.exception.LoginException;
+import com.kh.nullLive.member.model.service.MemberService;
+import com.kh.nullLive.member.model.vo.Member;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -13,6 +21,8 @@ public class BoardController {
 	/* 소통센터 : job / 고객센터 : service */
 	@Autowired
 	private BoardService bs;
+	@Autowired
+	private MemberService ms;
 	
 	/**
 	 * @Author : eon
@@ -54,6 +64,14 @@ public class BoardController {
 		return "board/service/myQuestionForm";
 	}
 	
-	
-	
+	/**
+	 * @Author : eon
+	 * @Date : 2019. 6. 24.
+	 * @Comment : 고객센터에서 로그아웃
+	 */
+	@RequestMapping("logout.bo")
+	public String logout(SessionStatus status) {
+		status.setComplete();
+		return "redirect:serviceMain.bo";
+	}
 }

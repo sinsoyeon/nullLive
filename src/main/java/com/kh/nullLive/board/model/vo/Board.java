@@ -10,12 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Setter
-@Getter
-@ToString
 public class Board {
 	private int bno;				//BNO
 	private String btitle;			//BTITLE
@@ -37,8 +31,9 @@ public class Board {
 	private ArrayList<Reply> replyList; 
 	
 	public Board() {
+		// TODO Auto-generated constructor stub
 	}
-
+	
 	public Board(int bno, String btitle, String bcontent, Date writtenDate, Date modifyDate, int bcount, String btype,
 			String questionType, int refBno, String bemail, int bbno, int bwriter, String reportType, String isQr,
 			int reportMno, int bStatus, ArrayList<Reply> replyList) {
