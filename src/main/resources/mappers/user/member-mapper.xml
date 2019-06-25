@@ -140,4 +140,11 @@
 		WHERE MID=#{mid}
 		AND M_STATUS='Y'
 	</select>
+	
+	<select id="firstLoginCheck" parameterType="java.lang.String" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MID=#{id}
+		AND M_STATUS='Y'
+	</select>
 </mapper>

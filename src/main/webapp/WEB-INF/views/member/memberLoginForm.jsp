@@ -41,12 +41,21 @@ body {
 								placeholder="Password">
 						</div>
 						<div>
-							<button	class="form-control btn btn-primary">로그인</button>
+							<button	class="form-control btn btn-primary" style="width:200px; height:48px;" >로그인</button>
+							<a
+							href="https://kauth.kakao.com/oauth/authorize?client_id=490e2b39f13bc80fb8fd7a49b8b27b19&redirect_uri=http://localhost:9001/nullLive/klogin.me&response_type=code">
+							<img src="${ contextPath }/resources/image/kakaoLogin.png">
+						</a>
 						</div>
 					</form>
 					<div>
 						<button onclick="location.href='join.me'" align="center"
 							class="form-control btn btn-primary">회원가입</button>
+					</div>
+					
+					<br>
+					<div>
+						
 					</div>
 				</div>
 			</div>
