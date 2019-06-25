@@ -42,4 +42,5 @@ public interface JobBoardService {
 
 	int getListCount();
 
+
 }

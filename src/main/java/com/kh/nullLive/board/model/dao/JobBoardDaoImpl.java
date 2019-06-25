@@ -147,6 +147,23 @@ public class JobBoardDaoImpl implements JobBoardDao {
 		return sqlSession.selectOne("Board.selectListCount");
 	}
 
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

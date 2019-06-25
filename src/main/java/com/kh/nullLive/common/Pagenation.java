@@ -9,11 +9,10 @@ public class Pagenation {
 	public static PageInfo getPageInfo(int currentPage, int listCount) {
 		PageInfo pi = null;
 		
-		int limit = 10;
-		//하단에 보여질 버튼 갯수
+		int limit = 10;			//하단에 보여질 버튼 갯수
 		int buttonCount = 10;
 		int maxPage;
-		int startPage;
+		int startPage;		
 		int endPage;
 		
 		//총 페이지 수 계산

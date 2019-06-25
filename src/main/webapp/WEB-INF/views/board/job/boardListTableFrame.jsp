@@ -12,7 +12,7 @@
 		<th width="20%">등록일</th>
 		<th width="10%">조회수</th>
 	</tr>
-	<c:forEach var="board" items="${ blist }">
+	<c:forEach var="board" items="${ list }">
 		<tr>
 			<td id="bno">${ board.bno }</td>
 			<td>${ board.bwriter }</td>

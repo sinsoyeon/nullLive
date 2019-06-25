@@ -81,7 +81,7 @@
 	
 	<!-- jobBoard-servlet -->
 	<servlet>
-		<servlet-name>board</servlet-name>
+		<servlet-name>jobBoard</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet
 		</servlet-class>
 		<init-param>
@@ -91,8 +91,24 @@
 	</servlet>
 	
 	<servlet-mapping>
-		<servlet-name>board</servlet-name>
+		<servlet-name>jobBoard</servlet-name>
 		<url-pattern>*.jbo</url-pattern>
+	</servlet-mapping>
+	
+	<!-- paging -servlet -->
+	<servlet>
+		<servlet-name>paging</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/paging-context.xml</param-value>
+		</init-param>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>paging</servlet-name>
+		<url-pattern>*.pg</url-pattern>
 	</servlet-mapping>
 	
 	<!-- admin-servlet -->

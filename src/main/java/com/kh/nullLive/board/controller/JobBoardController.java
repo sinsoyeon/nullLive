@@ -9,6 +9,8 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +30,7 @@ import com.kh.nullLive.common.Pagenation;
 public class JobBoardController {
 	/* 소통센터 : job / 고객센터 : service */
 	
-	
+	private Logger logger = LoggerFactory.getLogger(JobBoardController.class);
 	@Autowired
 	private JobBoardService jbs;
 	
@@ -85,7 +87,7 @@ public class JobBoardController {
 	 * @date : 2019. 6. 18.
 	 * @comment : 구인구직 공지사항 리스트 조회용 메소드
 	 */
-    @RequestMapping("selectListJobNotice.jbo")
+	/* @RequestMapping("selectListJobNotice.jbo") */
 	public String selectListJobNotice(HttpServletRequest request) {
 		int currentPage = 1;
 		
@@ -344,4 +346,7 @@ public class JobBoardController {
 	public String showJobContentInsertForm() {
 		return "board/job/jobContentInsertForm";
 	}
+	
+
+	
 }
