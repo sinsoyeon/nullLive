@@ -39,7 +39,9 @@
 		<result property="changeName" column="CHANGE_NAME"/>
 		<result property="attDiv" column="ATT_DIV"/>
 		<result property="attStatus" column="ATT_STATUS"/>
+		
 	</resultMap>
+
 	
 	<select id="selectMember" resultMap="memberResultSet" parameterType="Member">
 		SELECT *
