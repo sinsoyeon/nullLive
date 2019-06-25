@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="Streamer">
+	<resultMap type="Streamer" id="streamerResultSet">
+		<id property="sno" column="SNO"/>
+		<result property="mno" column="MID"/>
+		<result property="bstart_date" column="BSTART_DATE"/>
+		<result property="cumulative_selection" column="CUMULATIVE_SELECTION"/>
+		<result property="bank_code" column="BANK_CODE"/>		
+		<result property="account" column="ACCOUNT"/>	
+		<result property="holder" column="HOLDER"/>
+		<result property="is_auth" column="IS_AUTH"/>
+		<result property="nickName" column="NICK_NAME"/>			
+	</resultMap>
+	
+	<select id="selectStreamer" resultType="java.lang.String" parameterType="java.lang.String">
+		SELECT SNO
+		FROM STREAMER,MEMBER
+		WHERE MEMBER.MNO = STREAMER.MNO
+		AND MID = #{streamer}
+	</select>
+</mapper>

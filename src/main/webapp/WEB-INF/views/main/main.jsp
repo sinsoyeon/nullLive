@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +15,7 @@
 <title>Insert title here</title>
 <link rel="stylesheet"
 	href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
 <style type="text/css">
 body::-webkit-scrollbar {
    display: none;
@@ -247,53 +249,53 @@ main section h1 {
 				</nav>
 				
 				<!-- main content -->
-				<main style="padding-left: 2%;padding-right: 2%;">
-				<h1>Proin sodales velit vel nisi bibendum tempor</h1>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-					Phasellus tristique massa eget volutpat volutpat. Class aptent
-					taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-					himenaeos. Sed consectetur turpis nulla, a euismod nisi
-					sollicitudin eu. Aliquam elit neque, tristique nec venenatis ut,
-					pharetra vitae enim. Fusce non urna in odio euismod finibus eget
-					vel tortor. Quisque a purus ipsum. Donec ante nibh, porta eget
-					magna non, pharetra sodales ante. Phasellus erat massa, venenatis
-					et velit et, tincidunt finibus lorem. Lorem ipsum dolor sit amet,
-					consectetur adipiscing elit. Cum sociis natoque penatibus et magnis
-					dis parturient montes, nascetur ridiculus mus. Integer luctus
-					facilisis bibendum. Integer in arcu pharetra tellus auctor bibendum
-					sed sed turpis. Vestibulum imperdiet lacus lectus, vitae ultricies
-					nisi eleifend et. Mauris rhoncus nec eros quis dictum. Proin
-					sodales velit vel nisi bibendum tempor. Aenean tristique ipsum nec
-					dictum vehicula.</p>
+			<main style="padding-left: 2%;padding-right: 2%;">
+			<h1>Proin sodales velit vel nisi bibendum tempor</h1>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+				Phasellus tristique massa eget volutpat volutpat. Class aptent
+				taciti sociosqu ad litora torquent per conubia nostra, per inceptos
+				himenaeos. Sed consectetur turpis nulla, a euismod nisi sollicitudin
+				eu. Aliquam elit neque, tristique nec venenatis ut, pharetra vitae
+				enim. Fusce non urna in odio euismod finibus eget vel tortor.
+				Quisque a purus ipsum. Donec ante nibh, porta eget magna non,
+				pharetra sodales ante. Phasellus erat massa, venenatis et velit et,
+				tincidunt finibus lorem. Lorem ipsum dolor sit amet, consectetur
+				adipiscing elit. Cum sociis natoque penatibus et magnis dis
+				parturient montes, nascetur ridiculus mus. Integer luctus facilisis
+				bibendum. Integer in arcu pharetra tellus auctor bibendum sed sed
+				turpis. Vestibulum imperdiet lacus lectus, vitae ultricies nisi
+				eleifend et. Mauris rhoncus nec eros quis dictum. Proin sodales
+				velit vel nisi bibendum tempor. Aenean tristique ipsum nec dictum
+				vehicula.</p>
 
-				<p>Nullam sed metus a dui auctor sodales quis nec tellus. Duis
-					porttitor tortor pulvinar auctor mattis. Sed ultrices urna in augue
-					venenatis tempus. Proin fringilla sodales eros. Ut aliquet odio nec
-					sagittis dictum. Cras ullamcorper, neque ac imperdiet hendrerit,
-					sapien nunc porta sapien, quis maximus nulla purus sit amet lectus.
-					Mauris rhoncus lectus non vehicula lacinia. Suspendisse eu mollis
-					ex, sit amet ultrices lorem. Cras elit risus, bibendum ut massa
-					nec, commodo commodo augue.</p>
+			<p>Nullam sed metus a dui auctor sodales quis nec tellus. Duis
+				porttitor tortor pulvinar auctor mattis. Sed ultrices urna in augue
+				venenatis tempus. Proin fringilla sodales eros. Ut aliquet odio nec
+				sagittis dictum. Cras ullamcorper, neque ac imperdiet hendrerit,
+				sapien nunc porta sapien, quis maximus nulla purus sit amet lectus.
+				Mauris rhoncus lectus non vehicula lacinia. Suspendisse eu mollis
+				ex, sit amet ultrices lorem. Cras elit risus, bibendum ut massa nec,
+				commodo commodo augue.</p>
 
-				<p>Sed lacinia, ligula id venenatis auctor, libero turpis
-					aliquet nunc, sit amet ullamcorper dolor ligula quis felis. Vivamus
-					condimentum mi vel felis vehicula, eu placerat lacus semper. Sed
-					quis lacinia mauris. Donec aliquam vulputate metus, non imperdiet
-					lorem maximus a. Integer eget dignissim erat. Proin id finibus dui,
-					pretium consectetur turpis. Vivamus in tincidunt odio, eu iaculis
-					nisi. Integer in scelerisque mauris. Vivamus ac eros congue, mattis
-					nisl ac, venenatis lacus.</p>
+			<p>Sed lacinia, ligula id venenatis auctor, libero turpis aliquet
+				nunc, sit amet ullamcorper dolor ligula quis felis. Vivamus
+				condimentum mi vel felis vehicula, eu placerat lacus semper. Sed
+				quis lacinia mauris. Donec aliquam vulputate metus, non imperdiet
+				lorem maximus a. Integer eget dignissim erat. Proin id finibus dui,
+				pretium consectetur turpis. Vivamus in tincidunt odio, eu iaculis
+				nisi. Integer in scelerisque mauris. Vivamus ac eros congue, mattis
+				nisl ac, venenatis lacus.</p>
 
-				<p>Nunc viverra vestibulum tempor. Nulla consectetur sit amet
-					mauris at rutrum. Mauris eu rhoncus eros. Integer convallis magna
-					ac tincidunt laoreet. Proin molestie vitae erat id venenatis. Donec
-					eu imperdiet risus. Fusce gravida placerat dui eget sollicitudin.
-					Cras leo ligula, laoreet dapibus euismod ut, vehicula sit amet
-					nunc. Maecenas in nisl fringilla, aliquet diam ut, facilisis ex. In
-					dui risus, porttitor convallis ultricies nec, ornare eu leo.</p>
+			<p>Nunc viverra vestibulum tempor. Nulla consectetur sit amet
+				mauris at rutrum. Mauris eu rhoncus eros. Integer convallis magna ac
+				tincidunt laoreet. Proin molestie vitae erat id venenatis. Donec eu
+				imperdiet risus. Fusce gravida placerat dui eget sollicitudin. Cras
+				leo ligula, laoreet dapibus euismod ut, vehicula sit amet nunc.
+				Maecenas in nisl fringilla, aliquet diam ut, facilisis ex. In dui
+				risus, porttitor convallis ultricies nec, ornare eu leo.</p>
 
-				</main>
-			</div>
+			</main>
+		</div>
 		</div>
 	
 </body>
