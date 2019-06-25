@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -151,6 +152,7 @@ height: auto; */
 			<table class="table table-hover"  style="text-align: center; ">
 				<thead>
 					<tr>
+						<th>번호</th>
 						<th>아이디</th>
 						<th>이름</th>
 						<th>닉네임</th>
@@ -160,16 +162,22 @@ height: auto; */
 					</tr>
 				</thead>	
 				<tbody>
-				<% for(int i=0; i<=10; i++){ %>
+				<c:set var = "listSize" value = "${userList.size() }" />
+				<c:forEach items="${userList}" var="user" varStatus="number">
 					<tr>
-						<td>아이디<%=i %></td>
-						<td>이름<%=i%></td>
-						<td>닉네임<%=i %></td>
-						<td><%if(i<5){%>N<%}else{%>Y<%} %></td>
-						<td>2018/06/<%=i+1 %></td>
-						<td><%if(i%2==0){%>활동<%}else{%>정지<%} %></td>					
+						<td>
+						<c:set var = "index" value = "${number.index}" />
+						<c:set var = "number1" value = "${listSize-index}" />
+						<c:out value="${number1}"/> 
+						</td>
+						<td>${user.mid}</td>	
+						<td>${user.name}</td>	
+						<td>${user.nickName}</td>	
+						<td>${user.isStreamer}</td>	
+						<td>${user.enrollDate}</td>	
+						<td>${user.mstatus}</td>		
 					</tr>
-					<%} %>
+				</c:forEach>
 				</tbody>
 			</table>
 		</div>
