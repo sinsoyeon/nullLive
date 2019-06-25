@@ -21,6 +21,7 @@ video {
 </head>
 <body>
 <div>
+<jsp:forward page="stream.jsp"/>
 <button onclick="location.href='record.st'">testRecoding</button>
 <button onclick="location.href='connect.st'">testConnection</button>
 <button onclick="location.href='screenSharing.st'">screenSharing</button>
