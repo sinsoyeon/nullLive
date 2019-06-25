@@ -7,6 +7,8 @@
 	<typeAliases>
 		<typeAlias alias="Member" type="com.kh.nullLive.member.model.vo.Member" />
 		<typeAlias alias="Board" type="com.kh.nullLive.board.model.vo.Board" />
+		<!-- 페이징 모듈화 테스트중 -->
+		<typeAlias alias="PagingVo" type="com.kh.nullLive.common.paging.model.vo.PagingVo" />
 		<typeAlias alias="Attachment" type="com.kh.nullLive.common.attachment.model.vo.Attachment"/>
 		<typeAlias alias="AttManage" type="com.kh.nullLive.common.attachment.model.vo.AttManage"/>
 	</typeAliases>

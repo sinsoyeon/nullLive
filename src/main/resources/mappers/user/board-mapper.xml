@@ -120,5 +120,20 @@
 		WHERE B_STATUS = '1'
 	</select>
 	
+	<!-- 페이징 모듈화 테스트 -->
+	<!-- 2. ROWNUM Query -->
+    <select id="selectPaging" parameterType="PagingVo" resultType="Board">
+        SELECT *
+        FROM (    SELECT ROWNUM RNUM, P.*
+                FROM (    SELECT *
+                        FROM BOARD
+                        ORDER BY WRITTEN_DATE DESC ) P )
+        WHERE RNUM BETWEEN #{start} AND #{last}
+    </select>
+    <!-- 2. Total Query -->
+    <select id="selectTotalPaging" resultType="_int">
+        SELECT COUNT(*)
+        FROM BOARD
+    </select>
 	
 </mapper>

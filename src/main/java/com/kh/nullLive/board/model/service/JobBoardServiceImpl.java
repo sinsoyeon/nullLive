@@ -11,7 +11,6 @@ import com.kh.nullLive.board.model.dao.JobBoardDao;
 import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.PageInfo;
-import com.kh.nullLive.common.Pagenation;
 
 @Service
 public class JobBoardServiceImpl implements JobBoardService{
@@ -133,5 +132,7 @@ public class JobBoardServiceImpl implements JobBoardService{
 	public int getListCount() {
 		return  jbd.getListCount(sqlSession);
 	}
+
+
 
 }

@@ -44,7 +44,7 @@
 	
 	<script>
 		function jobNoticeList(){
-			location.href="selectListJobNotice.jbo";
+			location.href="paging.pg";
 		}
 	</script>
 </body>
