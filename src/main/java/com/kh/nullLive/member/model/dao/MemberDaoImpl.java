@@ -91,6 +91,15 @@ public class MemberDaoImpl implements MemberDao {
 	public int duplicateTest(SqlSessionTemplate sqlSession, String mid) {
 		return sqlSession.selectOne("Member.duplicateTest",mid);
 	}
+	
+	
+	/* 카카오톡 첫로그인인지 확인용 메소드(정연) */
+	@Override
+	public int firstLoginCheck(SqlSessionTemplate sqlSession, HashMap<String, Object> userInfo) {
+		String id = userInfo.get("userId").toString();
+		
+		return sqlSession.selectOne("Member.firstLoginCheck", id);
+	}
 
 
 }
