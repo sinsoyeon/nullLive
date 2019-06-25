@@ -21,34 +21,30 @@ video {
 </head>
 <body>
 <div>
-<jsp:forward page="stream.jsp"/>
+<%-- <jsp:forward page="stream.jsp"/> --%>
 <button onclick="location.href='record.st'">testRecoding</button>
 <button onclick="location.href='connect.st'">testConnection</button>
 <button onclick="location.href='screenSharing.st'">screenSharing</button>
-<video id="gum-local" autoplay playsinline></video>
-    <button id="showVideo">Open camera</button>
+ 
+    <video id="localVideo" playsinline autoplay muted></video>
+    <video id="remoteVideo" playsinline autoplay></video>
 
-    <div id="errorMsg"></div>
+    <div class="box">
+        <button id="startButton">Start</button>
+        <button id="callButton">Call</button>
+        <button id="hangupButton">Hang Up</button>
+    </div>
 
-    <p class="warning"><strong>Warning:</strong> if you're not using headphones, pressing play will cause feedback.</p>
-
-    <p>Display the video stream from <code>getUserMedia()</code> in a video element.</p>
-
-    <p>The <code>MediaStream</code> object <code>stream</code> passed to the <code>getUserMedia()</code> callback is in
-        global scope, so you can inspect it from the console.</p>
+    <div class="box">
+        <span>SDP Semantics:</span>
+        <select id="sdpSemantics">
+            <option selected value="">Default</option>
+            <option value="unified-plan">Unified Plan</option>
+            <option value="plan-b">Plan B</option>
+        </select>
+    </div>
 </div>
-
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script src="${contextPath}/resources/js/streaming/main.js"></script>
-  
-
-<script>
-import adapter from 'webrtc-adapter';
-</script>
-</head>
-<body>
-
-
-	
 </body>
 </html>

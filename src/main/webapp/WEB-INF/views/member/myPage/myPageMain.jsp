@@ -60,6 +60,7 @@
 				<div class="col-md-3" style="display: block; float:left;margin-left:20px;margin-top:10px;width:200px;" align="center">
 					<button class="form-control btn btn-primary">방송국으로</button>
 					<button style="margin-top:10px;" class="form-control btn btn-primary" onclick="location.href='start.st'">방송시작</button>
+					<button onclick='location.href="Test.st"'>방송보기 test</button>
 				</div>
 				<div class="col-md-5" style="display: block; clear: left;">
 					<br />

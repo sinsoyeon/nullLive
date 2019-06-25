@@ -31,7 +31,7 @@
 
 <div id="container">
 
-    <h1><a href="//webrtc.github.io/samples/" title="WebRTC samples homepage">WebRTC samples</a> <span>Multiple peer connections</span>
+    <h1><a href="//webrtc.github.io/samples/" title="WebRTC samples homepage">samples</a> <span>Multiple peer connections</span>
     </h1>
 
     <video id="video1" playsinline autoplay muted></video>
