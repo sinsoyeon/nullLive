@@ -138,4 +138,15 @@
 		WHERE MID=#{mid}
 		AND M_STATUS='Y'
 	</select>
+	
+	
+	
+	<!-- 관리자 조회용  -->
+	<select id="memberSelect"  resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		WHERE MID != 'admin'
+		ORDER BY 1 DESC
+	</select>
+	
 </mapper>

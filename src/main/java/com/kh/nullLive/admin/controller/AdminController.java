@@ -1,11 +1,21 @@
 package com.kh.nullLive.admin.controller;
 
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.support.SessionStatus;
+
+import com.kh.nullLive.admin.model.service.AdminService;
+import com.kh.nullLive.member.model.vo.Member;
+
 
 @Controller
 public class AdminController {
+	
+	@Autowired
+	private AdminService as;
 
 	// ----------------------------------- 관리자 메인
 	/**
@@ -15,6 +25,7 @@ public class AdminController {
 	 */
 	@RequestMapping("main.ad")
 	public String adminMain() {
+		
 		return "admin/adminMain";
 	}
 
@@ -25,7 +36,12 @@ public class AdminController {
 	 * @comment :회원관리 페이지 이동(페이징)
 	 */
 	@RequestMapping("memberList.ad")
-	public String adminMemberList() {
+	public String adminMemberList(Model model) {
+		
+		ArrayList<Member> userList = as.memberList();
+		
+		model.addAttribute("userList", userList);
+		
 		return "admin/memberManagement";
 	}
 
