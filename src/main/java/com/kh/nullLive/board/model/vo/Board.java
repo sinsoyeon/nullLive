@@ -10,6 +10,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
+@ToString
 public class Board {
 	private int bno;				//BNO
 	private String btitle;			//BTITLE
