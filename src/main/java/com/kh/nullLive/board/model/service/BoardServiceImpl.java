@@ -1,11 +1,17 @@
 package com.kh.nullLive.board.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
 
 import com.kh.nullLive.board.model.dao.BoardDao;
+import com.kh.nullLive.board.model.exception.BoardSelectListException;
+import com.kh.nullLive.board.model.vo.Board;
+import com.kh.nullLive.board.model.vo.PageInfo;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -17,85 +23,17 @@ public class BoardServiceImpl implements BoardService{
 	private SqlSessionTemplate sqlSession;
 	@Autowired
 	private DataSourceTransactionManager transactionManager;
-	
+
+	//고객센터 FAQ 전체 게시글 수 조회
 	@Override
-	public void selectListJobNotice() {
-		bd.selectListJobNotice();
+	public int getFListCount() {
+		return bd.getFListCount(sqlSession);
 	}
 
+	//고객센터 FAQ 전체 게시글 조회
 	@Override
-	public void selectOneJobNotice() {
-		bd.selectOneJobNotice();
-	}
-
-	@Override
-	public void insertJobNotice() {
-		bd.insertJobNotice();
-	}
-
-	@Override
-	public void updateJobNotice() {
-		bd.updateJobNotice();
-	}
-
-	@Override
-	public void deleteJobNotice() {
-		bd.deleteJobNotice();
-	}
-
-	@Override
-	public void selectListJobBoard() {
-		bd.selectListJobBoard();
-	}
-
-	@Override
-	public void selectListJobMyBoard() {
-		bd.selectListJobMyBoard();
-	}
-
-	@Override
-	public void insertJobBoard() {
-		bd.insertJobBoard();
-	}
-
-	@Override
-	public void searchJobBoard() {
-		bd.searchJobBoard();
-	}
-
-	@Override
-	public void selectOneJobBoard() {
-		bd.selectOneJobBoard();
-	}
-
-	@Override
-	public void SelectListApply() {
-		bd.SelectListApply();
-	}
-
-	@Override
-	public void updateJobBoard() {
-		bd.updateJobBoard();
-	}
-
-	@Override
-	public void insertApply() {
-		bd.insertApply();
-	}
-
-	@Override
-	public void insertContract() {
-		bd.insertContract();
-	}
-
-	@Override
-	public void insertJobBoardReport() {
-		bd.insertJobBoardReport();
-	}
-
-	@Override
-	public void insertJobBoardNote() {
-		bd.insertJobBoardNote();
+	public ArrayList<Board> selectFBoardList(PageInfo pi){
+		return bd.selectFBoardList(sqlSession, pi);
 	}
 
 }

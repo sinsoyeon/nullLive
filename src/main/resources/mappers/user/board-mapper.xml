@@ -7,40 +7,17 @@
 <mapper namespace="Board">
 	<resultMap type="Board" id="boardResultSet">
 		<id property="bno" column="BNO"/>
-		<result property="btitle" column="BTITLE"/>
-		<result property="bcontent" column="BCONTENT"/>
-		<result property="writtenDate" column="WRITTEN_DATE"/>
-		<result property="modifyDate" column="MODIFY_DATE"/>
-		<result property="bcount" column="BCOUNT"/>
-		<result property="btype" column="BTYPE"/>
-		<result property="questionType" column="QUESTION_TYPE"/>
-		<result property="refBno" column="refBno"/>
-		<result property="bemail" column="B_EMAIL"/>
-		<result property="bbno" column="BBNO"/>
-		<result property="bwriter" column="BWRITER"/>
-		<result property="reportType" column="REPORT_TYPE"/>
-		<result property="isQr" column="IS_QR"/>
-		<result property="reportMno" column="REPORT_MNO"/>
-		<result property="bStatus" column="B_STATUS"/>
-	</resultMap>
-	
-	<!-- 고객센터 조회 -->
-	<resultMap type="Board" id="boardResultSet2">
-		<id property="bno" column="BNO"/>
+		<result property="fno" column="FNO"/>
+		<result property="snno" column="SNNO"/>
 		<result property="bTitle" column="BTITLE"/>
 		<result property="bContent" column="BCONTENT"/>
 		<result property="writtenDate" column="WRITTEN_DATE"/>
 		<result property="modifyDate" column="MODIFY_DATE"/>
 		<result property="bCount" column="BCOUNT"/>
 		<result property="bType" column="BTYPE"/>
-		<result property="faqType" column="QUESTION_TYPE"/>
 		<result property="questionType" column="QUESTION_TYPE"/>
 		<result property="refBno" column="REF_BNO"/>
 		<result property="bEmail" column="B_EMAIL"/>
-		<result property="fno" column="FNO"/>
-		<result property="nno" column="NNO"/>
-		<result property="qno" column="QNO"/>
-		<result property="rpno" column="RPNO"/>
 		<result property="bbno" column="BBNO"/>
 		<result property="bWriter" column="BWRITER"/>
 		<result property="reportType" column="REPORT_TYPE"/>
@@ -52,14 +29,14 @@
 	<!-- 고객센터 FAQ 전체 게시글 수 조회용 쿼리문 -->
 	<select id="selectFListCount" resultType="_int">
 		SELECT COUNT(*)
-		FROM BOARD
+		FROM V_FAQBOARD
 		WHERE B_STATUS = 400
 	</select>
 	
 	<!-- 고객센터 FAQ 조회용 쿼리문 -->
-	<select id="selectFList" resultMap="boardResultSet2">
+	<select id="selectFList" resultMap="boardResultSet">
 		SELECT FNO, BTITLE, BCONTENT
-		FROM BOARD
+		FROM V_FAQBOARD
 		WHERE B_STATUS = 400
 		ORDER BY FNO DESC
 	</select>
@@ -72,15 +49,15 @@
 	<!-- 고객센터 공지사항 게시글 수 조회용 쿼리문 -->
 	<select id="selectNListCount" resultType="_int">
 		SELECT COUNT(*)
-		FROM BOARD
-		WHERE B_STATUS = 401	
+		FROM V_SNOTICEBOARD
+		WHERE B_STATUS = 401
 	</select>
 	<!-- 고객센터 공지사항 조회용 쿼리문 -->
-	<select id="selectNList" resultMap="boardResultSet2">
-		SELECT NNO, BTITLE, BCONTENT, WRITTEN_DATE, BCOUNT
-		FROM BOARD
+	<select id="selectNList" resultMap="boardResultSet">
+		SELECT SNNO, BTITLE, BCONTENT, WRITTEN_DATE, BCOUNT
+		FROM V_SNOTICEBOARD
 		WHERE B_STATUS = 401
-		ORDER BY NNO DESC
+		ORDER BY SNNO DESC
 	</select>
 	<!-- 고객센터 공지사항 조회수 증가용 쿼리문 -->
 	<!-- <update id="updateNCount" parameterType="_int">
