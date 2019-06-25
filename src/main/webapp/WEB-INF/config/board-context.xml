@@ -29,8 +29,6 @@ https://www.springframework.org/schema/context/spring-context.xsd http://www.spr
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 	
 
-
-
 	<!-- ajax -> jsonView setting -->
 	<beans:bean class="net.sf.json.spring.web.servlet.view.JsonView" id="jsonView" />
 	
