@@ -19,6 +19,10 @@ tbody tr:hover {
 tbody .center{
 	text-align:center;
 }
+
+.pagination li:hover{
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -94,27 +98,13 @@ tbody .center{
 									</tr>
 								</thead>
 								<tbody id="faqTable">
-									<c:forEach var="f" items="${list }">
-										<tr>
-											<td>${f.fno }</td>
-											<td>${f.bTitle }</td>
-											<td>${f.bContent }</td>
-										</tr>
-									</c:forEach>
+									
 								</tbody>
 							</table>
 						</div>
 						<div id="pagingArea" align="center">
-							<ul class="pagination">
-								<li class="page-item"><a class="page-link" href="#">Previous</a>
-								</li>
-								<li class="page-item"><a class="page-link" href="#">1</a></li>
-								<li class="page-item"><a class="page-link" href="#">2</a></li>
-								<li class="page-item"><a class="page-link" href="#">3</a></li>
-								<li class="page-item"><a class="page-link" href="#">4</a></li>
-								<li class="page-item"><a class="page-link" href="#">5</a></li>
-								<li class="page-item"><a class="page-link" href="#">Next</a>
-								</li>
+							<ul class="pagination" id="fPaging">
+							
 							</ul>
 						</div>
 					</div>
@@ -147,7 +137,7 @@ tbody .center{
 								<th style=" text-align: center;">조회수</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="noticeTable">
 							<tr>
 								<td>1</td>
 								<td>TB - Monthly</td>
@@ -155,52 +145,59 @@ tbody .center{
 								<td class="center">01/04/2012</td>
 								<td class="center">0</td>
 							</tr>
-							<tr>
-								<td>2</td>
-								<td>TB - Monthly</td>
-								<td>Approved</td>
-								<td class="center">01/04/2012</td>
-								<td class="center">0</td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>TB - Monthly</td>
-								<td>Declined</td>
-								<td class="center">02/04/2012</td>
-								<td class="center">0</td>
-							</tr>
-							<tr>
-								<td>4</td>
-								<td>TB - Monthly</td>
-								<td>Pending</td>
-								<td class="center">03/04/2012</td>
-								<td class="center">0</td>
-							</tr>
-							<tr>
-								<td>5</td>
-								<td>TB - Monthly</td>
-								<td>Call in to confirm</td>
-								<td class="center">04/04/2012</td>
-								<td class="center">0</td>
-							</tr>
 						</tbody>
 					</table>
 				</div>
 				<div id="pagingArea" align="center">
-					<ul class="pagination">
-						<li class="page-item"><a class="page-link" href="#">Previous</a>
-						</li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#">4</a></li>
-						<li class="page-item"><a class="page-link" href="#">5</a></li>
-						<li class="page-item"><a class="page-link" href="#">Next</a>
-						</li>
+					<ul class="pagination" id="nPaging">
+					
 					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	<script>
+	$(function(){
+		fLoad();
+	});
+	
+	//FAQ 게시판 조회 및 페이징
+	function fLoad(){
+	$.ajax({
+		url:"selectFList.bo",
+		type:"get",
+		data:{currentPage:1},
+		success:function(data){
+			
+			
+			$tableBody = $("#faqTable");
+			$tableBody.html('');
+			$.each(data.list, function(index, value){
+				console.log(value.fno + " " + value.BTitle + " " + value.BContent);
+				var $tr = $("<tr onclick='selectOneF(this)'>");
+				var $noTd = $("<td>").text(value.fno);
+				var $titleTd = $("<td>").text(value.BTitle);
+				var $contentTd = $("<td>").text(value.BContent);
+				
+				$tr.append($noTd);
+				$tr.append($titleTd);
+				$tr.append($contentTd);
+				$tableBody.append($tr);
+			});
+			
+			$paging = $("#fPaging");
+			$paging.html('');
+			var $firstTd = $('<li class="page-item"><a class="page-link" onclick="fPaging(1);">Previous</a></li>');
+			$paging.append($firstTd);
+			for (var i = 0; i < data.pi.maxPage; i++) {
+				$paging.append('<li class="page-item"><a class="page-link" onclick="fPaging('+(i+1)+');">'+(i+1)+'</a></li>');
+			}
+			var $endTd = $('<li class="page-item"><a class="page-link" onclick="fPaging('+data.pi.maxPage+');">Next</a></li>');
+			$paging.append($endTd);
+		}
+	});
+ 	}
+	</script>
 </body>
 </html>

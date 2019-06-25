@@ -18,17 +18,19 @@ import lombok.ToString;
 @ToString
 public class Board {
 	private int bno;				//BNO
-	private String btitle;			//BTITLE
-	private String bcontent;		//BCONTENT
+	private int fno;				//FNO (고객센터 FAQ)
+	private int snno;				//SNNO (고객센터 공지사항)		
+	private String bTitle;			//BTITLE
+	private String bContent;		//BCONTENT
 	private Date writtenDate;		//WRITTEN_DATE
 	private Date modifyDate;		//MODIFY_DATE
-	private int bcount;				//BCOUNT
-	private String btype;			//BTYPE
+	private int bCount;				//BCOUNT
+	private String bType;			//BTYPE
 	private String questionType;	//QUESTION_TYPE
 	private int refBno;				//REF_BNO
-	private String bemail;			//B_EMAIL
+	private String bEmail;			//B_EMAIL
 	private int bbno;				//BBNO
-	private int bwriter;			//BWRITER
+	private int bWriter;			//BWRITER
 	private String reportType;		//REPORT_TYPE
 	private String isQr;			//IS_QR
 	private int reportMno;			//REPORT_MNO

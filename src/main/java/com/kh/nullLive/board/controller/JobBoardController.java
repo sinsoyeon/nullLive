@@ -23,7 +23,7 @@ import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.service.JobBoardService;
 import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.PageInfo;
-import com.kh.nullLive.common.Pagenation;
+import com.kh.nullLive.common.Pagination;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -98,7 +98,7 @@ public class JobBoardController {
     	//게시글 갯수 가져옴
     	int listCount = jbs.getListCount();
     	
-    	PageInfo pi = Pagenation.getPageInfo(currentPage, listCount);
+    	PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
     	
     	ArrayList<Board> blist  = jbs.selectListJobNotice(pi);
     	
