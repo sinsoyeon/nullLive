@@ -61,59 +61,12 @@
 			</div>
 			<br><br>
 			<hr>
-			<div id="listArea">
-				<table align="center" class="table col-lg-12">
-					<tr>
-						<th width="10%">번호</th>
-						<th width="10%">작성자</th>
-						<th width="50%">제목</th>
-						<th width="20%">등록일</th>
-						<th width="10%">조회수</th>
-					</tr>
-					<c:forEach var="board" items="${ blist }">
-						<tr>
-							<td id="bno">${ board.bno }</td>
-							<td>${ board.bwriter }</td>
-							<td align="left">${ board.btitle }</td>
-							<td>${ board.writtenDate }</td>
-							<td>${ board.bcount }</td>
-						</tr>
-					</c:forEach>
-				</table>
-			</div>
-		</div>
+			<!-- 리스트 테이블영역 -->
+			<jsp:include page="boardListTableFrame.jsp"/>
 
-		<!-- 페이징 영역 -->
-		<div class="pagingArea" align="center">
-			
-			
-			<ul class="pager">
-				<c:if test="${ pi.currentPage <= 1 }">
-					<li class="previous"><a href="">Previous</a></li>
-				</c:if>
-				<c:if test="${ pi.currentPage > 1 }">
-					<c:url var="blistBack" value="/selectListJobNotice.jbo">
-						<c:param name="currentPage" value="${ pi.currentPage - 1 }"/>
-					</c:url>
-					<li class="previous"><a href="${ blistBack }">Previous</a></li>
-				</c:if>
-				<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-					<c:url var="blistCheck" value="selectListJobNotice.jbo">
-						<c:param name="currentPage" value="${ p }"/>
-					</c:url>
-					<li><a href="${ blistCheck }">${ p }</a></li>
-				</c:forEach>
-				<c:if test="${ pi.currentPage >= pi.maxPage }">
-					<li class="next"><a href="">Next</a></li>
-				</c:if>
-				<c:if test="${ pi.currentPage < pi.maxPage }">
-					<c:url var="blistEnd" value="selectListJobNotice.jbo">
-						<c:param name="currentPage" value="${ pi.currentPage + 1 }"/>
-					</c:url>
-					<li class="next"><a href="${ blistEnd }">Next</a></li>
-				</c:if>
-			</ul>
-		</div>
+			<!-- 페이징 영역 -->
+			<jsp:include page="pageingFrame.jsp"/>
+		
 	</div>
 	<script>
 		//게시판 상세보기
