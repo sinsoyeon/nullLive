@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -143,21 +144,34 @@ div {
 
 
 	<script>
-		var streamer = '';
+		var streamer;
+
+
+		
 
 		$(function() {
 			$("#logModal").modal("show");
-
 		})
 
 		$("#streamerBtn").click(function() {
 			streamer = $("#streamerId").val();
+			$.ajax({
+				url:"selectStreamer.sm",
+				type:"post",
+				data:{streamer:streamer},
+				success:function(data){
+					console.log('ajax실행');
+					console.log("data : " + data)
+				}				
+			});
+			
 			$("#logModal").modal("hide");
 			console.log(streamer);
 		})
 
 		$("button[id=btnAmount]").click(function() {
 			var amount = $(this).val();
+			var mno = ${loginUser.mno};
 			var IMP = window.IMP; // 생략가능
 			IMP.init('imp08034800'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
 
@@ -166,23 +180,25 @@ div {
 					pay_method : 'phone', // 'phone'만 지원됩니다.
 					merchant_uid : 'merchant_' + new Date().getTime(),
 					name : '최초인증결제',
-					amount : 100, // 빌링키 발급과 동시에 10,000원 결제승인이 이루어집니다. 다음 정기결제부터 10,000원 결제가 이뤄져야합니다. 
-					customer_uid : 'gildong_0001_1234', //customer_uid 파라메터가 있어야 빌링키 발급을 시도합니다.
+					amount : 100, 
+					customer_uid : 'gildong_0001_1234',
 					buyer_email : 'iamport@siot.do',
 					buyer_name : '아임포트',
 					buyer_tel : '02-1234-1234'
 				}, function(rsp) {
 					if (rsp.success) {
 						$.ajax({
-							url : "https://www.myservice.com/billings/", // 서비스 웹서버
-							method : "POST",
-							headers : {
-								"Content-Type" : "application/json"
-							},
+							url : "subscribe.sm", // 서비스 웹서버
+							method : "POST",						
 							data : {
-								customer_uid : "gildong_0001_1234", 
-							}
-						});
+								amount:amount,
+								mno:mno,
+								streamer:streamer
+							},
+						success:function(data){
+							alert('ajax접속 성공!')
+						}						
+					});
 					} else {
 						alert( rsp.error_msg);
 					}

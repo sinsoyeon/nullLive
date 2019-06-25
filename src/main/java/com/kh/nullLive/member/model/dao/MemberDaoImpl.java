@@ -91,6 +91,7 @@ public class MemberDaoImpl implements MemberDao {
 	public int duplicateTest(SqlSessionTemplate sqlSession, String mid) {
 		return sqlSession.selectOne("Member.duplicateTest",mid);
 	}
+	
 
 
 }
