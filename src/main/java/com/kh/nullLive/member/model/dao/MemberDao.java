@@ -1,10 +1,60 @@
 package com.kh.nullLive.member.model.dao;
 
+import java.util.HashMap;
+
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.Member;
 
+/**
+ * @author user2
+ *
+ */
+/**
+ * @author user2
+ *
+ */
+/**
+ * @author: user2
+ * @Date: 2019. 6. 25.
+ * @Comment: 
+ */
+/**
+ * @author: user2
+ * @Date: 2019. 6. 25.
+ * @Comment: 
+ */
+/**
+ * @author: user2
+ * @Date: 2019. 6. 25.
+ * @Comment: 
+ */
+/**
+ * @author: user2
+ * @Date: 2019. 6. 25.
+ * @Comment: 
+ */
+/**
+ * @author: user2
+ * @Date: 2019. 6. 25.
+ * @Comment: 
+ */
+/**
+ * @author: user2
+ * @Date: 2019. 6. 25.
+ * @Comment: 
+ */
+/**
+ * @author: user2
+ * @Date: 2019. 6. 25.
+ * @Comment: 
+ */
+/**
+ * @author: user2
+ * @Date: 2019. 6. 25.
+ * @Comment: 
+ */
 public interface MemberDao {
 	/**
 	 * @Author : ryan
@@ -111,6 +161,11 @@ public interface MemberDao {
 	 * Comment : 아이디 중복체크
 	 */
 	int duplicateTest(SqlSessionTemplate sqlSession, String mid);
+
+	
+	/* 카카오톡 첫로그인인지 확인용 메소드(정연) */
+	int firstLoginCheck(SqlSessionTemplate sqlSession, HashMap<String, Object> userInfo);
+
 
 
 

@@ -31,7 +31,23 @@
 		<url-pattern>*.me</url-pattern>
 	</servlet-mapping>
 	
-	<!-- streamer-servlet -->
+	<!-- streaming-servlet -->
+	<servlet>
+		<servlet-name>streaming</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/streaming-context.xml</param-value>
+		</init-param>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>streaming</servlet-name>
+		<url-pattern>*.st</url-pattern>
+	</servlet-mapping>
+	
+	<!-- streamer  -->
 	<servlet>
 		<servlet-name>streamer</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet
@@ -44,8 +60,8 @@
 	
 	<servlet-mapping>
 		<servlet-name>streamer</servlet-name>
-		<url-pattern>*.st</url-pattern>
-	</servlet-mapping>
+		<url-pattern>*.sm</url-pattern>
+	</servlet-mapping>	
 	
 	<!-- board-servlet -->
 	<servlet>

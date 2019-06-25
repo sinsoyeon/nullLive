@@ -3,6 +3,10 @@ package com.kh.nullLive.streaming.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 @Controller
 public class StreamingController {
 
@@ -31,6 +35,11 @@ public class StreamingController {
 	@RequestMapping("screenSharing.st")
 	public String screenSharing() {
 		return "streaming/screenSharing/screenSharing";
+	}
+	
+	@RequestMapping("Test.st")
+	public String testStreaming() {
+		return "streaming/testStream";
 	}
 
 }

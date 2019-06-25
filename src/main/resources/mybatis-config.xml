@@ -9,10 +9,12 @@
 		<typeAlias alias="Board" type="com.kh.nullLive.board.model.vo.Board" />
 		<typeAlias alias="Attachment" type="com.kh.nullLive.common.attachment.model.vo.Attachment"/>
 		<typeAlias alias="AttManage" type="com.kh.nullLive.common.attachment.model.vo.AttManage"/>
+		<typeAlias alias="Streamer" type="com.kh.nullLive.streamer.model.vo.Streamer"/>		
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mappers/user/member-mapper.xml" />
 		<mapper resource="mappers/user/board-mapper.xml" />
+		<mapper resource="mappers/user/streamer-mapper.xml" />
 	</mappers>
 </configuration>

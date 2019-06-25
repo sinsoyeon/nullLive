@@ -1,12 +1,19 @@
 package com.kh.nullLive.member.controller;
 
+import javax.xml.ws.RequestWrapper;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.nullLive.member.model.service.MemberService;
+
 @Controller
 public class SoyeonController {
+	@Autowired
+	private MemberService ms;
 	
 	
 	/**

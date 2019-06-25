@@ -39,7 +39,9 @@
 		<result property="changeName" column="CHANGE_NAME"/>
 		<result property="attDiv" column="ATT_DIV"/>
 		<result property="attStatus" column="ATT_STATUS"/>
+		
 	</resultMap>
+
 	
 	<select id="selectMember" resultMap="memberResultSet" parameterType="Member">
 		SELECT *
@@ -139,8 +141,6 @@
 		AND M_STATUS='Y'
 	</select>
 	
-	
-	
 	<!-- 관리자 조회용  -->
 	<select id="memberSelect"  resultMap="memberResultSet">
 		SELECT *
@@ -149,4 +149,10 @@
 		ORDER BY 1 DESC
 	</select>
 	
+	<select id="firstLoginCheck" parameterType="java.lang.String" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MID=#{id}
+		AND M_STATUS='Y'
+	</select>
 </mapper>
