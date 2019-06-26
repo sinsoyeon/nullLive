@@ -106,7 +106,7 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.selectOne("Member.selectKakaoPwd",userId);
 	}
 	
-	//카카오톡 로그인 정보 불러오기(정연)
+	//카카오톡 로그인 정보 불러오기 메소드(정연)
 	@Override
 	public Member selectKakaoMember(SqlSessionTemplate sqlSession, String userId) {
 		return sqlSession.selectOne("Member.selectKakaoMember", userId);

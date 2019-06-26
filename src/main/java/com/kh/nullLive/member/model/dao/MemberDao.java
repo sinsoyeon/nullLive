@@ -166,10 +166,10 @@ public interface MemberDao {
 	/* 카카오톡 첫로그인인지 확인용 메소드(정연) */
 	int firstLoginCheck(SqlSessionTemplate sqlSession, HashMap<String, Object> userInfo);
 
-	//카카오톡 비밀번호 받아오는 메소그(정연)
+	//카카오톡 비밀번호 받아오는 메소드(정연)
 	String selectKakaoEncPassword(SqlSessionTemplate sqlSession, String userId);
 
-	//카카오톡 로그인 정보 불러오기 (정연)
+	//카카오톡 로그인 정보 불러오기 메소드 (정연)
 	Member selectKakaoMember(SqlSessionTemplate sqlSession, String userId);
 
 

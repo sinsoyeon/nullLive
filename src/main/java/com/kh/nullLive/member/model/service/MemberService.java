@@ -87,7 +87,7 @@ public interface MemberService {
 	 */
 	int duplicateTest(String mid);
 
-	/* 카카오 로그인(정연) */
+	/* 카카오 로그인 메소드(정연) */
 	Member kakaologinMember(String userId) throws LoginException;
 
 	

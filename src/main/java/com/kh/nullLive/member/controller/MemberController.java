@@ -60,8 +60,6 @@ public class MemberController {
 		try {
 			loginUser = ms.loginMember(m);
 			model.addAttribute("loginUser",loginUser);
-			System.out.println("맴버 컨트롤러:" + loginUser);
-			
 			return "redirect:index.jsp";
 		} catch (LoginException e) {
 			model.addAttribute("msg", e.getMessage());

@@ -142,7 +142,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	
-	//카카오 로그인 (정연)
+	//카카오 로그인 메소드 (정연)
 	@Override
 	public Member kakaologinMember(String userId) throws LoginException {
 		Member loginMember = null;

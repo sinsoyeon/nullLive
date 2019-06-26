@@ -25,8 +25,6 @@ public class KakaoLoginController {
 	private KakaoAPI kakao;
 	@Autowired
 	private MemberService ms;
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
 	
 	
 	@RequestMapping("/")
@@ -48,7 +46,7 @@ public class KakaoLoginController {
 		if(firstLoginCheck <= 0) {
 			model.addAttribute("userInfo", userInfo);
 			
-			return "member/myPage/kakaoMemberJoinForm";
+			return "member/kakaoMemberJoinForm";
 		}
 		
 		//카카오톡 로그인
