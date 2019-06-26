@@ -76,14 +76,14 @@ public class BoardController {
 		status.setComplete();
 		return "redirect:serviceMain.bo";
 	}
-	
+
 	/**
 	 * @author : eon
 	 * @date : 2019. 6. 25.
 	 * @comment : 고객센터 FAQ 리스트 조회용 메소드
 	 */
 	@RequestMapping("selectFList.bo")
-	public ModelAndView selectListJobNotice(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+	public ModelAndView selectFList(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 		response.setContentType("text/html; charset=UTF-8");
 
 		int currentPage = 1;
@@ -100,12 +100,57 @@ public class BoardController {
 		System.out.println("page info : " + pi);
 
 		ArrayList<Board> list;
-			list = bs.selectFBoardList(pi);
+		list = bs.selectFBoardList(pi);
 
-			mv.addObject("list", list);
-			mv.addObject("pi", pi);
-			mv.setViewName("jsonView");
-			return mv;
+		mv.addObject("list", list);
+		mv.addObject("pi", pi);
+		mv.setViewName("jsonView");
+		return mv;
 
+	}
+
+	/**
+	 * @author : eon
+	 * @date : 2019. 6. 26.
+	 * @comment : 고객센터 FAQ 페이징 및 검색 메소드
+	 */
+	@RequestMapping("searchFaq.bo")
+	public ModelAndView searchFList(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+		response.setContentType("text/html; charset=UTF-8");
+
+		int condition = Integer.parseInt(request.getParameter("condition"));
+
+		int currentPage = 1;
+
+		if(request.getParameter("currentPage") != null) {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}
+		
+		//게시글 갯수 가져옴
+		int listCount = bs.getFListCount();
+
+		PageInfo pi = Pagination.getSPageInfo(currentPage, listCount);
+
+		System.out.println("page info : " + pi);
+
+		ArrayList<Board> list = bs.selectFBoardList(pi);
+		
+		mv.addObject("list", list);
+		mv.addObject("pi", pi);
+		
+		if(condition != 1) {
+			//검색한 게시글 갯수 가져옴
+			int searchlistCount = bs.getSearchFListCount(condition);
+			
+			PageInfo spi = Pagination.getSPageInfo(currentPage, searchlistCount);
+			
+			ArrayList<Board> slist = bs.searchFBoardList(spi, condition);	
+			
+			mv.addObject("list", slist);
+			mv.addObject("pi", spi);
+		}
+		
+		mv.setViewName("jsonView");
+		return mv;
 	}
 }

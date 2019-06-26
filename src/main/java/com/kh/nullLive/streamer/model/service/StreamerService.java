@@ -1,9 +1,16 @@
 package com.kh.nullLive.streamer.model.service;
 
+import com.kh.nullLive.streamer.model.vo.Streamer;
+
 public interface StreamerService {
 
-	int insertSubscribe(int mno, String streamer, int amount);
 
 	int selectStreamer(String streamer);
+
+	int insertSubscribe(Streamer streamer);
+
+	int insertMnthlSbscr(Streamer streamer,int amount);
+
+	int insertNP(Streamer streamer, int amount);
 
 }

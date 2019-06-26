@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,7 +74,7 @@
     <li><a data-toggle="tab" href="#home"><span class="glyphicon glyphicon-home"></span>&nbsp;메인</a></li>
     <li><a data-toggle="tab" href="#menu1"><i class="fas fa-users"></i>&nbsp;회원관리</a></li>
     <li><a data-toggle="tab" href="#menu2"><span class="glyphicon glyphicon-stats"></span>&nbsp;통계</a></li>
-    <li><a data-toggle="tab" href="#menu3"><span class="glyphicon glyphicon-piggy-bank"></span>&nbsp;정산</a></li>
+    <li><a data-toggle="tab" href="#menu3"><span class="glyphicon glyphicon-piggy-bank"></span>&nbsp;환전</a></li>
     <li><a data-toggle="tab" href="#menu4"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;고객센터</a></li>
   </ul>
 
@@ -111,7 +112,7 @@
       <a class="btn btn-link"></a>
       <a class="btn btn-link"></a>
       <a class="btn btn-link"></a>
-		    <a href="calculateList.ad" class="btn btn-link">회원 정산</a>
+		    <a href="calculateList.ad" class="btn btn-link">회원 환전</a>
 		    <a class="btn btn-link"></a>
 		    <a class="btn btn-link"></a>
   		</div>

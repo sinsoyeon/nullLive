@@ -7,8 +7,13 @@
 	<typeAliases>
 		<typeAlias alias="Member" type="com.kh.nullLive.member.model.vo.Member" />
 		<typeAlias alias="Board" type="com.kh.nullLive.board.model.vo.Board" />
+    
 		<!-- 구인구직게시판 vo -->
 		<typeAlias alias="JobBoard" type="com.kh.nullLive.board.model.vo.JobBoard" />
+		<typeAlias alias="Report" type="com.kh.nullLive.admin.model.vo.Report" />
+		<typeAlias alias="Exchange" type="com.kh.nullLive.admin.model.vo.Exchange" />
+		<typeAlias alias="Question" type="com.kh.nullLive.admin.model.vo.Question" />
+    
 		<!-- 페이징 모듈화 테스트중 -->
 		<typeAlias alias="PagingVo" type="com.kh.nullLive.common.paging.model.vo.PagingVo" />
 		<typeAlias alias="Attachment" type="com.kh.nullLive.common.attachment.model.vo.Attachment"/>
@@ -20,5 +25,6 @@
 		<mapper resource="mappers/user/member-mapper.xml" />
 		<mapper resource="mappers/user/board-mapper.xml" />
 		<mapper resource="mappers/user/streamer-mapper.xml" />
+		<mapper resource="mappers/user/admin-mapper.xml" />
 	</mappers>
 </configuration>

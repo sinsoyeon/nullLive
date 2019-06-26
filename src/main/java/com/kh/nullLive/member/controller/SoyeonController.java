@@ -26,8 +26,6 @@ public class SoyeonController {
 		return "common/testForm";
 	}
 	
-	
-	
 	/**
 	 * @author : 소연
 	 * @date : 2019. 6. 19.
@@ -35,7 +33,7 @@ public class SoyeonController {
 	 */
 	@RequestMapping("soyeon.me")
 	public String soyeonController() {
-		return "common/testFormFolder/soyeonTestForm";
+		return "member/subscribePage/soyeonTestForm";
 	}
 	
 	/**
@@ -65,7 +63,7 @@ public class SoyeonController {
 	 */		
 	@RequestMapping("subscribeView.me")
 	public String subView() {
-		return "member/selectSubscribeForm";
+		return "member/subscribePage/selectSubscribeForm";
 	}
 	
 	/**

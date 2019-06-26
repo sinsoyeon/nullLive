@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +33,6 @@ body {
 				<div class="panel-heading">
 					<div class="panel-title">NULL LIVE에 가입하세요!</div>
 				</div>
-				<c:if test="${ empty userInfo }">
 				<div class="panel-body">
 					<form action="insert.me" id="login-form" method="post">
 						<div>
@@ -81,63 +79,7 @@ body {
 						class="form-control btn btn-primary">로그인</button>
 					</div>
 				</div>
-				</c:if>
 				
-				<!-- 정연 -->
-				<div>
-				<c:if test="${ !empty userInfo }">
-					<script>
-						alert("첫 카카오톡 로그인 시 추가 정보 입력이 필요합니다.");
-					</script>
-					
-					<div class="panel-body">
-					<form action="insert.me" id="login-form" method="post">
-						<div>
-							<input type="text" class="form-control" name="mid" id="inputMid"
-								autofocus value="${ userInfo.userId }" >
-							<div id="idAvailable" style="margin:5px;float:left;width:200px;height:25px;"></div>
-						</div>
-						<div>
-							<input type="password" class="form-control" name="mpwd" id="inputMpwd"
-								value="${ userInfo.userId }" >
-						</div>
-						<div>
-							<input type="email" class="form-control" name="email" id="inputEmail"
-								placeholder="Email" />
-						</div>
-						<div>
-							<input type="radio" id="genderM" name="gender" value="M"/><label for="genderM">남</label> &nbsp;
-							<input type="radio" id="genderF" name="gender" value="F" /><label for="genderF">여</label>
-						</div>
-						<div>
-						<!-- <button type="button" onclick="IMP.certification()">인증</button> -->
-							<select name="agency" id="">
-								<option value="SKT">SKT</option>
-								<option value="KT">KT</option>
-								<option value="LGT">LGT</option>
-							</select> &nbsp; <input type="number" name="phone1" max="999" id="p1"
-								style="width: 50px;" />-<input type="number" name="phone2"
-								max="9999" id="p2" style="width: 70px;" />-<input type="number"
-								name="phone3" max="9999" id="p3" style="width: 70px;" />
-						</div>
-						<div>
-							<input type="text" name="name" class="form-control" id="inputName"
-								placeholder="성함" />
-						</div>
-						<div>
-							<input type="date" name="birthday" class="form-control" placeholder="생년월일" id="birthday"/>
-						</div>
-						<div>
-							<button align="center" id="joinBtn" class="form-control btn btn-primary" disabled>회원가입</button>
-						</div>
-					</form>
-					<div>
-						<button onclick="location.href='loginPage.me'" align="center"
-						class="form-control btn btn-primary">로그인</button>
-					</div>
-				</div>
-				</c:if>
-				</div>
 			</div>
 		</div>
 	</div>

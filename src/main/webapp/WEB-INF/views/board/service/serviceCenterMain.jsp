@@ -69,20 +69,15 @@ tbody .center{
 						<p style="color: #999; padding-top: 8%;">자주 묻는 질문입니다.</p>
 					</div>
 					<div class="col-md-3">
-						<div class="dropdown" style="padding-top: 13%;">
-
-							<button class="btn btn-default dropdown-toggle" type="button"
-								id="dropdownMenuButton" data-toggle="dropdown"
-								style="width: 100%; text-align: left;">
-								전체<span class="caret" style="float: right; margin-top: 8.5%;"></span>
-							</button>
-							<ul class="dropdown-menu" style="min-width: 134px;">
-								<li><a href="#">회원정보</a></li>
-								<li><a href="#">방송/시청하기</a></li>
-								<li><a href="#">선물/후원</a></li>
-								<li><a href="#">결제</a></li>
-								<li><a href="#">기타</a></li>
-							</ul>
+						<div class="form-group" style="padding-top: 14%;margin-bottom: 0;">
+							<select class="form-control" id="faqCondition">
+								<option value="1">전체</option>
+								<option value="2">회원정보</option>
+								<option value="3">방송/시청하기</option>
+								<option value="4">선물/후원</option>
+								<option value="5">결제</option>
+								<option value="6">기타</option>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -159,18 +154,86 @@ tbody .center{
 	
 	<script>
 	$(function(){
-		fLoad();
+		var searchCondition = $("#faqCondition").val();
+		fLoad(searchCondition);
+		
+		//FAQ 게시판 카테고리 검색
+		$("#faqCondition").change(function(){
+			var condition = $(this).val();
+			
+			console.log(condition);
+			$.ajax({
+				url:"searchFaq.bo",
+				type:"get",
+				data:{condition:condition},
+				success:function(data){
+					console.log(typeof(condition));
+					$tableBody = $("#faqTable");
+					$tableBody.html('');
+					$.each(data.list, function(index, value){
+						console.log(value.fno + " " + value.BTitle + " " + value.BContent);
+						var $tr = $("<tr onclick='selectOneF(this)'>");
+						var $noTd = $("<td>").text(value.fno);
+						var $titleTd = $("<td>").text(value.BTitle);
+						var $contentTd = $("<td>").text(value.BContent);
+						
+						$tr.append($noTd);
+						$tr.append($titleTd);
+						$tr.append($contentTd);
+						$tableBody.append($tr);
+					});
+					
+					$paging = $("#fPaging");
+					$paging.html('');
+					var currentPage = data.pi.currentPage;
+		            var startPage = data.pi.startPage;
+		            var endPage = data.pi.endPage;
+		            var maxPage = data.pi.maxPage;
+		            var pi = data.pi;
+		            console.log(condition);
+		            
+		            //이전
+		            if(currentPage <= 1){
+		                $paging.append("<li class='page-item'><a class='page-link'>Previous</a></li>");
+		            }else{
+		            	$paging.append("<li class='page-item'><a class='page-link' onclick='fPaging("+ (currentPage -1) + "," + condition +")'>Previous</a></li>");
+		            }
+					
+		            //숫자
+		            for(var i = startPage; i <= endPage; i++){
+		            	if(i == currentPage){
+		                	$paging.append("<li class='page-item'><a class='page-link'>" + i + "</a></li>");
+		                   
+		                }else{
+		                	$paging.append("<li class='page-item'><a class='page-link' onclick='fPaging("+ i + "," + condition + ")'>" + i + "</a></li>");
+		                }
+		            }
+
+					//다음
+		            if(currentPage >= maxPage){
+		                $paging.append("<li class='page-item'><a class='page-link'>Next</a></li>");
+		            }else{
+		            	$paging.append("<li class='page-item'><a class='page-link' onclick='fPaging("+ (currentPage + 1) + "," + condition + ")'>Next</a></li>");
+		            }
+				},
+				error:function(){
+					console.log("실패!");
+				}
+			});
+			
+		});
+		
+		
 	});
 	
 	//FAQ 게시판 조회 및 페이징
-	function fLoad(){
-	$.ajax({
-		url:"selectFList.bo",
+	function fLoad(condition){		
+		var condition = condition;
+		
+		$.ajax({
+		url:"searchFaq.bo",
 		type:"get",
-		data:{currentPage:1},
-		success:function(data){
-			
-			
+		success:function(data){			
 			$tableBody = $("#faqTable");
 			$tableBody.html('');
 			$.each(data.list, function(index, value){
@@ -188,16 +251,98 @@ tbody .center{
 			
 			$paging = $("#fPaging");
 			$paging.html('');
-			var $firstTd = $('<li class="page-item"><a class="page-link" onclick="fPaging(1);">Previous</a></li>');
-			$paging.append($firstTd);
-			for (var i = 0; i < data.pi.maxPage; i++) {
-				$paging.append('<li class="page-item"><a class="page-link" onclick="fPaging('+(i+1)+');">'+(i+1)+'</a></li>');
-			}
-			var $endTd = $('<li class="page-item"><a class="page-link" onclick="fPaging('+data.pi.maxPage+');">Next</a></li>');
-			$paging.append($endTd);
+			var currentPage = data.pi.currentPage;
+            var startPage = data.pi.startPage;
+            var endPage = data.pi.endPage;
+            var maxPage = data.pi.maxPage;
+            
+            //이전
+            if(currentPage <= 1){
+                $paging.append("<li class='page-item'><a class='page-link'>Previous</a></li>");
+            }else{
+            	$paging.append("<li class='page-item'><a class='page-link' onclick='fPaging("+ (currentPage -1) + "," + condition +")'>Previous</a></li>");
+            }
+			
+            //숫자
+            for(var i = startPage; i <= endPage; i++){
+            	if(i == currentPage){
+                	$paging.append("<li class='page-item'><a class='page-link'>" + i + "</a></li>");
+                   
+                }else{
+                	$paging.append("<li class='page-item'><a class='page-link' onclick='fPaging("+ i + "," + condition + ")'>" + i + "</a></li>");
+                }
+            }
+
+			//다음
+            if(currentPage >= maxPage){
+                $paging.append("<li class='page-item'><a class='page-link'>Next</a></li>");
+            }else{
+            	$paging.append("<li class='page-item'><a class='page-link' onclick='fPaging("+ (currentPage + 1) + "," + condition + ")'>Next</a></li>");
+            }
 		}
 	});
  	}
+	
+	//FAQ 게시판 페이징
+	function fPaging(currentPage, condition){
+		console.log("fppaging"+currentPage);
+		var condition = "";
+		$.ajax({
+			url:"searchFaq.bo",
+			type:"get",
+			data:{currentPage:currentPage, condition:condition},
+			success:function(data){
+				$tableBody = $("#faqTable");
+				$tableBody.html('');
+				$.each(data.list, function(index, value){
+					console.log(value.fno + " " + value.BTitle + " " + value.BContent);
+					var $tr = $("<tr onclick='selectOneF(this)'>");
+					var $noTd = $("<td>").text(value.fno);
+					var $titleTd = $("<td>").text(value.BTitle);
+					var $contentTd = $("<td>").text(value.BContent);
+					
+					$tr.append($noTd);
+					$tr.append($titleTd);
+					$tr.append($contentTd);
+					$tableBody.append($tr);
+				});
+				
+				$paging = $("#fPaging");
+				$paging.html('');
+				var currentPage = data.pi.currentPage;
+	            var startPage = data.pi.startPage;
+	            var endPage = data.pi.endPage;
+	            var maxPage = data.pi.maxPage;
+	            
+	          	//이전
+	            if(currentPage <= 1){
+	                $paging.append("<li class='page-item'><a class='page-link'>Previous</a></li>");
+	            }else{
+	            	$paging.append("<li class='page-item'><a class='page-link' onclick='fPaging("+ (currentPage -1) + "," + condition + ")'>Previous</a></li>");
+	            }
+				
+	            //숫자
+	            for(var i = startPage; i <= endPage; i++){
+	            	if(i == currentPage){
+	                	$paging.append("<li class='page-item'><a class='page-link'>" + i + "</a></li>");
+	                   
+	                }else{
+	                	$paging.append("<li class='page-item'><a class='page-link' onclick='fPaging("+ i + "," + condition + ")'>" + i + "</a></li>");
+	                }
+	            }
+
+				//다음
+	            if(currentPage >= maxPage){
+	                $paging.append("<li class='page-item'><a class='page-link'>Next</a></li>");
+	            }else{
+	            	$paging.append("<li class='page-item'><a class='page-link' onclick='fPaging("+ (currentPage + 1) + "," + condition + ")'>Next</a></li>");
+	            }
+			},
+			error:function(){
+				console.log("실패!");
+			}
+		});
+	}
 	</script>
 </body>
 </html>

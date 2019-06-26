@@ -55,7 +55,7 @@ public class MemberController {
 	 * @Comment : 로그인
 	 */
 	@RequestMapping("login.me")
-	public String loginCheck(Member m,Model model) {
+	public String loginCheck(Member m, Model model) {
 		Member loginUser;
 		try {
 			loginUser = ms.loginMember(m);

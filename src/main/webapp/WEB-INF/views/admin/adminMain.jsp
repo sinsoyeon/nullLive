@@ -98,7 +98,7 @@ function drawVisualization1() {
 <div class="row" align="center">
   <div class="col-sm-1"></div>
   <div class="col-sm-5">
-  	<div onclick="location.href='calculateList.ad'" data-toggle="tooltip" title="정산 페이지로 이동"><h3>정산</h3>
+  	<div onclick="location.href='calculateList.ad'" data-toggle="tooltip" title="환전 페이지로 이동"><h3>환전</h3>
 		<div>
   		<table class="table table-striped"  style="text-align: center;">
   			<thead>
