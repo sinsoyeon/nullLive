@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.service.JobBoardService;
 import com.kh.nullLive.board.model.vo.Board;
+import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.board.model.vo.PageInfo;
 import com.kh.nullLive.common.Pagination;
+import com.kh.nullLive.common.paging.model.vo.PagingVo;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -114,8 +116,9 @@ public class JobBoardController {
 	 */
 	@RequestMapping("selectOneJobNotice.jbo")
 	public String selectOneJobNotice(HttpServletRequest request, Model model) {
+		System.out.println(request.getParameter("bno"));
 		int bno = Integer.parseInt(request.getParameter("bno"));
-		
+		System.out.println(bno);
 		try {
 			Board board = jbs.selectOneJobNotice(bno);
 			model.addAttribute("board",board);
@@ -135,7 +138,6 @@ public class JobBoardController {
 	@RequestMapping("insertBoard.jbo")
 	public String insertJobNotice(Board board, Model model) {
 		
-		System.out.println(board);
 		
 		int result = jbs.insertJobNotice(board);
 		
@@ -171,11 +173,16 @@ public class JobBoardController {
 	/**
 	 * @author : uukk
 	 * @date : 2019. 6. 19.
-	 * @comment : 구인구직 게시판 리스트 조회용 메소드
+	 * @comment : 구인구직 게시판 매니저 리스트 조회용 메소드
 	 */
-	public String selectListJobBoard(Board board,Model model) {
-		jbs.selectListJobBoard();
-		return null;
+	@RequestMapping("jobMngList.jbo")
+	public String selectListJobMngBoard(PagingVo paging,Model model) {
+		System.out.println("jobMngList");
+		ArrayList<Board> lists = jbs.selectJobMngPaging(paging);
+		paging.setTotal(jbs.getListCount());
+		model.addAttribute("list", lists);
+        model.addAttribute("pi", paging);
+		return "board/job/jobMngList";
 	}
 	
 	/**
@@ -193,9 +200,17 @@ public class JobBoardController {
 	 * @date : 2019. 6. 19.
 	 * @comment : 구인구직 게시판 글쓰기
 	 */
-	public String insertJobBoard(Board board,Model model) {
-		jbs.insertJobBoard();
-		return null;
+	@RequestMapping("insertJobBoard.jbo")
+	public String insertJobBoard(Board board,JobBoard jBoard,Model model) {
+		
+		int result = jbs.insertJobBoard(board,jBoard);
+		
+		if(result> 0 ) {
+			return "redirect:index.jsp";
+		}else {
+			model.addAttribute("msg","공지사항 작성 실패");
+			return "common/board/jobNoticeList";
+		}
 	}
 	
 	/**
@@ -291,15 +306,6 @@ public class JobBoardController {
 		return "board/job/jobMain";
 	}
 	
-	/**
-	 * @author : uukk
-	 * @date : 2019. 6. 20.
-	 * @comment : 구인구직 매니저 게시판 리스트
-	 */
-	@RequestMapping("jobMngList.jbo")
-	public String showJobBoardMngList() {
-		return "board/job/jobMngList";
-	}
 	/**
 	 * @author : uukk
 	 * @date : 2019. 6. 20.

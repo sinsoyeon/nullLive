@@ -43,43 +43,55 @@
 	<div class="outer">
 		<div class="">
 			<h2>구인구직</h2>
-			<!-- 제목영역 -->
-			<div>
-				<!-- 구인구직 유형 -->
+			<form action=insertJobBoard.jbo method="post" id="insertBoardFrm" >
+				<!-- 제목영역 -->
 				<div>
-					<select class="form-control">
-						<option>구인</option>
-						<option>구직</option>
-					</select>
+					<!-- 구인구직 유형 -->
+					<div>
+						<select class="form-control" name="jBtype">
+							<option value="j1">구인</option>
+							<option value="j2">구직</option>
+						</select>
+					</div>
+					<!-- 제목 -->
+					<div>
+						<h3>제목 </h3>
+						<input class="form-control col-lg-12 col-md-12 col-sm-8" type="text" name="bTitle" placeholder="제목을 입력하세요">
+						<!-- 글쓴이 -->
+						<input type="hidden" name="bWriter" value="1">
+						<!-- 구인구직타입 -->
+						<input type="hidden" name="bType" value="JOBMNG">
+						<!-- 직종 -->
+						<input type="hidden" name="job" value="MNG">
+					</div>
+					<br><br><br>
+					<!-- 마감일 -->
+					<div>
+						<h3>마감일</h3>
+						<input class="form-control" type="date" name="deadLine"> 
+					</div>
+					<br>
 				</div>
-				<!-- 제목 -->
-				<div>
-					<h3>제목 </h3>
-					<input class="form-control col-lg-12 col-md-12 col-sm-8" type="text" placeholder="제목을 입력하세요">
-				</div>
-				<br><br><br>
-				<!-- 마감일 -->
-				<div>
-					<h3>마감일</h3>
-					<input class="form-control" type="date"> 
+				<h3>내용 </h3>
+				<!-- 내용영역 -->
+				<jsp:include page="contentInsertForm.jsp"/>
+				<div class="contentArea">
+						<textarea name="bContent" id="editor" required placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 400px;"></textarea>
 				</div>
 				<br>
-			</div>
-			<!-- 내용영역 -->
-			<jsp:include page="contentInsertForm.jsp"/>
-			<br>
-			<!-- 첨부파일 영역 -->
-			<div>
-				<h3>첨부파일</h3>
-				<input type="file">
-				<input type="file">
-			</div>
-			<br>
-			<!-- 하단 버튼영역 -->
-			<div align="center">
-				<button class="btn">등록하기</button>
-				<button class="btn" onclick="location='jobMngList.jsp'">돌아가기</button>
-			</div>
+				<!-- 첨부파일 영역 -->
+				<div>
+					<h3>첨부파일</h3>
+					<input type="file">
+					<input type="file">
+				</div>
+				<br>
+				<!-- 하단 버튼영역 -->
+				<div align="center">
+					<input type="button" id="save" value="등록하기" class="btn">
+					<button class="btn" onclick="location='jobMngList.jbo'">돌아가기</button>
+				</div>
+			</form>
 		</div>
 	</div>
 	

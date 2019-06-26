@@ -26,6 +26,7 @@ public class PagingController {
 	 */
 	@RequestMapping("paging.pg")
 	public String paging(Model model, PagingVo paging) {
+		
 		logger.info("paging : " + paging);
 		ArrayList<Board> lists = ps.selectPaging(paging);
 		paging.setTotal(ps.selectTotalPaging());

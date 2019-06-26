@@ -37,7 +37,7 @@
 	<div class="nav">
 		<div class="menu" onclick="location.href='index.jsp'">NullLive</div>
 		<div class="menu" onclick="jobNoticeList()">공지사항</div>
-		<div class="menu" onclick="location.href='jobMngList.jbo'">매니저</div>
+		<div class="menu" onclick="jobMngList()">매니저</div>
 		<div class="menu" onclick="location.href='jobContentList.jbo'">콘텐츠제작자</div>
 	</div>
 	<hr>
@@ -45,6 +45,9 @@
 	<script>
 		function jobNoticeList(){
 			location.href="paging.pg";
+		}
+		function jobMngList(){
+			location.href='jobMngList.jbo';
 		}
 	</script>
 </body>

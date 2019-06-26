@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.vo.Board;
+import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.board.model.vo.PageInfo;
+import com.kh.nullLive.common.paging.model.vo.PagingVo;
 
 public interface JobBoardService {
 
@@ -18,11 +20,11 @@ public interface JobBoardService {
 
 	void deleteJobNotice();
 
-	void selectListJobBoard();
+	void selectListJobMngBoard();
 
 	void selectListJobMyBoard();
 
-	void insertJobBoard();
+	int insertJobBoard(Board board, JobBoard jBoard);
 
 	void searchJobBoard();
 
@@ -41,6 +43,10 @@ public interface JobBoardService {
 	void insertJobBoardNote();
 
 	int getListCount();
+
+	ArrayList<Board> selectJobMngPaging(PagingVo paging);
+
+	int selectJobMngTotalPaging();
 
 
 }

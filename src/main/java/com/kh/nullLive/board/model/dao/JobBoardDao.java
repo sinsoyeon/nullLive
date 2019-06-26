@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.nullLive.board.model.vo.Board;
+import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.board.model.vo.PageInfo;
+import com.kh.nullLive.common.paging.model.vo.PagingVo;
 
 public interface JobBoardDao {
 
@@ -19,11 +21,11 @@ public interface JobBoardDao {
 
 	void deleteJobNotice();
 
-	void selectListJobBoard();
+	void selectListJobMngBoard();
 
 	void selectListJobMyBoard();
 
-	void insertJobBoard();
+	int insertJobBoard(SqlSessionTemplate sqlSession, Board board);
 
 	void searchJobBoard();
 
@@ -44,6 +46,12 @@ public interface JobBoardDao {
 	int updateBoardCount(SqlSessionTemplate sqlSession, int bno);
 
 	int getListCount(SqlSessionTemplate sqlSession);
+
+	ArrayList<Board> selectJobMngPaging(SqlSessionTemplate sqlSession, PagingVo paging);
+
+	int insertJobJBoard(SqlSessionTemplate sqlSession, JobBoard jBoard);
+
+	int selectCurrval(SqlSessionTemplate sqlSession);
 
 
 
