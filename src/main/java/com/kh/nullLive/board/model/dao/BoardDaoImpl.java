@@ -34,4 +34,27 @@ public class BoardDaoImpl implements BoardDao {
 		
 		return list;
 	}
+
+	//고객센터 FAQ 검색한 게시글 수 조회
+	@Override
+	public int getSearchFListCount(SqlSessionTemplate sqlSession, String condition) {
+		return sqlSession.selectOne("Board.searchFListCount", condition);
+	}
+
+	//고객센터 FAQ 검색한 게시글 조회
+	@Override
+	public ArrayList<Board> searchFBoardList(SqlSessionTemplate sqlSession, PageInfo pi, String condition) {
+		ArrayList<Board> list = null;
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		
+		//페이징 처리를 위한 클래스
+		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
+		
+		list = (ArrayList) sqlSession.selectList("Board.searchFList", condition, rowBounds);
+		
+		System.out.println("페이징처리된 결과 : " + list);
+		
+		return list;
+	}
 }
