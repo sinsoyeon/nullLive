@@ -22,4 +22,25 @@
 		WHERE MEMBER.MNO = STREAMER.MNO
 		AND MID = #{streamer}
 	</select>
+	
+	<insert id="insertSub" parameterType="Streamer">
+		INSERT INTO SUBSCRIPTION_HIS(SUNO,MNO,SNO,SU_START_DATE,SU_PERIOD_DATE,SU_STATUS)
+		VALUES (SEQ_SUNO.NEXTVAL,#{mno},#{sno},sysdate,null,'Y')
+		
+	</insert>
+	
+	<insert id="insertMnthlSbscr" parameterType="java.util.HashMap">
+		INSERT INTO SUBSCRIPTION_HIS(SUNO,MNO,SNO,SU_START_DATE,SU_PERIOD_DATE,SU_STATUS)
+		VALUES (SEQ_SUNO.NEXTVAL,#{streamer.mno},#{streamer.sno},sysdate,
+		<if test="amount==19"> add_months(sysdate,3)</if>
+		<if test="amount==25"> add_months(sysdate,6)</if>
+		<if test="amount==30"> add_months(sysdate,12)</if>,
+		'Y')
+	</insert>
+	
+	<insert id="insertNP" parameterType="java.util.HashMap">
+		INSERT INTO SPON_HIS
+		VALUES (SEQ_SPNO.NEXTVAL,#{amount},SYSDATE,#{streamer.mno},#{streamer.sno})
+	
+	</insert>
 </mapper>
