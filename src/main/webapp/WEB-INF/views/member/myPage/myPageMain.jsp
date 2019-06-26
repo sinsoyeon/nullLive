@@ -74,6 +74,7 @@
 	</div>
 	
 	<script>
+	
 		function modifyProImage(){
 			var pwdWin = window.open('modifyProImagePage.me','new','width=420,height=400,menubar=no, status=no, toolbar=no');
 		}

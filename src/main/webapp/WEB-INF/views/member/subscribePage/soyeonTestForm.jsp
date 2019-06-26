@@ -126,15 +126,15 @@
 				        msg += '상점 거래ID : ' + rsp.merchant_uid;
 				        msg += '결제 금액 : ' + rsp.paid_amount;
 				        msg += '카드 승인번호 : ' + rsp.apply_num;
-				      	$.ajax({
-					   		url:"tts.me",
-					   		type:"post",
-					   		data:{requestMsg:requestMsg},
-					   		success:function(data){
-					   			alert('test');
+				   /*    	$.ajax({ */
+					   		/* url:"tts.me", */
+					   	/* 	type:"post",
+					   		data:{requestMsg:requestMsg}, */
+					   	/* 	success:function(data){
+					   			alert('test'); */
 					   			insertNP(5000);
-					   		}				   		
-					   	})
+					   		//}				   		
+					 /*   	}) */
 				    } else {
 				        var msg = '결제에 실패하였습니다.';
 				        msg += '에러내용 : ' + rsp.error_msg;
@@ -147,7 +147,18 @@
 		
 		function insertNP(np){
 			$.ajax({
-				url:""
+				url:"insertNP.sm",
+				type:"post",
+				data:{
+					mno:${loginUser.mno},
+					sno:4,
+					amount:5000
+				},
+				success:function(data){
+					alert('후원 완료!');
+					$('#logModal').hide();
+				}
+				
 			})
 		}
 		
