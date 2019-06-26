@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+      <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,6 +31,7 @@ tr>th{
 			<table class="table table-hover table-hover"  style="text-align: center; ">
 				<thead>
 					<tr>
+						<th>번호</th>
 						<th>구분</th>
 						<th>이름</th>
 						<th>제목</th>
@@ -38,15 +40,26 @@ tr>th{
 					</tr>
 				</thead>	
 				<tbody>
-				<% for(int i=0; i<=10; i++){ %>
+				<c:set var = "listSize" value = "${QuestionList.size() }" />
+				<c:forEach items="${QuestionList}" var="qustion" varStatus="number">
 					<tr>
-						<td>구분<%=i%></td>
-						<td>이름<%=i%></td>
-						<td>제목<%=i %></td>
-						<td>2018/06/<%=i+1 %></td>
-						<td><%if(i<4){%>대기중<%}else{%>완료<%} %></td>					
+						<td>
+						<c:set var = "index" value = "${number.index}" />
+						<c:set var = "number1" value = "${listSize-index}" />
+						<c:out value="${number1}"/> 
+						</td>
+						<td>${qustion.qustionType}</td>	
+						<td>${qustion.name}</td>	
+						<td>${qustion.BTitle}</td>	
+						<td>${qustion.WDate}</td>	
+						<c:if test="${qustion.BStatus eq 3}">
+						<td>완료</td>	
+						</c:if>
+						<c:if test="${qustion.BStatus eq 4}">
+						<td>대기중</td>	
+						</c:if>
 					</tr>
-					<%} %>
+				</c:forEach>
 				</tbody>
 			</table>
 		</div>

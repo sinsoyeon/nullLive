@@ -8,6 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kh.nullLive.admin.model.service.AdminService;
+import com.kh.nullLive.admin.model.vo.Exchange;
+import com.kh.nullLive.admin.model.vo.Question;
+import com.kh.nullLive.admin.model.vo.Report;
 import com.kh.nullLive.member.model.vo.Member;
 
 
@@ -61,9 +64,9 @@ public class AdminController {
 	@RequestMapping("streamerReportList.ad")
 	public String adminStreamerReportList(Model model) {
 		
-//		ArrayList<Member> userList = as.memberList();
-//		
-//		model.addAttribute("userList", userList);
+		ArrayList<Report> streamerReportList = as.streamerReportList();
+		
+		model.addAttribute("streamerReportList", streamerReportList);
 		
 		return "admin/streamerReport";
 	}
@@ -76,7 +79,7 @@ public class AdminController {
 	 * @comment : 신고 상세보기
 	 */
 	@RequestMapping("streamerReportDetail.ad")
-	public String adminStreamerReportDetail() {
+	public String adminStreamerReportDetail(Model model) {
 		return "admin/streamerReportDetail";
 	}
 
@@ -93,7 +96,12 @@ public class AdminController {
 	 * @comment :
 	 */
 	@RequestMapping("memberReportList.ad")
-	public String adminMemberReportList() {
+	public String adminMemberReportList(Model model) {
+		
+		ArrayList<Report> streamerReportList = as.streamerReportList();
+		
+		model.addAttribute("streamerReportList", streamerReportList);
+		
 		return "admin/memberReport";
 	}
 
@@ -105,7 +113,7 @@ public class AdminController {
 	 * @comment : 신고 상세보기
 	 */
 	@RequestMapping("memberReportDetail.ad")
-	public String adminMemberReportDetail() {
+	public String adminMemberReportDetail(Model model) {
 		return "admin/memberReportDetail";
 	}
 
@@ -121,7 +129,7 @@ public class AdminController {
 	 * @comment :회원 통합 통계 페이지 이동
 	 */
 	@RequestMapping("memberStatisticsList.ad")
-	public String adminMemberStatisticsList() {
+	public String adminMemberStatisticsList(Model model) {
 		return "admin/memberStatistics";
 	}
 
@@ -131,7 +139,7 @@ public class AdminController {
 	 * @comment : 사이트 통계 페이지 이동
 	 */
 	@RequestMapping("sitesStatisticsList.ad")
-	public String adminSitesStatisticsList() {
+	public String adminSitesStatisticsList(Model model) {
 		return "admin/sitesStatistics";
 	}
 
@@ -143,8 +151,13 @@ public class AdminController {
 	 * @comment : 정산 페이지 이동 (페이징)
 	 */
 	@RequestMapping("calculateList.ad")
-	public String adminCalculateList() {
-		return "admin/calculate";
+	public String adminCalculateList(Model model) {
+		
+		ArrayList<Exchange> ExchangeList = as.ExchangeList();
+		
+		model.addAttribute("ExchangeList", ExchangeList);
+		
+		return "admin/exchange";
 	}
 
 	// 검색
@@ -161,7 +174,12 @@ public class AdminController {
 	 * @comment : 1:1문의 페이지 이동(페이징)
 	 */
 	@RequestMapping("questionList.ad")
-	public String adminQuestionList() {
+	public String adminQuestionList(Model model) {
+		
+		ArrayList<Question> QuestionList = as.QuestionList();
+
+		model.addAttribute("QuestionList", QuestionList);
+		
 		return "admin/question";
 	}
 
@@ -173,7 +191,7 @@ public class AdminController {
 	 * @comment : 1:1문의 상세보기 
 	 */
 	@RequestMapping("questionDetail.ad")
-	public String adminQuestionDetail() {
+	public String adminQuestionDetail(Model model) {
 		return "admin/questionDetail";
 	}
 
