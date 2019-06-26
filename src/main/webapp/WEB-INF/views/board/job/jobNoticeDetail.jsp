@@ -50,13 +50,13 @@
 				<div class="dateArea">
 					<b>${ board.writtenDate }</b>
 				</div>
-				<h3><b>${ board.btitle }</b></h3>
+				<h3><b>${ board.BTitle }</b></h3>
 			</div>
 			<br>
 		</div>
 		<!-- 내용영역 -->
 		<div class="contentArea">
-			${ board.bcontent }
+			${ board.BContent }
 		</div>
 		<br>
 		<!-- 첨부파일 영역 -->

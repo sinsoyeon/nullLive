@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import com.kh.nullLive.board.model.dao.JobBoardDao;
 import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.vo.Board;
+import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.board.model.vo.PageInfo;
+import com.kh.nullLive.common.paging.model.vo.PagingVo;
 
 @Service
 public class JobBoardServiceImpl implements JobBoardService{
@@ -69,8 +71,8 @@ public class JobBoardServiceImpl implements JobBoardService{
 	}
 
 	@Override
-	public void selectListJobBoard() {
-		jbd.selectListJobBoard();
+	public void selectListJobMngBoard() {
+		jbd.selectListJobMngBoard();
 	}
 
 	@Override
@@ -78,9 +80,17 @@ public class JobBoardServiceImpl implements JobBoardService{
 		jbd.selectListJobMyBoard();
 	}
 
+	/**
+	 * @author : uukk
+	 * @date : 2019. 6. 26.
+	 * @comment : 구인구직게시판 작성
+	 */
 	@Override
-	public void insertJobBoard() {
-		jbd.insertJobBoard();
+	public int insertJobBoard(Board board, JobBoard jBoard) {
+		int result = 0;
+		int boardResult = jbd.insertJobBoard(sqlSession,board);
+		int jBoardResult = jbd.insertJobJBoard(sqlSession,jBoard);
+		return result;
 	}
 
 	@Override
@@ -131,6 +141,23 @@ public class JobBoardServiceImpl implements JobBoardService{
 	@Override
 	public int getListCount() {
 		return  jbd.getListCount(sqlSession);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 6. 26.
+	 * @comment : 
+	 */
+	@Override
+	public ArrayList<Board> selectJobMngPaging(PagingVo paging) {
+		
+		return jbd.selectJobMngPaging(sqlSession,paging);
+	}
+
+	@Override
+	public int selectJobMngTotalPaging() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

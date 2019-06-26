@@ -45,10 +45,10 @@
 					<!-- 제목 -->
 					<div>
 						<h3>제목 </h3>
-						<input class="form-control col-lg-12 col-md-12 col-sm-8" id="btitle" name="btitle" type="text"  required  placeholder="제목을 입력하세요">
+						<input class="form-control col-lg-12 col-md-12 col-sm-8" id="bTitle" name="bTitle" type="text"  required  placeholder="제목을 입력하세요">
 						<!-- 임시 게시글 작성자 -->
-						<input type="hidden" name="bwriter" value="1">
-						<input type="hidden" name="btype" value="구인구직공지">
+						<input type="hidden" name="bWriter" value="1">
+						<input type="hidden" name="bType" value="JOBNOTICE">
 					</div>
 					<br>
 				</div>
@@ -56,7 +56,7 @@
 				<h3>내용 </h3>
 				
 				<div class="contentArea">
-					<textarea name="bcontent" id="editor" required placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 400px;"></textarea>
+					<textarea name="bContent" id="editor" required placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 400px;"></textarea>
 				</div>
 				
 				<br>

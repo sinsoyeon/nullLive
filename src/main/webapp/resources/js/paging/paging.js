@@ -1,7 +1,7 @@
 /**
  * 
  */
-// 4. Javascript
+
 //submit
 function frmPaging() {
     document.getElementById("frmPaging").submit();
@@ -63,7 +63,11 @@ function listCnt() {
     document.getElementById("listCnt").value = document.getElementById("listCount").value;
     frmPaging();
 }
-
+// 리스트 갯수 조정
+function listChange(){
+	$("#selected").val($("#listChange").val());
+	frmPaging();
+}
 window.onload = function() {
     // 현재번호 active
     var index = document.getElementById("index").value;

@@ -7,7 +7,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.nullLive.board.model.vo.Board;
+import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.board.model.vo.PageInfo;
+import com.kh.nullLive.common.paging.model.vo.PagingVo;
 
 @Repository
 public class JobBoardDaoImpl implements JobBoardDao {
@@ -51,9 +53,13 @@ public class JobBoardDaoImpl implements JobBoardDao {
 		
 	}
 
+	/**
+	 * @author : uukk
+	 * @date : 2019. 6. 26.
+	 * @comment : 구인구직 매니저게시판 리스트
+	 */
 	@Override
-	public void selectListJobBoard() {
-		// TODO Auto-generated method stub
+	public void selectListJobMngBoard() {
 		
 	}
 
@@ -63,10 +69,25 @@ public class JobBoardDaoImpl implements JobBoardDao {
 		
 	}
 
+	/**
+	 * @author : uukk
+	 * @date : 2019. 6. 26.
+	 * @comment : 구인구직 게시판(board) 작성
+	 */
 	@Override
-	public void insertJobBoard() {
+	public int insertJobBoard(SqlSessionTemplate sqlSession, Board board) {
+		/* sqlSession.insert("board.insertJobBoard",board); */
+		return 0;
+	}
+	/**
+	 * @author : uukk
+	 * @date : 2019. 6. 26.
+	 * @comment : 구인구직 게시판(jboard) 작성
+	 */
+	@Override
+	public int insertJobJBoard(SqlSessionTemplate sqlSession, JobBoard jBoard) {
 		// TODO Auto-generated method stub
-		
+		return 0;
 	}
 
 	@Override
@@ -146,6 +167,23 @@ public class JobBoardDaoImpl implements JobBoardDao {
 	public int getListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("Board.selectListCount");
 	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 6. 26.
+	 * @comment : 
+	 */
+	@Override
+	public ArrayList<Board> selectJobMngPaging(SqlSessionTemplate sqlSession, PagingVo paging) {
+		return (ArrayList)sqlSession.selectList("Board.selectPaging",paging);
+	}
+
+	@Override
+	public int selectCurrval(SqlSessionTemplate sqlSession) {
+		return 0;
+	}
+
+
 
 
 
