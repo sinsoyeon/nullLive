@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,7 +24,7 @@ public class KakaoLoginController {
 	}
 	
 	@RequestMapping("klogin.me")
-    public String klogin(@RequestParam("code") String code, HttpSession session) {
+    public String klogin(@RequestParam("code") String code, Model model) {
 		String accessToken = kakao.getAccessToken(code);
 		
 		HashMap<String, Object> userInfo = kakao.getUserInfo(accessToken);
@@ -34,14 +35,18 @@ public class KakaoLoginController {
 		int firstLoginCheck = kakao.firstLoginCheck(userInfo); 
 		
 		if(firstLoginCheck <= 0) {
+			//String userId = userInfo.get("userId").toString();
+			
+			model.addAttribute("userInfo", userInfo);
+			
 			return "member/memberJoinForm";
 		}
-		
+
 		
 		if(userInfo.get("email") != null) {
 			//session.setAttribute("loginUser", userInfo.get("id"));
 			//session.setAttribute("userEmail", userInfo.get("email"));
-			session.setAttribute("accessToken", accessToken);
+			model.addAttribute("accessToken", accessToken);
 		}
 		
 		//System.out.println("controller accesstoken:" + accessToken);
