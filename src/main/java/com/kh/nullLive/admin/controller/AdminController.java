@@ -59,7 +59,12 @@ public class AdminController {
 	 * @comment :스트리머 신고 페이지 이동(페이징)
 	 */
 	@RequestMapping("streamerReportList.ad")
-	public String adminStreamerReportList() {
+	public String adminStreamerReportList(Model model) {
+		
+//		ArrayList<Member> userList = as.memberList();
+//		
+//		model.addAttribute("userList", userList);
+		
 		return "admin/streamerReport";
 	}
 
