@@ -55,11 +55,13 @@ public class MemberController {
 	 * @Comment : 로그인
 	 */
 	@RequestMapping("login.me")
-	public String loginCheck(Member m,Model model) {
+	public String loginCheck(Member m, Model model) {
 		Member loginUser;
 		try {
 			loginUser = ms.loginMember(m);
 			model.addAttribute("loginUser",loginUser);
+			System.out.println("맴버 컨트롤러:" + loginUser);
+			
 			return "redirect:index.jsp";
 		} catch (LoginException e) {
 			model.addAttribute("msg", e.getMessage());
