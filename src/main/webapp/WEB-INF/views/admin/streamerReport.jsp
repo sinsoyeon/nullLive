@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,25 +31,33 @@ tr>th{
 			<table class="table table-hover"  style="text-align: center; ">
 				<thead>
 					<tr>
+						<th>번호</th>
 						<th>구분</th>
 						<th>신고자</th>
-						<th>닉네임</th>
+						<th>대상자</th>
 						<th>누적 신고 횟수</th>
 						<th>신고 날짜</th>
 						<th>처리 현황</th>
 					</tr>
 				</thead>	
 				<tbody>
-				<% for(int i=0; i<=10; i++){ %>
+				<c:set var = "listSize" value = "${streamerReportList.size() }" />
+				<c:forEach items="${streamerReportList}" var="board" varStatus="number">
 					<tr>
-						<td>구분<%=i%></td>
-						<td>신고자<%=i%></td>
-						<td>닉네임<%=i %></td>
-						<td><%if(i%2==0){%><%=i+3 %><%}else{%><%=i+1 %><%} %></td>
-						<td>2018/06/<%=i+1 %></td>
-						<td><%if(i<4){%>미확인<%}else{%>완료<%} %></td>					
+						<td>
+						<c:set var = "index" value = "${number.index}" />
+						<c:set var = "number1" value = "${listSize-index}" />
+						<c:out value="${number1}"/> 
+						</td>
+						<td>${board.reportType}</td>	
+						<td>${board.mid1}</td>	
+						<td>${board.mid2}</td>	
+						<td>${board.cou}</td>	
+						<td>${board.writtenDate}</td>	
+						<td>${board.staDetail}</td>	
 					</tr>
-					<%} %>
+				</c:forEach>
+				
 				</tbody>
 			</table>
 		</div>

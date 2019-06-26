@@ -41,32 +41,22 @@ tr>th{
 					</tr>
 				</thead>	
 				<tbody>
-				<c:set var = "listSize" value = "${userList.size() }" />
-				<c:forEach items="${userList}" var="user" varStatus="number">
+				<c:set var = "listSize" value = "${streamerReportList.size() }" />
+				<c:forEach items="${streamerReportList}" var="board" varStatus="number">
 					<tr>
 						<td>
 						<c:set var = "index" value = "${number.index}" />
 						<c:set var = "number1" value = "${listSize-index}" />
 						<c:out value="${number1}"/> 
 						</td>
-						<td>${user.mid}</td>	
-						<td>${user.name}</td>	
-						<td>${user.nickName}</td>	
-						<td>${user.isStreamer}</td>	
-						<td>${user.enrollDate}</td>	
-						<td>${user.mstatus}</td>		
+						<td>${board.reportType}</td>	
+						<td>${board.mid1}</td>	
+						<td>${board.mid2}</td>	
+						<td>${board.cou}</td>	
+						<td>${board.writtenDate}</td>	
+						<td>${board.staDetail}</td>	
 					</tr>
 				</c:forEach>
-				<%-- <% for(int i=0; i<=10; i++){ %>
-					<tr>
-						<td>구분<%=i%></td>
-						<td>신고자<%=i%></td>
-						<td>닉네임<%=i %></td>
-						<td><%if(i%2==0){%><%=i+3 %><%}else{%><%=i+1 %><%} %></td>
-						<td>2018/06/<%=i+1 %></td>
-						<td><%if(i<4){%>미확인<%}else{%>완료<%} %></td>					
-					</tr>
-					<%} %> --%>
 				</tbody>
 			</table>
 		</div>

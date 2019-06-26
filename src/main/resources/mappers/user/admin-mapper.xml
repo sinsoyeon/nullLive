@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="Admin">
+	<resultMap type="Exchange" id="ExchangeResultSet">
+		<id property="excno" column="EXCNO"/>
+		<result property="nickName" column="NICK_NAME"/>
+		<result property="name" column="NAME"/>
+		<result property="excFee" column="EXC_FEE"/>
+		<result property="applicationDate" column="APPLICATION_DATE"/>
+		<result property="excStatus" column="EXC_STATUS"/>
+		<result property="approvalDate" column="APPROVAL_DATE"/>
+	</resultMap>
+	
+	<resultMap type="Question" id="QuestionResultSet">
+		<id property="bno" column="BNO"/>
+		<result property="qustionType" column="QUESTION_TYPE"/>
+		<result property="name" column="NAME"/>
+		<result property="bTitle" column="BTITLE"/>
+		<result property="wDate" column="WRITTEN_DATE"/>
+		<result property="bStatus" column="B_STATUS"/>
+	</resultMap>
+	
+	<select id="selectExchange" resultMap="ExchangeResultSet">
+		SELECT e.excno ,m.nick_name, m.name, e.exc_fee, e.application_date, e.exc_status, e.approval_date
+		FROM EXCHANGE E
+		JOIN MEMBER M USING(MNO)
+		ORDER BY 1 DESC
+	</select>
+	
+	<select id="selectQuestion" resultMap="QuestionResultSet">
+		SELECT 	B.BNO, B.QUESTION_TYPE, M.NAME, B.BTITLE, B.WRITTEN_DATE, B.B_STATUS
+		FROM BOARD B
+		JOIN MEMBER M ON(B.BWRITER = M.MNO)
+		WHERE BTYPE LIKE 'QUESTION'
+		ORDER BY 1 DESC
+	</select>
+</mapper>

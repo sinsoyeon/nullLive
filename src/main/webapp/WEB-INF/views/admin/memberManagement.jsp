@@ -134,7 +134,7 @@ height: auto; */
 							<p>김푸들</p>
 							<p>빠숑</p>
 							<p>2019.01.01</p>
-							<p>www.null-love/bbashong.tv</p>
+							<p>www.null-live/bbashong.tv</p>
 							<p>1회</p>
 							<p>65회</p>
 							<div style="display: inline-block;">

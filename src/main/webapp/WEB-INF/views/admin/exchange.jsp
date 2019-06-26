@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,12 +28,12 @@ tr>th{
 <body>
 	<%@ include file="adminMenubar.jsp" %>
 	
-	<h1 align="center">정산</h1>
+	<h1 align="center">환전</h1>
 <div class="row" align="center">
 	<div class="col-sm-1"></div>
 	<div class="col-sm-10">
 	<div>
-	<div style="float: left;"><button data-toggle="modal" data-target="#multiple">정산하기</button></div>
+	<div style="float: left;"><button data-toggle="modal" data-target="#multiple">환전하기</button></div>
 		<div style="margin-bottom: 5px; float: right;">
 			<input type="text"> <button>검색</button>
 		</div>
@@ -46,22 +47,37 @@ tr>th{
 						<th>이름</th>
 						<th>신청 Null</th>
 						<th>신청 날짜</th>
-						<th>정산</th>
+						<th>환전</th>
 					</tr>
 				</thead>	
 				<tbody>
-				<% for(int i=0; i<=10; i++){ %>
+				<c:forEach items="${ExchangeList}" var="exchange" varStatus="number">
+				
+				<c:if test="${exchange.excStatus eq 'N'}">
 					<tr>
 						<td id='checkbox'><input type="checkbox"></td>
-						<td>닉네임<%=i %></td>
-						<td>이름<%=i%></td>
-						<td>15,000</td>
-						<td>2018/06/<%=i+1 %></td>
-						<td id='complete'>
-							<%if(i<3){%><button data-toggle="modal" data-target="#single" >정산하기</button><%}else{%>완료<%} %>
-						</td>					
+						<td>${exchange.nickName}</td>	
+						<td>${exchange.name}</td>	
+						<td>${exchange.excFee}</td>	
+						<td>${exchange.applicationDate}</td>	
+						<td><input type="button" value="환전하기" data-toggle="modal" data-target="#single"></td>	
 					</tr>
-					<%} %>
+				</c:if>
+				
+				<c:if test="${exchange.excStatus eq 'Y'}">
+					<tr style="background: #eaeaea;">
+	 				<td><input type="checkbox" disabled></td>
+						<td>${exchange.nickName}</td>	
+						<td>${exchange.name}</td>	
+						<td>${exchange.excFee}</td>	
+						<td>${exchange.applicationDate}</td>	
+						<td>
+							환전완료
+						</td>	
+					</tr>
+				</c:if>
+				
+				</c:forEach>
 				</tbody>
 			</table>
 		</div>
@@ -79,7 +95,7 @@ tr>th{
 		<button>></button>
 	</div>
 	
-	<!-- 단일 정산 -->
+	<!-- 단일 환전 -->
 	<div class="modal fade" id="single" role="dialog">
 		<div class="modal-dialog">
 
@@ -87,10 +103,10 @@ tr>th{
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">정산하시겠습니까?</h4>
+					<h4 class="modal-title">환전하시겠습니까?</h4>
 				</div>
 				<div class="modal-body">
-					<p>확인을 누르시면 정산 처리 됩니다.</p>
+					<p>확인을 누르시면 환전 처리 됩니다.</p>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-danger " data-dismiss="modal">확인</button>
@@ -101,7 +117,7 @@ tr>th{
 		</div>
 	</div>
 
-	<!-- 다중 정산 -->
+	<!-- 다중 환전 -->
 	<div class="modal fade" id="multiple" role="dialog">
 		<div class="modal-dialog">
 
@@ -109,11 +125,11 @@ tr>th{
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">정산하시겠습니까?</h4>
+					<h4 class="modal-title">환전하시겠습니까?</h4>
 				</div>
 				<div class="modal-body">
 					<p>
-						확인을 누르면 선택된 목록 <b style="color: red;">모두</b> 정산 됩니다.
+						확인을 누르면 선택된 목록 <b style="color: red;">모두</b> 환전 됩니다.
 					</p>
 				</div>
 				<div class="modal-footer">
