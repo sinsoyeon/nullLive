@@ -11,17 +11,41 @@ body::-webkit-scrollbar {
 	display: none;
 }
 
-tbody tr:hover {
+.mainT tr:hover {
 	background: #e2f0d8;
 	color: #185819;
 	cursor: pointer;
 }
-tbody .center{
+.mainT .center{
 	text-align:center;
 }
 
 .pagination li:hover{
 	cursor: pointer;
+}
+
+.table {
+	table-layout:fixed;
+}
+
+.mainT td {
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+}
+
+.table .selectT{
+	border:none;
+}
+
+#selectFaqT .sLabel{
+	width:15%;
+}
+.backBtn {
+	color: #fff;
+	background-color: #3790dc;
+	border-color: #3790dc;
+	width: 10%;
 }
 </style>
 </head>
@@ -83,7 +107,7 @@ tbody .center{
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<div style="height: 240px;">
+						<div id="faqDiv" style="height: 240px; width:634px;">
 							<table class="table">
 								<thead>
 									<tr>
@@ -92,12 +116,12 @@ tbody .center{
 										<th>답변</th>
 									</tr>
 								</thead>
-								<tbody id="faqTable">
+								<tbody id="faqTable" class="mainT">
 									
 								</tbody>
 							</table>
 						</div>
-						<div id="pagingArea" align="center">
+						<div id="fpagingArea" align="center">
 							<ul class="pagination" id="fPaging">
 							
 							</ul>
@@ -121,7 +145,7 @@ tbody .center{
 						<p style="color: #999; padding-top: 3%;">알려드립니다.</p>
 					</div>
 				</div>
-				<div style="height: 240px;">
+				<div id="noticeDiv" style="height: 240px; width:966px;">
 					<table class="table">
 						<thead>
 							<tr>
@@ -132,18 +156,12 @@ tbody .center{
 								<th style=" text-align: center;">조회수</th>
 							</tr>
 						</thead>
-						<tbody id="noticeTable">
-							<tr>
-								<td>1</td>
-								<td>TB - Monthly</td>
-								<td>Default</td>
-								<td class="center">01/04/2012</td>
-								<td class="center">0</td>
-							</tr>
+						<tbody id="noticeTable" class="mainT">
+							
 						</tbody>
 					</table>
 				</div>
-				<div id="pagingArea" align="center">
+				<div id="npagingArea" align="center">
 					<ul class="pagination" id="nPaging">
 					
 					</ul>
@@ -154,8 +172,11 @@ tbody .center{
 	
 	<script>
 	$(function(){
+		//고객센터 페이지에서 FAQ 게시판 불러오기
 		var searchCondition = $("#faqCondition").val();
 		fLoad(searchCondition);
+		//고객센터 페이지에서 공지사항 게시판 불러오기
+		nLoad();
 		
 		//FAQ 게시판 카테고리 검색
 		$("#faqCondition").change(function(){
@@ -196,7 +217,7 @@ tbody .center{
 		            if(currentPage <= 1){
 		                $paging.append("<li class='page-item'><a class='page-link'>Previous</a></li>");
 		            }else{
-		            	$paging.append("<li class='page-item'><a class='page-link' onclick='fPaging("+ (currentPage -1) + "," + condition +")'>Previous</a></li>");
+		            	$paging.append("<li class='page-item'><a class='page-link' onclick='fPaging("+ (currentPage -1) + "," + condition + ")'>Previous</a></li>");
 		            }
 					
 		            //숫자
@@ -226,6 +247,42 @@ tbody .center{
 		
 	});
 	
+	/* 게시판 틀 */
+	//FAQ 게시판
+	function fContainer(){
+		$fDiv = $("#faqDiv");
+		$fNav = $("#fpagingArea");
+		$fDiv.html("");
+		$fNav.html("");
+		
+		
+		$ftable = $("<table class='table'> <thead> <tr> <th style=' width: 10%; '>No.</th> <th style=' width: 40%; '>질문</th> <th>답변</th> </tr> </thead> <tbody id='faqTable' class='mainT'> </tbody> </table>");
+		
+		$fpage = $("<ul class='pagination' id='fPaging'> </ul>");
+		
+		$fDiv.append($ftable);
+		
+		$fNav.append($fpage);
+	}
+	
+	//공지사항 게시판
+	function nContainer(){
+		$nDiv = $("#noticeDiv");
+		$nNav = $("#npagingArea");
+		$nDiv.html("");
+		$nNav.html("");
+		
+		
+		$ntable = $("<table class='table'> <thead> <tr> <th style=' width: 7%; '>No.</th> <th style=' width: 33%; '>제목</th> <th style=' width: 40%; '>내용</th> <th style=' width: 13%;text-align: center;'>작성일</th> <th style=' text-align: center;'>조회수</th> </tr> </thead> <tbody id='noticeTable' class='mainT'> </tbody> </table>");
+		
+		$npage = $("<ul class='pagination' id='nPaging'> </ul>");
+		
+		$nDiv.append($ntable);
+		
+		$nNav.append($npage);
+	}
+	
+	/* FAQ 게시판 */
 	//FAQ 게시판 조회 및 페이징
 	function fLoad(condition){		
 		var condition = condition;
@@ -260,7 +317,7 @@ tbody .center{
             if(currentPage <= 1){
                 $paging.append("<li class='page-item'><a class='page-link'>Previous</a></li>");
             }else{
-            	$paging.append("<li class='page-item'><a class='page-link' onclick='fPaging("+ (currentPage -1) + "," + condition +")'>Previous</a></li>");
+            	$paging.append("<li class='page-item'><a class='page-link' onclick='fPaging("+ (currentPage -1) + "," + condition + ")'>Previous</a></li>");
             }
 			
             //숫자
@@ -285,10 +342,9 @@ tbody .center{
 	
 	//FAQ 게시판 페이징
 	function fPaging(currentPage, condition){
-		console.log("fppaging"+currentPage);
-		var condition = "";
+		var condition = condition;
 		$.ajax({
-			url:"searchFaq.bo",
+			url:"searchFaq.bo",	
 			type:"get",
 			data:{currentPage:currentPage, condition:condition},
 			success:function(data){
@@ -342,6 +398,210 @@ tbody .center{
 				console.log("실패!");
 			}
 		});
+	}
+	
+	//FAQ 게시판 상세보기
+	function selectOneF(tr){
+		var num = tr.childNodes[0].innerHTML;
+		
+		console.log(num + "번째 게시글 보기!");
+		
+		$fDiv = $("#faqDiv");
+		$fNav = $("#fpagingArea");
+		$fDiv.html("");
+		$fNav.html("");
+		
+		$ftable = $("<div style='height: 240px;background: #faebd7a6;border-radius: 13px;padding: 2.5%;'><table class='table'> <tbody id='selectFaqT'> <tr> <th class='selectT sLabel'>질문</th> <td class='selectT' style='background: white; border-radius: 10px; '><b>Q. </b><span id='fTitle'></span></td> </tr> <tr style='height:10px;'></tr> <tr> <th class='selectT sLabel'>답변</th> <td class='selectT' style=' height: 160px; background: white; border-radius: 10px; '><b>A. </b><span id='fContent' style='text-align: justify; word-break: keep-all'></span></td> </tr> </tbody> </table></div>");
+		
+		$fpage = $("<button type='button' class='btn pull-right backBtn' style=' margin-top: 3%; ' onclick='fbackBtn();'>이전</button>");
+		
+		$fDiv.append($ftable);
+		
+		$fNav.append($fpage);
+
+		$.ajax({
+			url:"selectOneF.bo",
+			type:"get",
+			data:{num:num},
+			success:function(data){
+				$.each(data.list, function(index, value){
+					console.log(value.fno + " " + value.BTitle + " " + value.BContent);
+					$("#fTitle").text(value.BTitle);
+					$("#fContent").html(value.BContent);
+				});
+			}
+		});
+	}
+	
+	//FAQ 게시판 상세조회에서 이전버튼 눌렀을 때 
+	function fbackBtn(){
+			console.log("이전 버튼 눌렸어용!");
+			fContainer();
+			fLoad();
+	}
+	
+	/* 공지사항 게시판 */
+	//공지사항 게시판 조회 및 페이징
+	function nLoad(){
+		
+		$.ajax({
+		url:"selectNList.bo",
+		type:"get",
+		success:function(data){
+			$tableBody = $("#noticeTable");
+			$tableBody.html('');
+			$.each(data.list, function(index, value){
+				console.log(value.snno + " " + value.BTitle + " " + value.BContent + " " + value.WrittenDate + " " + value.BCount);
+				var $tr = $("<tr onclick='selectOneN(this)'>");
+				var $noTd = $("<td>").text(value.snno);
+				var $titleTd = $("<td>").text(value.BTitle);
+				var $contentTd = $("<td>").text(value.BContent);
+				var $dateTd = $("<td style='text-align:center;'>").text(value.WrittenDate);
+				var $countTd = $("<td style='text-align:center;'>").text(value.BCount);
+				
+				$tr.append($noTd);
+				$tr.append($titleTd);
+				$tr.append($contentTd);
+				$tr.append($dateTd);
+				$tr.append($countTd);
+				$tableBody.append($tr);
+			});
+			
+			$paging = $("#nPaging");
+			$paging.html('');
+			var currentPage = data.pi.currentPage;
+            var startPage = data.pi.startPage;
+            var endPage = data.pi.endPage;
+            var maxPage = data.pi.maxPage;
+            
+            //이전
+            if(currentPage <= 1){
+                $paging.append("<li class='page-item'><a class='page-link'>Previous</a></li>");
+            }else{
+            	$paging.append("<li class='page-item'><a class='page-link' onclick='nPaging("+ (currentPage -1) + ")'>Previous</a></li>");
+            }
+			
+            //숫자
+            for(var i = startPage; i <= endPage; i++){
+            	if(i == currentPage){
+                	$paging.append("<li class='page-item'><a class='page-link'>" + i + "</a></li>");
+                   
+                }else{
+                	$paging.append("<li class='page-item'><a class='page-link' onclick='nPaging("+ i + ")'>" + i + "</a></li>");
+                }
+            }
+
+			//다음
+            if(currentPage >= maxPage){
+                $paging.append("<li class='page-item'><a class='page-link'>Next</a></li>");
+            }else{
+            	$paging.append("<li class='page-item'><a class='page-link' onclick='nPaging("+ (currentPage + 1) + ")'>Next</a></li>");
+            }
+		}
+	});
+ 	}
+	
+	//공지사항 게시판 페이징
+	function nPaging(currentPage){
+		
+		$.ajax({
+		url:"selectNList.bo",
+		type:"get",
+		data:{currentPage:currentPage},
+		success:function(data){
+			$tableBody = $("#noticeTable");
+			$tableBody.html('');
+			$.each(data.list, function(index, value){
+				console.log(value.snno + " " + value.BTitle + " " + value.BContent + " " + value.WrittenDate + " " + value.BCount);
+				var $tr = $("<tr onclick='selectOneN(this)'>");
+				var $noTd = $("<td>").text(value.snno);
+				var $titleTd = $("<td>").text(value.BTitle);
+				var $contentTd = $("<td>").text(value.BContent);
+				var $dateTd = $("<td style='text-align:center;'>").text(value.WrittenDate);
+				var $countTd = $("<td style='text-align:center;'>").text(value.BCount);
+				
+				$tr.append($noTd);
+				$tr.append($titleTd);
+				$tr.append($contentTd);
+				$tr.append($dateTd);
+				$tr.append($countTd);
+				$tableBody.append($tr);
+			});
+			
+			$paging = $("#nPaging");
+			$paging.html('');
+			var currentPage = data.pi.currentPage;
+            var startPage = data.pi.startPage;
+            var endPage = data.pi.endPage;
+            var maxPage = data.pi.maxPage;
+            
+            //이전
+            if(currentPage <= 1){
+                $paging.append("<li class='page-item'><a class='page-link'>Previous</a></li>");
+            }else{
+            	$paging.append("<li class='page-item'><a class='page-link' onclick='nPaging("+ (currentPage -1) + ")'>Previous</a></li>");
+            }
+			
+            //숫자
+            for(var i = startPage; i <= endPage; i++){
+            	if(i == currentPage){
+                	$paging.append("<li class='page-item'><a class='page-link'>" + i + "</a></li>");
+                   
+                }else{
+                	$paging.append("<li class='page-item'><a class='page-link' onclick='nPaging("+ i + ")'>" + i + "</a></li>");
+                }
+            }
+
+			//다음
+            if(currentPage >= maxPage){
+                $paging.append("<li class='page-item'><a class='page-link'>Next</a></li>");
+            }else{
+            	$paging.append("<li class='page-item'><a class='page-link' onclick='nPaging("+ (currentPage + 1) + ")'>Next</a></li>");
+            }
+		}
+	});
+ 	}
+	
+	//공지사항 게시판 상세보기
+	function selectOneN(tr){
+		var num = tr.childNodes[0].innerHTML;
+		
+		console.log(num + "번째 게시글 보기!");
+		
+		$nDiv = $("#noticeDiv");
+		$nNav = $("#npagingArea");
+		$nDiv.html("");
+		$nNav.html("");
+		
+		$ntable = $("<div style='height: 240px;background: #faebd7a6;border-radius: 13px;padding: 2.5%;'> <table class='table'> <tbody id='selectNoticeT'> <tr> <th class='selectT' style=' width: 10%; '>제목</th> <td class='selectT' style=' width: 40%; background: white; border-radius: 10px;' id='nTitle'></td> <th class='selectT' style=' width: 10%; text-align: center;'>작성일</th> <td class='selectT' style='background: white; border-radius: 10px; width: 13%; text-align: center;' id='nDate'></td> <th class='selectT' style=' width: 10%; text-align: center;'>조회수</th> <td class='selectT' style='background: white; border-radius: 10px; width: 13%; text-align: center;' id='nCount'></td> </tr> <tr style='height:10px;'></tr> <tr> <th class='selectT'>내용</th> <td class='selectT' colspan='5' style='background: white; border-radius: 10px; height: 150px; text-align: justify; word-break: keep-all' id='nContent'></td> </tr> </tbody> </table> </div>");
+		
+		$npage = $("<button type='button' class='btn pull-right backBtn' style=' margin-top: 2.5%; ' onclick='nbackBtn();'>이전</button>");
+		
+		$nDiv.append($ntable);
+		
+		$nNav.append($npage);
+
+		$.ajax({
+			url:"selectOneN.bo",
+			type:"get",
+			data:{num:num},
+			success:function(data){
+				$.each(data.list, function(index, value){
+					console.log(value.snno + " " + value.BTitle + " " + value.BContent + " " + value.WrittenDate + " " + value.BCount);
+					$("#nTitle").text(value.BTitle);
+					$("#nDate").text(value.WrittenDate);
+					$("#nCount").text(value.BCount);
+					$("#nContent").html(value.BContent);
+				});
+			}
+		});
+	}
+	
+	//공지사항 게시판 상세조회에서 이전버튼 눌렀을 때 
+	function nbackBtn(){
+			console.log("이전 버튼 눌렸어용!");
+			nContainer();
+			nLoad();
 	}
 	</script>
 </body>

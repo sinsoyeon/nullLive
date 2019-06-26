@@ -70,9 +70,17 @@
 		ORDER BY FNO DESC
 	</select>
 	
+	<!-- 고객센터 FAQ 상세 조회용 쿼리문 -->
+	<select id="selectOneF" resultMap="boardResultSet">
+		SELECT BTITLE, BCONTENT
+		FROM V_FAQBOARD
+		WHERE B_STATUS = 400
+		AND FNO = #{num}
+	</select>
+	
 	<!-- 고객센터 FAQ 조회수 증가용 쿼리문 -->
 	<!-- <update id="updateFCount" parameterType="_int">
-	
+		
 	</update> -->
 	
 	<!-- 고객센터 공지사항 게시글 수 조회용 쿼리문 -->
@@ -88,6 +96,15 @@
 		WHERE B_STATUS = 401
 		ORDER BY SNNO DESC
 	</select>
+	
+	<!-- 고객센터 공지사항 상세 조회용 쿼리문 -->
+	<select id="selectOneN" resultMap="boardResultSet">
+		SELECT BTITLE, BCONTENT, WRITTEN_DATE, BCOUNT
+		FROM V_SNOTICEBOARD
+		WHERE B_STATUS = 401
+		AND SNNO = #{num}
+	</select>
+	
 	<!-- 고객센터 공지사항 조회수 증가용 쿼리문 -->
 	<!-- <update id="updateNCount" parameterType="_int">
 	

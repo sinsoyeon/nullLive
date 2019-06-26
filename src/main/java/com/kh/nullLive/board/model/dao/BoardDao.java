@@ -16,9 +16,21 @@ public interface BoardDao {
 	ArrayList<Board> selectFBoardList(SqlSessionTemplate sqlSession, PageInfo pi);
 
 	//고객센터 FAQ 검색한 게시글 수 조회
-	int getSearchFListCount(SqlSessionTemplate sqlSession, String condition);
+	int getSearchFListCount(SqlSessionTemplate sqlSession, int condition);
 
 	//고객센터 FAQ 검색한 게시글 조회
-	ArrayList<Board> searchFBoardList(SqlSessionTemplate sqlSession, PageInfo pi, String condition);
+	ArrayList<Board> searchFBoardList(SqlSessionTemplate sqlSession, PageInfo pi, int condition);
+
+	//고객센터 공지사항 전체 게시글 수 조회
+	int getNListCount(SqlSessionTemplate sqlSession);
+
+	//고객센터 공지사항 전체 게시글 조회
+	ArrayList<Board> selectNBoardList(SqlSessionTemplate sqlSession, PageInfo pi);
+
+	//고객센터 FAQ 상세 조회
+	ArrayList<Board> selectOneFBoard(SqlSessionTemplate sqlSession, int num);
+
+	//고객센터 공지사항 상세 조회
+	ArrayList<Board> selectOneNBoard(SqlSessionTemplate sqlSession, int num);
 
 }

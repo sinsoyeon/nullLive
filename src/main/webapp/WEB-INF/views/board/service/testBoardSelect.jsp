@@ -86,18 +86,18 @@
 							<tbody id="selectFaqT">
 								<tr>
 									<th class="selectT sLabel">질문</th>
-									<td class="selectT" style="background: white; border-radius: 10px; "><b>Q. </b><span>질문</span></td>
+									<td class="selectT" style="background: white; border-radius: 10px; "><b>Q. </b><span id="fTitle">질문</span></td>
 								</tr>
 								<tr style="height:10px;"></tr>
 								<tr>
 									<th class="selectT sLabel">답변</th>
-									<td class="selectT" style=" height: 160px; background: white; border-radius: 10px; "><b>A. </b><span>답변내용</span></td>
+									<td class="selectT" style=" height: 160px; background: white; border-radius: 10px; "><b>A. </b><span id="fContent">답변내용</span></td>
 								</tr>
 							</tbody>
 						</table>
 						</div>
 						<div style="text-align: center;">
-							<button type="button" class="btn pull-right backBtn" style=" margin-top: 3%; ">이전</button>
+							<button type="button" class="btn pull-right backBtn" style=" margin-top: 3%; " onclick="fbackBtn">이전</button>
 						</div>
 					</div>
 				</div>

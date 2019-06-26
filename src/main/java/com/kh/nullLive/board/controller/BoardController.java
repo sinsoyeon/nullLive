@@ -1,6 +1,8 @@
 package com.kh.nullLive.board.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,10 +81,10 @@ public class BoardController {
 
 	/**
 	 * @author : eon
-	 * @date : 2019. 6. 25.
-	 * @comment : 고객센터 FAQ 리스트 조회용 메소드
+	 * @date : 2019. 6. 27.
+	 * @comment : 고객센터 공지사항 리스트 조회용 메소드
 	 */
-	@RequestMapping("selectFList.bo")
+	@RequestMapping("selectNList.bo")
 	public ModelAndView selectFList(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 		response.setContentType("text/html; charset=UTF-8");
 
@@ -93,20 +95,36 @@ public class BoardController {
 		}
 
 		//게시글 갯수 가져옴
-		int listCount = bs.getFListCount();
+		int listCount = bs.getNListCount();
 
 		PageInfo pi = Pagination.getSPageInfo(currentPage, listCount);
 
 		System.out.println("page info : " + pi);
 
 		ArrayList<Board> list;
-		list = bs.selectFBoardList(pi);
+		list = bs.selectNBoardList(pi);
+		
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd");
+		ArrayList<HashMap<String, Object>> list2 = new ArrayList<HashMap<String, Object>>();
 
-		mv.addObject("list", list);
+		for(int i = 0; i < list.size(); i++) {
+	         HashMap<String, Object> hmap = new HashMap<String, Object>();
+	         
+	         String WrittenDate = fmt.format(list.get(i).getWrittenDate());
+	         
+	         hmap.put("snno", list.get(i).getSnno());
+	         hmap.put("BTitle", list.get(i).getBTitle());
+	         hmap.put("BContent", list.get(i).getBContent());
+	         hmap.put("WrittenDate", WrittenDate);
+	         hmap.put("BCount", list.get(i).getBCount());
+	         
+	         list2.add(hmap);
+	    }
+
+		mv.addObject("list", list2);
 		mv.addObject("pi", pi);
 		mv.setViewName("jsonView");
 		return mv;
-
 	}
 
 	/**
@@ -118,39 +136,96 @@ public class BoardController {
 	public ModelAndView searchFList(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
 		response.setContentType("text/html; charset=UTF-8");
 
-		int condition = Integer.parseInt(request.getParameter("condition"));
-
 		int currentPage = 1;
 
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		}
 		
-		//게시글 갯수 가져옴
-		int listCount = bs.getFListCount();
+		if(request.getParameter("condition") == null) {
+			//게시글 갯수 가져옴
+			int listCount = bs.getFListCount();
 
-		PageInfo pi = Pagination.getSPageInfo(currentPage, listCount);
+			PageInfo pi = Pagination.getSPageInfo(currentPage, listCount);
 
-		System.out.println("page info : " + pi);
+			System.out.println("page info : " + pi);
 
-		ArrayList<Board> list = bs.selectFBoardList(pi);
-		
-		mv.addObject("list", list);
-		mv.addObject("pi", pi);
-		
-		if(condition != 1) {
+			ArrayList<Board> list = bs.selectFBoardList(pi);
+
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+		}else {
+			int condition = Integer.parseInt(request.getParameter("condition"));
+			
 			//검색한 게시글 갯수 가져옴
-			int searchlistCount = bs.getSearchFListCount(condition);
+			int listCount = bs.getSearchFListCount(condition);
 			
-			PageInfo spi = Pagination.getSPageInfo(currentPage, searchlistCount);
+			PageInfo pi = Pagination.getSPageInfo(currentPage, listCount);
 			
-			ArrayList<Board> slist = bs.searchFBoardList(spi, condition);	
+			ArrayList<Board> list = bs.searchFBoardList(pi, condition);	
 			
-			mv.addObject("list", slist);
-			mv.addObject("pi", spi);
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
 		}
 		
 		mv.setViewName("jsonView");
+		return mv;
+	}
+	
+	/**
+	 * @author : eon
+	 * @date : 2019. 6. 27.
+	 * @comment : 고객센터 FAQ 상세조회
+	 */
+	@RequestMapping("selectOneF.bo")
+	public ModelAndView selectOneF(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+		response.setContentType("text/html; charset=UTF-8");
+		
+		int num = Integer.parseInt(request.getParameter("num"));
+		
+		ArrayList<Board> list = bs.selectOneFBoard(num);
+		
+		mv.addObject("list", list);
+		
+		mv.setViewName("jsonView");
+		
+		return mv;
+	}
+	
+	/**
+	 * @author : eon
+	 * @date : 2019. 6. 27.
+	 * @comment : 고객센터 공지사항 상세조회
+	 */
+	@RequestMapping("selectOneN.bo")
+	public ModelAndView selectOneN(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
+		response.setContentType("text/html; charset=UTF-8");
+		
+		int num = Integer.parseInt(request.getParameter("num"));
+		
+		ArrayList<Board> list = bs.selectOneNBoard(num);
+		
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd");
+		ArrayList<HashMap<String, Object>> list2 = new ArrayList<HashMap<String, Object>>();
+
+		for(int i = 0; i < list.size(); i++) {
+	         HashMap<String, Object> hmap = new HashMap<String, Object>();
+	         
+	         String WrittenDate = fmt.format(list.get(i).getWrittenDate());
+	         
+	         hmap.put("snno", list.get(i).getSnno());
+	         hmap.put("BTitle", list.get(i).getBTitle());
+	         hmap.put("BContent", list.get(i).getBContent());
+	         hmap.put("WrittenDate", WrittenDate);
+	         hmap.put("BCount", list.get(i).getBCount());
+	         
+	         list2.add(hmap);
+	    }
+
+		mv.addObject("list", list2);
+		
+		mv.setViewName("jsonView");
+		
 		return mv;
 	}
 }
