@@ -41,6 +41,23 @@
 		ORDER BY FNO DESC
 	</select>
 	
+	<!-- 고객센터 FAQ 검색한 게시글 수 조회용 쿼리문 -->
+	<select id="searchFListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM V_FAQBOARD
+		WHERE B_STATUS = 400
+		AND QUESTION_TYPE = #{condition}
+	</select>
+	
+	<!-- 고객센터 FAQ 검색한 게시글 조회용 쿼리문 -->
+	<select id="searchFList" resultMap="boardResultSet">
+		SELECT FNO, BTITLE, BCONTENT
+		FROM V_FAQBOARD
+		WHERE B_STATUS = 400
+		AND QUESTION_TYPE = #{condition}
+		ORDER BY FNO DESC
+	</select>
+	
 	<!-- 고객센터 FAQ 조회수 증가용 쿼리문 -->
 	<!-- <update id="updateFCount" parameterType="_int">
 	

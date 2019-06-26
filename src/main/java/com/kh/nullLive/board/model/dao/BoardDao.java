@@ -15,4 +15,10 @@ public interface BoardDao {
 	//고객센터 FAQ 전체 게시글 조회
 	ArrayList<Board> selectFBoardList(SqlSessionTemplate sqlSession, PageInfo pi);
 
+	//고객센터 FAQ 검색한 게시글 수 조회
+	int getSearchFListCount(SqlSessionTemplate sqlSession, String condition);
+
+	//고객센터 FAQ 검색한 게시글 조회
+	ArrayList<Board> searchFBoardList(SqlSessionTemplate sqlSession, PageInfo pi, String condition);
+
 }

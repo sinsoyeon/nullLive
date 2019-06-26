@@ -13,4 +13,10 @@ public interface BoardService {
 
 	//고객센터 FAQ 전체 게시글 조회
 	ArrayList<Board> selectFBoardList(PageInfo pi);
+
+	//고객센터 FAQ 검색한 게시글 수 조회
+	int getSearchFListCount(int condition);
+
+	//고객센터 FAQ 검색한 게시글 조회
+	ArrayList<Board> searchFBoardList(PageInfo pi, int condition);
 }
