@@ -154,4 +154,19 @@
 		WHERE MID=#{id}
 		AND M_STATUS='Y'
 	</select>
+	
+	<select id="selectKakaoPwd" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT MPWD
+		FROM MEMBER
+		WHERE MID = #{userId}
+		AND M_STATUS = 'Y'
+	</select>
+	
+	<select id="selectKakaoMember" parameterType="java.lang.String" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		WHERE MID = #{userId}
+		AND M_STATUS = 'Y'
+	</select>
+		
 </mapper>

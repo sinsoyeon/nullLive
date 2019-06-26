@@ -141,6 +141,21 @@ public class MemberServiceImpl implements MemberService {
 		return md.duplicateTest(sqlSession,mid);
 	}
 
+	
+	//카카오 로그인 메소드 (정연)
+	@Override
+	public Member kakaologinMember(String userId) throws LoginException {
+		Member loginMember = null;
+		String encPassword = md.selectKakaoEncPassword(sqlSession, userId);
+
+		if(!passwordEncoder.matches(userId, encPassword)) {
+			throw new LoginException("카카오 로그인 실패");
+		}else {
+			loginMember = md.selectKakaoMember(sqlSession, userId);
+		}
+		return loginMember;
+	}
+
 
 
 }
