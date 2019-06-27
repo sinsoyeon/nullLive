@@ -95,9 +95,11 @@
 	</select>
 	
 	<!-- 고객센터 FAQ 조회수 증가용 쿼리문 -->
-	<!-- <update id="updateFCount" parameterType="_int">
-		
-	</update> -->
+	<update id="updateFCount" parameterType="_int">
+		UPDATE BOARD
+		SET BCOUNT = (SELECT BCOUNT FROM V_FAQBOARD WHERE FNO = #{num}) + 1
+		WHERE BNO = (SELECT BNO FROM V_FAQBOARD WHERE FNO = #{num})
+	</update>
 	
 	<!-- 고객센터 공지사항 게시글 수 조회용 쿼리문 -->
 	<select id="selectNListCount" resultType="_int">
@@ -122,9 +124,12 @@
 	</select>
 	
 	<!-- 고객센터 공지사항 조회수 증가용 쿼리문 -->
-	<!-- <update id="updateNCount" parameterType="_int">
+	<update id="updateNCount" parameterType="_int">
+		UPDATE BOARD
+		SET BCOUNT = (SELECT BCOUNT FROM V_SNOTICEBOARD WHERE SNNO = #{num}) + 1
+		WHERE BNO = (SELECT BNO FROM V_SNOTICEBOARD WHERE SNNO = #{num})
+	</update>
 	
-	</update> -->
 	
 	<!-- 구인구직 공지사항 INSERT -->
 	<insert id="insertJobNotice" parameterType="Board">

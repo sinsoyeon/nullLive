@@ -191,12 +191,13 @@ body::-webkit-scrollbar {
 					console.log(typeof(condition));
 					$tableBody = $("#faqTable");
 					$tableBody.html('');
+					
 					$.each(data.list, function(index, value){
-						console.log(value.fno + " " + value.BTitle + " " + value.BContent);
+						console.log(value.fno + " " + value.btitle + " " + value.bcontent);
 						var $tr = $("<tr onclick='selectOneF(this)'>");
 						var $noTd = $("<td>").text(value.fno);
-						var $titleTd = $("<td>").text(value.BTitle);
-						var $contentTd = $("<td>").text(value.BContent);
+						var $titleTd = $("<td>").text(value.btitle);
+						var $contentTd = $("<td>").text(value.bcontent);
 						
 						$tr.append($noTd);
 						$tr.append($titleTd);
@@ -293,12 +294,13 @@ body::-webkit-scrollbar {
 		success:function(data){			
 			$tableBody = $("#faqTable");
 			$tableBody.html('');
+			
 			$.each(data.list, function(index, value){
-				console.log(value.fno + " " + value.BTitle + " " + value.BContent);
+				console.log(value.fno + " " + value.btitle + " " + value.bcontent);
 				var $tr = $("<tr onclick='selectOneF(this)'>");
 				var $noTd = $("<td>").text(value.fno);
-				var $titleTd = $("<td>").text(value.BTitle);
-				var $contentTd = $("<td>").text(value.BContent);
+				var $titleTd = $("<td>").text(value.btitle);
+				var $contentTd = $("<td>").text(value.bcontent);
 				
 				$tr.append($noTd);
 				$tr.append($titleTd);
@@ -350,12 +352,13 @@ body::-webkit-scrollbar {
 			success:function(data){
 				$tableBody = $("#faqTable");
 				$tableBody.html('');
+				
 				$.each(data.list, function(index, value){
-					console.log(value.fno + " " + value.BTitle + " " + value.BContent);
+					console.log(value.fno + " " + value.btitle + " " + value.bcontent);
 					var $tr = $("<tr onclick='selectOneF(this)'>");
 					var $noTd = $("<td>").text(value.fno);
-					var $titleTd = $("<td>").text(value.BTitle);
-					var $contentTd = $("<td>").text(value.BContent);
+					var $titleTd = $("<td>").text(value.btitle);
+					var $contentTd = $("<td>").text(value.bcontent);
 					
 					$tr.append($noTd);
 					$tr.append($titleTd);
@@ -413,7 +416,7 @@ body::-webkit-scrollbar {
 		
 		$ftable = $("<div style='height: 240px;background: #faebd7a6;border-radius: 13px;padding: 2.5%;'><table class='table'> <tbody id='selectFaqT'> <tr> <th class='selectT sLabel'>질문</th> <td class='selectT' style='background: white; border-radius: 10px; '><b>Q. </b><span id='fTitle'></span></td> </tr> <tr style='height:10px;'></tr> <tr> <th class='selectT sLabel'>답변</th> <td class='selectT' style=' height: 160px; background: white; border-radius: 10px; '><b>A. </b><span id='fContent' style='text-align: justify; word-break: keep-all'></span></td> </tr> </tbody> </table></div>");
 		
-		$fpage = $("<button type='button' class='btn pull-right backBtn' style=' margin-top: 3%; ' onclick='fbackBtn();'>이전</button>");
+		$fpage = $("<div style='height: 79.33px;'><button type='button' class='btn pull-right backBtn' style=' margin-top: 3%; ' onclick='fbackBtn();'>이전</button></div>");
 		
 		$fDiv.append($ftable);
 		
@@ -424,11 +427,13 @@ body::-webkit-scrollbar {
 			type:"get",
 			data:{num:num},
 			success:function(data){
-				$.each(data.list, function(index, value){
-					console.log(value.fno + " " + value.BTitle + " " + value.BContent);
-					$("#fTitle").text(value.BTitle);
-					$("#fContent").html(value.BContent);
-				});
+				var list = data;
+				
+				for(var i = 0; i < list.length; i++){
+					console.log(list[i].btitle + " " + list[i].bcontent);
+					$("#fTitle").text(list[i].btitle);
+					$("#fContent").html(list[i].bcontent);
+				}
 			}
 		});
 	}
@@ -450,14 +455,17 @@ body::-webkit-scrollbar {
 		success:function(data){
 			$tableBody = $("#noticeTable");
 			$tableBody.html('');
+			
 			$.each(data.list, function(index, value){
-				console.log(value.snno + " " + value.BTitle + " " + value.BContent + " " + value.WrittenDate + " " + value.BCount);
+				var date = new Date(value.writtenDate).format('yyyy/MM/dd');
+				
+				console.log(value.snno + " " + value.btitle + " " + value.bcontent + " " + date + " " + value.bcount);
 				var $tr = $("<tr onclick='selectOneN(this)'>");
 				var $noTd = $("<td>").text(value.snno);
-				var $titleTd = $("<td>").text(value.BTitle);
-				var $contentTd = $("<td>").text(value.BContent);
-				var $dateTd = $("<td style='text-align:center;'>").text(value.WrittenDate);
-				var $countTd = $("<td style='text-align:center;'>").text(value.BCount);
+				var $titleTd = $("<td>").text(value.btitle);
+				var $contentTd = $("<td>").text(value.bcontent);
+				var $dateTd = $("<td style='text-align:center;'>").text(date);
+				var $countTd = $("<td style='text-align:center;'>").text(value.bcount);
 				
 				$tr.append($noTd);
 				$tr.append($titleTd);
@@ -473,7 +481,7 @@ body::-webkit-scrollbar {
             var startPage = data.pi.startPage;
             var endPage = data.pi.endPage;
             var maxPage = data.pi.maxPage;
-            
+
             //이전
             if(currentPage <= 1){
                 $paging.append("<li class='page-item'><a class='page-link'>Previous</a></li>");
@@ -511,14 +519,17 @@ body::-webkit-scrollbar {
 		success:function(data){
 			$tableBody = $("#noticeTable");
 			$tableBody.html('');
+			
 			$.each(data.list, function(index, value){
-				console.log(value.snno + " " + value.BTitle + " " + value.BContent + " " + value.WrittenDate + " " + value.BCount);
+				var date = new Date(value.writtenDate).format('yyyy/MM/dd');
+				
+				console.log(value.snno + " " + value.btitle + " " + value.bcontent + " " + date + " " + value.bcount);
 				var $tr = $("<tr onclick='selectOneN(this)'>");
 				var $noTd = $("<td>").text(value.snno);
-				var $titleTd = $("<td>").text(value.BTitle);
-				var $contentTd = $("<td>").text(value.BContent);
-				var $dateTd = $("<td style='text-align:center;'>").text(value.WrittenDate);
-				var $countTd = $("<td style='text-align:center;'>").text(value.BCount);
+				var $titleTd = $("<td>").text(value.btitle);
+				var $contentTd = $("<td>").text(value.bcontent);
+				var $dateTd = $("<td style='text-align:center;'>").text(date);
+				var $countTd = $("<td style='text-align:center;'>").text(value.bcount);
 				
 				$tr.append($noTd);
 				$tr.append($titleTd);
@@ -575,7 +586,7 @@ body::-webkit-scrollbar {
 		
 		$ntable = $("<div style='height: 240px;background: #faebd7a6;border-radius: 13px;padding: 2.5%;'> <table class='table'> <tbody id='selectNoticeT'> <tr> <th class='selectT' style=' width: 10%; '>제목</th> <td class='selectT' style=' width: 40%; background: white; border-radius: 10px;' id='nTitle'></td> <th class='selectT' style=' width: 10%; text-align: center;'>작성일</th> <td class='selectT' style='background: white; border-radius: 10px; width: 13%; text-align: center;' id='nDate'></td> <th class='selectT' style=' width: 10%; text-align: center;'>조회수</th> <td class='selectT' style='background: white; border-radius: 10px; width: 13%; text-align: center;' id='nCount'></td> </tr> <tr style='height:10px;'></tr> <tr> <th class='selectT'>내용</th> <td class='selectT' colspan='5' style='background: white; border-radius: 10px; height: 150px; text-align: justify; word-break: keep-all' id='nContent'></td> </tr> </tbody> </table> </div>");
 		
-		$npage = $("<button type='button' class='btn pull-right backBtn' style=' margin-top: 2.5%; ' onclick='nbackBtn();'>이전</button>");
+		$npage = $("<div style='height: 79.33px;'><button type='button' class='btn pull-right backBtn' style=' margin-top: 2.5%; ' onclick='nbackBtn();'>이전</button></div>");
 		
 		$nDiv.append($ntable);
 		
@@ -586,13 +597,16 @@ body::-webkit-scrollbar {
 			type:"get",
 			data:{num:num},
 			success:function(data){
-				$.each(data.list, function(index, value){
-					console.log(value.snno + " " + value.BTitle + " " + value.BContent + " " + value.WrittenDate + " " + value.BCount);
-					$("#nTitle").text(value.BTitle);
-					$("#nDate").text(value.WrittenDate);
-					$("#nCount").text(value.BCount);
-					$("#nContent").html(value.BContent);
-				});
+				var list = data;
+				
+				for(var i = 0; i < list.length; i++){
+					var nDate = new Date(list[i].writtenDate).format('yyyy/MM/dd');
+					console.log(list[i].btitle + " " + list[i].bcontent + " " + nDate + " " + list[i].bcount);
+					$("#nTitle").text(list[i].btitle);
+					$("#nDate").text(nDate);
+					$("#nCount").text(list[i].bcount);
+					$("#nContent").html(list[i].bcontent);
+				}
 			}
 		});
 	}
@@ -603,6 +617,40 @@ body::-webkit-scrollbar {
 			nContainer();
 			nLoad();
 	}
+	
+	//date format 함수  : Date 내장 객체에 format함수 추가
+	Date.prototype.format = function(f) {    
+	    if (!this.valueOf()) return " ";     
+	    
+	    var weekName = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];    
+	    var d = this;         
+	    
+	    return f.replace(/(yyyy|yy|MM|dd|E|hh|mm|ss|a\/p)/gi, function($1) {        
+	        switch ($1) {            
+	           case "yyyy": return d.getFullYear();            
+	           case "yy": return (d.getFullYear() % 1000).zf(2);            
+	           case "MM": return (d.getMonth() + 1).zf(2);            
+	           case "dd": return d.getDate().zf(2);            
+	           case "E": return weekName[d.getDay()];            
+	           case "HH": return d.getHours().zf(2);            
+	           case "hh": return ((h = d.getHours() % 12) ? h : 12).zf(2);            
+	           case "mm": return d.getMinutes().zf(2);            
+	           case "ss": return d.getSeconds().zf(2);            
+	           case "a/p": return d.getHours() < 12 ? "오전" : "오후";            
+	           default: return $1;        
+	         }    
+	    });
+	}; 
+
+	//한자리일경우 앞에 0을 붙여준다.
+	String.prototype.string = function(len){
+	    var s = '', i = 0; 
+	    while (i++ < len) { s += this; } 
+	    return s;
+	}; 
+	String.prototype.zf = function(len){return "0".string(len - this.length) + this;};
+	Number.prototype.zf = function(len){return this.toString().zf(len);};
+	//->여기까지 Date Format함수!
 	</script>
 </body>
 </html>

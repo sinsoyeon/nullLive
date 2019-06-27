@@ -46,7 +46,7 @@
 		<div class="row"
 			style="background: #faebd7a6; padding: 5%; height: 528px;">
 			<div class="col-md-12" style=" padding: 0; ">
-				<div style="height: 390px;">
+				<div style="height: 412px;">
 					<table class="table">
 						<tbody id="myQTableOne">
 							<tr>
