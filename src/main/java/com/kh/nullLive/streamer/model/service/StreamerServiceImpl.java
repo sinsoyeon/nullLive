@@ -1,5 +1,6 @@
 package com.kh.nullLive.streamer.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -40,6 +41,23 @@ public class StreamerServiceImpl implements StreamerService{
 	@Override
 	public int insertNP(Streamer streamer, int amount) {
 		return smDao.insertNP(sqlSession,streamer,amount);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectSubList(int mno) {
+		return smDao.selectSubList(sqlSession,mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectForMeSubList(int mno) {
+		// TODO Auto-generated method stub
+		return smDao.selectForMeSubList(sqlSession,mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectSponList(int mno) {
+		// TODO Auto-generated method stub
+		return smDao.selectSponList(sqlSession,mno);
 	}
 
 }

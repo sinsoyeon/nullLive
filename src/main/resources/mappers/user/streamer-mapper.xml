@@ -2,45 +2,87 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
- <mapper namespace="Streamer">
+
+<mapper namespace="Streamer">
 	<resultMap type="Streamer" id="streamerResultSet">
-		<id property="sno" column="SNO"/>
-		<result property="mno" column="MID"/>
-		<result property="bstart_date" column="BSTART_DATE"/>
-		<result property="cumulative_selection" column="CUMULATIVE_SELECTION"/>
-		<result property="bank_code" column="BANK_CODE"/>		
-		<result property="account" column="ACCOUNT"/>	
-		<result property="holder" column="HOLDER"/>
-		<result property="is_auth" column="IS_AUTH"/>
-		<result property="nickName" column="NICK_NAME"/>			
+		<id property="sno" column="SNO" />
+		<result property="mno" column="MID" />
+		<result property="bstart_date" column="BSTART_DATE" />
+		<result property="cumulative_selection"
+			column="CUMULATIVE_SELECTION" />
+		<result property="bank_code" column="BANK_CODE" />
+		<result property="account" column="ACCOUNT" />
+		<result property="holder" column="HOLDER" />
+		<result property="is_auth" column="IS_AUTH" />
+		<result property="nickName" column="NICK_NAME" />
 	</resultMap>
-	
-	<select id="selectStreamer" resultType="java.lang.String" parameterType="java.lang.String">
+
+	<select id="selectStreamer" resultType="java.lang.String"
+		parameterType="java.lang.String">
 		SELECT SNO
 		FROM STREAMER,MEMBER
-		WHERE MEMBER.MNO = STREAMER.MNO
+		WHERE MEMBER.MNO =
+		STREAMER.MNO
 		AND MID = #{streamer}
 	</select>
-	
+
+	<select id="selectSubList" parameterType="_int"
+		resultType="java.util.HashMap">
+		SELECT SUNO,ST.NICK_NAME,SU_START_DATE,SU_PERIOD_DATE
+		FROM
+		MEMBER ST,MEMBER M,STREAMER S,SUBSCRIPTION_HIS H
+		WHERE ST.MNO = S.MNO
+		AND M.MNO = H.MNO
+		AND S.SNO = H.SNO
+		AND M.MNO = #{MNO}
+	</select>
+
+	<select id="selectForMeSub" parameterType="_int"
+		resultType="java.util.HashMap">
+		select SUNO,m.NICK_NAME,MSG
+		from member st,member m,streamer
+		s,subscription_his h
+		where st.mno = s.mno
+		AND M.MNO = H.MNO
+		AND S.SNO =
+		H.SNO
+		and st.MNO = #{mno}
+	</select>
+
+
+	<select id="selectSponList" parameterType="_int" resultType="java.util.HashMap">
+		SELECT SPON_DATE,ST.MID,ST.NICK_NAME,SPON_AMOUNT
+		FROM MEMBER M,MEMBER ST,STREAMER S, SPON_HIS H
+		WHERE ST.MNO = S.MNO
+		AND ST.MNO = H.SNO
+		AND M.MNO = H.MNO
+		AND M.MNO = #{mno}
+		ORDER BY SPON_DATE DESC
+	</select>
+
 	<insert id="insertSub" parameterType="Streamer">
-		INSERT INTO SUBSCRIPTION_HIS(SUNO,MNO,SNO,SU_START_DATE,SU_PERIOD_DATE,SU_STATUS)
+		INSERT INTO
+		SUBSCRIPTION_HIS(SUNO,MNO,SNO,SU_START_DATE,SU_PERIOD_DATE,SU_STATUS)
 		VALUES (SEQ_SUNO.NEXTVAL,#{mno},#{sno},sysdate,null,'Y')
-		
+
 	</insert>
-	
+
 	<insert id="insertMnthlSbscr" parameterType="java.util.HashMap">
-		INSERT INTO SUBSCRIPTION_HIS(SUNO,MNO,SNO,SU_START_DATE,SU_PERIOD_DATE,SU_STATUS)
+		INSERT INTO
+		SUBSCRIPTION_HIS(SUNO,MNO,SNO,SU_START_DATE,SU_PERIOD_DATE,SU_STATUS)
 		VALUES (SEQ_SUNO.NEXTVAL,#{streamer.mno},#{streamer.sno},sysdate,
 		<if test="amount==19"> add_months(sysdate,3)</if>
 		<if test="amount==25"> add_months(sysdate,6)</if>
-		<if test="amount==30"> add_months(sysdate,12)</if>,
+		<if test="amount==30"> add_months(sysdate,12)</if>
+		,
 		'Y')
 	</insert>
-	
+
 	<insert id="insertNP" parameterType="java.util.HashMap">
 		INSERT INTO SPON_HIS
-		VALUES (SEQ_SPNO.NEXTVAL,#{amount},SYSDATE,#{streamer.mno},#{streamer.sno})
-	
+		VALUES
+		(SEQ_SPNO.NEXTVAL,#{amount},SYSDATE,#{streamer.mno},#{streamer.sno})
 	</insert>
+
+
 </mapper>
