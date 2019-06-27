@@ -35,8 +35,13 @@ public class AdminDaoImpl implements AdminDao{
 	}
 
 	@Override
-	public UserDetail userDetail(SqlSessionTemplate sqlSession) {
-		return (UserDetail)sqlSession.selectList("Admin.selectUserDetail");
+	public UserDetail userDetail(SqlSessionTemplate sqlSession, String userId) {
+		return sqlSession.selectOne("Admin.selectUserDetail", userId);
+	}
+
+	@Override
+	public int userStatusUpdate(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("Admin.userStatusUpdate", m);
 	}
 
 

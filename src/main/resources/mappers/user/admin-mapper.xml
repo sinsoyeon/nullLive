@@ -24,6 +24,17 @@
 		<result property="bStatus" column="B_STATUS"/>
 	</resultMap>
 	
+	<resultMap type="UserDetail" id="UserDetailResultSet">
+		<id property="mid" column="MID"/>
+		<result property="name" column="NAME"/>
+		<result property="nickName" column="NICK_NAME"/>
+		<result property="enrollDate" column="ENROLL_DATE"/>
+		<result property="memStatus" column="M_STATUS"/>
+		<result property="broadAddress" column="broad_address"/>
+		<result property="report" column="REPORT"/>
+		<result property="broCount" column="BROCOUNT"/>
+	</resultMap>
+	
 	<select id="selectExchange" resultMap="ExchangeResultSet">
 		SELECT e.excno ,m.nick_name, m.name, e.exc_fee, e.application_date, e.exc_status, e.approval_date
 		FROM EXCHANGE E
@@ -39,8 +50,8 @@
 		ORDER BY 1 DESC
 	</select>
 	
-	<select id="selectUserDetail">
-	SELECT DISTINCT M.MID,M.NAME, M.NICK_NAME, M.ENROLL_DATE, M.M_STATUS, bc.broad_address, RCOU.REPORT, BCOU.BROCOUNT
+	<select id="selectUserDetail" resultMap="UserDetailResultSet" parameterType="java.lang.String">
+	SELECT M.MID,M.NAME, M.NICK_NAME, TO_CHAR(M.ENROLL_DATE, 'YYYY/MM/DD') ENROLL_DATE, M.M_STATUS, bc.broad_address, RCOU.REPORT, BCOU.BROCOUNT
 	FROM MEMBER M
 	JOIN BROAD_CENTER BC ON(M.MNO = BC.MNO)
 	LEFT JOIN (SELECT MM.MNO ,COUNT(*) REPORT
@@ -52,6 +63,18 @@
 	            JOIN BROAD_HIS BH ON(BRC.BCNO = BH.BCNO)
 	            JOIN MEMBER MMM ON(MMM.MNO = BRC.MNO)
 	            GROUP BY MMM.MID) BCOU ON(M.MID = BCOU.MID)
-	WHERE M.MID LIKE 'user03'  
+	WHERE M.MID LIKE #{userId}
 	</select>
+	
+	<!-- <update id="userStatusUpdate" parameterType="com.kh.nullLive.member.model.vo.Member">
+		 UPDATE MEMBER
+		 <if test="mstatus == 'N'">
+		SET M_STATUS = 'Y'
+		</if>
+		<if test="mstatus =='Y'">
+		SET M_STATUS = 'N'
+		</if>
+		WHERE MID LIKE #{mid}
+		
+	</update> -->
 </mapper>

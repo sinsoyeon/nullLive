@@ -20,7 +20,9 @@ public interface AdminDao {
 
 	ArrayList<Question> questionList(SqlSessionTemplate sqlSession);
 
-	UserDetail userDetail(SqlSessionTemplate sqlSession);
+	UserDetail userDetail(SqlSessionTemplate sqlSession, String userId);
+
+	int userStatusUpdate(SqlSessionTemplate sqlSession, Member m);
 
 
 
