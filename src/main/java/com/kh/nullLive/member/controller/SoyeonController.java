@@ -36,26 +36,7 @@ public class SoyeonController {
 		return "member/subscribePage/soyeonTestForm";
 	}
 	
-	/**
-	 * @author : 소연
-	 * @date : 2019. 6. 19.
-	 * @comment : paymentForm 테스트용 servlet
-	 */	
-	@RequestMapping("pay.me")
-	public String payController() {
-		return "member/paymentForm";
-	}	
 
-	/**
-	 * @author : 소연
-	 * @date : 2019. 6. 20.
-	 * @comment : null point 결제 후 update
-	 */		
-	@RequestMapping("updateNP")
-	public void updateNullPoint() {
-		
-	}
-	
 	/**
 	 * @author : 소연
 	 * @date : 2019. 6. 21.

@@ -1,5 +1,6 @@
 package com.kh.nullLive.streamer.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -51,6 +52,30 @@ public class StreamerDaoImpl implements StreamerDao {
 		npMap.put("amount", amount);
 		
 		return sqlSession.insert("Streamer.insertNP",npMap);
+	}
+
+
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectSubList(SqlSessionTemplate sqlSession, int mno) {
+
+		return (ArrayList)sqlSession.selectList("Streamer.selectSubList", mno);
+	}
+
+
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectForMeSubList(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return  (ArrayList)sqlSession.selectList("Streamer.selectForMeSub", mno);
+	}
+
+
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectSponList(SqlSessionTemplate sqlSession, int mno) {
+	
+		return (ArrayList)sqlSession.selectList("Streamer.selectSponList",mno);
 	}
 	
 }
