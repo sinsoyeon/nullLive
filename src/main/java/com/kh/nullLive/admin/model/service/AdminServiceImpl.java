@@ -11,6 +11,7 @@ import com.kh.nullLive.admin.model.dao.AdminDao;
 import com.kh.nullLive.admin.model.vo.Exchange;
 import com.kh.nullLive.admin.model.vo.Question;
 import com.kh.nullLive.admin.model.vo.Report;
+import com.kh.nullLive.admin.model.vo.UserDetail;
 import com.kh.nullLive.member.model.vo.Member;
 
 @Service
@@ -42,15 +43,21 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public ArrayList<Exchange> ExchangeList() {
-		ArrayList<Exchange> ExchangeList = ad.ExchangeList(sqlSession);
+	public ArrayList<Exchange> exchangeList() {
+		ArrayList<Exchange> ExchangeList = ad.exchangeList(sqlSession);
 		return ExchangeList;
 	}
 
 	@Override
-	public ArrayList<Question> QuestionList() {
-		ArrayList<Question> QuestionList = ad.QuestionList(sqlSession);
+	public ArrayList<Question> questionList() {
+		ArrayList<Question> QuestionList = ad.questionList(sqlSession);
 		return QuestionList;
+	}
+
+	@Override
+	public UserDetail userDetail() {
+		UserDetail userDeatil = ad.userDetail(sqlSession);
+		return null;
 	}
 	
 	
