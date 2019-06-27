@@ -74,13 +74,17 @@
 					</tr>
 					<c:forEach var="board" items="${ list }">
 						<tr onclick="location.href='jobMngDetail.jbo'">
-							<%-- <td id="bno"><c:out value="${ board.bno }"/></td>
-							<td><c:out value="${ board.BWriter }"/></td>
-							<td><c:out value="${ board.BWriter }"/></td>
-							<td><c:out value="${ board.BWriter }"/></td>
-							<td><c:out value="${ board.BWriter }"/></td>
-							<td><c:out value="${ board.BWriter }"/></td>
-							<td><c:out value="${ board.BWriter }"/></td> --%>
+							<td id="bno"><c:out value="${ board.bno }"/></td>
+							<td><c:out value="${ board.bWriter }"/></td>
+							<td><c:out value="${ board.bTitle }"/></td>
+							<td><c:out value="${ board.jBtype }"/></td>
+							<td>
+							
+							<c:out value="${ board.writtenDate }"/>
+							
+							</td>
+							<td><c:out value="${ board.deadLine }"/></td>
+							<td><c:out value="${ board.bStatus }"/></td>
 						</tr>
 					</c:forEach>
 				</table>

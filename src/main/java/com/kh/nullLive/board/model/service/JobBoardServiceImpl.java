@@ -1,6 +1,7 @@
 package com.kh.nullLive.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
 
 import com.kh.nullLive.board.model.dao.JobBoardDao;
+import com.kh.nullLive.board.model.exception.JobBoardInsertException;
 import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.JobBoard;
@@ -70,6 +72,11 @@ public class JobBoardServiceImpl implements JobBoardService{
 		jbd.deleteJobNotice();
 	}
 
+	/**
+	 * @author : uukk
+	 * @date : 2019. 6. 27.
+	 * @comment : 매니저 리스트 페이징
+	 */
 	@Override
 	public void selectListJobMngBoard() {
 		jbd.selectListJobMngBoard();
@@ -82,14 +89,25 @@ public class JobBoardServiceImpl implements JobBoardService{
 
 	/**
 	 * @author : uukk
+	 * @throws JobBoardInsertException 
 	 * @date : 2019. 6. 26.
 	 * @comment : 구인구직게시판 작성
 	 */
 	@Override
-	public int insertJobBoard(Board board, JobBoard jBoard) {
+	public int insertJobBoard(Board board, JobBoard jBoard) throws JobBoardInsertException {
 		int result = 0;
 		int boardResult = jbd.insertJobBoard(sqlSession,board);
+		int boardCurrval = jbd.selectCurrval(sqlSession);
+		System.out.println(boardCurrval);
+		jBoard.setBno(boardCurrval);
 		int jBoardResult = jbd.insertJobJBoard(sqlSession,jBoard);
+		System.out.println(jBoardResult);
+		if(boardResult > 0 && jBoardResult > 0) {
+			result = 1;
+		}else {
+			result = 0;
+			throw new JobBoardInsertException("구인구직게시판 작성 실패");
+		}
 		return result;
 	}
 
@@ -146,11 +164,10 @@ public class JobBoardServiceImpl implements JobBoardService{
 	/**
 	 * @author : uukk
 	 * @date : 2019. 6. 26.
-	 * @comment : 
+	 * @comment : 매니저 리스트 페이징 조회
 	 */
 	@Override
-	public ArrayList<Board> selectJobMngPaging(PagingVo paging) {
-		
+	public ArrayList selectJobMngPaging(PagingVo paging) {
 		return jbd.selectJobMngPaging(sqlSession,paging);
 	}
 

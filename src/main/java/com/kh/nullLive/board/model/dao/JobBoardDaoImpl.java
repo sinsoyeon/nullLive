@@ -1,6 +1,7 @@
 package com.kh.nullLive.board.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -14,21 +15,6 @@ import com.kh.nullLive.common.paging.model.vo.PagingVo;
 @Repository
 public class JobBoardDaoImpl implements JobBoardDao {
 
-	/**
-	 * @author : uukk
-	 * @date : 2019. 6. 24.
-	 * @comment : 구인구직 공지사항 목록조회
-	 */
-	@Override
-	public ArrayList<Board> selectListJobNotice(SqlSessionTemplate sqlSession,PageInfo pi) {
-		int offset = (pi.getCurrentPage()-1) * pi.getLimit();
-		
-		//페이징 처리를 위한 클래스
-		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
-		
-		ArrayList<Board> list = (ArrayList) sqlSession.selectList("Board.selectListJobNotice",null,rowBounds);
-		return list;
-	}
 
 	/**
 	 * @author : uukk
@@ -76,8 +62,7 @@ public class JobBoardDaoImpl implements JobBoardDao {
 	 */
 	@Override
 	public int insertJobBoard(SqlSessionTemplate sqlSession, Board board) {
-		/* sqlSession.insert("board.insertJobBoard",board); */
-		return 0;
+		return sqlSession.insert("Board.insertBoard",board);
 	}
 	/**
 	 * @author : uukk
@@ -86,8 +71,7 @@ public class JobBoardDaoImpl implements JobBoardDao {
 	 */
 	@Override
 	public int insertJobJBoard(SqlSessionTemplate sqlSession, JobBoard jBoard) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.insert("Board.insertJobBoard",jBoard);
 	}
 
 	@Override
@@ -171,16 +155,27 @@ public class JobBoardDaoImpl implements JobBoardDao {
 	/**
 	 * @author : uukk
 	 * @date : 2019. 6. 26.
-	 * @comment : 
+	 * @comment : 구인구직 매니저게시판 게시글 조회
 	 */
 	@Override
-	public ArrayList<Board> selectJobMngPaging(SqlSessionTemplate sqlSession, PagingVo paging) {
-		return (ArrayList)sqlSession.selectList("Board.selectPaging",paging);
+	public ArrayList selectJobMngPaging(SqlSessionTemplate sqlSession, PagingVo paging) {
+		return (ArrayList) sqlSession.selectList("Board.selectJobMngTotalPaging",paging);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 6. 27.
+	 * @comment : board currval 조회
+	 */
+	@Override
+	public int selectCurrval(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Board.selectCurrval");
 	}
 
 	@Override
-	public int selectCurrval(SqlSessionTemplate sqlSession) {
-		return 0;
+	public ArrayList<Board> selectListJobNotice(SqlSessionTemplate sqlSession, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

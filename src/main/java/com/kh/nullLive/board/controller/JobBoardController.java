@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.kh.nullLive.board.model.exception.JobBoardInsertException;
 import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.service.JobBoardService;
 import com.kh.nullLive.board.model.vo.Board;
@@ -142,7 +144,7 @@ public class JobBoardController {
 		int result = jbs.insertJobNotice(board);
 		
 		if(result> 0 ) {
-			return "redirect:index.jsp";
+			return "redirect:jobMain.jbo";
 		}else {
 			model.addAttribute("msg","공지사항 작성 실패");
 			return "common/board/jobNoticeList";
@@ -177,10 +179,10 @@ public class JobBoardController {
 	 */
 	@RequestMapping("jobMngList.jbo")
 	public String selectListJobMngBoard(PagingVo paging,Model model) {
-		System.out.println("jobMngList");
-		ArrayList<Board> lists = jbs.selectJobMngPaging(paging);
+		ArrayList list = jbs.selectJobMngPaging(paging);
+		System.out.println(list);
 		paging.setTotal(jbs.getListCount());
-		model.addAttribute("list", lists);
+		model.addAttribute("list", list);
         model.addAttribute("pi", paging);
 		return "board/job/jobMngList";
 	}
@@ -203,13 +205,12 @@ public class JobBoardController {
 	@RequestMapping("insertJobBoard.jbo")
 	public String insertJobBoard(Board board,JobBoard jBoard,Model model) {
 		
-		int result = jbs.insertJobBoard(board,jBoard);
-		
-		if(result> 0 ) {
+		try {
+			int result = jbs.insertJobBoard(board,jBoard);
 			return "redirect:index.jsp";
-		}else {
-			model.addAttribute("msg","공지사항 작성 실패");
-			return "common/board/jobNoticeList";
+		} catch (JobBoardInsertException e) {
+			model.addAttribute("msg",e.getMessage());
+			return "common/errorPage";
 		}
 	}
 	
