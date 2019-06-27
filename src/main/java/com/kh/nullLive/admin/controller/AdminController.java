@@ -3,9 +3,12 @@ package com.kh.nullLive.admin.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.nullLive.admin.model.service.AdminService;
 import com.kh.nullLive.admin.model.vo.Exchange;
@@ -51,18 +54,36 @@ public class AdminController {
 
 	// 회원 검색
 
-	// 회원 상세정보 조회
+	/**
+	 * @author INHYO
+	 * @date : 2019. 6. 27.
+	 * @comment : 회원 상세정보 조회
+	 */
 	@RequestMapping("userDeatil.ad")
-	public String userDeatil(Model model) {
+	public ResponseEntity<UserDetail> userDeatil(String userId) {
 		
-		UserDetail userDetail = as.userDetail();
+		UserDetail userDetail = as.userDetail(userId);
 		
-		model.addAttribute("userDetail", userDetail);
-		
-		return "admin/memberManagement";
+		return new ResponseEntity<UserDetail>(userDetail, HttpStatus.OK);
 	}
 
-	// 계정 활동 및 정지
+	/**
+	 * @author INHYO
+	 * @date : 2019. 6. 27.
+	 * @comment :계정 활동 및 정지
+	 */
+	@RequestMapping("userStatusUpdate.ad")
+	public void userStatusUpdate(String memberId, String memberStatus) {
+		Member m = new Member();
+		m.setMid(memberId);
+		m.setMstatus(memberStatus);
+		int result = as.userStatusUpdate(m);
+		if(result >0 ) {
+			System.out.println("성공?");
+			}else {
+				System.out.println("실패?");
+			}
+	}
 
 	// 회원 상세정보 조회 닫기
 

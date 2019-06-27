@@ -4,7 +4,9 @@ import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @NoArgsConstructor
@@ -13,8 +15,8 @@ public class UserDetail {
 	private String mid; // MID
 	private String name; // NAME
 	private String nickName; // NICK_NAME
-	private Date enrollDate; // ENROLL_DATE
-	private String mStatus; // M_STATUS
+	private String enrollDate; // ENROLL_DATE
+	private String memStatus; // M_STATUS
 	private String broadAddress; // broad_address
 	private int report; // REPORT
 	private int broCount; // BROCOUNT

@@ -15,11 +15,11 @@ import com.kh.nullLive.admin.model.vo.UserDetail;
 import com.kh.nullLive.member.model.vo.Member;
 
 @Service
-public class AdminServiceImpl implements AdminService{
-	
+public class AdminServiceImpl implements AdminService {
+
 	@Autowired
 	private AdminDao ad;
-	
+
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
@@ -28,17 +28,13 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public ArrayList<Member> memberList() {
-		
-		 ArrayList<Member> userList = ad.memberList(sqlSession);
-		
+		ArrayList<Member> userList = ad.memberList(sqlSession);
 		return userList;
 	}
 
 	@Override
 	public ArrayList<Report> streamerReportList() {
-
 		ArrayList<Report> streamerReportList = ad.streamerReportList(sqlSession);
-
 		return streamerReportList;
 	}
 
@@ -55,12 +51,15 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public UserDetail userDetail() {
-		UserDetail userDeatil = ad.userDetail(sqlSession);
-		return null;
+	public UserDetail userDetail(String userId) {
+		UserDetail userDetail = ad.userDetail(sqlSession, userId);
+		return userDetail;
 	}
-	
-	
-	
+
+	@Override
+	public int userStatusUpdate(Member m) {
+		int result = ad.userStatusUpdate(sqlSession, m);
+		return result;
+	}
 
 }

@@ -18,7 +18,9 @@ public interface AdminService {
 
 	ArrayList<Question> questionList();
 
-	UserDetail userDetail();
+	UserDetail userDetail(String userId);
+
+	int userStatusUpdate(Member m);
 
 
 }

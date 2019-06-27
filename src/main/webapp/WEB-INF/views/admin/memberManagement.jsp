@@ -130,27 +130,7 @@ height: auto; */
 							<p>계정 관리 :</p>
 						</div>
 						<div class="col-sm-5"><br>
-							<p>${ userDetail.mid }</p>
-							<p>${ userDetail.name }</p>
-							<p>${ userDetail.nickName }</p>
-							<p>${ userDetail.enrollDate }</p>
-							<p>www.null-live/${ userDetail.broadAddress }.tv</p>
-							<p>${ userDetail.report }</p>
-							<p>${ userDetail.broCount }</p>
-							<div style="display: inline-block;">
-								<select>
-								<c:if test="${ userDetail.mStatus eq 'Y' }">
-									<option value="활동" selected>활동</option>
-									<option value="정지">정지</option>
-								</c:if>	
-								<c:if test="${ userDetail.mStatus eq 'N' }">
-									<option value="활동">활동</option>
-									<option value="정지"selected>정지</option>
-								</c:if>	
-								</select>
-							</div>
-							<div style="display: inline-block;"><button>적용</button></div>
-
+							<div id='userDetailContent'></div>
 						</div>
 					</div>
 
@@ -176,12 +156,12 @@ height: auto; */
 						<c:set var = "number1" value = "${listSize-index}" />
 						<c:out value="${number1}"/> 
 						</td>
-						<td>${user.mid}</td>	
+						<td id='userId'>${user.mid}</td>	
 						<td>${user.name}</td>	
 						<td>${user.nickName}</td>	
 						<td>${user.isStreamer}</td>	
 						<td>${user.enrollDate}</td>	
-						<td>${user.mstatus}</td>		
+						<td>${user.mstatus}</td>
 					</tr>
 				</c:forEach>
 				</tbody>
@@ -205,24 +185,73 @@ height: auto; */
 <br>
 </body>
 <script>
+var memberId
+var memberStatus
 	$(function() {
 			$('li:eq(1)').addClass('active');
 			$('#menu1').addClass('active in');
 			$('#menu1 a:eq(0)').css('font-weight','bold');
-			$('td').click(function() {
-				var userId = $(this).html();
-				console.log(userId);
+			$('tr').click(function() {
+				var userId = $(this).children().eq(1).html();
+				memberId = $(this).children().eq(1).html();
+				$.ajax({
+		            url: "userDeatil.ad",
+		            type: "post",
+		            data: {userId:userId},
+		            success: function(data){
+		            	
+		            	var mid = data.mid
+		            	var name = data.name
+		            	var nickName = data.nickName
+		            	var enrollDate = data.enrollDate
+		            	var broadAddress = data.broadAddress
+		            	var report = data.report
+		            	var broCount = data.broCount
+		            	var mStatus = data.memStatus
+		            	
+		            	memberStatus = data.memStatus
+		            	
+		            	$('#userDetailContent').append("<p>"+mid+"</p>");
+		            	$('#userDetailContent').append("<p>"+name+"</p>");
+		            	$('#userDetailContent').append("<p>"+nickName+"</p>");
+		            	$('#userDetailContent').append("<p>"+enrollDate+"</p>");
+		            	$('#userDetailContent').append("<p>www.null-live/"+broadAddress+".tv</p>");
+		            	$('#userDetailContent').append("<p>"+report+"</p>");
+		            	$('#userDetailContent').append("<p>"+broCount+"</p>");
+		            	
+		            	if(mStatus == 'Y'){
+		            		$('#userDetailContent').append("<div style='display: inline-block;'><select><option value='활동' selected>활동</option><option value='정지'>정지</option></select></div><div style='display: inline-block;'><button onclick='userStatusUpdate()'>적용</button></div>");
+		            	}else{
+							$('#userDetailContent').append("<div style='display: inline-block;'><select><option value='활동' >활동</option><option value='정지'selected>정지</option></select></div><div style='display: inline-block;'><button onclick='userStatusUpdate()'>적용</button></div>");
+		            	}
+		            	
+		            },
+		            error: function(){
+		                alert("simpleWithObject err");
+		            }
+		        });
+				
 				$('#memberPopup').css("display","block");
 				$('#memberPopupBack').css("display","block");
 			});
 			$('#closeBtn2').click(function() {
 				$('#memberPopup').css("display","none");
 				$('#memberPopupBack').css("display","none");
+				$('#userDetailContent').children().remove();
 			});
 			$('#memberPopupBack').click(function() {
 				$('#memberPopup').css("display","none");
 				$('#memberPopupBack').css("display","none");
+				$('#userDetailContent').children().remove();
 			});
 	})
+	
+	function userStatusUpdate() {
+		
+	/* location.href='userStatusUpdate.ad?memberId='+memberId+'&memberStatus='+memberStatus; */
+
+	
+		
+	}
 </script>
 </html>

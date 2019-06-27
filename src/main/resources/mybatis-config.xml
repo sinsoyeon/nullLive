@@ -13,6 +13,7 @@
 		<typeAlias alias="Report" type="com.kh.nullLive.admin.model.vo.Report" />
 		<typeAlias alias="Exchange" type="com.kh.nullLive.admin.model.vo.Exchange" />
 		<typeAlias alias="Question" type="com.kh.nullLive.admin.model.vo.Question" />
+		<typeAlias alias="UserDetail" type="com.kh.nullLive.admin.model.vo.UserDetail" />
     
 		<!-- 페이징 모듈화 테스트중 -->
 		<typeAlias alias="PagingVo" type="com.kh.nullLive.common.paging.model.vo.PagingVo" />
