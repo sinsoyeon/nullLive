@@ -9,11 +9,12 @@
 body::-webkit-scrollbar {
    display: none;
 }
-thead th, td{
+#myQThead th, td{
 	text-align:center;
 }
-tbody tr:hover{
-	background:#ffffffb5;
+#myQTbody tr:hover{
+	background:#e2f0d8;
+	color: #185819;
 	cursor: pointer;
 }
 </style>
@@ -38,18 +39,43 @@ tbody tr:hover{
 					src="/nullLive/resources/image/myQuestion.png" style=" width: 100%; "/>
 			</div>
 		</div>
-		<div class="row" style=" background: #faebd7a6; padding: 5%; height: 528px;">
+		<div class="row" style="padding: 3%; height: 528px;">
 			<div class="col-md-12">
-				<div style=" height: 390px; ">
+				<div style=" height: 412px; ">
 				<table class="table">
-							<thead>
+							<thead id="myQThead">
 								<tr>
 									<th style=" width: 20%; ">문의일자</th>
 									<th>제목</th>
 									<th style=" width: 20%; ">답변여부</th>
 								</tr>
 							</thead>
-							<tbody id="myQTable">
+							<tbody id="myQTbody">
+								<tr>
+									<td>01/04/2012</td>
+									<td>TB - Monthly</td>
+									<td>답변완료</td>
+								</tr>
+								<tr>
+									<td>01/04/2012</td>
+									<td>TB - Monthly</td>
+									<td>답변완료</td>
+								</tr>
+								<tr>
+									<td>01/04/2012</td>
+									<td>TB - Monthly</td>
+									<td>답변완료</td>
+								</tr>
+								<tr>
+									<td>01/04/2012</td>
+									<td>TB - Monthly</td>
+									<td>답변완료</td>
+								</tr>
+								<tr>
+									<td>01/04/2012</td>
+									<td>TB - Monthly</td>
+									<td>답변완료</td>
+								</tr>
 								<tr>
 									<td>01/04/2012</td>
 									<td>TB - Monthly</td>

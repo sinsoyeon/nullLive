@@ -126,4 +126,16 @@ public class BoardDaoImpl implements BoardDao {
 		
 		return list;
 	}
+
+	//고객센터 FAQ 조회수 증가
+	@Override
+	public int updateFBoardCount(SqlSessionTemplate sqlSession, int num) {
+		return sqlSession.update("Board.updateFCount", num);
+	}
+
+	//고객센터 공지사항 조회수 증가
+	@Override
+	public int updateNBoardCount(SqlSessionTemplate sqlSession, int num) {
+		return sqlSession.update("Board.updateNCount", num);
+	}
 }

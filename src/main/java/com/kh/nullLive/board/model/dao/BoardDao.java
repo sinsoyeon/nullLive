@@ -33,4 +33,10 @@ public interface BoardDao {
 	//고객센터 공지사항 상세 조회
 	ArrayList<Board> selectOneNBoard(SqlSessionTemplate sqlSession, int num);
 
+	//고객센터 FAQ 조회수 증가
+	int updateFBoardCount(SqlSessionTemplate sqlSession, int num);
+
+	//고객센터 공지사항 조회수 증가
+	int updateNBoardCount(SqlSessionTemplate sqlSession, int num);
+
 }

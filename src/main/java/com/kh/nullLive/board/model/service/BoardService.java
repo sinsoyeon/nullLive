@@ -31,4 +31,10 @@ public interface BoardService {
 
 	//고객센터 공지사항 상세 조회
 	ArrayList<Board> selectOneNBoard(int num);
+
+	//고객센터 FAQ 조회수 증가
+	int updateFBoardCount(int num);
+
+	//고객센터 공지사항 조회수 증가
+	int updateNBoardCount(int num);
 }

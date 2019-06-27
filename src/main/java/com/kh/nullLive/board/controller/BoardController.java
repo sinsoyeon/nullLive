@@ -1,6 +1,5 @@
 package com.kh.nullLive.board.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -8,8 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -85,9 +87,7 @@ public class BoardController {
 	 * @comment : 고객센터 공지사항 리스트 조회용 메소드
 	 */
 	@RequestMapping("selectNList.bo")
-	public ModelAndView selectFList(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
-		response.setContentType("text/html; charset=UTF-8");
-
+	public ResponseEntity<HashMap<String, Object>> selectNList(HttpServletRequest request) {
 		int currentPage = 1;
 
 		if(request.getParameter("currentPage") != null) {
@@ -96,7 +96,9 @@ public class BoardController {
 
 		//게시글 갯수 가져옴
 		int listCount = bs.getNListCount();
-
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
 		PageInfo pi = Pagination.getSPageInfo(currentPage, listCount);
 
 		System.out.println("page info : " + pi);
@@ -104,43 +106,26 @@ public class BoardController {
 		ArrayList<Board> list;
 		list = bs.selectNBoardList(pi);
 		
-		SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd");
-		ArrayList<HashMap<String, Object>> list2 = new ArrayList<HashMap<String, Object>>();
-
-		for(int i = 0; i < list.size(); i++) {
-	         HashMap<String, Object> hmap = new HashMap<String, Object>();
-	         
-	         String WrittenDate = fmt.format(list.get(i).getWrittenDate());
-	         
-	         hmap.put("snno", list.get(i).getSnno());
-	         hmap.put("BTitle", list.get(i).getBTitle());
-	         hmap.put("BContent", list.get(i).getBContent());
-	         hmap.put("WrittenDate", WrittenDate);
-	         hmap.put("BCount", list.get(i).getBCount());
-	         
-	         list2.add(hmap);
-	    }
-
-		mv.addObject("list", list2);
-		mv.addObject("pi", pi);
-		mv.setViewName("jsonView");
-		return mv;
+		map.put("pi", pi);
+		map.put("list", list);
+	      
+		return new ResponseEntity<HashMap<String, Object>>(map, HttpStatus.OK);
 	}
-
+	
 	/**
 	 * @author : eon
 	 * @date : 2019. 6. 26.
 	 * @comment : 고객센터 FAQ 페이징 및 검색 메소드
 	 */
 	@RequestMapping("searchFaq.bo")
-	public ModelAndView searchFList(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
-		response.setContentType("text/html; charset=UTF-8");
-
+	public ResponseEntity<HashMap<String, Object>> selectFList(HttpServletRequest request) {
 		int currentPage = 1;
 
 		if(request.getParameter("currentPage") != null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		}
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
 		
 		if(request.getParameter("condition") == null) {
 			//게시글 갯수 가져옴
@@ -151,9 +136,9 @@ public class BoardController {
 			System.out.println("page info : " + pi);
 
 			ArrayList<Board> list = bs.selectFBoardList(pi);
-
-			mv.addObject("list", list);
-			mv.addObject("pi", pi);
+			
+			map.put("pi", pi);
+			map.put("list", list);
 		}else {
 			int condition = Integer.parseInt(request.getParameter("condition"));
 			
@@ -164,12 +149,11 @@ public class BoardController {
 			
 			ArrayList<Board> list = bs.searchFBoardList(pi, condition);	
 			
-			mv.addObject("list", list);
-			mv.addObject("pi", pi);
+			map.put("pi", pi);
+			map.put("list", list);
 		}
-		
-		mv.setViewName("jsonView");
-		return mv;
+	      
+		return new ResponseEntity<HashMap<String, Object>>(map, HttpStatus.OK);
 	}
 	
 	/**
@@ -178,19 +162,13 @@ public class BoardController {
 	 * @comment : 고객센터 FAQ 상세조회
 	 */
 	@RequestMapping("selectOneF.bo")
-	public ModelAndView selectOneF(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
-		response.setContentType("text/html; charset=UTF-8");
+	public ResponseEntity<ArrayList<Board>> selectOneF(@RequestParam int num) {
+		int result = bs.updateFBoardCount(num);
 		
-		int num = Integer.parseInt(request.getParameter("num"));
-		
-		ArrayList<Board> list = bs.selectOneFBoard(num);
-		
-		mv.addObject("list", list);
-		
-		mv.setViewName("jsonView");
-		
-		return mv;
-	}
+		ArrayList<Board> b = bs.selectOneFBoard(num);
+	      
+		return new ResponseEntity<ArrayList<Board>>(b, HttpStatus.OK);
+	}	  
 	
 	/**
 	 * @author : eon
@@ -198,34 +176,11 @@ public class BoardController {
 	 * @comment : 고객센터 공지사항 상세조회
 	 */
 	@RequestMapping("selectOneN.bo")
-	public ModelAndView selectOneN(HttpServletRequest request, HttpServletResponse response, ModelAndView mv) {
-		response.setContentType("text/html; charset=UTF-8");
+	public ResponseEntity<ArrayList<Board>> selectOneN(@RequestParam int num) {
+		int result = bs.updateNBoardCount(num);
 		
-		int num = Integer.parseInt(request.getParameter("num"));
-		
-		ArrayList<Board> list = bs.selectOneNBoard(num);
-		
-		SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd");
-		ArrayList<HashMap<String, Object>> list2 = new ArrayList<HashMap<String, Object>>();
-
-		for(int i = 0; i < list.size(); i++) {
-	         HashMap<String, Object> hmap = new HashMap<String, Object>();
-	         
-	         String WrittenDate = fmt.format(list.get(i).getWrittenDate());
-	         
-	         hmap.put("snno", list.get(i).getSnno());
-	         hmap.put("BTitle", list.get(i).getBTitle());
-	         hmap.put("BContent", list.get(i).getBContent());
-	         hmap.put("WrittenDate", WrittenDate);
-	         hmap.put("BCount", list.get(i).getBCount());
-	         
-	         list2.add(hmap);
-	    }
-
-		mv.addObject("list", list2);
-		
-		mv.setViewName("jsonView");
-		
-		return mv;
+		ArrayList<Board> b = bs.selectOneNBoard(num);
+	      
+		return new ResponseEntity<ArrayList<Board>>(b, HttpStatus.OK);
 	}
 }

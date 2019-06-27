@@ -71,5 +71,17 @@ public class BoardServiceImpl implements BoardService{
 	public ArrayList<Board> selectOneNBoard(int num) {
 		return bd.selectOneNBoard(sqlSession, num);
 	}
+
+	//고객센터 FAQ 조회수 증가
+	@Override
+	public int updateFBoardCount(int num) {
+		return bd.updateFBoardCount(sqlSession, num);
+	}
+
+	//고객센터 공지사항 조회수 증가
+	@Override
+	public int updateNBoardCount(int num) {
+		return bd.updateNBoardCount(sqlSession, num);
+	}
 	
 }
