@@ -1,7 +1,10 @@
 package com.kh.nullLive.board.model.vo;
 
 import java.sql.Date;
+
 import java.util.ArrayList;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
