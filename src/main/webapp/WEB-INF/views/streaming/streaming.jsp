@@ -14,7 +14,6 @@
 body {
   font-family: sans-serif;
 }
-
 video {
   max-width: 100%;
   width: 700px;
@@ -97,10 +96,8 @@ video {
             //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
             $('<div></div>').text(msg).appendTo("#chat-box");
         });
-
 	});
 	
-
 </script>
 </body>
 </html>
