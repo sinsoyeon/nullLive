@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.kh.nullLive.admin.model.vo.Exchange;
 import com.kh.nullLive.admin.model.vo.Question;
 import com.kh.nullLive.admin.model.vo.Report;
+import com.kh.nullLive.admin.model.vo.UserDetail;
 import com.kh.nullLive.member.model.vo.Member;
 
 public interface AdminService {
@@ -13,9 +14,11 @@ public interface AdminService {
 
 	ArrayList<Report> streamerReportList();
 
-	ArrayList<Exchange> ExchangeList();
+	ArrayList<Exchange> exchangeList();
 
-	ArrayList<Question> QuestionList();
+	ArrayList<Question> questionList();
+
+	UserDetail userDetail();
 
 
 }

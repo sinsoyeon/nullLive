@@ -11,6 +11,7 @@ import com.kh.nullLive.admin.model.service.AdminService;
 import com.kh.nullLive.admin.model.vo.Exchange;
 import com.kh.nullLive.admin.model.vo.Question;
 import com.kh.nullLive.admin.model.vo.Report;
+import com.kh.nullLive.admin.model.vo.UserDetail;
 import com.kh.nullLive.member.model.vo.Member;
 
 
@@ -51,6 +52,15 @@ public class AdminController {
 	// 회원 검색
 
 	// 회원 상세정보 조회
+	@RequestMapping("userDeatil.ad")
+	public String userDeatil(Model model) {
+		
+		UserDetail userDetail = as.userDetail();
+		
+		model.addAttribute("userDetail", userDetail);
+		
+		return "admin/memberManagement";
+	}
 
 	// 계정 활동 및 정지
 
@@ -153,7 +163,7 @@ public class AdminController {
 	@RequestMapping("calculateList.ad")
 	public String adminCalculateList(Model model) {
 		
-		ArrayList<Exchange> ExchangeList = as.ExchangeList();
+		ArrayList<Exchange> ExchangeList = as.exchangeList();
 		
 		model.addAttribute("ExchangeList", ExchangeList);
 		
@@ -176,7 +186,7 @@ public class AdminController {
 	@RequestMapping("questionList.ad")
 	public String adminQuestionList(Model model) {
 		
-		ArrayList<Question> QuestionList = as.QuestionList();
+		ArrayList<Question> QuestionList = as.questionList();
 
 		model.addAttribute("QuestionList", QuestionList);
 		

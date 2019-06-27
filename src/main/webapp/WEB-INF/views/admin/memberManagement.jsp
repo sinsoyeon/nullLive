@@ -130,17 +130,23 @@ height: auto; */
 							<p>계정 관리 :</p>
 						</div>
 						<div class="col-sm-5"><br>
-							<p>bbashong</p>
-							<p>김푸들</p>
-							<p>빠숑</p>
-							<p>2019.01.01</p>
-							<p>www.null-live/bbashong.tv</p>
-							<p>1회</p>
-							<p>65회</p>
+							<p>${ userDetail.mid }</p>
+							<p>${ userDetail.name }</p>
+							<p>${ userDetail.nickName }</p>
+							<p>${ userDetail.enrollDate }</p>
+							<p>www.null-live/${ userDetail.broadAddress }.tv</p>
+							<p>${ userDetail.report }</p>
+							<p>${ userDetail.broCount }</p>
 							<div style="display: inline-block;">
 								<select>
-									<option value="활동">활동</option>
+								<c:if test="${ userDetail.mStatus eq 'Y' }">
+									<option value="활동" selected>활동</option>
 									<option value="정지">정지</option>
+								</c:if>	
+								<c:if test="${ userDetail.mStatus eq 'N' }">
+									<option value="활동">활동</option>
+									<option value="정지"selected>정지</option>
+								</c:if>	
 								</select>
 							</div>
 							<div style="display: inline-block;"><button>적용</button></div>
@@ -164,7 +170,7 @@ height: auto; */
 				<tbody>
 				<c:set var = "listSize" value = "${userList.size() }" />
 				<c:forEach items="${userList}" var="user" varStatus="number">
-					<tr>
+					<tr >
 						<td>
 						<c:set var = "index" value = "${number.index}" />
 						<c:set var = "number1" value = "${listSize-index}" />
@@ -204,6 +210,8 @@ height: auto; */
 			$('#menu1').addClass('active in');
 			$('#menu1 a:eq(0)').css('font-weight','bold');
 			$('td').click(function() {
+				var userId = $(this).html();
+				console.log(userId);
 				$('#memberPopup').css("display","block");
 				$('#memberPopupBack').css("display","block");
 			});
