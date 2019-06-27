@@ -49,8 +49,8 @@
 					<!-- 구인구직 유형 -->
 					<div>
 						<select class="form-control" name="jBtype">
-							<option value="j1">구인</option>
-							<option value="j2">구직</option>
+							<option value="구인">구인</option>
+							<option value="구직">구직</option>
 						</select>
 					</div>
 					<!-- 제목 -->
@@ -62,7 +62,9 @@
 						<!-- 구인구직타입 -->
 						<input type="hidden" name="bType" value="JOBMNG">
 						<!-- 직종 -->
-						<input type="hidden" name="job" value="MNG">
+						<input type="hidden" name="job" value="매니저">
+						<!-- 매니저는 계약조건이 없음 -->
+						<input type="hidden" name="contContent" value="EMPTY">
 					</div>
 					<br><br><br>
 					<!-- 마감일 -->

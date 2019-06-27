@@ -1,7 +1,9 @@
 package com.kh.nullLive.board.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import com.kh.nullLive.board.model.exception.JobBoardInsertException;
 import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.JobBoard;
@@ -24,7 +26,7 @@ public interface JobBoardService {
 
 	void selectListJobMyBoard();
 
-	int insertJobBoard(Board board, JobBoard jBoard);
+	int insertJobBoard(Board board, JobBoard jBoard) throws JobBoardInsertException;
 
 	void searchJobBoard();
 
@@ -44,7 +46,7 @@ public interface JobBoardService {
 
 	int getListCount();
 
-	ArrayList<Board> selectJobMngPaging(PagingVo paging);
+	ArrayList selectJobMngPaging(PagingVo paging);
 
 	int selectJobMngTotalPaging();
 

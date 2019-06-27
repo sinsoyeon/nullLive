@@ -37,6 +37,22 @@
 		<result property="mid1" column="MID1"/>
 		<result property="mid2" column="MID2"/>
 	</resultMap>
+	<!-- job 게시글 resultSet -->
+	<resultMap type="java.util.HashMap" id="jobBoardResultSet">
+		<id property="jbno" column="JBNO"/>
+		<result property="job" column="JOB"/>
+		<result property="jBtype" column="JBTYPE"/>
+		<result property="contContent" column="CONT_CONTENT"/>
+		<result property="bno" column="BNO"/>
+		<result property="deadLine" column="DEADLINE"/>
+		<result property="bTitle" column="BTITLE"/>
+		<result property="bContent" column="BCONTENT"/>
+		<result property="writtenDate" column="WRITTEN_DATE"/>
+		<result property="bCount" column="BCOUNT"/>
+		<result property="bType" column="BTYPE"/>
+		<result property="bWriter" column="BWRITER"/>
+		<result property="bStatus" column="B_STATUS"/>
+	</resultMap>
 	
 	<!-- 고객센터 FAQ 전체 게시글 수 조회용 쿼리문 -->
 	<select id="selectFListCount" resultType="_int">
@@ -117,11 +133,17 @@
 		(SEQ_BNO.NEXTVAL,#{bTitle},#{bContent},SYSDATE,		SYSDATE,	DEFAULT,  #{bType},#{bWriter},1)
 	</insert>
 	
-	<!-- 구인구직 게시글 INSERT 500 = 모집중-->
-	<insert id="insertJobBoard" parameterType="Board">
+	<!-- 게시글 INSERT 500 = 모집중-->
+	<insert id="insertBoard" parameterType="Board">
 		INSERT INTO 
 		BOARD(BNO,		 BTITLE,   BCONTENT,   WRITTEN_DATE,MODIFY_DATE,BCOUNT,   BTYPE,   BWRITER,B_STATUS) VALUES
 		(SEQ_BNO.NEXTVAL,#{bTitle},#{bContent},SYSDATE,		SYSDATE,	DEFAULT,  #{bType},#{bWriter},500)
+	</insert>
+	<!-- 구인구직 게시글 insert-->
+	<insert id="insertJobBoard" parameterType="JobBoard">
+		INSERT INTO 
+		JOB_BOARD(JBNO,			   JOB,	  JBTYPE,	CONT_CONTENT,  BNO,   DEADLINE,   PERPRICE)
+		VALUES(   SEQ_JBNO.NEXTVAL,#{job},#{jBtype},#{contContent},#{bno},#{deadLine},#{perprice})
 	</insert>
 	
 	<!-- 구인구직 공지사항 목록 조회 -->
@@ -156,8 +178,8 @@
 	<!-- 2. ROWNUM Query -->
     <select id="selectPaging" parameterType="PagingVo" resultType="Board">
         SELECT *
-        FROM (    SELECT ROWNUM RNUM, P.*
-                FROM (    SELECT *
+        FROM (  SELECT ROWNUM RNUM, P.*
+                FROM (  SELECT *
                         FROM BOARD
                         ORDER BY WRITTEN_DATE DESC ) P )
         WHERE RNUM BETWEEN #{start} AND #{last}
@@ -167,7 +189,6 @@
         SELECT COUNT(*)
         FROM BOARD
         WHERE BTYPE = 'JOBNOTICE'
-        
     </select>
     
     <!-- 관리자 신고 조회용 -->
@@ -182,5 +203,18 @@
 		        GROUP BY REPORT_MNO) C ON(C.REPORT_MNO = B.REPORT_MNO)
 		WHERE BTYPE LIKE 'REPORT'
     </select>
+	
+	<!-- board currval 조회용 -->
+	<select id="selectCurrval" resultType="_int">
+		SELECT SEQ_BNO.CURRVAL FROM DUAL
+	</select>
+	
+	<!-- jobBoard 매니저 전체글 조회 -->
+	<select id="selectJobMngTotalPaging" resultMap="jobBoardResultSet">
+		SELECT JB.JBNO, JB.JOB, JB.JBTYPE, JB.CONT_CONTENT, JB.BNO, JB.DEADLINE, B.BTITLE, B.BCONTENT, B.WRITTEN_DATE,B.BCOUNT, B.BTYPE,B.BWRITER,B.B_STATUS
+		FROM JOB_BOARD JB
+		JOIN BOARD B ON(JB.BNO = B.BNO)
+		WHERE B.BTYPE = 'JOBMNG'
+	</select>
 	
 </mapper>

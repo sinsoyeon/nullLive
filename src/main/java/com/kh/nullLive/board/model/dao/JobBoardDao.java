@@ -1,6 +1,7 @@
 package com.kh.nullLive.board.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -47,7 +48,7 @@ public interface JobBoardDao {
 
 	int getListCount(SqlSessionTemplate sqlSession);
 
-	ArrayList<Board> selectJobMngPaging(SqlSessionTemplate sqlSession, PagingVo paging);
+	ArrayList selectJobMngPaging(SqlSessionTemplate sqlSession, PagingVo paging);
 
 	int insertJobJBoard(SqlSessionTemplate sqlSession, JobBoard jBoard);
 

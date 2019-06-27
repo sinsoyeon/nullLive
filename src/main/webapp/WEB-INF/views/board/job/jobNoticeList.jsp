@@ -147,6 +147,7 @@
 				var bno = $(this).parent().children().eq(0).text();
 				location.href='selectOneJobNotice.jbo?bno='+bno ;
 			})
+			
 		})
 	</script>
 	
