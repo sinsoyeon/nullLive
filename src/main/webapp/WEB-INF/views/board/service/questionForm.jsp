@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,46 +49,41 @@ label{
 		</div>
 		<div class="row" style=" background: #faebd7a6; padding: 5%; height: 528px;">
 			<div class="col-md-12">
-				<form role="form">
+				<form role="form" action="insertQuestion.bo" method="post" enctype="multipart/form-data">
 					<div class="form-group">
-
 						<label for="qType"> 문의유형 </label> 
-						<div class="dropdown">
-
-							<button class="btn btn-default dropdown-toggle" type="button"
-								id="qType" data-toggle="dropdown" style=" width: 40%; ">------------- 문의유형선택 -------------<span class="caret" style="float: right;margin-top: 2.5%;"></span></button>
-							<ul class="dropdown-menu" style=" left: 20%; width: 40%; ">
-								<li><a href="#">회원정보</a></li>
-								<li><a href="#">방송/시청하기</a></li>
-								<li><a href="#">선물/후원</a></li>
-								<li><a href="#">결제</a></li>
-								<li><a href="#">기타</a></li>
-							</ul>
-						</div>
+						<select class="form-control" id="qType" style=" width: 40%; " name="questionType">
+							<option value="기타">---------------------- 문의유형선택 ----------------------</option>
+							<option value="회원정보">회원정보</option>
+							<option value="방송/시청하기">방송/시청하기</option>
+							<option value="선물/후원">선물/후원</option>
+							<option value="결제">결제</option>
+							<option value="기타">기타</option>
+						</select>
 					</div>
 					<div class="form-group">
 
-						<label for="userId"> 아이디 </label> <input
-							type="text" class="form-control" id="userId" style=" width: 40%; "/>
+						<label for="mid"> 아이디 </label> <input
+							type="text" class="form-control" style=" width: 40%; " id="mid" value="${loginUser.mid }"/>
 					</div>
 					<div class="form-group">
 
 						<label for="email"> 이메일 </label> <input
-							type="email" class="form-control" id="email" style=" width: 40%; "/>
+							type="email" class="form-control" style=" width: 40%; " id="email" value="${loginUser.email }"/>
 					</div>
 					<div class="form-group">
 
 						<label for="qTitle"> 제목 </label> <input
-							type="text" class="form-control" id="qTitle" style=" width: 80%; "/>
+							type="text" class="form-control" id="qTitle" name="bTitle" style=" width: 80%; "/>
 					</div>
 					<div class="form-group">
 
 						<label for="qContent"> 내용 </label> 
-						<textarea rows="6" cols="30" class="form-control" id="qContent" style=" width: 80%; resize: none; " placeholder="문의내용을 상세히 적어 주시면 감사하겠습니다."></textarea>
+						<textarea rows="6" cols="30" class="form-control" id="qContent" name="bContent" style=" width: 80%; resize: none; " placeholder="문의내용을 상세히 적어 주시면 감사하겠습니다."></textarea>
 					</div>
 					<div class="form-group">
 						<label for="qInputFile"> 첨부파일 </label> <input
-							type="file" class="form-control-file" id="qInputFile" />
+							type="file" class="form-control-file" id="qInputFile" name="qFile" />
 					</div>
 					
 					<button type="submit" class="btn pull-right qbtn" style=" margin-left: 1%; ">확인</button>

@@ -2,9 +2,10 @@ package com.kh.nullLive.board.model.service;
 
 import java.util.ArrayList;
 
-import com.kh.nullLive.board.model.exception.BoardSelectListException;
+
 import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.PageInfo;
+import com.kh.nullLive.common.attachment.model.vo.Attachment;
 
 public interface BoardService {
 
@@ -37,4 +38,25 @@ public interface BoardService {
 
 	//고객센터 공지사항 조회수 증가
 	int updateNBoardCount(int num);
+
+	//고객센터 1:1 문의 작성(첨부파일 포함)
+	int insertQuestion(Board b, Attachment att);
+
+	//고객센터 1:1 문의 작성
+	int insertQuestion2(Board b);
+
+	//고객센터 신고하기(첨부파일 포함)
+	int insertReport(Board b, Attachment att);
+	
+	//고객센터 신고자 아이디로 mno가져오기
+	int selectRmno(String rmid);
+	
+	//고객센터 신고하기
+	int insertReport2(Board b);
+	
+	//고객센터 나의문의내역 전체 게시글 수 조회
+	int getmQListCount(int mno);
+
+	//고객센터 나의문의내역 전체 게시글 조회
+	ArrayList<Board> selectmQBoardList(PageInfo pi, int mno);
 }

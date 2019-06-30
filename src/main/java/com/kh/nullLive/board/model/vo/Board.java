@@ -21,7 +21,8 @@ import lombok.ToString;
 public class Board {
 	private int bno;				//BNO
 	private int fno;				//FNO (고객센터 FAQ)
-	private int snno;				//SNNO (고객센터 공지사항)		
+	private int snno;				//SNNO (고객센터 공지사항)
+	private int qno;				//SNNO (고객센터 문의)
 	private String bTitle;			//BTITLE
 	private String bContent;		//BCONTENT
 	private Date writtenDate;		//WRITTEN_DATE
@@ -38,8 +39,5 @@ public class Board {
 	private int reportMno;			//REPORT_MNO
 	private int bStatus;			//B_STATUS
 	//댓글리스트
-	private ArrayList<Reply> replyList; 
-
-	
-	
+	private ArrayList<Reply> replyList;
 }
