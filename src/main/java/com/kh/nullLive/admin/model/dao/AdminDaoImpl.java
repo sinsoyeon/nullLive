@@ -9,14 +9,21 @@ import com.kh.nullLive.admin.model.vo.Exchange;
 import com.kh.nullLive.admin.model.vo.Question;
 import com.kh.nullLive.admin.model.vo.Report;
 import com.kh.nullLive.admin.model.vo.UserDetail;
+import com.kh.nullLive.board.model.vo.Board;
+import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.vo.Member;
 
 @Repository
 public class AdminDaoImpl implements AdminDao{
 
 	@Override
-	public ArrayList<Member> memberList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("Member.memberSelect");
+	public ArrayList<Member> memberList(SqlSessionTemplate sqlSession, PagingVo paging) {
+		return (ArrayList)sqlSession.selectList("Member.memberSelect", paging);
+	}
+	
+	@Override
+	public int totalMemberSelect(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Member.totalMemberSelect");
 	}
 
 	@Override
@@ -41,9 +48,15 @@ public class AdminDaoImpl implements AdminDao{
 
 	@Override
 	public int userStatusUpdate(SqlSessionTemplate sqlSession, Member m) {
-		System.out.println(m.getMstatus()+"!!!!!!!!!!!!!!!!!!!");
 		return sqlSession.update("Admin.userStatusUpdate", m);
 	}
+
+	@Override
+	public Report reportDetail(SqlSessionTemplate sqlSession, int bno) {
+		return sqlSession.selectOne("Board.selectReportDetail",bno);
+	}
+
+	
 
 
 

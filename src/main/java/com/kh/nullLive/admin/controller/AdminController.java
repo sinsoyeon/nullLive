@@ -1,8 +1,6 @@
 package com.kh.nullLive.admin.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +14,8 @@ import com.kh.nullLive.admin.model.vo.Exchange;
 import com.kh.nullLive.admin.model.vo.Question;
 import com.kh.nullLive.admin.model.vo.Report;
 import com.kh.nullLive.admin.model.vo.UserDetail;
+import com.kh.nullLive.board.model.vo.Board;
+import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.vo.Member;
 
 
@@ -52,11 +52,13 @@ public class AdminController {
 	 * @comment :회원관리 페이지 이동(페이징)
 	 */
 	@RequestMapping("memberList.ad")
-	public String adminMemberList(Model model) {
+	public String adminMemberList(Model model,PagingVo paging) {
 		
-		ArrayList<Member> userList = as.memberList();
-		
-		model.addAttribute("userList", userList);
+		ArrayList<Member> userList = as.memberList(paging); // 페이징된 갯수
+	    paging.setTotal(as.totalMemberSelect()); // 전부 갯수
+	    System.out.println(paging.getTotal());
+	    model.addAttribute("userList", userList);
+	    model.addAttribute("pi", paging);
 		
 		return "admin/memberManagement";
 	}
@@ -89,11 +91,8 @@ public class AdminController {
 		m.setMstatus(choiceStatus);
 		int result = as.userStatusUpdate(m);
 
-		if(result >0 ) {
-			ArrayList<Member> userList = as.memberList();
-			
-			model.addAttribute("userList", userList);
-			return "admin/memberManagement";
+		if(result > 0 ) {
+			return "redirect:memberList.ad";
 		}else {
 			String msg = "회원 상태 변경 실패!";
 			model.addAttribute("msg", msg);
@@ -126,7 +125,12 @@ public class AdminController {
 	 * @comment : 신고 상세보기
 	 */
 	@RequestMapping("streamerReportDetail.ad")
-	public String adminStreamerReportDetail(Model model) {
+	public String adminStreamerReportDetail(Model model, int bno) {
+		
+		Report reportContent = as.reportDetail(bno);
+		model.addAttribute("reportContent", reportContent);
+		System.out.println("reportContent : " + reportContent);
+		
 		return "admin/streamerReportDetail";
 	}
 

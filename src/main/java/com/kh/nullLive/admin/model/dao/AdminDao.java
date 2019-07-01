@@ -8,11 +8,13 @@ import com.kh.nullLive.admin.model.vo.Exchange;
 import com.kh.nullLive.admin.model.vo.Question;
 import com.kh.nullLive.admin.model.vo.Report;
 import com.kh.nullLive.admin.model.vo.UserDetail;
+import com.kh.nullLive.board.model.vo.Board;
+import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.vo.Member;
 
 public interface AdminDao {
 
-	ArrayList<Member> memberList(SqlSessionTemplate sqlSession);
+	ArrayList<Member> memberList(SqlSessionTemplate sqlSession, PagingVo paging);
 
 	ArrayList<Report> streamerReportList(SqlSessionTemplate sqlSession);
 
@@ -23,6 +25,10 @@ public interface AdminDao {
 	UserDetail userDetail(SqlSessionTemplate sqlSession, String userId);
 
 	int userStatusUpdate(SqlSessionTemplate sqlSession, Member m);
+
+	int totalMemberSelect(SqlSessionTemplate sqlSession);
+
+	Report reportDetail(SqlSessionTemplate sqlSession, int bno);
 
 
 

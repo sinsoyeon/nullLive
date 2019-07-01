@@ -12,6 +12,8 @@ import com.kh.nullLive.admin.model.vo.Exchange;
 import com.kh.nullLive.admin.model.vo.Question;
 import com.kh.nullLive.admin.model.vo.Report;
 import com.kh.nullLive.admin.model.vo.UserDetail;
+import com.kh.nullLive.board.model.vo.Board;
+import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.vo.Member;
 
 @Service
@@ -27,11 +29,17 @@ public class AdminServiceImpl implements AdminService {
 	private DataSourceTransactionManager transactionManager;
 
 	@Override
-	public ArrayList<Member> memberList() {
-		ArrayList<Member> userList = ad.memberList(sqlSession);
+	public ArrayList<Member> memberList(PagingVo paging) {
+		ArrayList<Member> userList = ad.memberList(sqlSession, paging);
 		return userList;
 	}
 
+	@Override
+	public int totalMemberSelect() {
+		int totalMember = ad.totalMemberSelect(sqlSession);
+		return totalMember;
+	}
+	
 	@Override
 	public ArrayList<Report> streamerReportList() {
 		ArrayList<Report> streamerReportList = ad.streamerReportList(sqlSession);
@@ -61,5 +69,12 @@ public class AdminServiceImpl implements AdminService {
 		int result = ad.userStatusUpdate(sqlSession, m);
 		return result;
 	}
+
+	@Override
+	public Report reportDetail(int bno) {
+		Report reportDetail = ad.reportDetail(sqlSession, bno);
+		return reportDetail;
+	}
+
 
 }

@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script type="text/javascript" src="resources/js/paging/paging.js"></script>
 <title>NullLive</title>
 <style>
 tr>th {
@@ -29,6 +30,7 @@ tr>th {
 	left: 0;
 	right: 0;
 	top: 30%;
+	z-index: 999;
 }
 
 #memberPopupBack {
@@ -39,7 +41,8 @@ tr>th {
 	background: lightgray;
 	position: fixed;
 	right: 0;
-	top: 0%
+	top: 0%;
+	z-index: 998;
 }
 
 #closeBtn {
@@ -100,10 +103,24 @@ height: auto; */
 <div class="row" align="center">
 	<div class="col-sm-1"></div>
 	<div class="col-sm-10">
-		<div align="right" style="margin-bottom: 5px;">
-			<input type="text"> <button>검색</button>
-		</div>
-		<div>
+			<div align="right" style="margin-bottom: 5px;">
+				<div class="listSelectArea" style="display: inline-block;">
+					<select id="listChange" class="form-controll"
+						onchange='listChange();'>
+						<option contenteditable="true">목록갯수</option>
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+					</select>
+				</div>
+				<div style="display: inline-block;">
+					<input type="text">
+					<button>검색</button>
+				</div>
+				
+			</div>
+			<div>
 		<div id="memberPopupBack">
 		</div>
 			<div id="memberPopup">
@@ -144,13 +161,9 @@ height: auto; */
 					</tr>
 				</thead>	
 				<tbody>
-				<c:set var = "listSize" value = "${userList.size() }" />
 				<c:forEach items="${userList}" var="user" varStatus="number">
-					<tr >
-						<td>
-						<c:set var = "index" value = "${number.index}" />
-						<c:set var = "number1" value = "${listSize-index}" />
-						<c:out value="${number1}"/> 
+					<tr>
+						<td>${ user.mno }
 						</td>
 						<td id='userId'>${user.mid}</td>	
 						<td>${user.name}</td>	
@@ -168,14 +181,36 @@ height: auto; */
 	<div class="col-sm-1"></div>
 	</div>
 	<div align="center">
-		<button><</button>
-		<button>1</button>
-		<button>2</button>
-		<button>3</button>
-		<button>4</button>
-		<button>5</button>
-		<button>></button>
+
+		<ul class="pagination">
+
+			<!--맨 첫페이지 이동 -->
+			<li><a onclick='pagePre(${pi.pageCnt+1},${pi.pageCnt});'>«</a></li>
+			<!--이전 페이지 이동 -->
+			<li><a onclick='pagePre(${pi.pageStartNum},${pi.pageCnt});'>‹</a></li>
+
+			<!--페이지번호 -->
+			<c:forEach var='i' begin="${pi.pageStartNum}" end="${pi.pageLastNum}" step="1">
+				<li class='pageIndex${i}'><a onclick='pageIndex(${i});'>${i}</a></li>
+			</c:forEach>
+
+			<!--다음 페이지 이동 -->
+			<li><a
+				onclick='pageNext(${pi.pageStartNum},${pi.total},${pi.listCnt},${pi.pageCnt});'>›</a></li>
+			<!--마지막 페이지 이동 -->
+			<li><a
+				onclick='pageLast(${pi.pageStartNum},${pi.total},${pi.listCnt},${pi.pageCnt});'>»</a></li>
+
+		</ul>
 	</div>
+	
+	
+	<form action="memberList.ad" method="get" id='frmPaging'>
+	      <!--출력할 페이지번호, 출력할 페이지 시작 번호, 출력할 리스트 갯수 -->
+	      <input type='hidden' name='index' id='index' value='${pi.index}'>
+	      <input type='hidden' name='pageStartNum' id='pageStartNum' value='${pi.pageStartNum}'>
+	      <input type='hidden' name='listCnt' id='selected' value='${pi.listCnt}'>    
+	</form>
 
 
 <br>
@@ -187,7 +222,7 @@ var memberStatus
 			$('li:eq(1)').addClass('active');
 			$('#menu1').addClass('active in');
 			$('#menu1 a:eq(0)').css('font-weight','bold');
-			$('tr').click(function() {
+			$('tbody>tr').click(function() {
 				var userId = $(this).children().eq(1).html();
 				memberId = $(this).children().eq(1).html();
 				$.ajax({
@@ -224,7 +259,7 @@ var memberStatus
 		            	
 		            },
 		            error: function(){
-		                alert("simpleWithObject err");
+		                alert("상세조회 실패");
 		            }
 		        });
 				

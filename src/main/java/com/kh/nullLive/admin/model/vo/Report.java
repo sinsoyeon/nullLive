@@ -21,11 +21,8 @@ public class Report {
 	private String bContent;		//BCONTENT
 	private Date writtenDate;		//WRITTEN_DATE
 	private String reportType;		//REPORT_TYPE
-	private String staDetail;
-	private String mid1;			//MID1
-	private String mid2;			//MID2
+	private int status;			//B_STATUS 처리상태
+	private String writer;			//WRITER 신고자
+	private String target;			//TARGET 대상자
 	private int cou; // COU
-
-	
-	
 }
