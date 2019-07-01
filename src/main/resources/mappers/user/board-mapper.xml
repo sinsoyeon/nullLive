@@ -27,16 +27,16 @@
 		<result property="bStatus" column="B_STATUS"/>
 	</resultMap>
 	
+	<!-- 신고 관련 관리자 resultSet  -->
 	<resultMap type="Report" id="ReportResultSet">
 		<id property="bno" column="BNO"/>
 		<result property="bTitle" column="BTITLE"/>
 		<result property="bContent" column="BCONTENT"/>
 		<result property="writtenDate" column="WRITTEN_DATE"/>
-		<result property="bWriter" column="BWRITER"/>
 		<result property="reportType" column="REPORT_TYPE"/>
-		<result property="staDetail" column="STA_DETAIL"/>
-		<result property="mid1" column="MID1"/>
-		<result property="mid2" column="MID2"/>
+		<result property="status" column="B_STATUS"/>
+		<result property="writer" column="WRITER"/>
+		<result property="target" column="TARGET"/>
 	</resultMap>
 	
 	<!-- job 게시글 resultSet -->
@@ -262,16 +262,23 @@
     
     <!-- 관리자 신고 조회용 -->
     <select id="selectReportList" resultMap="ReportResultSet">
-    	SELECT B.BNO, B.REPORT_TYPE , M.MID MID1  ,MM.MID MID2  ,C.COU, B.WRITTEN_DATE, BS.STA_DETAIL
+    	SELECT B.BNO, B.REPORT_TYPE , M.MID WRITER  ,MM.MID TARGET  ,C.COU, B.WRITTEN_DATE, B.B_STATUS
 		FROM BOARD B
 		JOIN MEMBER M ON(B.BWRITER = M.MNO)
 		JOIN MEMBER MM ON(B.REPORT_MNO = MM.MNO)
-		JOIN BOARD_STATUS BS ON(B.B_STATUS=BS.B_STATUS)
 		JOIN (SELECT REPORT_MNO, COUNT(*)COU
 		        FROM BOARD
 		        GROUP BY REPORT_MNO) C ON(C.REPORT_MNO = B.REPORT_MNO)
 		WHERE BTYPE LIKE 'REPORT'
 		ORDER BY 7,6 DESC
+    </select>
+    <!-- 관리자 신고 디테일 조회 -->
+    <select id="selectReportDetail" parameterType="_int" resultMap="ReportResultSet">
+    	SELECT B.BTITLE , B.BCONTENT , B.WRITTEN_DATE , B.REPORT_TYPE, B.B_STATUS,  M.MID WRITER  ,MM.MID TARGET 
+		FROM BOARD B
+		JOIN MEMBER M ON(B.BWRITER = M.MNO)
+		JOIN MEMBER MM ON(B.REPORT_MNO = MM.MNO)
+		WHERE B.BNO = #{bno}
     </select>
 	
 	<!-- board currval 조회용 -->

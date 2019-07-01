@@ -6,11 +6,15 @@ import com.kh.nullLive.admin.model.vo.Exchange;
 import com.kh.nullLive.admin.model.vo.Question;
 import com.kh.nullLive.admin.model.vo.Report;
 import com.kh.nullLive.admin.model.vo.UserDetail;
+import com.kh.nullLive.board.model.vo.Board;
+import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.vo.Member;
 
 public interface AdminService {
 
-	ArrayList<Member> memberList();
+	ArrayList<Member> memberList(PagingVo paging);
+
+	int totalMemberSelect();
 
 	ArrayList<Report> streamerReportList();
 
@@ -21,6 +25,9 @@ public interface AdminService {
 	UserDetail userDetail(String userId);
 
 	int userStatusUpdate(Member m);
+
+	Report reportDetail(int bno);
+
 
 
 }

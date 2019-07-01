@@ -63,13 +63,13 @@
 				</div>
 				
 				<div class="row" align="center" style="width:95% ">
-					<div class="col-sm-3">저작권 침해</div>
-					<div class="col-sm-3">user02</div>
-					<div class="col-sm-3">bbashong</div>
-					<div class="col-sm-3">2019.06.20</div>
+					<div class="col-sm-3"> ${ reportContent.reportType }</div>
+					<div class="col-sm-3">${reportContent.writer}</div>
+					<div class="col-sm-3">${reportContent.target}</div>
+					<div class="col-sm-3">${reportContent.writtenDate}</div>
 				</div>
 					<div style="padding: 3%;">
-						<div id="reportContext"><br><p>저작권 침해인데 영정 먹여주시죠 영자님 ㅎㅎ</p><br></div>
+						<div id="reportContext"><br><p>${reportContent.BContent }</p><br></div>
 						<div style="padding: 3%;">
 							<button style="float: left;" onclick="location.href='streamerReportList.ad'">뒤로가기</button>
 							<button style="float: right;">처리</button>

@@ -31,7 +31,7 @@ tr>th{
 			<table class="table table-hover"  style="text-align: center; ">
 				<thead>
 					<tr>
-						<th>번호</th>
+						<th>신고글 번호</th>
 						<th>구분</th>
 						<th>신고자</th>
 						<th>닉네임</th>
@@ -41,33 +41,24 @@ tr>th{
 					</tr>
 				</thead>	
 				<tbody>
-				<c:set var = "listSize" value = "${streamerReportList.size() }" />
 				<c:forEach items="${streamerReportList}" var="board" varStatus="number">
-					<c:if test="${board.staDetail eq '신고처리' }">
+					<c:if test="${board.status == 6}">
 					<tr style="background: #eaeaea;">
-						<td>
-						<c:set var = "index" value = "${number.index}" />
-						<c:set var = "number1" value = "${listSize-index}" />
-						<c:out value="${number1}"/> 
-						</td>
+						<td>${board.bno}</td>
 						<td>${board.reportType}</td>	
-						<td>${board.mid1}</td>	
-						<td>${board.mid2}</td>	
+						<td>${board.writer}</td>	
+						<td>${board.target}</td>	
 						<td>${board.cou}</td>	
 						<td>${board.writtenDate}</td>	
 						<td>완료</td>	
 					</tr>
 					</c:if>
-					<c:if test="${board.staDetail eq '신고접수' }">
+					<c:if test="${board.status == 5 }">
 					<tr>
-						<td>
-						<c:set var = "index" value = "${number.index}" />
-						<c:set var = "number1" value = "${listSize-index}" />
-						<c:out value="${number1}"/> 
-						</td>
+						<td>${board.bno}</td>
 						<td>${board.reportType}</td>	
-						<td>${board.mid1}</td>	
-						<td>${board.mid2}</td>	
+						<td>${board.writer}</td>	
+						<td>${board.target}</td>	
 						<td>${board.cou}</td>	
 						<td>${board.writtenDate}</td>	
 						<td>대기중</td>	
@@ -96,8 +87,9 @@ tr>th{
 			$('li:eq(1)').addClass('active');
 			$('#menu1').addClass('active in');
 			$('#menu1 a:eq(2)').css('font-weight','bold');
-			$('td').click(function() {
-				location.href='memberReportDetail.ad';
+			$('tbody>tr').click(function() {
+				var bno = $(this).children().eq(0).html();
+				location.href = 'memberReportDetail.ad?bno=' + bno
 			});
 	})
 </script>
