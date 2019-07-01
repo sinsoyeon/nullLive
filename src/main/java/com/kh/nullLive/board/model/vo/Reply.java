@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 public class Reply {
 	private int rno;			//RNO
-	private String rcontent;	//RCONTENT
+	private String rContent;	//RCONTENT
 	private int replyDate;		//REPLY_DATE
 	private String rStatus;		//R_STATUS
 	private int bno;			//BNO

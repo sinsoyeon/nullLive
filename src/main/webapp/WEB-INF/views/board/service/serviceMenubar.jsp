@@ -34,8 +34,14 @@
 					</div>
 
 					<ul class="nav navbar-nav">
-						<li><a href="question.bo"><b>문의하기</b></a></li>
-						<li><a href="report.bo"><b>신고하기</b></a></li>
+						<c:if test="${empty sessionScope.loginUser}">
+							<li><a href="needLogin.me"><b>문의하기</b></a></li>
+							<li><a href="needLogin.me"><b>신고하기</b></a></li>
+						</c:if>
+						<c:if test="${!empty sessionScope.loginUser}">
+							<li><a href="question.bo"><b>문의하기</b></a></li>
+							<li><a href="report.bo"><b>신고하기</b></a></li>
+						</c:if>
 					</ul>
 					
 					<ul class="nav navbar-nav navbar-right">

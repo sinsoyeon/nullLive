@@ -9,6 +9,7 @@
 		<id property="bno" column="BNO"/>
 		<result property="fno" column="FNO"/>
 		<result property="snno" column="SNNO"/>
+		<result property="qno" column="QNO"/>
 		<result property="bTitle" column="BTITLE"/>
 		<result property="bContent" column="BCONTENT"/>
 		<result property="writtenDate" column="WRITTEN_DATE"/>
@@ -37,6 +38,7 @@
 		<result property="mid1" column="MID1"/>
 		<result property="mid2" column="MID2"/>
 	</resultMap>
+	
 	<!-- job 게시글 resultSet -->
 	<resultMap type="java.util.HashMap" id="jobBoardResultSet">
 		<id property="jbno" column="JBNO"/>
@@ -52,6 +54,19 @@
 		<result property="bType" column="BTYPE"/>
 		<result property="bWriter" column="BWRITER"/>
 		<result property="bStatus" column="B_STATUS"/>
+	</resultMap>
+	
+	<!-- 첨부파일 resultSet -->
+	<resultMap type="Attachment" id="AttachmentResultSet">
+		<id property="attno" column="ATTNO"/>
+		<result property="uploadDate" column="UPLOAD_DATE"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="modifyDate" column="MODIFY_DATE"/>
+		<result property="download" column="DOWNLOAD"/>
+		<result property="originName" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="attDiv" column="ATT_DIV"/>
+		<result property="attStatus" column="ATT_STATUS"/>
 	</resultMap>
 	
 	<!-- 고객센터 FAQ 전체 게시글 수 조회용 쿼리문 -->
@@ -107,6 +122,7 @@
 		FROM V_SNOTICEBOARD
 		WHERE B_STATUS = 401
 	</select>
+	
 	<!-- 고객센터 공지사항 조회용 쿼리문 -->
 	<select id="selectNList" resultMap="boardResultSet">
 		SELECT SNNO, BTITLE, BCONTENT, WRITTEN_DATE, BCOUNT
@@ -130,6 +146,54 @@
 		WHERE BNO = (SELECT BNO FROM V_SNOTICEBOARD WHERE SNNO = #{num})
 	</update>
 	
+	<!-- 고객센터 1:1 문의 작성용 쿼리문 -->
+	<insert id="insertQuestionBoard" parameterType="Board">
+		INSERT INTO BOARD
+		VALUES(SEQ_BNO.NEXTVAL, #{bTitle}, #{bContent}, SYSDATE, NULL, 0, 'QUESTION', #{questionType}, NULL, #{bEmail}, NULL, #{bWriter}, NULL, 'Q', NULL, 402)
+	</insert>	
+	<select id="getScurrval" resultType="_int">
+		SELECT SEQ_BNO.CURRVAL FROM DUAL
+	</select>
+	<insert id="insertServiceAtt" parameterType="Attachment">
+		INSERT INTO ATTACHMENT
+		VALUES (SEQ_ATTNO.NEXTVAL, SYSDATE, #{filePath}, SYSDATE, DEFAULT, #{originName}, #{changeName}, '이미지', DEFAULT)
+	</insert>
+	<select id="getAcurrval" resultType="_int">
+		SELECT SEQ_ATTNO.CURRVAL FROM DUAL
+	</select>
+	<insert id="insertServiceAttM" parameterType="java.util.HashMap">
+		INSERT INTO ATT_MANAGE(USAGE, AMNO, ATTNO, BNO)
+		VALUES ('이미지', SEQ_AMNO.NEXTVAL, #{attno}, #{bno})
+	</insert>
+	
+	<!-- 고객센터 신고하기 쿼리문 -->
+	<insert id="insertReportBoard" parameterType="Board">
+		INSERT INTO BOARD
+		VALUES(SEQ_BNO.NEXTVAL, #{bTitle}, #{bContent}, SYSDATE, NULL, 0, 'REPORT', NULL, NULL, #{bEmail}, NULL, #{bWriter}, #{reportType}, 'R', #{reportMno}, 403)
+	</insert>
+	<!-- 고객센터 신고자 아이디로 mno 조회용 쿼리문 -->
+	<select id="selectRmno" parameterType="java.lang.String" resultType="_int">
+		SELECT MNO
+		FROM MEMBER
+		WHERE MID = #{rmid}
+	</select>
+	
+	<!-- 고객센터 나의문의내역 전체 게시글 수 조회용 쿼리문 -->
+	<select id="selectmQListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM V_QUESTIONBOARD
+		WHERE BWRITER = #{mno}
+		AND REF_BNO IS NULL
+	</select>
+	
+	<!-- 고객센터 나의문의내역 전체 게시글 조회용 쿼리문 -->
+	<select id="selectmQList" parameterType="_int" resultMap="boardResultSet">
+		SELECT QNO, BNO, BTITLE, BCONTENT, WRITTEN_DATE
+		FROM V_QUESTIONBOARD
+		WHERE BWRITER = #{mno}
+		AND REF_BNO IS NULL
+		ORDER BY QNO DESC
+	</select>
 	
 	<!-- 구인구직 공지사항 INSERT -->
 	<insert id="insertJobNotice" parameterType="Board">
