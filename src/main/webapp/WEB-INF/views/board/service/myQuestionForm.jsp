@@ -24,6 +24,22 @@ body::-webkit-scrollbar {
 	overflow:hidden;
 	white-space:nowrap;
 }
+.backBtn {
+	color: #fff;
+	background-color: #3790dc;
+	border-color: #3790dc;
+	width: 10%;
+}
+
+#myQTableOne tr td {
+	border: none;
+	border-radius: 8px;
+}
+
+#myQTableOne tr:first-child {
+	background: #3790dc;
+	color: white;
+}
 </style>
 </head>
 <body>
@@ -46,12 +62,13 @@ body::-webkit-scrollbar {
 					src="/nullLive/resources/image/myQuestion.png" style=" width: 100%; "/>
 			</div>
 		</div>
-		<div class="row" style="padding: 3%; height: 528px;">
+		<div class="row" style="padding: 3%; height: 528px;" id="mqDiv">
 			<div class="col-md-12">
 				<div style=" height: 412px; ">
 				<table class="table">
 							<thead id="myQThead">
 								<tr>
+									<th style="display: none;width: 0%;">No.</th>
 									<th style=" width: 20%; ">문의일자</th>
 									<th>제목</th>
 									<th style=" width: 20%; ">답변여부</th>
@@ -75,6 +92,17 @@ body::-webkit-scrollbar {
 		mQLoad();
 	});
 	
+	/* 게시판 틀 */
+	//나의 문의내역 게시판
+	function mQContainer(){
+		$mqDiv = $("#mqDiv").css({'background':'white', 'padding':'3%'});;
+		$mqDiv.html("");
+		
+		$mqtable = $("<div class='col-md-12'> <div style=' height: 412px; '> <table class='table'> <thead id='myQThead'> <tr> <th style='display: none;width: 0%;'>No.</th><th style=' width: 20%; '>문의일자</th> <th>제목</th> <th style=' width: 20%; '>답변여부</th> </tr> </thead> <tbody id='myQTbody'> </tbody> </table> </div> <div style=' text-align: center; '> <ul class='pagination' id='mQPaging'> </ul> </div> </div>");
+		
+		$mqDiv.append($mqtable);		
+	}
+	
 	/* 나의 문의내역 게시판 */
 	//나의 문의내역 게시판 조회 및 페이징
 	function mQLoad(){
@@ -87,15 +115,29 @@ body::-webkit-scrollbar {
 			$tableBody.html('');
 			
 			$.each(data.list, function(index, value){
-				var date = new Date(value.writtenDate).format('yyyy/MM/dd');
+				var date = new Date(value.QWRITTENDATE).format('yyyy/MM/dd');
+				var refBno = value.AREFBNO;
 				
-				console.log(value.qno + " " + value.btitle + " " + value.bcontent + " " + date);
+				console.log(data.list);
+				console.log(value.MQNO + " " + value.BTITLE + " " + value.BCONTENT + " " + date);
 				var $tr = $("<tr onclick='selectOneMQ(this)'>");
+				var $noTd = $("<td style='display: none;width: 0%;'>").text(value.MQNO);
 				var $dateTd = $("<td>").text(date);
-				var $titleTd = $("<td>").text(value.btitle);
+				var $titleTd = $("<td>").text(value.BTITLE);
+				var $answerTd = $("<td style='color:#3498db'>");
 				
+				if(refBno != null){
+					$answerTd.text('답변완료');
+					$answerTd.css('color','#3498db');
+				}else{
+					$answerTd.text('답변미완료');
+					$answerTd.css('color','#e74c3c');
+				}
+				
+				$tr.append($noTd);
 				$tr.append($dateTd);
 				$tr.append($titleTd);
+				$tr.append($answerTd);
 				$tableBody.append($tr);
 			});
 			
@@ -145,15 +187,29 @@ body::-webkit-scrollbar {
 			$tableBody.html('');
 			
 			$.each(data.list, function(index, value){
-				var date = new Date(value.writtenDate).format('yyyy/MM/dd');
+				var date = new Date(value.QWRITTENDATE).format('yyyy/MM/dd');
+				var refBno = value.AREFBNO;
 				
-				console.log(value.qno + " " + value.btitle + " " + value.bcontent + " " + date);
+				console.log(data.list);
+				console.log(value.MQNO + " " + value.BTITLE + " " + value.BCONTENT + " " + date);
 				var $tr = $("<tr onclick='selectOneMQ(this)'>");
+				var $noTd = $("<td style='display: none;width: 0%;'>").text(value.MQNO);
 				var $dateTd = $("<td>").text(date);
-				var $titleTd = $("<td>").text(value.btitle);
+				var $titleTd = $("<td>").text(value.BTITLE);
+				var $answerTd = $("<td style='color:#3498db'>");
 				
+				if(refBno != null){
+					$answerTd.text('답변완료');
+					$answerTd.css('color','#3498db');
+				}else{
+					$answerTd.text('답변미완료');
+					$answerTd.css('color','#e74c3c');
+				}
+				
+				$tr.append($noTd);
 				$tr.append($dateTd);
 				$tr.append($titleTd);
+				$tr.append($answerTd);
 				$tableBody.append($tr);
 			});
 			
@@ -190,6 +246,53 @@ body::-webkit-scrollbar {
 		}
 	});
  	}
+	
+	//나의문의내역 상세보기
+	function selectOneMQ(tr){
+		var num = tr.childNodes[0].innerHTML;
+		
+		console.log(num + "번째 문의 보기!");
+		
+		$mqDiv = $("#mqDiv").css({'background':'#faebd7a6', 'padding':'5%'});
+		$mqDiv.html("");
+				
+		$mqRow = $("<div class='col-md-12' style='padding:0'>");
+		
+		$mqtable = $("<div style='height: 412px;'> <table class='table'> <tbody id='myQTableOne'> <tr> <td style='padding-left: 2%;padding-right: 2%;'><b>Q. </b><span><b id='bTitle'></b></span> <span class='pull-right'><b id='qwrittenDate'></b></span></td> </tr> <tr> <td style='height: 100px;padding-top: 2%;padding: 2%;' id='bContent'></td> </tr> <tr style='background:white;'> <td style='height: 220px;padding: 2%;'><b>A. 안녕하세요. 널라이브 고객센터입니다.</b><br><br> <span id='answerSpan'></span> </td> </tr> </tbody> </table> </div>");
+		
+		$mqpage = $("<button type='button' class='btn pull-right backBtn' onclick='mqbackBtn();'>이전</button>");
+		
+		$mqRow.append($mqtable);
+		$mqRow.append($mqpage);
+		
+		$mqDiv.append($mqRow);
+
+		$.ajax({
+			url:"selectOneMQ.bo",
+			type:"get",
+			data:{num:num},
+			success:function(data){
+				
+				$.each(data.list, function(index, value){
+					var date = new Date(value.QWRITTENDATE).format('yyyy/MM/dd');
+					
+					console.log(data.list);
+					
+					$("#bTitle").text(value.BTITLE);
+					$("#qwrittenDate").text(date);
+					$("#bContent").text(value.BCONTENT);
+					$("#answerSpan").text(value.ANSWER);
+				});
+			}
+		});
+	}
+	
+	//공지사항 게시판 상세조회에서 이전버튼 눌렀을 때 
+	function mqbackBtn(){
+			console.log("이전 버튼 눌렸어용!");
+			mQContainer();
+			mQLoad();
+	}
 	
 	//date format 함수  : Date 내장 객체에 format함수 추가
 	Date.prototype.format = function(f) {    

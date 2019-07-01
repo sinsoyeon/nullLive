@@ -1,7 +1,7 @@
 package com.kh.nullLive.board.model.service;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -157,7 +157,19 @@ public class BoardServiceImpl implements BoardService{
 
 	//고객센터 나의문의내역 전체 게시글 조회
 	@Override
-	public ArrayList<Board> selectmQBoardList(PageInfo pi, int mno) {
+	public ArrayList<HashMap<String, Object>> selectmQBoardList(PageInfo pi, int mno) {
 		return bd.selectmQBoardList(sqlSession, pi, mno);
+	}
+
+	//고객센터 나의문의내역 조회수 증가
+	@Override
+	public int updateMQBoardCount(int num) {
+		return bd.updateMQBoardCount(sqlSession, num);
+	}
+
+	//고객센터 나의문의내역 상세 조회
+	@Override
+	public ArrayList<HashMap<String, Object>> selectOneMQBoard(int num) {
+		return bd.selectOneMQBoard(sqlSession, num);
 	}
 }

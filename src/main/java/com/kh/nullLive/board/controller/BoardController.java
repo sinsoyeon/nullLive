@@ -341,11 +341,33 @@ public class BoardController {
 		
 		System.out.println("page info : " + pi);
 		
-		ArrayList<Board> list;
-		list = bs.selectmQBoardList(pi, mno);
+		ArrayList<HashMap<String, Object>> hmap;
+		hmap = bs.selectmQBoardList(pi, mno);
 
 		map.put("pi", pi);
-		map.put("list", list);
+		map.put("list", hmap);
+
+		return new ResponseEntity<HashMap<String, Object>>(map, HttpStatus.OK);
+	}
+	
+	/**
+	 * @author : eon
+	 * @date : 2019. 7. 01.
+	 * @comment : 고객센터 나의문의내역 상세조회
+	 */
+	@RequestMapping("selectOneMQ.bo")
+	public ResponseEntity<HashMap<String, Object>> selectOneMQ(@RequestParam int num) {
+		System.out.println("선택된 문의 번호 : " + num);
+		
+		
+		ArrayList<HashMap<String, Object>> hmap = bs.selectOneMQBoard(num);
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("list", hmap);
+
+		int result = bs.updateMQBoardCount(num);
+		
+		System.out.println("조회수 증가 성공여부 : " + result);
 
 		return new ResponseEntity<HashMap<String, Object>>(map, HttpStatus.OK);
 	}
