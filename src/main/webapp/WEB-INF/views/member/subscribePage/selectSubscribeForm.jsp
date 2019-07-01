@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet"
+	href="${ contextPath }/resources/css/bootstrap/main.css">
 <style>
 div {
 	display: block;
@@ -17,13 +19,12 @@ div {
 	<div class="container">
 	
 		<div class="row">
+			<h4 class="page-head-line">구독하기</h4>
 
-			<div class="col-md-3"></div>
-			<div class="col-md-6">
-				<br /> <br />
-
+			<div class="col-md-1"></div>
+			<div class="col-md-10">
+				<input type="hidden" value="${loginUser.mno}" id="mno" />
 				<div id="detailSubscribeArea">
-					<h4 class="page-head-line">구독하기</h4>
 					<ul>
 						<li>
 							<div id="subscribeArea2">
@@ -84,11 +85,8 @@ div {
 
 				<!-- 구독 내역 조회용 Div -->
 				<div id="subscribeArea">
-					<h4 class="page-head-line" id="textLine">구독 내역</h4>
-					<br /> <br />
 
-					<h4 style="color: #333333 !important;" id="textLine1">내가 구독한
-						스트리머</h4>
+					<h4 style="color: #333333 !important;" id="textLine1">내가 구독한 스트리머</h4>
 					<table class="table" id="mySubscribeArea">
 						<thead class="thead-dark"
 							style="color: #fff; ! important; background: #333 !important;">
@@ -105,7 +103,6 @@ div {
 						</tbody>
 					</table>
 
-					<br /> <br />
 					<h4 style="color: #333333 !important;" id="textLine2">나를 구독한
 						사용자</h4>
 					<table class="table" id="subscribeForMeArea"
@@ -141,31 +138,63 @@ div {
 
 						</tbody>
 					</table>
-				</div>
+					
+					<table class="table" id="sponForMeTable" style="text-align: center">
+						<thead class="thead-dark"
+							style="color: #fff; ! important; background: #333 !important;">
+							<tr>
+								<th scope="col">후원 번호</th>
+								<th scope="col">닉네임(아이디)</th>
+								<th scope="col">후원 금액</th>
+								<th scope="col">후원 날짜</th>
+							</tr>
+						</thead>
+						<tbody>
 
+						</tbody>
+					</table>					
+				</div>
+				
+				<div id="searchArea" align="center" style="height:50px;">				
+				<table style="padding:100px !important;" id="searchTable">
+					<tr>
+						<td>
+							<label for="">검색 유형 : </label>
+								<select name="searchCondition" id="searchCondition">
+										<option value="" selected>전체</option>
+										<option value="1">닉네임</option>
+										<option value="2">아이디</option>
+								</select>						
+								<input type="text" id="searchValue" placeholder="검색어를 입력해주세요." width="400" /> 							
+					 		<button onclick="searchSpon();" id="searchBtn" style="width:100; height: 50; !important; border:1px solid black;">검색</button>
+						</td>					
+					</tr>
+				
+				</table>				
+				</div>
 			</div>
 		</div>
-
-
-		<div class="col-md-3"></div>
+		<br /><br />
+			
+		<div class="col-md-1"></div>
 	</div>
 
-	<div id="logModal" class="modal fade" role="dialog"
-		style="z-index: 99999;">
+	<div id="logModal" class="modal fade" role="dialog"style="z-index: 99999;">
 		<div class="modal-dialog" role="document" style="z-index: 99999;">
 
 			<div class="modal-content" style="z-index: 99999;">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Login</h4>
+					<h4 class="modal-title" style="text-align:center;" id="searchHeader">스트리머 검색</h4>
 				</div>
 				<div class="modal-body">
-					<div id="bodyArea">
+					<div id="bodyArea" align="center">
 						<h4>스트리머 아이디를 입력하세요!</h4>
-						<input type="hidden" id="sno" /> <label for="">아이디</label> <input
-							type="text" id="streamerId" />
-					</div>
+						<br />
+						<input type="hidden" id="sno" /> <label for="">아이디</label> &nbsp;&nbsp;&nbsp; 
+						<input type="text" id="streamerId" />&nbsp;&nbsp;&nbsp;
 					<button id="streamerBtn">선택</button>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -173,223 +202,7 @@ div {
 			</div>
 		</div>
 	</div>
+<script type="text/javascript" src="${contextPath}/resources/js/streamer/sponAndSubscribe.js"></script>
 
-	<script>
-		var sno;
-
-		$(function() {
-			$("#logModal").modal("show");
-			$("#subscribeArea").hide();
-			$("#sponTableArea").hide();
-		})
-
-		$("#streamerBtn").click(function() {
-			streamer = $("#streamerId").val();
-			$.ajax({
-				url : "selectStreamer.sm",
-				type : "post",
-				data : {
-					streamer : streamer
-				},
-				success : function(data) {
-					console.log('ajax실행');
-					console.log("data : " + data);
-					sno = data;
-
-					if (sno == null) {
-						alert('검색정보가 없습니다.');
-					} else {
-						alert(sno)
-					}
-				}
-			});
-
-			$("#logModal").modal("hide");
-			console.log(streamer);
-		})
-
-		$("button[id=btnAmount]").click(
-			function() {
-				var amount = $(this).val();
-				var mno = $
-				{
-					loginUser.mno
-				}
-				;
-				var IMP = window.IMP; // 생략가능
-				IMP.init('imp08034800'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
-
-				if (amount == 3300) {
-					IMP.request_pay({
-						pay_method : 'phone', // 'phone'만 지원됩니다.
-						merchant_uid : 'merchant_'
-								+ new Date().getTime(),
-						name : '최초인증결제',
-						amount : 10,
-						customer_uid : 'gildong_0001_1234',
-						buyer_email : 'iamport@siot.do',
-						buyer_name : '아임포트',
-						buyer_tel : '02-1234-1234'
-					}, function(rsp) {
-						if (rsp.success) {
-							$.ajax({
-								url : "subscribe.sm", // 서비스 웹서버
-								method : "POST",
-								data : {
-									amount : amount,
-									mno : mno,
-									sno : sno
-								},
-								success : function(data) {
-									alert('ajax접속 성공!')
-								}
-							});
-						} else {
-							alert(rsp.error_msg);
-						}
-					});
-
-				} else {
-					IMP.request_pay({
-						pg : 'inicis', // version 1.1.0부터 지원.
-						pay_method : 'card',
-						merchant_uid : 'merchant_'
-								+ new Date()
-										.getTime(),
-						name : '주문명:결제테스트',
-						amount : amount,
-						buyer_email : 'iamport@siot.do',
-						buyer_name : '구매자이름',
-						buyer_tel : '010-1234-5678',
-						buyer_addr : '서울특별시 강남구 삼성동',
-						buyer_postcode : '123-456',
-						m_redirect_url : 'https://www.yourdomain.com/payments/complete'
-					},
-					function(rsp) {
-						if (rsp.success) {
-							var msg = '결제가 완료되었습니다.';
-							$.ajax({
-								url : "monthlySubscribe.sm", // 서비스 웹서버
-								method : "POST",
-								data : {
-									amount : amount,
-									mno : mno,
-									sno : sno
-								},
-								success : function(
-										data) {
-									alert('ajax접속 성공!');
-								}
-							});
-						} else {
-							var msg = '결제에 실패하였습니다.';
-							msg += '에러내용 : '
-									+ rsp.error_msg;
-						}
-						alert(msg);
-					});
-				}
-			})
-			
-			
-		$(".subListTab").click(function(){
-			var mno = ${loginUser.mno};
-			$("#subscribeArea").show();
-			$("#detailSubscribeArea").hide();
-			$("#sponTableArea").hide();
-			
-			$("#textLine1").text('');
-			$("#textLine2").text('');
-			$("#textLine").text('구독 내역');
-			
-			$.ajax({
-				url:"subscribeListView.sm",
-				type:"post",
-				data :{mno:mno},
-				success:function(data){
-					console.log(data);
-					var mySubscribeList = data.listMap;
-					console.log(mySubscribeList);
-					subscribeForMe(mySubscribeList);
-				}
-			});			
-		})	
-		
-		function subscribeForMe(mySubscribeList){
-			var mySubscribeList = mySubscribeArea;
-			var mno = ${loginUser.mno};
-			
-			$.ajax({
-				url:"subscribeForMe.sm",
-				type:"post",
-				data : {mno:mno},
-				success:function(data){
-					var forMeList = data.forMeList;
-					var subscribeType='';
-					var su_period_date = '';
-					
-					
-					$.each(mySubscribeList,function(index,value){
-						if(isEmptyObject(value["SU_PERIOD_DATE"])){
-							subscribeType = '장기 구독자';
- 						} else{
- 							subscribeType ='정기 구독자';
- 							su_period_date = value["SU_PERIOD_DATE"];
- 						}
-				
-						 $("#mySubscribeArea > tbody").appned("<tr><td>"
-								 						+value["SUNO"] + "</td><td>"
-								 						+value["NICK_NAME"] + "</td><td>"
-								 						+ subscribeType + "</td><td>" 
-								 						+ value["SU_START_DATE"] + "</td><td>"
-								 						+ su_period_date  + "</td></tr>"
-						);
-					});
-					
-					$.each(forMeList,function(index,value){
-						 $("#subscribeForMeArea > tbody").appned("<tr><td>"
-														+value["SUNO"] + "</td><td>"
-														+value["NICK_NAME"]+"</td><td colspan='3'>"
-														+value["MSG"] + "</td></tr>"
-						 );
-					})
-				}
-			});
-		}
-			
-		$(".sponListTab").click(function() {
-					var mno = ${loginUser.mno};
-					$("#subscribeArea").hide();
-					$("#detailSubscribeArea").hide();
-					$("#textLine1").text('');
-					$("#textLine2").text('');
-					$("#textLine").text('후원 내역');
-					$.ajax({
-						url : "selectSponList.sm",
-						type : "post",
-						data : {
-							mno : mno
-						},
-						success : function(data) {
-							console.log(data);
-							var sponList = data.sponList;
-
-							console.log(sponList);
-
-							$.each(sponList, function(index, value) {
-								$("#sponTable > tbody").append(
-										"<tr><td>" + (index + 1)+ "</td><td>"
-												+ value["NICK_NAME"]
-												+ "</td><td>"
-												+ value["SPON_AMOUNT"]
-												+ "</td><td>"
-												+ value["SPON_DATE"]
-												+ "</td></tr>");
-							});
-							$("#sponTableArea").show();
-						}
-					});
-				})
-	</script>
 </body>
 </html>

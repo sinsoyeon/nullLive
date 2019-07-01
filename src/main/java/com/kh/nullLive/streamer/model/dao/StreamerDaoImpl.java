@@ -11,8 +11,6 @@ import com.kh.nullLive.streamer.model.vo.Streamer;
 @Repository
 public class StreamerDaoImpl implements StreamerDao {
 
-
-
 	@Override
 	public int selectStreamer(SqlSessionTemplate sqlSession, String streamer) {
 		int sno = 0;
@@ -71,11 +69,23 @@ public class StreamerDaoImpl implements StreamerDao {
 	}
 
 
-
 	@Override
 	public ArrayList<HashMap<String, Object>> selectSponList(SqlSessionTemplate sqlSession, int mno) {
 	
 		return (ArrayList)sqlSession.selectList("Streamer.selectSponList",mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectSponForMeList(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("Streamer.selectSponForMe",mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> searchSponList(SqlSessionTemplate sqlSession,
+			HashMap<String, Object> searchTypeMap) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("Streamer.searchSponList", searchTypeMap);
 	}
 	
 }

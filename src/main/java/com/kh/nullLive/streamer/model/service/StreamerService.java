@@ -22,4 +22,8 @@ public interface StreamerService {
 
 	ArrayList<HashMap<String, Object>> selectSponList(int mno);
 
+	ArrayList<HashMap<String, Object>> selectSponForMeList(int mno);
+
+	ArrayList<HashMap<String, Object>> searchSponList(HashMap<String, Object> searchTypeMap);
+
 }

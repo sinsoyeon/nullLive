@@ -24,4 +24,8 @@ public interface StreamerDao {
 
 	ArrayList<HashMap<String, Object>> selectSponList(SqlSessionTemplate sqlSession, int mno);
 
+	ArrayList<HashMap<String, Object>> selectSponForMeList(SqlSessionTemplate sqlSession, int mno);
+
+	ArrayList<HashMap<String, Object>> searchSponList(SqlSessionTemplate sqlSession,HashMap<String, Object> searchTypeMap);
+
 }

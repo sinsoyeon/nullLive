@@ -42,7 +42,6 @@ public class StreamerController {
 	@RequestMapping("subscribe.sm")
 	public String insertSubscribe(Streamer stremaer) {
 		int result = smService.insertSubscribe(stremaer);
-		//System.out.println("mno : " + mno + " / streamer :" + streamer + " / amount :  " + amount);
 		
 		if(result > 0) {
 			return "성공적으로 구독하였습니다.";			
@@ -81,12 +80,21 @@ public class StreamerController {
 		
 		for (int i = 0; i < listMap.size(); i++) {
 			if(listMap.get(i).get("SU_PERIOD_DATE")!=null)
-			listMap.get(i).put("SU_PERIOD_DATE", listMap.get(i).get("SU_PERIOD_DATE").toString());	
+			listMap.get(i).put("SU_PERIOD_DATE", listMap.get(i).get("SU_PERIOD_DATE").toString());
+			
+			System.out.println(listMap.get(i).get("SU_PERIOD_DATE"));
+			
+			
+			if(listMap.get(i).get("SU_PERIOD_DATE").toString().equals("2999/12/31")) {
+				listMap.get(i).replace("SU_PERIOD_DATE", "X");			
+			}
 		}
 		
 		
 		model.setViewName("jsonView");
 		model.addObject("listMap",listMap);
+		
+		System.out.println("최종 return : "  + listMap);
 		
 		return model;
 	}
@@ -124,5 +132,36 @@ public class StreamerController {
 
 		return modelAndView;
 	}
+	
+	@RequestMapping("sponForMeList.sm")
+	public ModelAndView selectSponForMe(@RequestParam("mno")int mno,ModelAndView modelAndView) {
+		ArrayList<HashMap<String,Object>> sponForMeList = smService.selectSponForMeList(mno);
+
+		for (int i = 0; i < sponForMeList.size(); i++) {
+			sponForMeList.get(i).put("SPON_DATE", sponForMeList.get(i).get("SPON_DATE").toString());	
+		}
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("sponForMeList", sponForMeList);
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping("searchSpon.sm")
+	public ModelAndView searchSponList(int mno,int searchCondition,String searchValue,ModelAndView modelAndView) {
+		HashMap<String,Object> searchTypeMap = new HashMap<String, Object>();
+		searchTypeMap.put("mno", mno);
+		searchTypeMap.put("searchCondition", searchCondition);
+		searchTypeMap.put("searchValue", searchValue);
+				
+		ArrayList<HashMap<String,Object>> searchSponList = smService.searchSponList(searchTypeMap);
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("searchSponList",searchSponList);
+		
+		
+		return modelAndView;
+	}
+	
 	
 }
