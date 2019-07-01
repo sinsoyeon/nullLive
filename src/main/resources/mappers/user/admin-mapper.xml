@@ -9,7 +9,7 @@
 		<id property="excno" column="EXCNO"/>
 		<result property="nickName" column="NICK_NAME"/>
 		<result property="name" column="NAME"/>
-		<result property="excFee" column="EXC_FEE"/>
+		<result property="excAmount" column="EXC_AMOUNT"/>
 		<result property="applicationDate" column="APPLICATION_DATE"/>
 		<result property="excStatus" column="EXC_STATUS"/>
 		<result property="approvalDate" column="APPROVAL_DATE"/>
@@ -36,7 +36,7 @@
 	</resultMap>
 	
 	<select id="selectExchange" resultMap="ExchangeResultSet">
-		SELECT e.excno ,m.nick_name, m.name, e.exc_fee, e.application_date, e.exc_status, e.approval_date
+		SELECT e.excno ,m.nick_name, m.name, TO_CHAR(e.EXC_AMOUNT, '9,999,999') EXC_AMOUNT, e.application_date, e.exc_status, e.approval_date
 		FROM EXCHANGE E
 		JOIN MEMBER M USING(MNO)
 		ORDER BY 1 DESC
@@ -66,15 +66,16 @@
 	WHERE M.MID LIKE #{userId}
 	</select>
 	
-	<!-- <update id="userStatusUpdate" parameterType="com.kh.nullLive.member.model.vo.Member">
+	<update id="userStatusUpdate" parameterType="com.kh.nullLive.member.model.vo.Member">
 		 UPDATE MEMBER
-		 <if test="mstatus == 'N'">
-		SET M_STATUS = 'Y'
-		</if>
-		<if test="mstatus =='Y'">
+		<if test='mstatus eq "N".toString()'>
 		SET M_STATUS = 'N'
 		</if>
+		<if test='mstatus eq "Y".toString()'>
+		SET M_STATUS = 'Y'
+		</if>
 		WHERE MID LIKE #{mid}
-		
-	</update> -->
+	</update>
+	
+	
 </mapper>

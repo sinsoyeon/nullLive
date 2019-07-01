@@ -271,6 +271,7 @@
 		        FROM BOARD
 		        GROUP BY REPORT_MNO) C ON(C.REPORT_MNO = B.REPORT_MNO)
 		WHERE BTYPE LIKE 'REPORT'
+		ORDER BY 7,6 DESC
     </select>
 	
 	<!-- board currval 조회용 -->

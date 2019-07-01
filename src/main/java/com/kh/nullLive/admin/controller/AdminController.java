@@ -1,6 +1,8 @@
 package com.kh.nullLive.admin.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.nullLive.admin.model.service.AdminService;
 import com.kh.nullLive.admin.model.vo.Exchange;
@@ -31,7 +32,15 @@ public class AdminController {
 	 * @comment :관리자 메인페이지 뷰 이동(정보가져오기)
 	 */
 	@RequestMapping("main.ad")
-	public String adminMain() {
+	public String adminMain(Model model) {
+		
+		ArrayList<Exchange> ExchangeList = as.exchangeList();
+		ArrayList<Report> streamerReportList = as.streamerReportList();
+		ArrayList<Question> QuestionList = as.questionList();
+
+		model.addAttribute("ExchangeList", ExchangeList);
+		model.addAttribute("streamerReportList", streamerReportList);
+		model.addAttribute("QuestionList", QuestionList);
 		
 		return "admin/adminMain";
 	}
@@ -73,16 +82,23 @@ public class AdminController {
 	 * @comment :계정 활동 및 정지
 	 */
 	@RequestMapping("userStatusUpdate.ad")
-	public void userStatusUpdate(String memberId, String memberStatus) {
+	public String userStatusUpdate(Model model, String memberId, String choiceStatus) {
+		
 		Member m = new Member();
 		m.setMid(memberId);
-		m.setMstatus(memberStatus);
+		m.setMstatus(choiceStatus);
 		int result = as.userStatusUpdate(m);
+
 		if(result >0 ) {
-			System.out.println("성공?");
-			}else {
-				System.out.println("실패?");
-			}
+			ArrayList<Member> userList = as.memberList();
+			
+			model.addAttribute("userList", userList);
+			return "admin/memberManagement";
+		}else {
+			String msg = "회원 상태 변경 실패!";
+			model.addAttribute("msg", msg);
+			return "common/errorPage";
+		}
 	}
 
 	// 회원 상세정보 조회 닫기
@@ -179,7 +195,7 @@ public class AdminController {
 	/**
 	 * @author INHYO
 	 * @date : 2019. 6. 20.
-	 * @comment : 정산 페이지 이동 (페이징)
+	 * @comment : 환전 페이지 이동 (페이징)
 	 */
 	@RequestMapping("calculateList.ad")
 	public String adminCalculateList(Model model) {

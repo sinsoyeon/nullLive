@@ -23,24 +23,21 @@ tr>th {
 	height: 320px;
 	border: 1px solid darkgray;
 	background: white;
-	position: absolute;
+	position: fixed;
 	margin-left: auto;
 	margin-right: auto;
 	left: 0;
 	right: 0;
-	top: 18%;
+	top: 30%;
 }
 
 #memberPopupBack {
 	display: none;
 	opacity: 0.5;
 	width: 100%;
-	height: 106%;
+	height: 100%;
 	background: lightgray;
-	position: absolute;
-	margin-left: auto;
-	margin-right: auto;
-	left: 0;
+	position: fixed;
 	right: 0;
 	top: 0%
 }
@@ -72,8 +69,7 @@ td {
 	background: green;
 }
 
-.row.test>div:nth-child(1) {
-	left: 25px;
+.row.userContent>div:nth-child(1) {
 	top: 35px;
 	height: 170px;
 }
@@ -87,12 +83,12 @@ height: auto; */
 	height: 170px;
 }
 
-.row.test>div:nth-child(2) {
+.row.userContent>div:nth-child(2) {
 	text-align: right;
 	font-weight: bold;
 }
 
-.row.test>div:nth-child(3) {
+.row.userContent>div:nth-child(3) {
 	text-align: left;
 }
 </style>
@@ -117,7 +113,7 @@ height: auto; */
 						<span class="glyphicon glyphicon-remove-sign btn-lg" id="closeBtn2"
 							style="padding-left: 0px; padding-right: 0px; padding-bottom: 0px; padding-top: 0px;"></span>
 					</div>
-					<div class="row test">
+					<div class="row userContent">
 						<div class="col-sm-4"><img src="resources/image/bbashong.png"></div>
 						<div class="col-sm-3"><br>
 							<p>아이디 :</p>
@@ -209,7 +205,8 @@ var memberStatus
 		            	var broCount = data.broCount
 		            	var mStatus = data.memStatus
 		            	
-		            	memberStatus = data.memStatus
+		            	memberStatus = data.memStatus;
+		            	
 		            	
 		            	$('#userDetailContent').append("<p>"+mid+"</p>");
 		            	$('#userDetailContent').append("<p>"+name+"</p>");
@@ -220,9 +217,9 @@ var memberStatus
 		            	$('#userDetailContent').append("<p>"+broCount+"</p>");
 		            	
 		            	if(mStatus == 'Y'){
-		            		$('#userDetailContent').append("<div style='display: inline-block;'><select><option value='활동' selected>활동</option><option value='정지'>정지</option></select></div><div style='display: inline-block;'><button onclick='userStatusUpdate()'>적용</button></div>");
+		            		$('#userDetailContent').append("<div style='display: inline-block;'><select id='choiceStatus'><option value='Y' selected>활동</option><option value='N'>정지</option></select></div><div style='display: inline-block;'><button onclick='userStatusUpdate()'>적용</button></div>");
 		            	}else{
-							$('#userDetailContent').append("<div style='display: inline-block;'><select><option value='활동' >활동</option><option value='정지'selected>정지</option></select></div><div style='display: inline-block;'><button onclick='userStatusUpdate()'>적용</button></div>");
+							$('#userDetailContent').append("<div style='display: inline-block;'><select id='choiceStatus'><option value='Y' >활동</option><option value='N'selected>정지</option></select></div><div style='display: inline-block;'><button onclick='userStatusUpdate()'>적용</button></div>");
 		            	}
 		            	
 		            },
@@ -244,14 +241,25 @@ var memberStatus
 				$('#memberPopupBack').css("display","none");
 				$('#userDetailContent').children().remove();
 			});
+			
 	})
 	
 	function userStatusUpdate() {
-		
-	/* location.href='userStatusUpdate.ad?memberId='+memberId+'&memberStatus='+memberStatus; */
-
 	
-		
+	
+	var choiceStatus = $("#choiceStatus").val();
+		if (memberStatus == choiceStatus) {
+			alert("현재 상태입니다.");
+		} else {
+			var select = confirm("정말로 계정상태를 변경하시겠습니까? 확인을 누르시면 변경됩니다. ");
+			if (select) {
+				location.href = 'userStatusUpdate.ad?memberId=' + memberId + '&choiceStatus=' + choiceStatus
+				alert("변경되었습니다.");
+			} else {
+				alert("취소되었습니다.");
+			}
+		}
+
 	}
 </script>
 </html>
