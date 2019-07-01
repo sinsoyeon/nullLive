@@ -41,6 +41,7 @@ public class AdminDaoImpl implements AdminDao{
 
 	@Override
 	public int userStatusUpdate(SqlSessionTemplate sqlSession, Member m) {
+		System.out.println(m.getMstatus()+"!!!!!!!!!!!!!!!!!!!");
 		return sqlSession.update("Admin.userStatusUpdate", m);
 	}
 

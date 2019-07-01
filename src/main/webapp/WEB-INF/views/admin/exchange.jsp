@@ -58,7 +58,7 @@ tr>th{
 						<td id='checkbox'><input type="checkbox"></td>
 						<td>${exchange.nickName}</td>	
 						<td>${exchange.name}</td>	
-						<td>${exchange.excFee}</td>	
+						<td>${exchange.excAmount}</td>	
 						<td>${exchange.applicationDate}</td>	
 						<td><input type="button" value="환전하기" data-toggle="modal" data-target="#single"></td>	
 					</tr>
@@ -69,7 +69,7 @@ tr>th{
 	 				<td><input type="checkbox" disabled></td>
 						<td>${exchange.nickName}</td>	
 						<td>${exchange.name}</td>	
-						<td>${exchange.excFee}</td>	
+						<td>${exchange.excAmount}</td>	
 						<td>${exchange.applicationDate}</td>	
 						<td>
 							환전완료

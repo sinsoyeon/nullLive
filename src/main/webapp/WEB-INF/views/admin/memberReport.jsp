@@ -43,6 +43,22 @@ tr>th{
 				<tbody>
 				<c:set var = "listSize" value = "${streamerReportList.size() }" />
 				<c:forEach items="${streamerReportList}" var="board" varStatus="number">
+					<c:if test="${board.staDetail eq '신고처리' }">
+					<tr style="background: #eaeaea;">
+						<td>
+						<c:set var = "index" value = "${number.index}" />
+						<c:set var = "number1" value = "${listSize-index}" />
+						<c:out value="${number1}"/> 
+						</td>
+						<td>${board.reportType}</td>	
+						<td>${board.mid1}</td>	
+						<td>${board.mid2}</td>	
+						<td>${board.cou}</td>	
+						<td>${board.writtenDate}</td>	
+						<td>완료</td>	
+					</tr>
+					</c:if>
+					<c:if test="${board.staDetail eq '신고접수' }">
 					<tr>
 						<td>
 						<c:set var = "index" value = "${number.index}" />
@@ -54,8 +70,9 @@ tr>th{
 						<td>${board.mid2}</td>	
 						<td>${board.cou}</td>	
 						<td>${board.writtenDate}</td>	
-						<td>${board.staDetail}</td>	
+						<td>대기중</td>	
 					</tr>
+					</c:if>
 				</c:forEach>
 				</tbody>
 			</table>

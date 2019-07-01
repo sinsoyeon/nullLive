@@ -13,7 +13,7 @@ public class Exchange {
 	private int excno; //EXCNO
 	private String nickName; // NICK_NAME
 	private String name; // NAME
-	private int excFee; // EXC_FEE
+	private String excAmount; // EXC_AMOUNT
 	private Date applicationDate; // APPLICATION_DATE
 	private String excStatus; // EXC_STATUS
 	private Date approvalDate; // APPROVAL_DATE
