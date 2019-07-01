@@ -71,7 +71,6 @@
 				<!--  버튼영역 -->
 				<div class="btnArea">
 					<button class="btn" onclick="location.href = 'jobNoticeInsertForm.jbo'">글쓰기</button>
-				<!-- 목록 갯수 선택  -->
 				</div>
 			
 			
