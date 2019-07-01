@@ -37,7 +37,7 @@ video {
 <div id="contentArea" class="col-md-11" style="display:inline; min-width:1024;">
 	<div class="row">
 		<div id="videoArea" class="col-md-5" style="display:block; float:left;">
-			<%-- <jsp:forward page="stream.jsp"/> --%>
+			<jsp:forward page="streamRoom.jsp"/>
 			<button onclick="location.href='record.st'">testRecoding</button>
 			<button onclick="location.href='connect.st'">testConnection</button>
 			<button onclick="location.href='screenSharing.st'">screenSharing</button>
@@ -51,14 +51,14 @@ video {
 		        <button id="hangupButton">Hang Up</button>
 		    </div>
 		
-		    <div class="box">
+		    <!-- <div class="box">
 		        <span>SDP Semantics:</span>
 		        <select id="sdpSemantics">
 		            <option selected value="">Default</option>
 		            <option value="unified-plan">Unified Plan</option>
 		            <option value="plan-b">Plan B</option>
 		        </select>
-		    </div>
+		    </div> -->
 		</div>
 		
 		<div id="chatArea" class="col-md-5" style="display:block;float:right;">
