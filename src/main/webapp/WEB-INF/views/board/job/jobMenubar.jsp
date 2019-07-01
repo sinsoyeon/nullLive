@@ -1,54 +1,61 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-
-<!-- jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-
-<!-- Latest compiled JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <title>Insert title here</title>
-<style>
-	.menu{
-		text-align:center;
-		width:150px;
-		height:50px;
-		display:table-cell;
-		verical-align:middle;
-	}
-
-	.nav{
-		width:600px;
-		margin-left:auto;
-		margin-right:auto;
-	}
-</style>
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
+<title>Insert title here</title>
 </head>
 <body>
-	<c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application"/>
-	
-	<br>
-	<!-- 메뉴 -->
-	<div class="nav">
-		<div class="menu" onclick="location.href='index.jsp'">NullLive</div>
-		<div class="menu" onclick="jobNoticeList()">공지사항</div>
-		<div class="menu" onclick="jobMngList()">매니저</div>
-		<div class="menu" onclick="location.href='jobContentList.jbo'">콘텐츠제작자</div>
+	<c:set var="contextPath"
+		value="${pageContext.servletContext.contextPath }" scope="application" />
+	<!-- nav -->
+	<div class="row" style="display: inline;">
+		<div class="col-md-12">
+			<nav class="navbar navbar-fixed-top navbar-inverse">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<img src="/nullLive/resources/image/logo.png"
+							style="width: 30px; float: left; height: 41px; padding-top: 5%;">
+						<a class="navbar-brand" href="#"
+							onclick="location.href='index.jsp'"
+							style="width: 145.72px; padding-left: 15%; text-shadow: 3px 3px 2px #6f8e3085; font-size: 25px; color: #fff;"><b>NullLive</b></a>
+					</div>
+
+					<ul class="nav navbar-nav">
+						<li><a href="paging.pg"><b>공지사항</b></a></li>
+						<li><a href="jobMngList.jbo"><b>매니저</b></a></li>
+						<li><a href="jobContentList.jbo"><b>콘텐츠제작자</b></a></li>
+					</ul>
+					
+					<ul class="nav navbar-nav navbar-right">
+						<c:if test="${empty sessionScope.loginUser}">
+							<li><a href="loginPage.me"><i
+									class="fas fa-sign-in-alt fa-lg" style="color: #fff;"></i></a></li>
+							<li><a href="join.me"><i class="fas fa-user fa-lg"
+									style="color: #fff;"></i></a></li>
+						</c:if>
+						<c:if test="${!empty sessionScope.loginUser}">
+							<li><a href="myQuestion.bo">MY문의내역</a></li>
+							<li><a href="logout.bo"><i
+									class="fas fa-sign-out-alt fa-lg" style="color: #fff;"></i></a></li>
+						</c:if>
+					</ul>
+
+				</div>
+			</nav>
+		</div>
 	</div>
-	<hr>
-	
-	<script>
-		function jobNoticeList(){
-			location.href="paging.pg";
-		}
-		function jobMngList(){
-			location.href='jobMngList.jbo';
-		}
-	</script>
 </body>
 </html>

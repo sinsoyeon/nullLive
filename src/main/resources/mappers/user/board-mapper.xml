@@ -220,6 +220,7 @@
 		FROM JOB_BOARD JB
 		JOIN BOARD B ON(JB.BNO = B.BNO)
 		WHERE B.BTYPE = 'JOBMNG'
+		ORDER BY JB.JBNO DESC
 	</select>
 	
 </mapper>
