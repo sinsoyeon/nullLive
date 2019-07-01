@@ -25,16 +25,17 @@
 
 <body>
 	<jsp:include page="../../common/menubar.jsp" />
+	
 	<section class="menu-section">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="navbar-collapse collapse " style="">
 						<ul id="menu-top" class="nav navbar-nav navbar-right">
-							<li><a class="menu-top-active" href="subscribeView.me?">구독하기</a></li>
+							<li><a class="menu-top-active" href="#">구독하기</a></li>
 							<li><a href="#" class="sponTab">후원하기</a></li>
-							<li><a href="subscribeListView.sm?mno=${loginUser.mno}" class="subListTab">구독내역</a></li>
-							<li><a href="" class="sponListTab">후원내역</a></li>
+							<li><a href="#" class="subListTab">구독내역</a></li>
+							<li><a href="#" class="sponListTab">후원내역</a></li>
 						</ul>
 					</div>
 				</div>

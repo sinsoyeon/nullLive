@@ -187,13 +187,29 @@
 	</select>
 	
 	<!-- 고객센터 나의문의내역 전체 게시글 조회용 쿼리문 -->
-	<select id="selectmQList" parameterType="_int" resultMap="boardResultSet">
-		SELECT QNO, BNO, BTITLE, BCONTENT, WRITTEN_DATE
-		FROM V_QUESTIONBOARD
-		WHERE BWRITER = #{mno}
-		AND REF_BNO IS NULL
-		ORDER BY QNO DESC
+	<select id="selectmQList" parameterType="_int" resultType="java.util.HashMap">
+		SELECT Q1.QNO mqno, Q1.BNO qbno, Q1.BTITLE bTitle, Q1.BCONTENT bContent, Q1.WRITTEN_DATE qwrittenDate, Q2.BNO abno, Q2.BCONTENT answer, Q2.WRITTEN_DATE awrittenDate, Q2.REF_BNO arefBno
+		FROM V_QUESTIONBOARD Q1
+		LEFT JOIN V_QUESTIONBOARD Q2 ON(Q1.BNO = Q2.REF_BNO)
+		WHERE Q1.BWRITER = #{mno}
+		ORDER BY Q1.QNO DESC
 	</select>
+	
+	<!-- 고객센터 나의문의내역 상세 조회용 쿼리문 -->
+	<select id="selectOneMQ" parameterType="_int" resultType="java.util.HashMap">
+		SELECT Q1.QNO mqno, Q1.BNO qbno, Q1.BTITLE bTitle, Q1.BCONTENT bContent, Q1.WRITTEN_DATE qwrittenDate, Q2.BNO abno, Q2.BCONTENT answer, Q2.WRITTEN_DATE awrittenDate, Q2.REF_BNO arefBno
+		FROM V_QUESTIONBOARD Q1
+		LEFT JOIN V_QUESTIONBOARD Q2 ON(Q1.BNO = Q2.REF_BNO)
+		WHERE Q1.QNO = #{num}
+	</select>
+	
+	<!-- 고객센터 나의문의내역 조회수 증가용 쿼리문 -->
+	<update id="updateMQCount" parameterType="_int">
+		UPDATE BOARD
+		SET BCOUNT = (SELECT BCOUNT FROM V_QUESTIONBOARD WHERE QNO = #{num}) + 1
+		WHERE BNO = (SELECT BNO FROM V_QUESTIONBOARD WHERE QNO = #{num})
+	</update>
+	
 	
 	<!-- 구인구직 공지사항 INSERT -->
 	<insert id="insertJobNotice" parameterType="Board">
@@ -271,7 +287,6 @@
 		        FROM BOARD
 		        GROUP BY REPORT_MNO) C ON(C.REPORT_MNO = B.REPORT_MNO)
 		WHERE BTYPE LIKE 'REPORT'
-		ORDER BY 7,6 DESC
     </select>
 	
 	<!-- board currval 조회용 -->
@@ -285,7 +300,6 @@
 		FROM JOB_BOARD JB
 		JOIN BOARD B ON(JB.BNO = B.BNO)
 		WHERE B.BTYPE = 'JOBMNG'
-		ORDER BY JB.JBNO DESC
 	</select>
 	
 </mapper>

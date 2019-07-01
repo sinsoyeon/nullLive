@@ -6,8 +6,8 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-		classpath:root-context.xml
-		/WEB-INF/config/spring-security.xml
+			classpath:root-context.xml
+			/WEB-INF/config/spring-security.xml
 		</param-value>
 	</context-param>
 
@@ -15,6 +15,7 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener
 		</listener-class>
 	</listener>
+
 	<!-- member-servlet -->
 	<servlet>
 		<servlet-name>member</servlet-name>
@@ -25,12 +26,12 @@
 			<param-value>/WEB-INF/config/member-context.xml</param-value>
 		</init-param>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>member</servlet-name>
 		<url-pattern>*.me</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- streaming-servlet -->
 	<servlet>
 		<servlet-name>streaming</servlet-name>
@@ -41,13 +42,13 @@
 			<param-value>/WEB-INF/config/streaming-context.xml</param-value>
 		</init-param>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>streaming</servlet-name>
 		<url-pattern>*.st</url-pattern>
 	</servlet-mapping>
-	
-	<!-- streamer  -->
+
+	<!-- streamer -->
 	<servlet>
 		<servlet-name>streamer</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet
@@ -57,12 +58,12 @@
 			<param-value>/WEB-INF/config/streamer-context.xml</param-value>
 		</init-param>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>streamer</servlet-name>
 		<url-pattern>*.sm</url-pattern>
-	</servlet-mapping>	
-	
+	</servlet-mapping>
+
 	<!-- board-servlet -->
 	<servlet>
 		<servlet-name>board</servlet-name>
@@ -73,12 +74,12 @@
 			<param-value>/WEB-INF/config/board-context.xml</param-value>
 		</init-param>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>board</servlet-name>
 		<url-pattern>*.bo</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- jobBoard-servlet -->
 	<servlet>
 		<servlet-name>jobBoard</servlet-name>
@@ -89,12 +90,12 @@
 			<param-value>/WEB-INF/config/jobBoard-context.xml</param-value>
 		</init-param>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>jobBoard</servlet-name>
 		<url-pattern>*.jbo</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- paging -servlet -->
 	<servlet>
 		<servlet-name>paging</servlet-name>
@@ -105,12 +106,12 @@
 			<param-value>/WEB-INF/config/paging-context.xml</param-value>
 		</init-param>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>paging</servlet-name>
 		<url-pattern>*.pg</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- admin-servlet -->
 	<servlet>
 		<servlet-name>admin</servlet-name>
@@ -121,7 +122,7 @@
 			<param-value>/WEB-INF/config/admin-context.xml</param-value>
 		</init-param>
 	</servlet>
-	
+
 	<servlet-mapping>
 		<servlet-name>admin</servlet-name>
 		<url-pattern>*.ad</url-pattern>
@@ -136,35 +137,35 @@
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>
 		</init-param>
+
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+
 	</filter>
 
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
 	<!-- https ssl 필터 -->
-	<!-- <filter>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-    </filter>
- 
-    <filter-mapping>
-        <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping> -->
- 
- 
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>my-secure-app</web-resource-name>
-            <url-pattern>/*</url-pattern>
-        </web-resource-collection>
- 
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
+	<!-- <filter> <filter-name>springSecurityFilterChain</filter-name> <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class> 
+		</filter> <filter-mapping> <filter-name>springSecurityFilterChain</filter-name> 
+		<url-pattern>/*</url-pattern> </filter-mapping> -->
+
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>my-secure-app</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
 </web-app>
 
 

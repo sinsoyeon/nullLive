@@ -195,18 +195,34 @@ public class BoardDaoImpl implements BoardDao {
 
 	//고객센터 나의문의내역 전체 게시글 조회
 	@Override
-	public ArrayList<Board> selectmQBoardList(SqlSessionTemplate sqlSession, PageInfo pi, int mno) {
-		ArrayList<Board> list = null;
+	public ArrayList<HashMap<String, Object>> selectmQBoardList(SqlSessionTemplate sqlSession, PageInfo pi, int mno) {
+		ArrayList<HashMap<String, Object>>hmap = null;
 
 		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
 
 		//페이징 처리를 위한 클래스
 		RowBounds rowBounds = new RowBounds(offset, pi.getLimit());
 
-		list = (ArrayList) sqlSession.selectList("Board.selectmQList", mno, rowBounds);
+		hmap = (ArrayList) sqlSession.selectList("Board.selectmQList", mno, rowBounds);
 
-		System.out.println("페이징처리된 결과 : " + list);
+		System.out.println("페이징처리된 결과 : " + hmap);
 
-		return list;
+		return hmap;
+	}
+
+	//고객센터 나의문의내역 조회수 증가
+	@Override
+	public int updateMQBoardCount(SqlSessionTemplate sqlSession, int num) {
+		return sqlSession.update("Board.updateMQCount", num);
+	}
+
+	//고객센터 나의문의내역 상세 조회
+	@Override
+	public ArrayList<HashMap<String, Object>> selectOneMQBoard(SqlSessionTemplate sqlSession, int num) {
+		ArrayList<HashMap<String, Object>>hmap = (ArrayList) sqlSession.selectList("Board.selectOneMQ", num);
+		
+		System.out.println("상세조회 결과 : " + hmap);
+		
+		return hmap;
 	}
 }
