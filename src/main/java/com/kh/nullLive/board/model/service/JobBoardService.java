@@ -30,7 +30,7 @@ public interface JobBoardService {
 
 	void searchJobBoard();
 
-	void selectOneJobBoard();
+	HashMap<String, Object> selectOneJobBoard(int bno);
 
 	void SelectListApply();
 
@@ -49,6 +49,8 @@ public interface JobBoardService {
 	ArrayList selectJobMngPaging(PagingVo paging);
 
 	int selectJobMngTotalPaging();
+
+	int getJobMngListCount();
 
 
 }

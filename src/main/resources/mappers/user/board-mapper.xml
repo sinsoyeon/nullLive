@@ -26,6 +26,20 @@
 		<result property="reportMno" column="REPORT_MNO"/>
 		<result property="bStatus" column="B_STATUS"/>
 	</resultMap>
+	<!-- 구인구직 게시판용 board resultMap -->
+	<resultMap type="Board" id="boardResultSet2">
+		<id property="bno" column="BNO"/>
+		<result property="bTitle" column="BTITLE"/>
+		<result property="bContent" column="BCONTENT"/>
+		<result property="writtenDate" column="WRITTEN_DATE"/>
+		<result property="modifyDate" column="MODIFY_DATE"/>
+		<result property="bCount" column="BCOUNT"/>
+		<result property="bType" column="BTYPE"/>
+		<result property="bWriter" column="BWRITER"/>
+		<result property="bStatus" column="B_STATUS"/>
+	</resultMap>
+	
+	
 	
 	<resultMap type="Report" id="ReportResultSet">
 		<id property="bno" column="BNO"/>
@@ -54,6 +68,17 @@
 		<result property="bType" column="BTYPE"/>
 		<result property="bWriter" column="BWRITER"/>
 		<result property="bStatus" column="B_STATUS"/>
+	</resultMap>
+	
+		<!-- job 게시글 resultSet2 -->
+	<resultMap type="JobBoard" id="jobBoardResultSet2">
+		<id property="jbno" column="JBNO"/>
+		<result property="job" column="JOB"/>
+		<result property="jBtype" column="JBTYPE"/>
+		<result property="contContent" column="CONT_CONTENT"/>
+		<result property="bno" column="BNO"/>
+		<result property="deadLine" column="DEADLINE"/>
+		<result property="perprice" column="PERPRICE"/>
 	</resultMap>
 	
 	<!-- 첨부파일 resultSet -->
@@ -294,12 +319,39 @@
 		SELECT SEQ_BNO.CURRVAL FROM DUAL
 	</select>
 	
-	<!-- jobBoard 매니저 전체글 조회 -->
+	<!-- jobBoard 매니저 게시판 페이징 조회 -->
 	<select id="selectJobMngTotalPaging" resultMap="jobBoardResultSet">
-		SELECT JB.JBNO, JB.JOB, JB.JBTYPE, JB.CONT_CONTENT, JB.BNO, JB.DEADLINE, B.BTITLE, B.BCONTENT, B.WRITTEN_DATE,B.BCOUNT, B.BTYPE,B.BWRITER,B.B_STATUS
-		FROM JOB_BOARD JB
-		JOIN BOARD B ON(JB.BNO = B.BNO)
-		WHERE B.BTYPE = 'JOBMNG'
+		SELECT *
+		FROM(SELECT ROWNUM RNUM, P.*
+    	  FROM(SELECT JB.JBNO, JB.JOB, JB.JBTYPE, JB.CONT_CONTENT, JB.BNO, JB.DEADLINE, B.BTITLE, B.BCONTENT, B.WRITTEN_DATE,B.BCOUNT, B.BTYPE,B.BWRITER,B.B_STATUS
+            	FROM JOB_BOARD JB
+            	JOIN BOARD B ON(JB.BNO = B.BNO)
+           	 	WHERE B.BTYPE = 'JOBMNG'
+           	 	ORDER BY JB.JBNO DESC) P)
+    	WHERE RNUM BETWEEN #{start} AND #{last}
+
 	</select>
+	
+	<!-- 매니저 리스트 카운트 조회  -->
+    <select id="selectMngListCount" resultType="_int">
+        SELECT COUNT(*)
+        FROM BOARD
+        WHERE BTYPE = 'JOBMNG'
+    </select>
+    
+    <!-- Select One Board -->
+    <select id="selectOneBoard" resultMap="boardResultSet2" parameterType="_int">
+    	SELECT BNO,BTITLE,BCONTENT,WRITTEN_DATE,MODIFY_DATE,BCOUNT,BTYPE,BWRITER,B_STATUS
+		FROM Board WHERE BNO = #{bno}
+	</select>
+    
+    <!-- Select One JobBoard -->
+    <select id="selectOneJobBoard" resultMap="jobBoardResultSet2" parameterType="_int">
+    	SELECT * 
+    	FROM JOB_BOARD
+		WHERE BNO = #{bno}
+	</select>
+    
+    
 	
 </mapper>

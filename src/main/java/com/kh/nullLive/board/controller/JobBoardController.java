@@ -180,8 +180,8 @@ public class JobBoardController {
 	@RequestMapping("jobMngList.jbo")
 	public String selectListJobMngBoard(PagingVo paging,Model model) {
 		ArrayList list = jbs.selectJobMngPaging(paging);
-		System.out.println(list);
-		paging.setTotal(jbs.getListCount());
+		paging.setTotal(jbs.getJobMngListCount());
+		System.out.println(paging.getTotal());
 		model.addAttribute("list", list);
         model.addAttribute("pi", paging);
 		return "board/job/jobMngList";
@@ -229,9 +229,19 @@ public class JobBoardController {
 	 * @date : 2019. 6. 19.
 	 * @comment : 구인구직 게시판 상세조회용 
 	 */
-	public String selectOneJobBoard(Board board,Model model) {
-		jbs.selectOneJobBoard();
-		return null;
+	@RequestMapping("selectOneJobBoard.jbo")
+	public String selectOneJobBoard(HttpServletRequest request,Model model) {
+		int bno = Integer.parseInt(request.getParameter("bno"));
+		try {
+			HashMap<String,Object> hmap = jbs.selectOneJobBoard(bno);
+			model.addAttribute("hmap",hmap);
+			
+			
+			return "board/job/jobMngDetail";
+		} catch (Exception e) {
+			model.addAttribute("msg",e.getMessage());
+			return "common/error";
+		}
 	}
 	
 	/**
