@@ -15,12 +15,16 @@ import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.board.model.vo.PageInfo;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
+import com.kh.nullLive.member.model.dao.MemberDao;
+import com.kh.nullLive.member.model.vo.Member;
 
 @Service
 public class JobBoardServiceImpl implements JobBoardService{
 
 	@Autowired
 	private JobBoardDao jbd;
+	@Autowired
+	private MemberDao md;
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
@@ -116,9 +120,21 @@ public class JobBoardServiceImpl implements JobBoardService{
 		jbd.searchJobBoard();
 	}
 
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 1.
+	 * @comment : 구인구직 게시판 상세조회
+	 */
 	@Override
-	public void selectOneJobBoard() {
-		jbd.selectOneJobBoard();
+	public HashMap<String, Object> selectOneJobBoard(int bno) {
+		HashMap<String,Object> hmap = new HashMap<>();
+		
+		hmap.put("board",jbd.selectOneBoard(sqlSession,bno));
+		hmap.put("jobBoard",jbd.selectOneJobBoard(sqlSession,bno));
+		Board b = (Board) hmap.get("board");
+		hmap.put("writer",jbd.selectWriter(sqlSession, b.getBWriter()));
+		System.out.println(hmap);
+		return hmap;
 	}
 
 	@Override
@@ -175,6 +191,16 @@ public class JobBoardServiceImpl implements JobBoardService{
 	public int selectJobMngTotalPaging() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 1.
+	 * @comment : 매니저 리스트 전체조회
+	 */
+	@Override
+	public int getJobMngListCount() {
+		return jbd.getJobMngListCount(sqlSession);
 	}
 
 

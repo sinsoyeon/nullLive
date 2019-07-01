@@ -1,7 +1,6 @@
 package com.kh.nullLive.board.model.dao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -9,6 +8,7 @@ import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.board.model.vo.PageInfo;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
+import com.kh.nullLive.member.model.vo.Member;
 
 public interface JobBoardDao {
 
@@ -30,7 +30,7 @@ public interface JobBoardDao {
 
 	void searchJobBoard();
 
-	void selectOneJobBoard();
+	JobBoard selectOneJobBoard(SqlSessionTemplate sqlSession, int bno);
 
 	void SelectListApply();
 
@@ -53,6 +53,12 @@ public interface JobBoardDao {
 	int insertJobJBoard(SqlSessionTemplate sqlSession, JobBoard jBoard);
 
 	int selectCurrval(SqlSessionTemplate sqlSession);
+
+	int getJobMngListCount(SqlSessionTemplate sqlSession);
+
+	Board selectOneBoard(SqlSessionTemplate sqlSession, int bno);
+
+	Member selectWriter(SqlSessionTemplate sqlSession, int bWriter);
 
 
 

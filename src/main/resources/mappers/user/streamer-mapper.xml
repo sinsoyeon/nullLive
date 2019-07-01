@@ -44,8 +44,7 @@
 		s,subscription_his h
 		where st.mno = s.mno
 		AND M.MNO = H.MNO
-		AND S.SNO =
-		H.SNO
+		AND S.SNO = H.SNO
 		and st.MNO = #{mno}
 	</select>
 

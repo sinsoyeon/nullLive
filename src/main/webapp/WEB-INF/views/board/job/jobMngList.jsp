@@ -30,7 +30,7 @@
 	}
 	td{
 		text-align: center;
-		height: 30px;
+		height: 50px;
 		border-bottom: 1px solid lightgray;
 	}
 	
@@ -142,35 +142,46 @@
 					</c:forEach>
 				</table>
 			</div>
+			<!-- 페이징 영역 -->
+	        <ul class="pagination">
+	            
+                <!--맨 첫페이지 이동 -->
+                <li><a onclick='pagePre(${pi.pageCnt+1},${pi.pageCnt});'>«</a></li>
+                <!--이전 페이지 이동 -->
+                <li><a onclick='pagePre(${pi.pageStartNum},${pi.pageCnt});'>‹</a></li>
+	            
+	            
+	            <!--페이지번호 -->
+	            <c:forEach var='i' begin="${pi.pageStartNum}" end="${pi.pageLastNum}" step="1">
+	                <li class='pageIndex${i}'><a onclick='pageIndex(${i});'>${i}</a></li>
+	            </c:forEach>
+	            
+                <!--다음 페이지 이동 -->
+                <li><a onclick='pageNext(${pi.pageStartNum},${pi.total},${pi.listCnt},${pi.pageCnt});'>›</a></li>
+                <!--마지막 페이지 이동 -->
+                <li><a onclick='pageLast(${pi.pageStartNum},${pi.total},${pi.listCnt},${pi.pageCnt});'>»</a></li>
+                
+	        </ul>
+	        <!-- 선택된 값들을 보낼 form 영역 -->
+	        <form action="jobMngList.jbo" method="get" id='frmPaging'>
+	            <!--출력할 페이지번호, 출력할 페이지 시작 번호, 출력할 리스트 갯수 -->
+	            <input type='hidden' name='index' id='index' value='${pi.index}'>
+	            <input type='hidden' name='pageStartNum' id='pageStartNum' value='${pi.pageStartNum}'>
+	            <input type='hidden' name='listCnt' id='selected' value='${pi.listCnt}'>    
+	        </form>
+	        <!-- 검색바 영역 -->
+	        <br>
+			<div class="searchArea" align="center">
+				<input type="checkBox">
+				<label>작성자 </label>
+				<input type="checkBox">
+				<label>내용</label>
+				<input type="checkBox">
+				<label>제목</label>
+				<input type="search">
+				<button class="btn">검색하기</button>
+			</div>
 		</div>
-		
-		<br><br><br>
-		<!-- 페이징 영역 -->
-		<!-- <div class="pagingArea" align="center">
-			<button>이전</button>
-			<button>1</button>
-			<button>2</button>
-			<button>다음</button>
-		</div> -->
-		<div>
-			<ul class="pager">
-				<li class="previous"><a href="#">Previous</a></li>
-				<li class="next"><a href="#">Next</a></li>
-			</ul>
-		</div>
-		<br>		
-		<!-- 검색바 영역 -->
-		<div class="searchArea" align="center">
-			<input type="checkBox">
-			<label>작성자 </label>
-			<input type="checkBox">
-			<label>내용</label>
-			<input type="checkBox">
-			<label>제목</label>
-			<input type="search">
-			<button class="btn">검색하기</button>
-		</div>
-		
 	</div>
 	<script>
 		//게시판 상세보기
@@ -182,7 +193,7 @@
 				$(this).parent().css({"background":"white"})
 			}).click(function(){
 				var bno = $(this).parent().children().eq(0).text();
-				location.href='selectOneJobNotice.jbo?bno='+bno ;
+				location.href='selectOneJobBoard.jbo?bno='+bno ;
 			}) 
 			//마감 여부에 따른 리스트 변경
 			$("#listArea td").each(function(){

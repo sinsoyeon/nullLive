@@ -26,6 +26,18 @@
 		<result property="reportMno" column="REPORT_MNO"/>
 		<result property="bStatus" column="B_STATUS"/>
 	</resultMap>
+	<!-- 구인구직 게시판용 board resultMap -->
+	<resultMap type="Board" id="boardResultSet2">
+		<id property="bno" column="BNO"/>
+		<result property="bTitle" column="BTITLE"/>
+		<result property="bContent" column="BCONTENT"/>
+		<result property="writtenDate" column="WRITTEN_DATE"/>
+		<result property="modifyDate" column="MODIFY_DATE"/>
+		<result property="bCount" column="BCOUNT"/>
+		<result property="bType" column="BTYPE"/>
+		<result property="bWriter" column="BWRITER"/>
+		<result property="bStatus" column="B_STATUS"/>
+	</resultMap>
 	
 	<!-- 신고 관련 관리자 resultSet  -->
 	<resultMap type="Report" id="ReportResultSet">
@@ -54,6 +66,17 @@
 		<result property="bType" column="BTYPE"/>
 		<result property="bWriter" column="BWRITER"/>
 		<result property="bStatus" column="B_STATUS"/>
+	</resultMap>
+	
+		<!-- job 게시글 resultSet2 -->
+	<resultMap type="JobBoard" id="jobBoardResultSet2">
+		<id property="jbno" column="JBNO"/>
+		<result property="job" column="JOB"/>
+		<result property="jBtype" column="JBTYPE"/>
+		<result property="contContent" column="CONT_CONTENT"/>
+		<result property="bno" column="BNO"/>
+		<result property="deadLine" column="DEADLINE"/>
+		<result property="perprice" column="PERPRICE"/>
 	</resultMap>
 	
 	<!-- 첨부파일 resultSet -->
@@ -187,13 +210,29 @@
 	</select>
 	
 	<!-- 고객센터 나의문의내역 전체 게시글 조회용 쿼리문 -->
-	<select id="selectmQList" parameterType="_int" resultMap="boardResultSet">
-		SELECT QNO, BNO, BTITLE, BCONTENT, WRITTEN_DATE
-		FROM V_QUESTIONBOARD
-		WHERE BWRITER = #{mno}
-		AND REF_BNO IS NULL
-		ORDER BY QNO DESC
+	<select id="selectmQList" parameterType="_int" resultType="java.util.HashMap">
+		SELECT Q1.QNO mqno, Q1.BNO qbno, Q1.BTITLE bTitle, Q1.BCONTENT bContent, Q1.WRITTEN_DATE qwrittenDate, Q2.BNO abno, Q2.BCONTENT answer, Q2.WRITTEN_DATE awrittenDate, Q2.REF_BNO arefBno
+		FROM V_QUESTIONBOARD Q1
+		LEFT JOIN V_QUESTIONBOARD Q2 ON(Q1.BNO = Q2.REF_BNO)
+		WHERE Q1.BWRITER = #{mno}
+		ORDER BY Q1.QNO DESC
 	</select>
+	
+	<!-- 고객센터 나의문의내역 상세 조회용 쿼리문 -->
+	<select id="selectOneMQ" parameterType="_int" resultType="java.util.HashMap">
+		SELECT Q1.QNO mqno, Q1.BNO qbno, Q1.BTITLE bTitle, Q1.BCONTENT bContent, Q1.WRITTEN_DATE qwrittenDate, Q2.BNO abno, Q2.BCONTENT answer, Q2.WRITTEN_DATE awrittenDate, Q2.REF_BNO arefBno
+		FROM V_QUESTIONBOARD Q1
+		LEFT JOIN V_QUESTIONBOARD Q2 ON(Q1.BNO = Q2.REF_BNO)
+		WHERE Q1.QNO = #{num}
+	</select>
+	
+	<!-- 고객센터 나의문의내역 조회수 증가용 쿼리문 -->
+	<update id="updateMQCount" parameterType="_int">
+		UPDATE BOARD
+		SET BCOUNT = (SELECT BCOUNT FROM V_QUESTIONBOARD WHERE QNO = #{num}) + 1
+		WHERE BNO = (SELECT BNO FROM V_QUESTIONBOARD WHERE QNO = #{num})
+	</update>
+	
 	
 	<!-- 구인구직 공지사항 INSERT -->
 	<insert id="insertJobNotice" parameterType="Board">
@@ -286,13 +325,36 @@
 		SELECT SEQ_BNO.CURRVAL FROM DUAL
 	</select>
 	
-	<!-- jobBoard 매니저 전체글 조회 -->
+	<!-- jobBoard 매니저 게시판 페이징 조회 -->
 	<select id="selectJobMngTotalPaging" resultMap="jobBoardResultSet">
-		SELECT JB.JBNO, JB.JOB, JB.JBTYPE, JB.CONT_CONTENT, JB.BNO, JB.DEADLINE, B.BTITLE, B.BCONTENT, B.WRITTEN_DATE,B.BCOUNT, B.BTYPE,B.BWRITER,B.B_STATUS
-		FROM JOB_BOARD JB
-		JOIN BOARD B ON(JB.BNO = B.BNO)
-		WHERE B.BTYPE = 'JOBMNG'
-		ORDER BY JB.JBNO DESC
+		SELECT *
+		FROM(SELECT ROWNUM RNUM, P.*
+    	  FROM(SELECT JB.JBNO, JB.JOB, JB.JBTYPE, JB.CONT_CONTENT, JB.BNO, JB.DEADLINE, B.BTITLE, B.BCONTENT, B.WRITTEN_DATE,B.BCOUNT, B.BTYPE,B.BWRITER,B.B_STATUS
+            	FROM JOB_BOARD JB
+            	JOIN BOARD B ON(JB.BNO = B.BNO)
+           	 	WHERE B.BTYPE = 'JOBMNG'
+           	 	ORDER BY JB.JBNO DESC) P)
+    	WHERE RNUM BETWEEN #{start} AND #{last}
+
 	</select>
 	
+	<!-- 매니저 리스트 카운트 조회  -->
+    <select id="selectMngListCount" resultType="_int">
+        SELECT COUNT(*)
+        FROM BOARD
+        WHERE BTYPE = 'JOBMNG'
+    </select>
+    
+    <!-- Select One Board -->
+    <select id="selectOneBoard" resultMap="boardResultSet2" parameterType="_int">
+    	SELECT BNO,BTITLE,BCONTENT,WRITTEN_DATE,MODIFY_DATE,BCOUNT,BTYPE,BWRITER,B_STATUS
+		FROM Board WHERE BNO = #{bno}
+	</select>
+    
+    <!-- Select One JobBoard -->
+    <select id="selectOneJobBoard" resultMap="jobBoardResultSet2" parameterType="_int">
+    	SELECT * 
+    	FROM JOB_BOARD
+		WHERE BNO = #{bno}
+	</select>
 </mapper>

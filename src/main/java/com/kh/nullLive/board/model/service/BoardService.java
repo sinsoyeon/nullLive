@@ -1,7 +1,7 @@
 package com.kh.nullLive.board.model.service;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 
 import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.PageInfo;
@@ -58,5 +58,11 @@ public interface BoardService {
 	int getmQListCount(int mno);
 
 	//고객센터 나의문의내역 전체 게시글 조회
-	ArrayList<Board> selectmQBoardList(PageInfo pi, int mno);
+	ArrayList<HashMap<String, Object>> selectmQBoardList(PageInfo pi, int mno);
+
+	//고객센터 나의문의내역 조회수 증가
+	int updateMQBoardCount(int num);
+
+	//고객센터 나의문의내역 상세 조회
+	ArrayList<HashMap<String, Object>> selectOneMQBoard(int num);
 }

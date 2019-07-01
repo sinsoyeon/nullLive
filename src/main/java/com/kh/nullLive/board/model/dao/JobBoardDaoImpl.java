@@ -11,6 +11,7 @@ import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.board.model.vo.PageInfo;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
+import com.kh.nullLive.member.model.vo.Member;
 
 @Repository
 public class JobBoardDaoImpl implements JobBoardDao {
@@ -80,10 +81,14 @@ public class JobBoardDaoImpl implements JobBoardDao {
 		
 	}
 
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 1.
+	 * @comment : 구인구직게시판 상세조회
+	 */
 	@Override
-	public void selectOneJobBoard() {
-		// TODO Auto-generated method stub
-		
+	public JobBoard selectOneJobBoard(SqlSessionTemplate sqlSession,int bno) {
+		return sqlSession.selectOne("Board.selectOneJobBoard",bno);
 	}
 
 	@Override
@@ -155,7 +160,7 @@ public class JobBoardDaoImpl implements JobBoardDao {
 	/**
 	 * @author : uukk
 	 * @date : 2019. 6. 26.
-	 * @comment : 구인구직 매니저게시판 게시글 조회
+	 * @comment : 구인구직 매니저게시판 게시글 페이징 조회
 	 */
 	@Override
 	public ArrayList selectJobMngPaging(SqlSessionTemplate sqlSession, PagingVo paging) {
@@ -174,6 +179,32 @@ public class JobBoardDaoImpl implements JobBoardDao {
 
 	@Override
 	public ArrayList<Board> selectListJobNotice(SqlSessionTemplate sqlSession, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 1.
+	 * @comment : 매니저 리스트 총 갯수 조회
+	 */
+	@Override
+	public int getJobMngListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Board.selectMngListCount");
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 1.
+	 * @comment : Board 조회
+	 */
+	@Override
+	public Board selectOneBoard(SqlSessionTemplate sqlSession, int bno) {
+		return sqlSession.selectOne("Board.selectOneBoard",bno);
+	}
+
+	@Override
+	public Member selectWriter(SqlSessionTemplate sqlSession, int bWriter) {
 		// TODO Auto-generated method stub
 		return null;
 	}
