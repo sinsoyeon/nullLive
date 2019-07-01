@@ -85,7 +85,7 @@ public class StreamerController {
 	public ResponseEntity<ArrayList<HashMap<String, Object>>> selectSponList(@RequestParam("mno") int mno) {
 		ArrayList<HashMap<String, Object>> sponList = smService.selectSponList(mno);
 		System.out.println("스폰 리스트 : " + sponList);
-		ResponseEntity<ArrayList<HashMap<String, Object>>> test = new ResponseEntity<ArrayList<HashMap<String, Object>>>(sponList,HttpStatus.NOT_FOUND);
+		ResponseEntity<ArrayList<HashMap<String, Object>>> test = new ResponseEntity<ArrayList<HashMap<String, Object>>>(sponList,HttpStatus.OK);
 		System.out.println(test);
 		return null;
 	}
