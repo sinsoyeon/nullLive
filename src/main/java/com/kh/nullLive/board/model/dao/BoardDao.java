@@ -1,6 +1,7 @@
 package com.kh.nullLive.board.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -65,5 +66,11 @@ public interface BoardDao {
 	int getmQListCount(SqlSessionTemplate sqlSession, int mno);
 
 	//고객센터 나의문의내역 전체 게시글 조회
-	ArrayList<Board> selectmQBoardList(SqlSessionTemplate sqlSession, PageInfo pi, int mno);
+	ArrayList<HashMap<String, Object>> selectmQBoardList(SqlSessionTemplate sqlSession, PageInfo pi, int mno);
+	
+	//고객센터 나의문의내역 조회수 증가
+	int updateMQBoardCount(SqlSessionTemplate sqlSession, int num);
+	
+	//고객센터 나의문의내역 상세 조회
+	ArrayList<HashMap<String, Object>> selectOneMQBoard(SqlSessionTemplate sqlSession, int num);
 }

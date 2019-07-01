@@ -22,7 +22,6 @@ public class Board {
 	private int bno;				//BNO
 	private int fno;				//FNO (고객센터 FAQ)
 	private int snno;				//SNNO (고객센터 공지사항)
-	private int qno;				//SNNO (고객센터 문의)
 	private String bTitle;			//BTITLE
 	private String bContent;		//BCONTENT
 	private Date writtenDate;		//WRITTEN_DATE
