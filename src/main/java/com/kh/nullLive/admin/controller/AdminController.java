@@ -242,7 +242,12 @@ public class AdminController {
 	 * @comment : 1:1문의 상세보기 
 	 */
 	@RequestMapping("questionDetail.ad")
-	public String adminQuestionDetail(Model model) {
+	public String adminQuestionDetail(Model model, int bno) {
+		
+		//Question questionContent = as.questionDetail(bno);
+		//model.addAttribute("questionContent", questionContent);
+		//System.out.println("questionContent : " + questionContent);
+		
 		return "admin/questionDetail";
 	}
 
