@@ -8,6 +8,8 @@
 <title>Insert title here</title>
 <link rel="stylesheet"
 	href="${ contextPath }/resources/css/bootstrap/main.css">
+<link rel="stylesheet"
+	href="https://unpkg.com/tachyons@4.8.0/css/tachyons.min.css">
 <style>
 div {
 	display: block;
@@ -17,7 +19,6 @@ div {
 <body>
 	<jsp:include page="sponAndSubscribeNav.jsp" />
 	<div class="container">
-	
 		<div class="row">
 			<h4 class="page-head-line">구독하기</h4>
 
@@ -86,7 +87,8 @@ div {
 				<!-- 구독 내역 조회용 Div -->
 				<div id="subscribeArea">
 
-					<h4 style="color: #333333 !important;" id="textLine1">내가 구독한 스트리머</h4>
+					<h4 style="color: #333333 !important;" id="textLine1">내가 구독한
+						스트리머</h4>
 					<table class="table" id="mySubscribeArea">
 						<thead class="thead-dark"
 							style="color: #fff; ! important; background: #333 !important;">
@@ -99,7 +101,7 @@ div {
 							</tr>
 						</thead>
 						<tbody>
-			
+
 						</tbody>
 					</table>
 
@@ -116,7 +118,7 @@ div {
 							</tr>
 						</thead>
 						<tbody>
-					
+
 						</tbody>
 					</table>
 				</div>
@@ -138,7 +140,10 @@ div {
 
 						</tbody>
 					</table>
-					
+
+
+					<button id="culBtn">환전 신청</button>
+					<br />
 					<table class="table" id="sponForMeTable" style="text-align: center">
 						<thead class="thead-dark"
 							style="color: #fff; ! important; background: #333 !important;">
@@ -152,48 +157,54 @@ div {
 						<tbody>
 
 						</tbody>
-					</table>					
-				</div>
-				
-				<div id="searchArea" align="center" style="height:50px;">				
-				<table style="padding:100px !important;" id="searchTable">
-					<tr>
-						<td>
-							<label for="">검색 유형 : </label>
-								<select name="searchCondition" id="searchCondition">
+					</table>
+		
+					<div id="searchArea" align="center" style="height: 50px;">
+						<table style="padding: 100px !important;" id="searchTable">
+							<tr>
+								<td><label for="">검색 유형 : </label> <select
+									name="searchCondition" id="searchCondition">
 										<option value="" selected>전체</option>
 										<option value="1">닉네임</option>
 										<option value="2">아이디</option>
-								</select>						
-								<input type="text" id="searchValue" placeholder="검색어를 입력해주세요." width="400" /> 							
-					 		<button onclick="searchSpon();" id="searchBtn" style="width:100; height: 50; !important; border:1px solid black;">검색</button>
-						</td>					
-					</tr>
-				
-				</table>				
-				</div>
-			</div>
-		</div>
-		<br /><br />
-			
-		<div class="col-md-1"></div>
-	</div>
+								</select> <input type="text" id="searchValue" placeholder="검색어를 입력해주세요."
+									width="400" />
+									<button onclick="searchSpon();" id="searchBtn"
+										style="width: 100; height: 50; ! important; border: 1px solid black;">검색</button>
+								</td>
+							</tr>
 
-	<div id="logModal" class="modal fade" role="dialog"style="z-index: 99999;">
+						</table>
+					</div>
+					</div>
+
+						
+
+			</div>
+			<br />
+			<br />
+
+			<div class="col-md-1"></div>
+		</div>
+	</div>
+	
+	<!-- 스트리머 검색용 모달 -->
+	<div id="logModal" class="modal fade" role="dialog"
+		style="z-index: 99999;">
 		<div class="modal-dialog" role="document" style="z-index: 99999;">
 
 			<div class="modal-content" style="z-index: 99999;">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title" style="text-align:center;" id="searchHeader">스트리머 검색</h4>
+					<h4 class="modal-title" style="text-align: center;"
+						id="searchHeader">스트리머 검색</h4>
 				</div>
 				<div class="modal-body">
 					<div id="bodyArea" align="center">
 						<h4>스트리머 아이디를 입력하세요!</h4>
-						<br />
-						<input type="hidden" id="sno" /> <label for="">아이디</label> &nbsp;&nbsp;&nbsp; 
-						<input type="text" id="streamerId" />&nbsp;&nbsp;&nbsp;
-					<button id="streamerBtn">선택</button>
+						<br /> <input type="hidden" id="sno" /> <label for="">아이디</label>
+						&nbsp;&nbsp;&nbsp; <input type="text" id="streamerId" />&nbsp;&nbsp;&nbsp;
+						<button id="streamerBtn">선택</button>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -202,7 +213,35 @@ div {
 			</div>
 		</div>
 	</div>
-<script type="text/javascript" src="${contextPath}/resources/js/streamer/sponAndSubscribe.js"></script>
+
+	<!--  환전에 사용할 모달 -->
+	<div id="culModal" class="modal fade" role="dialog"
+		style="z-index: 99999;">
+		<div class="modal-dialog" role="document" style="z-index: 99999;">
+
+			<div class="modal-content" style="z-index: 99999;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" style="text-align: center;"
+						id="searchHeader">환전 신청</h4>
+				</div>
+				<div class="modal-body">
+					<div id="bodyArea" align="center"
+						style="text-align: center !important; align: center;">
+						<h4>환전할 포인트를 입력하세요.</h4>
+						<br /> <label for="">보유 포인트 : </label> &nbsp;&nbsp;&nbsp; <input
+							type="text" placeholder='${loginUser.point }' id="exc_amount" />
+						&nbsp;&nbsp;&nbsp;
+						<button id="requestBtn">환전 신청</button>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="${contextPath}/resources/js/streamer/sponAndSubscribe.js"></script>
 
 </body>
 </html>

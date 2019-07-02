@@ -42,7 +42,7 @@ public class StreamerDaoImpl implements StreamerDao {
 	}
 
 
-
+	//후원 받으면 NullPoint 충전(소연)
 	@Override
 	public int insertNP(SqlSessionTemplate sqlSession, Streamer streamer, int amount) {
 		HashMap<String,Object> npMap = new HashMap<String, Object>();
@@ -53,7 +53,7 @@ public class StreamerDaoImpl implements StreamerDao {
 	}
 
 
-
+	//내가 구독한 리스트 조회 (소연)
 	@Override
 	public ArrayList<HashMap<String, Object>> selectSubList(SqlSessionTemplate sqlSession, int mno) {
 
@@ -61,31 +61,64 @@ public class StreamerDaoImpl implements StreamerDao {
 	}
 
 
-
+	//나를 구독한 리스트 조회 (소연)
 	@Override
 	public ArrayList<HashMap<String, Object>> selectForMeSubList(SqlSessionTemplate sqlSession, int mno) {
 		// TODO Auto-generated method stub
 		return  (ArrayList)sqlSession.selectList("Streamer.selectForMeSub", mno);
 	}
 
-
+	//내가 후원한 리스트 조회 (소연)
 	@Override
 	public ArrayList<HashMap<String, Object>> selectSponList(SqlSessionTemplate sqlSession, int mno) {
 	
 		return (ArrayList)sqlSession.selectList("Streamer.selectSponList",mno);
 	}
 
+	//나를 후원한 리스트 조회 (소연)
 	@Override
 	public ArrayList<HashMap<String, Object>> selectSponForMeList(SqlSessionTemplate sqlSession, int mno) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("Streamer.selectSponForMe",mno);
 	}
 
+	//조건 검색에 따른 후원자 검색 (소연)
 	@Override
 	public ArrayList<HashMap<String, Object>> searchSponList(SqlSessionTemplate sqlSession,
 			HashMap<String, Object> searchTypeMap) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("Streamer.searchSponList", searchTypeMap);
+	}
+
+
+	//환전 신청 (소연)
+	@Override
+	public int insertExchange(SqlSessionTemplate sqlSession, HashMap<String, Object> excMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("Streamer.insertExchange", excMap);
+	}
+
+
+	//환전 신청 후 보유 포인트 차감 (소연)
+	@Override
+	public int updatePoint(SqlSessionTemplate sqlSession, HashMap<String, Object> excMap) {	
+		return sqlSession.update("Streamer.updatePoint", excMap);
+	}
+
+
+	//환전 신청 내역 조회 (소연)
+	@Override
+	public ArrayList<HashMap<String,Object>> selectExcList(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("Streamer.selectExcList", mno);
+	}
+
+
+
+	@Override
+	public HashMap<String, Object> selectOneExc(SqlSessionTemplate sqlSession, HashMap<String, Object> userInfoMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Streamer.selectOneExc", userInfoMap);
 	}
 	
 }

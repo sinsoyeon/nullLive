@@ -36,6 +36,7 @@
 							<li><a href="#" class="sponTab">후원하기</a></li>
 							<li><a href="#" class="subListTab">구독내역</a></li>
 							<li><a href="#" class="sponListTab">후원내역</a></li>
+							<li><a href="excView.sm" class="myPointMana">포인트 및 정산 관리</a></li>
 						</ul>
 					</div>
 				</div>
@@ -48,13 +49,15 @@
 			$(".sponTab").css("background","#3D3D3D");
 			$(".subListTab").css("background","#3D3D3D");
 			$(".sponListTab").css("background","#3D3D3D");	
+			$(".myPointMana").css("background","#3D3D3D");
 			$(".menu-top-active").css("background","#C36464");
 		});		
 		
 		$(".sponTab").click(function(){
 			$(".menu-top-active").css("background","#3D3D3D");
 			$(".subListTab").css("background","#3D3D3D");
-			$(".sponListTab").css("background","#3D3D3D");			
+			$(".sponListTab").css("background","#3D3D3D");	
+			$(".myPointMana").css("background","#3D3D3D");
 			$(".sponTab").css("background","#C36464");
 		});
 		
@@ -62,13 +65,15 @@
 			$(".menu-top-active").css("background","#3D3D3D");
 			$(".sponTab").css("background","#3D3D3D");
 			$(".sponListTab").css("background","#3D3D3D");	
+			$(".myPointMana").css("background","#3D3D3D");
 			$(".subListTab").css("background","#C36464");
 		});		
 		
 		$(".sponListTab").click(function(){
 			$(".menu-top-active").css("background","#3D3D3D");
 			$(".sponTab").css("background","#3D3D3D");
-			$(".subListTab").css("background","#3D3D3D");	
+			$(".subListTab").css("background","#3D3D3D");
+			$(".myPointMana").css("background","#3D3D3D");
 			$(".sponListTab").css("background","#C36464");
 		});			
 	</script>

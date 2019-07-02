@@ -3,6 +3,7 @@ package com.kh.nullLive.streamer.controller;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,5 +164,60 @@ public class StreamerController {
 		return modelAndView;
 	}
 	
+	@RequestMapping("requestExc.sm")
+	@ResponseBody
+	public String requestExchange(@RequestParam("mno")int mno,@RequestParam("amount")int amount) {
+		
+		HashMap<String,Object> excMap = new HashMap<String,Object>();
+		
+		
+		excMap.put("mno", mno);
+		excMap.put("amount", amount);
+		excMap.put("exc_fee", (amount*0.2));
+		
+		int result = smService.insertExchange(excMap); 
+		
+		if(result > 0) {
+			return "success";
+		}else {
+			return "환전 신청에 실패했습니다.";
+		}
+	}
 	
+	@RequestMapping("excView.sm")
+	public String excViewControll(Model model) {
+		
+		return "member/recordPage/excListForm";
+	}
+	
+	@RequestMapping("selectExcList.sm")
+	public ModelAndView selectExcList(int mno,ModelAndView modelAndView) {
+		
+		ArrayList<HashMap<String,Object>> excList = smService.selectExcList(mno);
+		
+		for (int i = 0; i < excList.size(); i++) {
+			excList.get(i).put("APPLICATION_DATE",excList.get(i).get("APPLICATION_DATE").toString());
+		}
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("excList",excList);
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping("selectOneExc.sm")
+	public ModelAndView selectOneExc(int mno,int excno,ModelAndView modelAndView) {
+		
+		
+		HashMap<String,Object> userInfoMap = new HashMap<String, Object>();
+		userInfoMap.put("mno", mno);
+		userInfoMap.put("excno", excno);
+		
+		HashMap<String, Object> excMap = smService.selectOneExc(userInfoMap);
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("excMap", excMap);
+		
+		return modelAndView;
+	}
 }

@@ -6,6 +6,7 @@ $(function() {
 	$("#subscribeArea").hide();
 	$("#sponTableArea").hide();
 	$("#searchArea").hide();
+	$("#myExcTableArea").hide();
 });
 
 $("#streamerBtn").click(function() {
@@ -116,6 +117,7 @@ $("#streamerBtn").click(function() {
 
 		$("#detailSubscribeArea").hide();
 		$("#sponTableArea").hide();
+		$("#myExcTableArea").hide();
 
 		$(".page-head-line").text('구독 내역');
 
@@ -287,8 +289,38 @@ $("#streamerBtn").click(function() {
 		$("#subscribeArea").hide();
 		$("#sponTableArea").hide();
 		$("#searchArea").hide();
+		$("#myExcTableArea").hide();
 		
 		$(".page-head-line").text('구독 하기');
 	});
 	
+	
+	$("#culBtn").click(function(){
+		$("#culModal").modal("show");		
+	});
+	
+	
+	$("#requestBtn").click(function(){
+		var mno = $("#mno").val();
+		var amount = $("#exc_amount").val();
+		
+		$.ajax({
+			url:"requestExc.sm",
+			type:"post",
+			data:{mno:mno,amount:amount},
+			success:function(data){
+				alert('ajax 성공');
 
+				if(data == 'success'){
+					alert('환전 신청에 성공하였습니다.'+							
+							'상세 정보는 환전 신청 내역을 통해 확인할 수 있습니다.');
+					loadExcList();
+				}
+				
+				//환전 신청 내역이랑 연결
+			}
+		})
+	});
+	
+	
+	
