@@ -7,54 +7,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.Member;
 
-/**
- * @author user2
- *
- */
-/**
- * @author user2
- *
- */
-/**
- * @author: user2
- * @Date: 2019. 6. 25.
- * @Comment: 
- */
-/**
- * @author: user2
- * @Date: 2019. 6. 25.
- * @Comment: 
- */
-/**
- * @author: user2
- * @Date: 2019. 6. 25.
- * @Comment: 
- */
-/**
- * @author: user2
- * @Date: 2019. 6. 25.
- * @Comment: 
- */
-/**
- * @author: user2
- * @Date: 2019. 6. 25.
- * @Comment: 
- */
-/**
- * @author: user2
- * @Date: 2019. 6. 25.
- * @Comment: 
- */
-/**
- * @author: user2
- * @Date: 2019. 6. 25.
- * @Comment: 
- */
-/**
- * @author: user2
- * @Date: 2019. 6. 25.
- * @Comment: 
- */
 public interface MemberDao {
 	/**
 	 * @Author : ryan
