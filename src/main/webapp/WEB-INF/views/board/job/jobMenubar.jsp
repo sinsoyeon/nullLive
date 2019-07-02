@@ -34,7 +34,7 @@
 					</div>
 
 					<ul class="nav navbar-nav">
-						<li><a href="paging.pg"><b>공지사항</b></a></li>
+						<li><a href="jobNoticeList.jbo"><b>공지사항</b></a></li>
 						<li><a href="jobMngList.jbo"><b>매니저</b></a></li>
 						<li><a href="jobContentList.jbo"><b>콘텐츠제작자</b></a></li>
 					</ul>

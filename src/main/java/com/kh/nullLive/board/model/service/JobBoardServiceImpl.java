@@ -127,14 +127,7 @@ public class JobBoardServiceImpl implements JobBoardService{
 	 */
 	@Override
 	public HashMap<String, Object> selectOneJobBoard(int bno) {
-		HashMap<String,Object> hmap = new HashMap<>();
-		
-		hmap.put("board",jbd.selectOneBoard(sqlSession,bno));
-		hmap.put("jobBoard",jbd.selectOneJobBoard(sqlSession,bno));
-		Board b = (Board) hmap.get("board");
-		hmap.put("writer",jbd.selectWriter(sqlSession, b.getBWriter()));
-		System.out.println(hmap);
-		return hmap;
+		return jbd.selectOneBoard(sqlSession,bno);
 	}
 
 	@Override
@@ -201,6 +194,16 @@ public class JobBoardServiceImpl implements JobBoardService{
 	@Override
 	public int getJobMngListCount() {
 		return jbd.getJobMngListCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Board> selectJobNoticePaging(PagingVo paging) {
+		return jbd.selectJobNoticePaging(sqlSession,paging);
+	}
+
+	@Override
+	public int getJobNoticeListCount() {
+		return jbd.getJobNoticeListCount(sqlSession);
 	}
 
 

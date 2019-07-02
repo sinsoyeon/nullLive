@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,8 +69,10 @@
 		
 		<!-- 하단 버튼영역 -->
 		<div align="center">
-			<button onclick="location.href='#'">수정하기</button>
-			<button onclick="location.href='jobNoticeList.jsp'">목록으로</button>
+			<c:if test="${ loginUser.isAdmin eq 'Y' }">
+				<button onclick="location.href='#'">수정하기</button>
+			</c:if>
+			<button onclick="location.href='paging.pg'">목록으로</button>
 		</div>
 	</div>
 	

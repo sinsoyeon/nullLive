@@ -102,7 +102,7 @@
 					<c:forEach var="board" items="${ list }">
 						<tr>
 							<td id="bno"><c:out value="${ board.bno }"/></td>
-							<td><c:out value="${ board.bWriter }"/></td>
+							<td><c:out value="${ board.nickName }"/></td>
 							<td><c:out value="${ board.bTitle }"/></td>
 							<td><c:out value="${ board.jBtype }"/></td>
 							<!-- 등록일시 -->

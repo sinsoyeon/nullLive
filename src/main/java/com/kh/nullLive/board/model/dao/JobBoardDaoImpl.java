@@ -164,7 +164,9 @@ public class JobBoardDaoImpl implements JobBoardDao {
 	 */
 	@Override
 	public ArrayList selectJobMngPaging(SqlSessionTemplate sqlSession, PagingVo paging) {
-		return (ArrayList) sqlSession.selectList("Board.selectJobMngTotalPaging",paging);
+		ArrayList arr = (ArrayList) sqlSession.selectList("Board.selectJobMngTotalPaging",paging);
+		System.out.println(arr);
+		return arr;
 	}
 
 	/**
@@ -199,14 +201,34 @@ public class JobBoardDaoImpl implements JobBoardDao {
 	 * @comment : Board 조회
 	 */
 	@Override
-	public Board selectOneBoard(SqlSessionTemplate sqlSession, int bno) {
-		return sqlSession.selectOne("Board.selectOneBoard",bno);
+	public HashMap<String,Object> selectOneBoard(SqlSessionTemplate sqlSession, int bno) {
+		return sqlSession.selectOne("Board.selectOneJobBoard",bno);
 	}
 
 	@Override
 	public Member selectWriter(SqlSessionTemplate sqlSession, int bWriter) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 2.
+	 * @comment : 공지사항 페이징 조회
+	 */
+	@Override
+	public ArrayList<Board> selectJobNoticePaging(SqlSessionTemplate sqlSession, PagingVo paging) {
+		return (ArrayList) sqlSession.selectList("Board.selectJobNoticeTotalPaging",paging);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 2.
+	 * @comment : 공지사항 총 리스트 카운트 조회
+	 */
+	@Override
+	public int getJobNoticeListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Board.selectJobNoticeListCount");
 	}
 
 

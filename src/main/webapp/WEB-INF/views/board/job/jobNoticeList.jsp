@@ -69,10 +69,11 @@
 					</select>
 				</div>
 				<!--  버튼영역 -->
-				<div class="btnArea">
-					<button class="btn" onclick="location.href = 'jobNoticeInsertForm.jbo'">글쓰기</button>
-				</div>
-			
+				<c:if test="${ loginUser.isAdmin eq 'Y' }">
+					<div class="btnArea">
+						<button class="btn" onclick="location.href = 'jobNoticeInsertForm.jbo'">글쓰기</button>
+					</div>
+				</c:if>
 			
 			
 			<br><br>
@@ -94,7 +95,7 @@
 					<tr>
 						<td id="bno">${ board.bno }</td>
 						
-						<td><c:out value="${ board.BWriter }"/></td>
+						<td><c:out value="${ board }"/></td>
 						<td><c:out value="${ board.BTitle }"/></td>
 						<td><c:out value="${board.writtenDate}"/> </td>
 						<td><c:out value="${ board.BCount }"/></td>

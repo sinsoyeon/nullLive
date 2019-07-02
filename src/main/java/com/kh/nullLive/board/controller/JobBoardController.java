@@ -27,7 +27,11 @@ import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.board.model.vo.PageInfo;
 import com.kh.nullLive.common.Pagination;
+import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
+import com.kh.nullLive.member.model.exception.ProfileException;
+import com.kh.nullLive.member.model.service.MemberService;
+import com.kh.nullLive.member.model.vo.Member;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -37,7 +41,8 @@ public class JobBoardController {
 	private Logger logger = LoggerFactory.getLogger(JobBoardController.class);
 	@Autowired
 	private JobBoardService jbs;
-	
+	@Autowired
+	private MemberService ms;
 
     /**
      * @author : uukk
@@ -232,16 +237,24 @@ public class JobBoardController {
 	@RequestMapping("selectOneJobBoard.jbo")
 	public String selectOneJobBoard(HttpServletRequest request,Model model) {
 		int bno = Integer.parseInt(request.getParameter("bno"));
+			
+		HashMap<String,Object> hmap = jbs.selectOneJobBoard(bno);
+		String str = hmap.get("mno")+"";
+		int mno = Integer.parseInt(str);
+		Attachment att = null;
 		try {
-			HashMap<String,Object> hmap = jbs.selectOneJobBoard(bno);
-			model.addAttribute("hmap",hmap);
-			
-			
-			return "board/job/jobMngDetail";
-		} catch (Exception e) {
-			model.addAttribute("msg",e.getMessage());
-			return "common/error";
+			att = ms.getProfile(mno);
+			System.out.println(att);
+			hmap.put("imgSource", att.getChangeName());
+		}catch (ProfileException e) {
+			//프로필 사진이 없는 경우
 		}
+		
+		
+		model.addAttribute("hmap",hmap);
+		return "board/job/jobMngDetail";
+			
+			
 	}
 	
 	/**
@@ -320,15 +333,6 @@ public class JobBoardController {
 	/**
 	 * @author : uukk
 	 * @date : 2019. 6. 20.
-	 * @comment : 구인구직 공지사항 리스트
-	 */
-	@RequestMapping("jobNoticeList.jbo")
-	public String showJobNoticeList() {
-		return "board/job/jobNoticeList";
-	}
-	/**
-	 * @author : uukk
-	 * @date : 2019. 6. 20.
 	 * @comment : 구인구직 콘텐츠제작자 리스트
 	 */
 	@RequestMapping("jobContentList.jbo")
@@ -364,6 +368,18 @@ public class JobBoardController {
 		return "board/job/jobContentInsertForm";
 	}
 	
-
+	/**
+	 * @author : uukk
+	 * @date : 2019. 6. 25.
+	 * @comment : 구인구직 공지사항 리스트 페이징 조회
+	 */
+	@RequestMapping("jobNoticeList.jbo")
+	public String selectListJobNotice(Model model, PagingVo paging) {
+		ArrayList<Board> lists = jbs.selectJobNoticePaging(paging);
+		paging.setTotal(jbs.getJobNoticeListCount());
+		model.addAttribute("list", lists);
+        model.addAttribute("pi", paging);
+		return "board/job/jobNoticeList";
+	}
 	
 }

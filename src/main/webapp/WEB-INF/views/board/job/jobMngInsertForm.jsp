@@ -60,7 +60,7 @@
 						<h3>제목 </h3>
 						<input class="form-control col-lg-12 col-md-12 col-sm-8" type="text" name="bTitle" placeholder="제목을 입력하세요">
 						<!-- 글쓴이 -->
-						<input type="hidden" name="bWriter" value="1">
+						<input type="hidden" name="bWriter" value="${ loginUser.mno }">
 						<!-- 구인구직타입 -->
 						<input type="hidden" name="bType" value="JOBMNG">
 						<!-- 직종 -->
