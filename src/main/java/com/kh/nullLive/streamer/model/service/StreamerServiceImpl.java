@@ -60,4 +60,15 @@ public class StreamerServiceImpl implements StreamerService{
 		return smDao.selectSponList(sqlSession,mno);
 	}
 
+	@Override
+	public ArrayList<HashMap<String, Object>> selectSponForMeList(int mno) {
+
+		return smDao.selectSponForMeList(sqlSession,mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> searchSponList(HashMap<String, Object> searchTypeMap) {
+		return smDao.searchSponList(sqlSession,searchTypeMap);
+	}
+
 }

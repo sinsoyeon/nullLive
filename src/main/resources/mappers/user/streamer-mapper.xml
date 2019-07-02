@@ -4,6 +4,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Streamer">
+
+	<!-- Streamer Vo Result Map(소연) -->
 	<resultMap type="Streamer" id="streamerResultSet">
 		<id property="sno" column="SNO" />
 		<result property="mno" column="MID" />
@@ -17,6 +19,7 @@
 		<result property="nickName" column="NICK_NAME" />
 	</resultMap>
 
+	<!-- 스트리머 아이디 검색 후 SNO 반환 (소연) -->
 	<select id="selectStreamer" resultType="java.lang.String"
 		parameterType="java.lang.String">
 		SELECT SNO
@@ -26,9 +29,12 @@
 		AND MID = #{streamer}
 	</select>
 
+
+	<!-- 내가 구독한 사람 조회(소연) -->
 	<select id="selectSubList" parameterType="_int"
 		resultType="java.util.HashMap">
-		SELECT SUNO,ST.NICK_NAME,SU_START_DATE,SU_PERIOD_DATE
+		SELECT SUNO,ST.NICK_NAME,TO_CHAR(SU_START_DATE,'YYYY/MM/DD') AS SU_START_DATE
+									,NVL(TO_CHAR(SU_PERIOD_DATE,'YYYY/MM/DD'),'2999/12/31') AS SU_PERIOD_DATE
 		FROM
 		MEMBER ST,MEMBER M,STREAMER S,SUBSCRIPTION_HIS H
 		WHERE ST.MNO = S.MNO
@@ -37,6 +43,7 @@
 		AND M.MNO = #{MNO}
 	</select>
 
+	<!-- 나를 구독한 사람 조회(소연) => 시간나면 구독 시작일 보여주기 -->
 	<select id="selectForMeSub" parameterType="_int"
 		resultType="java.util.HashMap">
 		select SUNO,m.NICK_NAME,MSG
@@ -48,9 +55,9 @@
 		and st.MNO = #{mno}
 	</select>
 
-
+	<!-- 내가 후원한 사람 조회(소연) -->
 	<select id="selectSponList" parameterType="_int" resultType="java.util.HashMap">
-		SELECT SPON_DATE,ST.MID,ST.NICK_NAME,SPON_AMOUNT
+		SELECT TO_CHAR(SPON_DATE,'YYYY/MM/DD') AS SPON_DATE,ST.MID,ST.NICK_NAME,SPON_AMOUNT
 		FROM MEMBER M,MEMBER ST,STREAMER S, SPON_HIS H
 		WHERE ST.MNO = S.MNO
 		AND ST.MNO = H.SNO
@@ -58,14 +65,46 @@
 		AND M.MNO = #{mno}
 		ORDER BY SPON_DATE DESC
 	</select>
+	
+	
+	<!-- 나를 후원한 사람 조회(소연) -->
+	<select id="selectSponForMe" parameterType="_int" resultType="java.util.HashMap">
+		SELECT TO_CHAR(SPON_DATE,'YYYY/MM/DD') AS SPON_DATE ,M.MID,M.NICK_NAME,SPON_AMOUNT
+		FROM MEMBER M,MEMBER ST,STREAMER S, SPON_HIS H
+		WHERE ST.MNO = S.MNO
+		AND ST.MNO = H.SNO
+		AND M.MNO = H.MNO
+		AND ST.MNO = #{mno}
+		ORDER BY SPON_DATE DESC
+	</select>
+	
+	
+	<!-- 검색 조건에 따른 후원자 리스트 조회(소연) -->
+	<select id="searchSponList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT TO_CHAR(SPON_DATE,'YYYY/MM/DD') AS SPON_DATE ,M.MID,M.NICK_NAME,SPON_AMOUNT
+		FROM MEMBER M,MEMBER ST,STREAMER S, SPON_HIS H
+		WHERE ST.MNO = S.MNO
+		AND ST.MNO = H.SNO
+		AND M.MNO = H.MNO
+		AND ST.MNO = #{mno}
+		<if test="searchCondition==1">
+		AND M.NICK_NAME LIKE '%'||#{searchValue}||'%'
+		</if>
+		<if test="searchCondition==2">
+		AND M.MID LIKE '%'||#{searchValue}||'%'
+		</if>	
+		ORDER BY SPON_DATE DESC
+	</select>	
 
+
+	<!-- 장기 구독자 추가(소연) -->
 	<insert id="insertSub" parameterType="Streamer">
 		INSERT INTO
 		SUBSCRIPTION_HIS(SUNO,MNO,SNO,SU_START_DATE,SU_PERIOD_DATE,SU_STATUS)
 		VALUES (SEQ_SUNO.NEXTVAL,#{mno},#{sno},sysdate,null,'Y')
-
 	</insert>
 
+	<!-- 개월별 구독자 추가(소연) -->
 	<insert id="insertMnthlSbscr" parameterType="java.util.HashMap">
 		INSERT INTO
 		SUBSCRIPTION_HIS(SUNO,MNO,SNO,SU_START_DATE,SU_PERIOD_DATE,SU_STATUS)
@@ -77,6 +116,8 @@
 		'Y')
 	</insert>
 
+
+	<!-- 후원 리스트 추가(소연) -->
 	<insert id="insertNP" parameterType="java.util.HashMap">
 		INSERT INTO SPON_HIS
 		VALUES
