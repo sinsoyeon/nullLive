@@ -26,4 +26,10 @@ public interface StreamerService {
 
 	ArrayList<HashMap<String, Object>> searchSponList(HashMap<String, Object> searchTypeMap);
 
+	int insertExchange(HashMap<String, Object> excMap);
+
+	ArrayList<HashMap<String,Object>> selectExcList(int mno);
+
+	HashMap<String, Object> selectOneExc(HashMap<String, Object> userInfoMap);
+
 }

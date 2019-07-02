@@ -95,6 +95,26 @@
 		</if>	
 		ORDER BY SPON_DATE DESC
 	</select>	
+	
+	
+	<!-- 환전 신청 내용 조회 -->
+	 <select id="selectExcList" resultType="java.util.HashMap" parameterType="_int">
+		SELECT EXC_STATUS,EXC_FEE,EXCNO,EXC_AMOUNT,TO_CHAR(APPLICATION_DATE,'YYYY/MM/DD') AS APPLICATION_DATE
+		FROM MEMBER,EXCHANGE
+		WHERE MEMBER.MNO = EXCHANGE.MNO
+		AND MEMBER.MNO = #{mno}
+	 	ORDER BY APPLICATION_DATE DESC
+	 </select>
+	 
+	 <!-- 환전 신청 내용 상세 보기 -->
+	 <select id="selectOneExc" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT EXC_STATUS,EXC_FEE,EXCNO,EXC_AMOUNT,TO_CHAR(APPLICATION_DATE,'YYYY/MM/DD') AS APPLICATION_DATE,NICK_NAME
+		FROM MEMBER,EXCHANGE
+		WHERE MEMBER.MNO = EXCHANGE.MNO
+		AND MEMBER.MNO = #{mno}
+		AND EXCNO = #{excno}
+		ORDER BY APPLICATION_DATE DESC
+	 </select>
 
 
 	<!-- 장기 구독자 추가(소연) -->
@@ -123,6 +143,18 @@
 		VALUES
 		(SEQ_SPNO.NEXTVAL,#{amount},SYSDATE,#{streamer.mno},#{streamer.sno})
 	</insert>
+	
+	<!-- 환전 신청 추가 (소연) -->
+	<insert id="insertExchange" parameterType="java.util.HashMap">
+		INSERT INTO EXCHANGE 
+		VALUES (SEQ_ENO.NEXTVAL,${amount},SYSDATE,${exc_fee},'N',${mno},null)	
+	</insert>
 
-
+	<!-- 환전 신청 후 포인트 차감(소연) -->
+	<update id="updatePoint" parameterType="java.util.HashMap">
+		UPDATE MEMBER 
+		SET POINT = (SELECT POINT FROM MEMBER WHERE MNO = #{mno}) - #{amount}
+		WHERE MNO = #{mno} 
+	</update>
+	
 </mapper>
