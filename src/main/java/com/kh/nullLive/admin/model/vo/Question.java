@@ -14,6 +14,8 @@ public class Question {
 	private String qustionType;// QUESTION_TYPE
 	private String name;// NAME
 	private String bTitle;// BTITLE
+	private String bContent;// "BCONTENT"
 	private Date wDate; // WRITTEN_DATE
 	private int bStatus;// B_STATUS
+	private String answer; // 답변 내용 
 }

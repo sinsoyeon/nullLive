@@ -243,6 +243,7 @@ var memberStatus
 		            	memberStatus = data.memStatus;
 		            	
 		            	
+		            	
 		            	$('#userDetailContent').append("<p>"+mid+"</p>");
 		            	$('#userDetailContent').append("<p>"+name+"</p>");
 		            	$('#userDetailContent').append("<p>"+nickName+"</p>");

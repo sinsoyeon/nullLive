@@ -71,4 +71,35 @@ public class StreamerServiceImpl implements StreamerService{
 		return smDao.searchSponList(sqlSession,searchTypeMap);
 	}
 
+	@Override
+	public int insertExchange(HashMap<String, Object> excMap) {
+		int insertResult =  smDao.insertExchange(sqlSession,excMap);
+		int updateResult = 0;
+		int returnResult = 0;
+		
+		if(insertResult > 0) {
+			updateResult = smDao.updatePoint(sqlSession,excMap);
+			
+			if(insertResult > 0 && updateResult > 0) {
+				returnResult = 1;
+			}
+		}else {
+			//throw 작성
+		}
+		
+		return returnResult;
+	}
+
+	@Override
+	public ArrayList<HashMap<String,Object>> selectExcList(int mno) {
+		// TODO Auto-generated method stub
+		return(ArrayList) smDao.selectExcList(sqlSession,mno);
+	}
+
+	@Override
+	public HashMap<String, Object> selectOneExc(HashMap<String, Object> userInfoMap) {
+		// TODO Auto-generated method stub
+		return smDao.selectOneExc(sqlSession,userInfoMap);
+	}
+
 }

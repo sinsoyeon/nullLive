@@ -99,7 +99,7 @@ function drawVisualization1() {
 <div class="row" align="center">
   <div class="col-sm-1"></div>
   <div class="col-sm-5">
-  	<div onclick="location.href='calculateList.ad'" data-toggle="tooltip" title="환전 페이지로 이동"><h3>환전</h3>
+  	<div onclick="location.href='exchangeList.ad'" data-toggle="tooltip" title="환전 페이지로 이동"><h3>환전</h3>
 		<div>
   		<table class="table table-striped"  style="text-align: center;">
   			<thead>
@@ -111,7 +111,7 @@ function drawVisualization1() {
   				</tr>
   			</thead>
   			<tbody>
-  			<c:forEach items="${ExchangeList}" var="exchange" begin="1" end="5" step="1">
+  			<c:forEach items="${ExchangeList}" var="exchange" begin="0" end="4" step="1">
 					<c:if test="${exchange.excStatus eq 'N'}">
 						<tr >
 							<td>${exchange.nickName}</td>	
@@ -148,7 +148,7 @@ function drawVisualization1() {
   				</tr>
   			</thead>
   			<tbody>
-  				<c:forEach items="${streamerReportList}" var="report" begin="1" end="5" step="1">
+  				<c:forEach items="${streamerReportList}" var="report" begin="0" end="4" step="1">
 					<c:if test="${report.status == 6 }">
 					<tr style="background: #eaeaea;">
 						<td>${report.reportType}</td>	
@@ -192,7 +192,7 @@ function drawVisualization1() {
   				</tr>
   			</thead>
   			<tbody>
-	  			<c:forEach items="${QuestionList}" var="question">
+	  			<c:forEach items="${QuestionList}" var="question" begin="0" end="4" step="1">
 	  				<c:if test="${question.BStatus == 4}">
 	  					<tr>
 							<td>${question.qustionType}</td>	

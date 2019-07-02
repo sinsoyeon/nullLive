@@ -39,19 +39,8 @@
 		<result property="bStatus" column="B_STATUS"/>
 	</resultMap>
 	
-	<!-- 신고 관련 관리자 resultSet  -->
-	<resultMap type="Report" id="ReportResultSet">
-		<id property="bno" column="BNO"/>
-		<result property="bTitle" column="BTITLE"/>
-		<result property="bContent" column="BCONTENT"/>
-		<result property="writtenDate" column="WRITTEN_DATE"/>
-		<result property="reportType" column="REPORT_TYPE"/>
-		<result property="status" column="B_STATUS"/>
-		<result property="writer" column="WRITER"/>
-		<result property="target" column="TARGET"/>
-	</resultMap>
-	
-	<!-- job 게시글 리스트용 resultSet -->
+
+	<!-- job 게시글 resultSet -->
 	<resultMap type="java.util.HashMap" id="jobBoardResultSet">
 		<id property="jbno" column="JBNO"/>
 		<result property="job" column="JOB"/>
@@ -110,14 +99,14 @@
 	<select id="selectFListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM V_FAQBOARD
-		WHERE B_STATUS = 400
+		WHERE BTYPE = 'FAQ'
 	</select>
 	
 	<!-- 고객센터 FAQ 조회용 쿼리문 -->
 	<select id="selectFList" resultMap="boardResultSet">
 		SELECT FNO, BTITLE, BCONTENT
 		FROM V_FAQBOARD
-		WHERE B_STATUS = 400
+		WHERE BTYPE = 'FAQ'
 		ORDER BY FNO DESC
 	</select>
 	
@@ -125,7 +114,7 @@
 	<select id="searchFListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM V_FAQBOARD
-		WHERE B_STATUS = 400
+		WHERE BTYPE = 'FAQ'
 		AND QUESTION_TYPE = #{condition}
 	</select>
 	
@@ -133,7 +122,7 @@
 	<select id="searchFList" resultMap="boardResultSet">
 		SELECT FNO, BTITLE, BCONTENT
 		FROM V_FAQBOARD
-		WHERE B_STATUS = 400
+		WHERE BTYPE = 'FAQ'
 		AND QUESTION_TYPE = #{condition}
 		ORDER BY FNO DESC
 	</select>
@@ -142,7 +131,7 @@
 	<select id="selectOneF" resultMap="boardResultSet">
 		SELECT BTITLE, BCONTENT
 		FROM V_FAQBOARD
-		WHERE B_STATUS = 400
+		WHERE BTYPE = 'FAQ'
 		AND FNO = #{num}
 	</select>
 	
@@ -157,14 +146,14 @@
 	<select id="selectNListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM V_SNOTICEBOARD
-		WHERE B_STATUS = 401
+		WHERE BTYPE = 'SNOTICE'
 	</select>
 	
 	<!-- 고객센터 공지사항 조회용 쿼리문 -->
 	<select id="selectNList" resultMap="boardResultSet">
 		SELECT SNNO, BTITLE, BCONTENT, WRITTEN_DATE, BCOUNT
 		FROM V_SNOTICEBOARD
-		WHERE B_STATUS = 401
+		WHERE BTYPE = 'SNOTICE'
 		ORDER BY SNNO DESC
 	</select>
 	
@@ -172,7 +161,7 @@
 	<select id="selectOneN" resultMap="boardResultSet">
 		SELECT BTITLE, BCONTENT, WRITTEN_DATE, BCOUNT
 		FROM V_SNOTICEBOARD
-		WHERE B_STATUS = 401
+		WHERE BTYPE = 'SNOTICE'
 		AND SNNO = #{num}
 	</select>
 	
@@ -186,7 +175,7 @@
 	<!-- 고객센터 1:1 문의 작성용 쿼리문 -->
 	<insert id="insertQuestionBoard" parameterType="Board">
 		INSERT INTO BOARD
-		VALUES(SEQ_BNO.NEXTVAL, #{bTitle}, #{bContent}, SYSDATE, NULL, 0, 'QUESTION', #{questionType}, NULL, #{bEmail}, NULL, #{bWriter}, NULL, 'Q', NULL, 402)
+		VALUES(SEQ_BNO.NEXTVAL, #{bTitle}, #{bContent}, SYSDATE, NULL, 0, 'QUESTION', #{questionType}, NULL, #{bEmail}, NULL, #{bWriter}, NULL, 'Q', NULL, 4)
 	</insert>	
 	<select id="getScurrval" resultType="_int">
 		SELECT SEQ_BNO.CURRVAL FROM DUAL
@@ -206,7 +195,7 @@
 	<!-- 고객센터 신고하기 쿼리문 -->
 	<insert id="insertReportBoard" parameterType="Board">
 		INSERT INTO BOARD
-		VALUES(SEQ_BNO.NEXTVAL, #{bTitle}, #{bContent}, SYSDATE, NULL, 0, 'REPORT', NULL, NULL, #{bEmail}, NULL, #{bWriter}, #{reportType}, 'R', #{reportMno}, 403)
+		VALUES(SEQ_BNO.NEXTVAL, #{bTitle}, #{bContent}, SYSDATE, NULL, 0, 'REPORT', NULL, NULL, #{bEmail}, NULL, #{bWriter}, #{reportType}, 'R', #{reportMno}, 5)
 	</insert>
 	<!-- 고객센터 신고자 아이디로 mno 조회용 쿼리문 -->
 	<select id="selectRmno" parameterType="java.lang.String" resultType="_int">
@@ -313,27 +302,6 @@
         WHERE BTYPE = 'JOBNOTICE'
     </select>
     
-    <!-- 관리자 신고 조회용 -->
-    <select id="selectReportList" resultMap="ReportResultSet">
-    	SELECT B.BNO, B.REPORT_TYPE , M.MID WRITER  ,MM.MID TARGET  ,C.COU, B.WRITTEN_DATE, B.B_STATUS
-		FROM BOARD B
-		JOIN MEMBER M ON(B.BWRITER = M.MNO)
-		JOIN MEMBER MM ON(B.REPORT_MNO = MM.MNO)
-		JOIN (SELECT REPORT_MNO, COUNT(*)COU
-		        FROM BOARD
-		        GROUP BY REPORT_MNO) C ON(C.REPORT_MNO = B.REPORT_MNO)
-		WHERE BTYPE LIKE 'REPORT'
-		ORDER BY 7,6 DESC
-    </select>
-    <!-- 관리자 신고 디테일 조회 -->
-    <select id="selectReportDetail" parameterType="_int" resultMap="ReportResultSet">
-    	SELECT B.BTITLE , B.BCONTENT , B.WRITTEN_DATE , B.REPORT_TYPE, B.B_STATUS,  M.MID WRITER  ,MM.MID TARGET 
-		FROM BOARD B
-		JOIN MEMBER M ON(B.BWRITER = M.MNO)
-		JOIN MEMBER MM ON(B.REPORT_MNO = MM.MNO)
-		WHERE B.BNO = #{bno}
-    </select>
-	
 	<!-- board currval 조회용 -->
 	<select id="selectCurrval" resultType="_int">
 		SELECT SEQ_BNO.CURRVAL FROM DUAL

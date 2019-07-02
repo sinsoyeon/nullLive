@@ -28,7 +28,7 @@ public class AdminDaoImpl implements AdminDao{
 
 	@Override
 	public ArrayList<Report> streamerReportList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("Board.selectReportList");
+		return (ArrayList)sqlSession.selectList("Admin.selectReportList");
 	}
 
 	@Override
@@ -53,8 +53,29 @@ public class AdminDaoImpl implements AdminDao{
 
 	@Override
 	public Report reportDetail(SqlSessionTemplate sqlSession, int bno) {
-		return sqlSession.selectOne("Board.selectReportDetail",bno);
+		return sqlSession.selectOne("Admin.selectReportDetail",bno);
 	}
+
+	@Override
+	public Question questionDetail(SqlSessionTemplate sqlSession, Question q) {
+		return sqlSession.selectOne("Admin.selectQuestionDetail",q);
+	}
+
+	@Override
+	public int updateQuestion(SqlSessionTemplate sqlSession, Question q) {
+		return sqlSession.update("Admin.updateBStatus", q);
+	}
+
+	@Override
+	public int insetAnswer(SqlSessionTemplate sqlSession, Question q) {
+		return sqlSession.insert("Admin.insetAnswer", q);
+	}
+
+	@Override
+	public int exchange(SqlSessionTemplate sqlSession, int excno) {
+		return sqlSession.update("Admin.");
+	}
+
 
 	
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Streaming">
+
+	<resultMap type="Member" id="memberResultSet">
+		<id property="mno" column="MNO"/>
+		<result property="mid" column="MID"/>
+		<result property="mpwd" column="MPWD"/>
+		<result property="email" column="EMAIL"/>
+		<result property="emailC" column="EMAIL_CHECK"/>
+		<result property="phone" column="PHONE"/>
+		<result property="agency" column="AGENCY"/>
+		<result property="name" column="NAME"/>
+		<result property="nickName" column="NICK_NAME"/>
+		<result property="gender" column="GENDER"/>
+		<result property="enrollDate" column="ENROLL_DATE"/>
+		<result property="isAdmin" column="IS_ADMIN"/>
+		<result property="point" column="POINT"/>
+		<result property="receivedLikes" column="RECEIVED_LIKES"/>
+		<result property="cumulativeReport" column="CUMULATIVE_REPORT"/>
+		<result property="mstatus" column="M_STATUS"/>
+		<result property="pwdModifyDate" column="PWD_MODIFY_DATE"/>
+		<result property="withdrawalDate" column="WITHDRAWAL_DAET"/>
+		<result property="isStreamer" column="IS_STREAMER"/>
+		<result property="birthday" column="BIRTHDAY"/>
+		<result property="adult" column="ADULT"/>
+	</resultMap>
+	
+	<!-- isStreamer Update -->
+	<update id="isStreamerUpdate" parameterType="Member">
+		UPDATE MEMBER
+		SET IS_STREAMER='Y'
+		WHERE MNO=#{mno}
+	</update>
+	
+	<!-- insert Streamer -->
+	<insert id="insertStreamer" parameterType="java.util.HashMap">
+		INSERT INTO STREAMER(SNO,MNO,BSTART_DATE,CUMULATIVE_SELECTION,BANK_CODE,ACCOUNT,HOLDER,IS_AUTH)
+		VALUES(SEQ_SNO.NEXTVAL,#{mno},SYSDATE,DEFAULT,#{bank_code},#{account},#{holder},DEFAULT)
+	</insert>
+	
+	<select id="selectMember" resultMap="memberResultSet" parameterType="_int">
+		SELECT *
+		FROM MEMBER
+		WHERE MNO = #{mno}
+		AND M_STATUS = 'Y'
+	</select>
+		
+</mapper>

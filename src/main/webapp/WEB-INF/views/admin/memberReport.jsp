@@ -31,8 +31,9 @@ tr>th{
 			<table class="table table-hover"  style="text-align: center; ">
 				<thead>
 					<tr>
-						<th>신고글 번호</th>
+						<th>글 번호</th>
 						<th>구분</th>
+						<th>제목</th>
 						<th>신고자</th>
 						<th>닉네임</th>
 						<th>누적 신고 횟수</th>
@@ -46,6 +47,7 @@ tr>th{
 					<tr style="background: #eaeaea;">
 						<td>${board.bno}</td>
 						<td>${board.reportType}</td>	
+						<td>${board.BTitle}</td>
 						<td>${board.writer}</td>	
 						<td>${board.target}</td>	
 						<td>${board.cou}</td>	
@@ -57,6 +59,7 @@ tr>th{
 					<tr>
 						<td>${board.bno}</td>
 						<td>${board.reportType}</td>	
+						<td>${board.BTitle}</td>
 						<td>${board.writer}</td>	
 						<td>${board.target}</td>	
 						<td>${board.cou}</td>	

@@ -28,4 +28,12 @@ public interface StreamerDao {
 
 	ArrayList<HashMap<String, Object>> searchSponList(SqlSessionTemplate sqlSession,HashMap<String, Object> searchTypeMap);
 
+	int insertExchange(SqlSessionTemplate sqlSession, HashMap<String, Object> excMap);
+
+	int updatePoint(SqlSessionTemplate sqlSession, HashMap<String, Object> excMap);
+
+	ArrayList<HashMap<String,Object>> selectExcList(SqlSessionTemplate sqlSession, int mno);
+
+	HashMap<String, Object> selectOneExc(SqlSessionTemplate sqlSession, HashMap<String, Object> userInfoMap);
+
 }
