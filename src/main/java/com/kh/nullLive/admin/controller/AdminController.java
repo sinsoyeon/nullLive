@@ -8,13 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kh.nullLive.admin.model.service.AdminService;
 import com.kh.nullLive.admin.model.vo.Exchange;
 import com.kh.nullLive.admin.model.vo.Question;
 import com.kh.nullLive.admin.model.vo.Report;
 import com.kh.nullLive.admin.model.vo.UserDetail;
-import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.vo.Member;
 
@@ -201,8 +201,8 @@ public class AdminController {
 	 * @date : 2019. 6. 20.
 	 * @comment : 환전 페이지 이동 (페이징)
 	 */
-	@RequestMapping("calculateList.ad")
-	public String adminCalculateList(Model model) {
+	@RequestMapping("exchangeList.ad")
+	public String adminExchangeList(Model model) {
 		
 		ArrayList<Exchange> ExchangeList = as.exchangeList();
 		
@@ -216,6 +216,13 @@ public class AdminController {
 	// 다중 정산
 
 	// 단일 정산
+	@RequestMapping("exchange.ad")
+	public String adminExchange(Model model ,int excno) {
+		
+		int result = as.exchange(excno);
+		
+		return "admin/exchange";
+	}
 
 	// ----------------------------------- 고객센터
 
@@ -242,17 +249,40 @@ public class AdminController {
 	 * @comment : 1:1문의 상세보기 
 	 */
 	@RequestMapping("questionDetail.ad")
-	public String adminQuestionDetail(Model model, int bno) {
+	public String adminQuestionDetail(Model model, int bno, int bStatus) {
+		Question q = new Question();
+		q.setBno(bno);
+		q.setBStatus(bStatus);
 		
-		//Question questionContent = as.questionDetail(bno);
-		//model.addAttribute("questionContent", questionContent);
-		//System.out.println("questionContent : " + questionContent);
+		Question questionContent = as.questionDetail(q);
+		model.addAttribute("questionContent", questionContent);
+		System.out.println("questionContent : " + questionContent);
 		
 		return "admin/questionDetail";
 	}
 
-	// 상세보기 닫기
-
-	// 답변 달기
-
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 2.
+	 * @comment : 1:1문의 답변 달기
+	 */
+	@RequestMapping(value="questionAnswer.ad", method=RequestMethod.POST)
+	public String adminQuestionAnswer(Model model, String bTitle, String bContent, String qustionType, int bno) {
+		Question q = new Question();
+		q.setBTitle(bTitle);
+		q.setBContent(bContent);
+		q.setQustionType(qustionType);
+		q.setBno(bno);
+		int result = as.questionAnswer(q);
+		if(result > 0 ) {
+			int bStatus = 3;
+			model.addAttribute("bno", bno);
+			model.addAttribute("bStatus", bStatus);
+			return "redirect:questionDetail.ad";
+		}else {
+			String msg = "실패...";
+			model.addAttribute("msg", msg);
+			return "common/errorPage";
+		}
+	}
 }

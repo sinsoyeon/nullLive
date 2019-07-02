@@ -76,5 +76,30 @@ public class AdminServiceImpl implements AdminService {
 		return reportDetail;
 	}
 
+	@Override
+	public Question questionDetail(Question q) {
+		Question questionDetail = ad.questionDetail(sqlSession, q);
+		return questionDetail;
+	}
+
+	@Override
+	public int questionAnswer(Question q) {
+	int result = 0;
+	int result1 = ad.updateQuestion(sqlSession,q);
+	int result2 = ad.insetAnswer(sqlSession,q);
+	
+	if (result1 > 0 && result2 > 0) {
+		result = 1;
+		}
+		return result;
+	}
+
+	@Override
+	public int exchange(int excno) {
+		int result = ad.exchange(sqlSession, excno);
+		return result;
+	}
+
+
 
 }

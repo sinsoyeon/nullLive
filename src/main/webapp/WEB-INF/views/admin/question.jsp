@@ -31,7 +31,7 @@ tr>th{
 			<table class="table table-hover table-hover"  style="text-align: center; ">
 				<thead>
 					<tr>
-						<th>글 고유 번호</th>
+						<th>글 번호</th>
 						<th>구분</th>
 						<th>이름</th>
 						<th>제목</th>
@@ -42,7 +42,17 @@ tr>th{
 				<tbody>
 				<c:set var = "listSize" value = "${QuestionList.size() }" />
 				<c:forEach items="${QuestionList}" var="qustion" varStatus="number">
-				
+					<c:if test="${qustion.BStatus eq 4}"> 
+						<tr>
+							<td>${qustion.bno }	</td>
+							<td>${qustion.qustionType}</td>	
+							<td>${qustion.name}</td>	
+							<td>${qustion.BTitle}</td>	
+							<td>${qustion.WDate}</td>	
+							<td>대기중</td>	
+							<td style="display: none;">${qustion.BStatus }</td>
+						</tr>
+					</c:if>
 					<c:if test="${qustion.BStatus eq 3 }">
 						<tr style="background: #eaeaea;">
 							<td>${qustion.bno }	</td>
@@ -51,16 +61,7 @@ tr>th{
 							<td>${qustion.BTitle}</td>	
 							<td>${qustion.WDate}</td>	
 							<td>완료</td>	
-						</tr>
-					</c:if>
-					<c:if test="${qustion.BStatus eq 402 }"> 
-						<tr >
-							<td>${qustion.bno }	</td>
-							<td>${qustion.qustionType}</td>	
-							<td>${qustion.name}</td>	
-							<td>${qustion.BTitle}</td>	
-							<td>${qustion.WDate}</td>	
-							<td>대기중</td>	
+							<td style="display: none;">${qustion.BStatus }</td>
 						</tr>
 					</c:if>
 				</c:forEach>
@@ -88,7 +89,8 @@ tr>th{
 			$('#menu4 a:eq(4)').css('font-weight','bold');
 			$('tbody>tr').click(function() {
 				var bno = $(this).children().eq(0).html();
-				location.href = 'questionDetail.ad?bno=' + bno
+				var bStatus = $(this).children().eq(6).html();
+				location.href = 'questionDetail.ad?bno=' + bno+'&bStatus=' + bStatus
 			});
 	})
 </script>

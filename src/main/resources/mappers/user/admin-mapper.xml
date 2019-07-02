@@ -5,6 +5,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
  <mapper namespace="Admin">
+ <!-- 환전 resultMap -->
 	<resultMap type="Exchange" id="ExchangeResultSet">
 		<id property="excno" column="EXCNO"/>
 		<result property="nickName" column="NICK_NAME"/>
@@ -15,15 +16,19 @@
 		<result property="approvalDate" column="APPROVAL_DATE"/>
 	</resultMap>
 	
+	<!-- 1:1문의 resultMap  -->
 	<resultMap type="Question" id="QuestionResultSet">
 		<id property="bno" column="BNO"/>
 		<result property="qustionType" column="QUESTION_TYPE"/>
 		<result property="name" column="NAME"/>
 		<result property="bTitle" column="BTITLE"/>
+		<result property="bContent" column="BCONTENT"/>
 		<result property="wDate" column="WRITTEN_DATE"/>
 		<result property="bStatus" column="B_STATUS"/>
+		<result property="answer" column="ANSWER"/>
 	</resultMap>
 	
+	<!-- 회원정보 상세 resultMap -->
 	<resultMap type="UserDetail" id="UserDetailResultSet">
 		<id property="mid" column="MID"/>
 		<result property="name" column="NAME"/>
@@ -35,6 +40,18 @@
 		<result property="broCount" column="BROCOUNT"/>
 	</resultMap>
 	
+	<!-- 신고 관련 관리자 resultSet  -->
+	<resultMap type="Report" id="ReportResultSet">
+		<id property="bno" column="BNO"/>
+		<result property="bTitle" column="BTITLE"/>
+		<result property="bContent" column="BCONTENT"/>
+		<result property="writtenDate" column="WRITTEN_DATE"/>
+		<result property="reportType" column="REPORT_TYPE"/>
+		<result property="status" column="B_STATUS"/>
+		<result property="writer" column="WRITER"/>
+		<result property="target" column="TARGET"/>
+	</resultMap>
+	
 	<!-- 환전 내역 조회 -->
 	<select id="selectExchange" resultMap="ExchangeResultSet">
 		SELECT e.excno ,m.nick_name, m.name, TO_CHAR(e.EXC_AMOUNT, '9,999,999') EXC_AMOUNT, e.application_date, e.exc_status, e.approval_date
@@ -43,14 +60,47 @@
 		ORDER BY 1 DESC
 	</select>
 	
+	
+	
 	<!-- 문의 내역 조회 -->
 	<select id="selectQuestion" resultMap="QuestionResultSet">
 		SELECT 	B.BNO, B.QUESTION_TYPE, M.NAME, B.BTITLE, B.WRITTEN_DATE, B.B_STATUS
 		FROM BOARD B
 		JOIN MEMBER M ON(B.BWRITER = M.MNO)
 		WHERE BTYPE LIKE 'QUESTION'
-		ORDER BY 1 DESC
+		AND B.REF_BNO IS NULL
+		ORDER BY 6 DESC ,1 DESC
 	</select>
+	
+	<!-- 문의 상세보기  -->
+	<select id="selectQuestionDetail" parameterType="_int" resultMap="QuestionResultSet">
+		<if test="BStatus == 3">
+		SELECT 	B.BNO, B.QUESTION_TYPE,B.BCONTENT, M.NAME, B.BTITLE, B.WRITTEN_DATE, B.B_STATUS ,BB.BCONTENT ANSWER
+		FROM BOARD B
+		JOIN MEMBER M ON(B.BWRITER = M.MNO)
+		JOIN BOARD BB ON(B.BNO = BB.REF_BNO)
+		WHERE B.BTYPE LIKE 'QUESTION'
+		AND B.BNO = #{bno}
+		</if>
+		<if test="BStatus == 4">
+		SELECT 	B.BNO, B.QUESTION_TYPE,B.BCONTENT, M.NAME, B.BTITLE, B.WRITTEN_DATE, B.B_STATUS
+		FROM BOARD B
+		JOIN MEMBER M ON(B.BWRITER = M.MNO)
+		WHERE B.BTYPE LIKE 'QUESTION'
+		AND B.BNO = #{bno}
+		</if>
+	</select>
+	
+	<!-- 1:1문의 답변  -->
+	<update id="updateBStatus" parameterType="Question">
+		UPDATE BOARD
+		SET B_STATUS = 3
+		WHERE BNO = #{bno}
+	</update>
+	<insert id="insetAnswer" parameterType="Question">
+		INSERT INTO BOARD(BNO, BTITLE, BCONTENT, WRITTEN_DATE, BCOUNT, BTYPE, QUESTION_TYPE, REF_BNO, BWRITER, B_STATUS)
+		VALUES(SEQ_BNO.NEXTVAL, #{BTitle}, #{BContent}, SYSDATE, DEFAULT, 'QUESTION', #{qustionType}, #{bno}, 999, 7 )
+	</insert>
 	
 	<!-- 회원 상세보기 -->
 	<select id="selectUserDetail" resultMap="UserDetailResultSet" parameterType="java.lang.String">
@@ -81,5 +131,26 @@
 		WHERE MID LIKE #{mid}
 	</update>
 	
+	
+	<!-- 관리자 신고 조회용 -->
+    <select id="selectReportList" resultMap="ReportResultSet">
+    	SELECT B.BNO, B.BTITLE, B.REPORT_TYPE , M.MID WRITER  ,MM.MID TARGET  ,C.COU, B.WRITTEN_DATE, B.B_STATUS
+		FROM BOARD B
+		JOIN MEMBER M ON(B.BWRITER = M.MNO)
+		JOIN MEMBER MM ON(B.REPORT_MNO = MM.MNO)
+		JOIN (SELECT REPORT_MNO, COUNT(*)COU
+		        FROM BOARD
+		        GROUP BY REPORT_MNO) C ON(C.REPORT_MNO = B.REPORT_MNO)
+		WHERE BTYPE LIKE 'REPORT'
+		ORDER BY 8,7 DESC
+    </select>
+    <!-- 관리자 신고 디테일 조회 -->
+    <select id="selectReportDetail" parameterType="_int" resultMap="ReportResultSet">
+    	SELECT B.BTITLE , B.BCONTENT , B.WRITTEN_DATE , B.REPORT_TYPE, B.B_STATUS,  M.MID WRITER  ,MM.MID TARGET 
+		FROM BOARD B
+		JOIN MEMBER M ON(B.BWRITER = M.MNO)
+		JOIN MEMBER MM ON(B.REPORT_MNO = MM.MNO)
+		WHERE B.BNO = #{bno}
+    </select>
 	
 </mapper>

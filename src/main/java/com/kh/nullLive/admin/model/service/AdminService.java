@@ -28,7 +28,12 @@ public interface AdminService {
 
 	Report reportDetail(int bno);
 
-	Question questionDetail(int bno);
+	Question questionDetail(Question q);
+
+	int questionAnswer(Question q);
+
+	int exchange(int excno);
+
 
 
 

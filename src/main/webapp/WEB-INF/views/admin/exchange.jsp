@@ -43,6 +43,7 @@ tr>th{
 				<thead>
 					<tr>
 						<th><input type="checkbox" id='check_all'></th>
+						<th>번호</th>
 						<th>닉네임</th>
 						<th>이름</th>
 						<th>신청 Null</th>
@@ -56,6 +57,7 @@ tr>th{
 				<c:if test="${exchange.excStatus eq 'N'}">
 					<tr>
 						<td id='checkbox'><input type="checkbox"></td>
+						<td>${exchange.excno}</td>
 						<td>${exchange.nickName}</td>	
 						<td>${exchange.name}</td>	
 						<td>${exchange.excAmount}</td>	
@@ -66,14 +68,13 @@ tr>th{
 				
 				<c:if test="${exchange.excStatus eq 'Y'}">
 					<tr style="background: #eaeaea;">
-	 				<td><input type="checkbox" disabled></td>
+	 					<td><input type="checkbox" disabled></td>
+	 					<td>${exchange.excno}</td>
 						<td>${exchange.nickName}</td>	
 						<td>${exchange.name}</td>	
 						<td>${exchange.excAmount}</td>	
 						<td>${exchange.applicationDate}</td>	
-						<td>
-							환전완료
-						</td>	
+						<td>환전완료</td>	
 					</tr>
 				</c:if>
 				
@@ -109,7 +110,7 @@ tr>th{
 					<p>확인을 누르시면 환전 처리 됩니다.</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger " data-dismiss="modal">확인</button>
+					<button type="button" class="btn btn-danger " data-dismiss="modal" id='exchange'>확인</button>
 					<button type="button" class="btn " data-dismiss="modal">취소</button>
 				</div>
 			</div>
@@ -133,7 +134,7 @@ tr>th{
 					</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">확인</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal" id='allExchange'>확인</button>
 					<button type="button" class="btn " data-dismiss="modal">취소</button>
 				</div>
 			</div>
@@ -143,6 +144,7 @@ tr>th{
 
 </body>
 <script>
+var excno;
 	$(function() {
 		$('li:eq(3)').addClass('active');
 		$('#menu3').addClass('active in');
@@ -155,7 +157,30 @@ tr>th{
 			else{
 				$("#checkbox input").prop('checked', false);}
 		});
+		/* $('tbody>tr').click(function() {
+			excno  = $(this).children().eq(1).html();
+		});
+		$("#exchange").click(function() {
+			location.href='exchange.ad?excno='+excno
+		});
+		$("#allExchange").click(function() {
+			alert("allExchange");
+		}); */
+		
+		
 	})
 	
+	function exchange() {
+		
+		
+		
+		return false;
+	}
+	function allExchange() {
+		
+		
+		
+		return false;
+	}
 </script>
 </html>

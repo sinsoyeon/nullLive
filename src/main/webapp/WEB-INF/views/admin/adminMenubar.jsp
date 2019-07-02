@@ -112,7 +112,7 @@
       <a class="btn btn-link"></a>
       <a class="btn btn-link"></a>
       <a class="btn btn-link"></a>
-		    <a href="calculateList.ad" class="btn btn-link">회원 환전</a>
+		    <a href="exchangeList.ad" class="btn btn-link">회원 환전</a>
 		    <a class="btn btn-link"></a>
 		    <a class="btn btn-link"></a>
   		</div>
