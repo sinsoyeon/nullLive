@@ -28,6 +28,8 @@ public interface AdminService {
 
 	Report reportDetail(int bno);
 
+	Question questionDetail(int bno);
+
 
 
 }

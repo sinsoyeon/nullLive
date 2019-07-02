@@ -149,18 +149,18 @@ function drawVisualization1() {
   			</thead>
   			<tbody>
   				<c:forEach items="${streamerReportList}" var="report" begin="1" end="5" step="1">
-					<c:if test="${report.staDetail eq '신고처리' }">
+					<c:if test="${report.status == 6 }">
 					<tr style="background: #eaeaea;">
 						<td>${report.reportType}</td>	
-						<td>${report.mid2}</td>	
+						<td>${report.target}</td>	
 						<td>${report.cou}</td>	
 						<td>완료</td>	
 					</tr>
 					</c:if>
-					<c:if test="${report.staDetail eq '신고접수' }">
+					<c:if test="${report.status == 5 }">
 					<tr>
 						<td>${report.reportType}</td>	
-						<td>${report.mid2}</td>	
+						<td>${report.target}</td>	
 						<td>${report.cou}</td>	
 						<td>대기중</td>	
 					</tr>
