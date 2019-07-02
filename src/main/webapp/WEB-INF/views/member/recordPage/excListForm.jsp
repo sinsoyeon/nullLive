@@ -37,6 +37,22 @@
 						</tbody>
 					</table>
 					
+					<h4 style="color: #333333 !important;" id="textLine1">NULL 충전 내역</h4>
+					<table class="table" id="chargeTable">
+						<thead class="thead-dark"
+							style="color: #fff; ! important; background: #333 !important;">
+							<tr>
+								<th scope="col">충전 번호</th>
+								<th scope="col">충전 금액</th>
+								<th scope="col">결제 금액</th>
+								<th scope="col">충전 날짜</th>
+								<th scope="col">전체 포인트</th>
+							</tr>
+						</thead>
+						<tbody>
+							
+						</tbody>
+					</table>					
 					
 					<h4 style="color: #333333 !important;" id="textLine1">정산 신청 내역</h4>
 					<table class="table" id="">
@@ -53,7 +69,8 @@
 						<tbody>
 							
 						</tbody>
-					</table>					
+					</table>	
+														
 				</div>
 						
 			</div>
@@ -72,14 +89,17 @@
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 						<h4 class="modal-title" style="text-align: center;"
-							id="searchHeader">스트리머 검색</h4>
+							id="searchHeader">환전 상세보기</h4>
 					</div>
 					<div class="modal-body">
 						<div id="bodyArea" align="center">
-							<h4>스트리머 아이디를 입력하세요!</h4>
-							
+							<h4>상세보기</h4>
+						<input type="hidden" id="excno" />
+						<input type="hidden" id="mno" value="${loginUser.mno }" />	
 							<table id="detailTable">
-								<tbody></tbody>
+								<tbody>
+								
+								</tbody>
 							</table>
 						</div>
 					</div>
@@ -95,83 +115,11 @@
 		$(function(){
 			// tableName : myExcTable
 			var mno = ${loginUser.mno};
-
-			$("#myExcTable > body").html('');
-			
-			$.ajax({
-				url:"selectExcList.sm",
-				type:"post",
-				data:{mno:mno},
-				success:function(data){
-					var excList = data.excList;
-					var totalAmount = 0 ;
-					$.each(excList,function(index,value){
-					console.log(excList);
-					
-					if(value["EXC_STATUS"]=='N'){
-					totalAmount += value["EXC_AMOUNT"];
-					}
-					
-					$("#myExcTable > tbody").append('<tr id="myTr"><td>' + value["EXCNO"] + '</td><td>'
-															  + value["EXC_AMOUNT"] + '</td><td>' 
-															  + value["APPLICATION_DATE"] + '</td><td>'
-															  + value["EXC_FEE"] + '</td><td>'
-															  + value["EXC_STATUS"] + '</td></tr>')		
-															  
-					});
-					
-					$("#myExcTable > tbody > #myTr").click(function(){
-						alert($(this).children("td").eq(0).text());
-						
-						
-						if($(this).children("td").eq(4).text()=='N'){
-							selectOneExc(mno,$(this).children("td").eq(0).text());
-						}
-						
-					});
-					
-					//<div class="alert alert-warning" role="alert">...</div>
-					$("#myExcTable > tbody").append('<tr><td colspan="5"><div class="alert alert-warning" role="alert">' 
-														+ '${loginUser.nickName} 님의 환전 신청으로 묶인 포인트는 ' + totalAmount 
-														+ ' NULL POINT 입니다. 취소는 정보를 클릭해주세요.</div></td></tr>');
-				}
-			})
-		});
+			excList(mno);
+			chargeList(mno);
 		
-		function selectOneExc(mno,excno){
-			alert('mno :' + mno + ' / excno : ' + excno );
-			
-			$.ajax({
-				url:"selectOneExc.sm",
-				type:"post",
-				data:{mno:mno,excno:excno},
-				success:function(data){
-					alert('ajax 접속 성공!');
-					//"detailTable"
-					$("#detailTable > tbody").append(
-														'<tr><td><label>환전 신청 번호 : </label>'
-														+'<label>'+ data.excMap.EXCNO +'</label></td></tr>'
-														+ '<tr><td><label>닉네임 :' + '</label>'
-														+ '<label>' + data.excMap.NICK_NAME + '</label></td></tr>'
-														+ '<tr><td><label>신청일 : </label>' 
-														+ '<label>' + data.excMap.APPLICATION_DATE + '</label></td></tr>'
-														+ '<tr><td><label>신청금액 :' + '</label>'
-														+ '<label>' + data.excMap.EXC_AMOUNT + '</label></td></tr>'
-														+ '<tr><td><label>처리 상태 :' + '</label>'
-														+ '<label>' + data.excMap.EXC_STATUS + '</label></td></tr>'
-														+ '<tr><td> <button id="okBtn"> 확인 </button>'
-														+ '<button id="cancleBtn">취소</button></td></tr>'
-													)
-					
-					
-													
-					
-					
-					$("#selectModal").modal("show");
-					
-				}
-			})
-		}
+		});
+
 	</script>
 	
 	<script type="text/javascript" src="${contextPath}/resources/js/streamer/exchangeJs.js"></script>
