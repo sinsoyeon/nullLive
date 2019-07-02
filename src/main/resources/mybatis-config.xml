@@ -11,6 +11,8 @@
 		<!-- 구인구직게시판 vo -->
 		<typeAlias alias="JobBoard" type="com.kh.nullLive.board.model.vo.JobBoard" />
 		<typeAlias alias="Report" type="com.kh.nullLive.admin.model.vo.Report" />
+		
+		<!-- 관리자 -->
 		<typeAlias alias="Exchange" type="com.kh.nullLive.admin.model.vo.Exchange" />
 		<typeAlias alias="Question" type="com.kh.nullLive.admin.model.vo.Question" />
 		<typeAlias alias="UserDetail" type="com.kh.nullLive.admin.model.vo.UserDetail" />

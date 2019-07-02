@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +30,7 @@
 	width: 95%;
 }
 
-#qustionContext{
+.qustionContext{
 	background: white;
 	border: 1px solid lightgray;
 	border-radius: 5px 5px 5px 5px;
@@ -42,6 +43,9 @@
     width: 98%;
     height: 150px;
     resize: none;
+ }
+ form input{
+ visibility :  hidden;
  }
 </style>
 </head>
@@ -58,36 +62,60 @@
 				<br>
 			</div>
 			<div id="contentBackground">
-				<div id="titleBar">방송도중 개인정보 노출</div>
+				<div id="titleBar">${questionContent.BTitle }</div>
 				<br>
 				<div id="inContent">
 				
 				<div class="row" align="center"	style="font-weight: bold; font-size: 15px; border-bottom: 1px solid lightgray; width:95% ">
-					<div class="col-sm-6">회원 이름</div>
-					<div class="col-sm-6">문의 날짜</div>
+					<div class="col-sm-4">구분</div>
+					<div class="col-sm-4">회원 이름</div>
+					<div class="col-sm-4">문의 날짜</div>
 				</div>
 				
 				<div class="row" align="center" style="width:95% ">
-					<div class="col-sm-6">송상영</div>
-					<div class="col-sm-6">2019.06.24</div>
+					<div class="col-sm-4">${questionContent.qustionType }</div>
+					<div class="col-sm-4">${questionContent.name }</div>
+					<div class="col-sm-4">${questionContent.WDate }</div>
 				</div>
 					<div style="padding: 3%;">
-						<div id="qustionContext"><br><p>방송도중 개인정보를 노출시켰습니다...어쩌죠...</p><br></div>
+						<div class="qustionContext"><br><p>${questionContent.BContent }</p><br></div>
 						<br>
 						<hr style="border: none; border-top: 3px dotted gray; color: #fff; height: 1px; width: 98%;">
-						<div align="left"><p>답변 작성</p></div>
-						<br>
-						<textarea></textarea>
-						<div style="padding: 3%;">
+						<c:if test="${questionContent.BStatus eq 4 }">
+							<div align="left">
+								<p>답변 작성</p>
+							</div>
+							<br>
+							<form action="questionAnswer.ad" method="post"
+								id='questionAnswer'>
+								<textarea id='answer' name='bContent'></textarea>
+								<div style="padding: 3%;">
+									<button style="float: left;" onclick="location.href='questionList.ad'">뒤로가기</button>
+									
+									<input name='bTitle' value="${questionContent.BTitle }">
+									<input name='qustionType' value="${questionContent.qustionType }"> 
+									<input name='bno' value="${questionContent.bno }">
+									
+									<button style="float: right;" onclick="return questionAnswer()">답변보내기</button>
+
+								</div>
+							</form>
+						</c:if>
+						<c:if test="${questionContent.BStatus eq 3 }">
+							<div align="left">
+								<p>완료된 답변</p>
+							</div>
+							<br>
+							<div class="qustionContext"><br><p>${questionContent.answer }</p><br></div>
+							<div style="padding: 3%;">
 							<button style="float: left;" onclick="location.href='questionList.ad'">뒤로가기</button>
-							<button style="float: right;">답변</button>
 						</div>
+						</c:if>
+						
 					</div>
 					
 				</div>
 			</div>
-
-
 		</div>
 		<div class="col-sm-1"></div>
 	</div>
@@ -99,5 +127,17 @@ $(function() {
 	$('#menu4').addClass('active in');
 	$('#menu4 a:eq(4)').css('font-weight','bold');
 })
+
+function questionAnswer() {
+	var ok =confirm("확인을 누르면 답변이 전송됩니다.");
+	if(ok){
+		alert("답변이 완료되었습니다.");
+		$("#questionAnswer").submit();
+	}else{
+		alert("취소되었습니다.");
+	}
+	return false;
+}
+
 </script>
 </html>

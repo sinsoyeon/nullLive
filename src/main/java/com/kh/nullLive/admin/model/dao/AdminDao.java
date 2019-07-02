@@ -30,6 +30,15 @@ public interface AdminDao {
 
 	Report reportDetail(SqlSessionTemplate sqlSession, int bno);
 
+	Question questionDetail(SqlSessionTemplate sqlSession, Question q);
+
+	int updateQuestion(SqlSessionTemplate sqlSession, Question q);
+
+	int insetAnswer(SqlSessionTemplate sqlSession, Question q);
+
+	int exchange(SqlSessionTemplate sqlSession, int excno);
+
+
 
 
 }
