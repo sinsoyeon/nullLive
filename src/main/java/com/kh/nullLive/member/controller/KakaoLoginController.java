@@ -33,7 +33,7 @@ public class KakaoLoginController {
 	}
 	
 	@RequestMapping("klogin.me")
-    public String klogin(@RequestParam("code") String code, Model model) {
+    public String klogin(@RequestParam("code") String code, Model model, HttpSession session) {
 		String accessToken = kakao.getAccessToken(code);
 		
 		HashMap<String, Object> userInfo = kakao.getUserInfo(accessToken);
@@ -58,7 +58,7 @@ public class KakaoLoginController {
 			model.addAttribute("loginUser", loginUser);
 			System.out.println("컨트롤러 loginUser: " + loginUser);
 			
-			return "redirect:index.jsp";
+			return "redirect:"+session.getAttribute("redirectUrl");
 		} catch (LoginException e) {
 			model.addAttribute("msg", e.getMessage());
 			return "common/errorPage";

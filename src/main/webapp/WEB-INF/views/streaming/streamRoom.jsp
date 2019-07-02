@@ -20,7 +20,6 @@
 </body>
 <script>
 function my_init() {
-	var socket = io("http://localhost:8888")
 	easyrtc.setRoomOccupantListener( loggedInListener);
     easyrtc.easyApp("Company_Chat_Line", "self", ["caller"],
         function(myId) {

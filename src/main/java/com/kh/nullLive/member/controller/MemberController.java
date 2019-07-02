@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,22 +46,30 @@ public class MemberController {
 	 * @Comment : 로그인 화면 호출
 	 */
 	@RequestMapping("loginPage.me")
-	public String loginPage() {
+	public String loginPage(HttpSession session,HttpServletRequest request) {
+		String referer = request.getHeader("referer");
+		referer = referer.substring(referer.lastIndexOf('/')+1);
+		if(referer.equals("") || referer.equals("join.me")) {
+			referer = "index.jsp";
+		}
+		System.out.println(referer);
+		session.setAttribute("redirectUrl", referer);
 		return "member/memberLoginForm";
 	}
 	
 	/**
 	 * @Author : ryan
-	 * @Date : 2019. 6. 18.
-	 * @Comment : 로그인
+	 * @Date : 2019. 6. 18. + 7.2
+	 * @Comment : 로그인 + 리다이렉트 처리
 	 */
 	@RequestMapping("login.me")
-	public String loginCheck(Member m, Model model) {
+	public String loginCheck(Member m, Model model, HttpServletRequest request, HttpSession session) {
 		Member loginUser;
 		try {
 			loginUser = ms.loginMember(m);
 			model.addAttribute("loginUser",loginUser);
-			return "redirect:index.jsp";
+			
+			return "redirect:"+session.getAttribute("redirectUrl");
 		} catch (LoginException e) {
 			model.addAttribute("msg", e.getMessage());
 			return "common/errorPage";

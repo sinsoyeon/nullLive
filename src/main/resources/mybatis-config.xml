@@ -27,5 +27,6 @@
 		<mapper resource="mappers/user/board-mapper.xml" />
 		<mapper resource="mappers/user/streamer-mapper.xml" />
 		<mapper resource="mappers/user/admin-mapper.xml" />
+		<mapper resource="mappers/user/streaming-mapper.xml"/>
 	</mappers>
 </configuration>
