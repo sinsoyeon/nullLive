@@ -96,14 +96,14 @@
 	<select id="selectFListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM V_FAQBOARD
-		WHERE B_STATUS = 400
+		WHERE BTYPE = 'FAQ'
 	</select>
 	
 	<!-- 고객센터 FAQ 조회용 쿼리문 -->
 	<select id="selectFList" resultMap="boardResultSet">
 		SELECT FNO, BTITLE, BCONTENT
 		FROM V_FAQBOARD
-		WHERE B_STATUS = 400
+		WHERE BTYPE = 'FAQ'
 		ORDER BY FNO DESC
 	</select>
 	
@@ -111,7 +111,7 @@
 	<select id="searchFListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM V_FAQBOARD
-		WHERE B_STATUS = 400
+		WHERE BTYPE = 'FAQ'
 		AND QUESTION_TYPE = #{condition}
 	</select>
 	
@@ -119,7 +119,7 @@
 	<select id="searchFList" resultMap="boardResultSet">
 		SELECT FNO, BTITLE, BCONTENT
 		FROM V_FAQBOARD
-		WHERE B_STATUS = 400
+		WHERE BTYPE = 'FAQ'
 		AND QUESTION_TYPE = #{condition}
 		ORDER BY FNO DESC
 	</select>
@@ -128,7 +128,7 @@
 	<select id="selectOneF" resultMap="boardResultSet">
 		SELECT BTITLE, BCONTENT
 		FROM V_FAQBOARD
-		WHERE B_STATUS = 400
+		WHERE BTYPE = 'FAQ'
 		AND FNO = #{num}
 	</select>
 	
@@ -143,14 +143,14 @@
 	<select id="selectNListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM V_SNOTICEBOARD
-		WHERE B_STATUS = 401
+		WHERE BTYPE = 'SNOTICE'
 	</select>
 	
 	<!-- 고객센터 공지사항 조회용 쿼리문 -->
 	<select id="selectNList" resultMap="boardResultSet">
 		SELECT SNNO, BTITLE, BCONTENT, WRITTEN_DATE, BCOUNT
 		FROM V_SNOTICEBOARD
-		WHERE B_STATUS = 401
+		WHERE BTYPE = 'SNOTICE'
 		ORDER BY SNNO DESC
 	</select>
 	
@@ -158,7 +158,7 @@
 	<select id="selectOneN" resultMap="boardResultSet">
 		SELECT BTITLE, BCONTENT, WRITTEN_DATE, BCOUNT
 		FROM V_SNOTICEBOARD
-		WHERE B_STATUS = 401
+		WHERE BTYPE = 'SNOTICE'
 		AND SNNO = #{num}
 	</select>
 	
@@ -172,7 +172,7 @@
 	<!-- 고객센터 1:1 문의 작성용 쿼리문 -->
 	<insert id="insertQuestionBoard" parameterType="Board">
 		INSERT INTO BOARD
-		VALUES(SEQ_BNO.NEXTVAL, #{bTitle}, #{bContent}, SYSDATE, NULL, 0, 'QUESTION', #{questionType}, NULL, #{bEmail}, NULL, #{bWriter}, NULL, 'Q', NULL, 402)
+		VALUES(SEQ_BNO.NEXTVAL, #{bTitle}, #{bContent}, SYSDATE, NULL, 0, 'QUESTION', #{questionType}, NULL, #{bEmail}, NULL, #{bWriter}, NULL, 'Q', NULL, 4)
 	</insert>	
 	<select id="getScurrval" resultType="_int">
 		SELECT SEQ_BNO.CURRVAL FROM DUAL
@@ -192,7 +192,7 @@
 	<!-- 고객센터 신고하기 쿼리문 -->
 	<insert id="insertReportBoard" parameterType="Board">
 		INSERT INTO BOARD
-		VALUES(SEQ_BNO.NEXTVAL, #{bTitle}, #{bContent}, SYSDATE, NULL, 0, 'REPORT', NULL, NULL, #{bEmail}, NULL, #{bWriter}, #{reportType}, 'R', #{reportMno}, 403)
+		VALUES(SEQ_BNO.NEXTVAL, #{bTitle}, #{bContent}, SYSDATE, NULL, 0, 'REPORT', NULL, NULL, #{bEmail}, NULL, #{bWriter}, #{reportType}, 'R', #{reportMno}, 5)
 	</insert>
 	<!-- 고객센터 신고자 아이디로 mno 조회용 쿼리문 -->
 	<select id="selectRmno" parameterType="java.lang.String" resultType="_int">

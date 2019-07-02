@@ -50,8 +50,9 @@ body::-webkit-scrollbar {
 		<div class="row">
 			<div class="col-md-5">
 				<h2 style="color: #8aad40;">
-					<b>MY 문의내역</b>
-				</h2>
+					<b>MY 문의내역</b> &nbsp;&nbsp;
+					<a href="serviceMain.bo"> <i class="fas fa-headphones fa-lg" style=" color: #8aad40a3; font-size: 32px; "></i></a>
+				</h2>			
 				<br>
 				<p style="color: #999;">
 					문의하신 내용과 받아보신 답변을 확인하는 공간입니다.
