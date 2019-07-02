@@ -39,6 +39,7 @@
 		<result property="bStatus" column="B_STATUS"/>
 	</resultMap>
 	
+
 	<!-- job 게시글 resultSet -->
 	<resultMap type="java.util.HashMap" id="jobBoardResultSet">
 		<id property="jbno" column="JBNO"/>
@@ -53,19 +54,33 @@
 		<result property="bCount" column="BCOUNT"/>
 		<result property="bType" column="BTYPE"/>
 		<result property="bWriter" column="BWRITER"/>
+		<result property="nickName" column="NICK_NAME"/>
 		<result property="bStatus" column="B_STATUS"/>
 	</resultMap>
 	
-		<!-- job 게시글 resultSet2 -->
-	<resultMap type="JobBoard" id="jobBoardResultSet2">
-		<id property="jbno" column="JBNO"/>
+	<!-- job 게시글 상세보기 resultSet -->
+	<resultMap type="java.util.HashMap" id="jobBoardDetailResultSet">
+		<id property="bno" column="BNO"/>
+		<result property="bTitle" column="BTITLE"/>
+		<result property="bContent" column="BCONTENT"/>
+		<result property="writtenDate" column="WRITTEN_DATE"/>
+		<result property="modifyDate" column="MODIFY_DATE"/>
+		<result property="bCount" column="BCOUNT"/>
+		<result property="bType" column="BTYPE"/>
+		<result property="staDetail" column="STA_DETAIL"/>
 		<result property="job" column="JOB"/>
-		<result property="jBtype" column="JBTYPE"/>
+		<result property="jBType" column="JBTYPE"/>
 		<result property="contContent" column="CONT_CONTENT"/>
-		<result property="bno" column="BNO"/>
-		<result property="deadLine" column="DEADLINE"/>
+		<result property="deadline" column="DEADLINE"/>
 		<result property="perprice" column="PERPRICE"/>
+		<result property="mid" column="MID"/>
+		<result property="mno" column="MNO"/>
+		<result property="nickName" column="NICK_NAME"/>
+		<result property="enrollDate" column="ENROLL_DATE"/>
 	</resultMap>
+	
+	
+
 	
 	<!-- 첨부파일 resultSet -->
 	<resultMap type="Attachment" id="AttachmentResultSet">
@@ -226,7 +241,7 @@
 	<insert id="insertJobNotice" parameterType="Board">
 		INSERT INTO 
 		BOARD(BNO,		 BTITLE,   BCONTENT,   WRITTEN_DATE,MODIFY_DATE,BCOUNT,   BTYPE,   BWRITER,B_STATUS) VALUES
-		(SEQ_BNO.NEXTVAL,#{bTitle},#{bContent},SYSDATE,		SYSDATE,	DEFAULT,  #{bType},#{bWriter},1)
+		(SEQ_BNO.NEXTVAL,#{bTitle},#{bContent},SYSDATE,		SYSDATE,	DEFAULT,  #{bType},#{bWriter},7)
 	</insert>
 	
 	<!-- 게시글 INSERT 500 = 모집중-->
@@ -247,14 +262,14 @@
 		SELECT * 
 		FROM BOARD
 		WHERE BTYPE='JOBNOTICE'
-		AND B_STATUS = '1'
+		AND B_STATUS = '7'
 	</select>
 	<!-- 구인구직 공지사항 상세조회 -->
 	<select id="selectOneJobNotice" resultMap="boardResultSet">
 		SELECT * 
 		FROM BOARD
 		WHERE BTYPE='JOBNOTICE'
-		AND B_STATUS = '1'
+		AND B_STATUS = '7'
 		AND BNO = #{bno}
 	</select>
 	<!-- 게시물 조회수 증가용 -->
@@ -270,18 +285,18 @@
 		AND BTYPE = 'JOBMNG'
 	</select>
 	
-	<!-- 페이징 모듈화 테스트 -->
-	<!-- 2. ROWNUM Query -->
-    <select id="selectPaging" parameterType="PagingVo" resultType="Board">
+	<!-- 구인구직 공지사항 리스트 페이징 조회 -->
+    <select id="selectJobNoticeTotalPaging" parameterType="PagingVo" resultType="Board">
         SELECT *
         FROM (  SELECT ROWNUM RNUM, P.*
                 FROM (  SELECT *
                         FROM BOARD
+                        WHERE BTYPE='JOBNOTICE'
                         ORDER BY WRITTEN_DATE DESC ) P )
         WHERE RNUM BETWEEN #{start} AND #{last}
     </select>
-    <!-- 2. Total Query -->
-    <select id="selectTotalPaging" resultType="_int">
+    <!-- 구인구직 공지사항 리스트 총 갯수 조회 -->
+    <select id="selectJobNoticeListCount" resultType="_int">
         SELECT COUNT(*)
         FROM BOARD
         WHERE BTYPE = 'JOBNOTICE'
@@ -296,9 +311,10 @@
 	<select id="selectJobMngTotalPaging" resultMap="jobBoardResultSet">
 		SELECT *
 		FROM(SELECT ROWNUM RNUM, P.*
-    	  FROM(SELECT JB.JBNO, JB.JOB, JB.JBTYPE, JB.CONT_CONTENT, JB.BNO, JB.DEADLINE, B.BTITLE, B.BCONTENT, B.WRITTEN_DATE,B.BCOUNT, B.BTYPE,B.BWRITER,B.B_STATUS
+    	  FROM(SELECT JB.JBNO, JB.JOB, JB.JBTYPE, JB.CONT_CONTENT, JB.BNO, JB.DEADLINE, B.BTITLE, B.BCONTENT, B.WRITTEN_DATE,B.BCOUNT, B.BTYPE,B.BWRITER,B.B_STATUS,M.NICK_NAME
             	FROM JOB_BOARD JB
             	JOIN BOARD B ON(JB.BNO = B.BNO)
+                JOIN MEMBER M ON(B.BWRITER = M.MNO)
            	 	WHERE B.BTYPE = 'JOBMNG'
            	 	ORDER BY JB.JBNO DESC) P)
     	WHERE RNUM BETWEEN #{start} AND #{last}
@@ -312,16 +328,16 @@
         WHERE BTYPE = 'JOBMNG'
     </select>
     
-    <!-- Select One Board -->
-    <select id="selectOneBoard" resultMap="boardResultSet2" parameterType="_int">
-    	SELECT BNO,BTITLE,BCONTENT,WRITTEN_DATE,MODIFY_DATE,BCOUNT,BTYPE,BWRITER,B_STATUS
-		FROM Board WHERE BNO = #{bno}
-	</select>
-    
     <!-- Select One JobBoard -->
-    <select id="selectOneJobBoard" resultMap="jobBoardResultSet2" parameterType="_int">
-    	SELECT * 
-    	FROM JOB_BOARD
-		WHERE BNO = #{bno}
+    <select id="selectOneJobBoard" resultMap="jobBoardDetailResultSet" parameterType="_int">
+    	SELECT B.BNO,B.BCONTENT, B.BTITLE,B.WRITTEN_DATE,B.MODIFY_DATE,B.BCOUNT,B.BTYPE,BS.STA_DETAIL,JB.JOB,JB.JBTYPE,JB.CONT_CONTENT,JB.DEADLINE,JB.PERPRICE,M.MNO,M.MID,M.NICK_NAME,M.ENROLL_DATE
+		FROM BOARD B
+		JOIN BOARD_STATUS BS ON(B.B_STATUS = BS.B_STATUS)
+		JOIN JOB_BOARD JB ON(B.BNO = JB.BNO)
+		JOIN MEMBER M ON(B.BWRITER = M.MNO)
+		--LEFT JOIN ATT_MANAGE AM ON(M.MNO = AM.MNO)
+		--LEFT JOIN ATTACHMENT A ON(A.ATTNO = AM.ATTNO)
+		WHERE B.BNO = #{bno}
 	</select>
+
 </mapper>

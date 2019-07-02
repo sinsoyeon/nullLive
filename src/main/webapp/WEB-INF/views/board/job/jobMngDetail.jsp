@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+     <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,19 +35,27 @@
 	.dateArea {
 		float: right;
 	}
-	.divTest {
-		border: solid 1px black;
+	.boardInfoHeader, .writerInfoArea {
+		border: solid 1px lightgray;
 	}
 	.profileImg{
 		width:150px;
-		height:200px;
+		height:221px;
 		margin-top: 2%;
 		margin-bottom: 2%;
 	}
-	.boardInfoArea>div{
+	.boardInfoArea>.divTest{
 		height:50px;
 	}
-	
+	.profileEmpty{
+		height:140px;
+	}
+	.boardInfoHeader {
+		height:20px;
+	}
+	.writerInfoArea{
+		height:96px;
+	}
 </style>
 
 </head>
@@ -57,64 +67,92 @@
 	<!-- 구인구직 상세 보기 -->
 	<div class="outer">
 		<!-- 프로필 영역 -->
-		<div class="divTest col-lg-4" align="center">
-			<div class="profileImg divTest" align="center">
-				<img alt="" src="${ contextPath }/resources/uploadFile/profile.gif" width="100%" height="100%">
-				<label>BJ에비츄</label>
-				<label>[신]</label>
-				<label>[쪽]</label>
+		<div class="divTest col-lg-3" align="center">
+			<div class="profileImg" align="center">
+				<img alt="" src="${contextPath}/resources/uploadFiles/profile_image/${hmap.imgSource}" width="100%" height="170px">
+				<c:if test="${empty hmap.imgSource}">
+					<div class="profileEmpty">
+					<br><br><br>
+					이미지가 없습니다.
+					</div>
+				</c:if>
+				<label><c:out value="${ hmap.nickName }"/></label><br>
+				<label><i class="fas fa-ban"></i></label> &nbsp;
+				<label><i class="far fa-envelope"></i></label>
+				
 			</div>
 		</div>
 		<!-- 게시글 정보 영역 -->
-		<div class="divTest col-lg-8">
-			<div><h2>제목</h2></div>
+		<div class="divTest col-lg-9">
+			<div><h2><c:out value="${ hmap.bTitle }"/></h2></div>
 		</div>
 		<div class="boardInfoArea" >
 			
-			<hr>
-			<div class="divTest col-lg-2">
-				글번호 : 
+			<div class="boardInfoHeader col-lg-1 col-md-2 col-xs-2">글번호</div>
+			<div class="boardInfoHeader col-lg-1 col-md-2 col-xs-2">조회수</div>
+			<div class="boardInfoHeader col-lg-1 col-md-2 col-xs-2">구분</div>
+			<div class="boardInfoHeader col-lg-2 col-md-2 col-xs-2">등록일시</div>
+			<div class="boardInfoHeader col-lg-2 col-md-2 col-xs-2">마감일시</div>
+			<div class="boardInfoHeader col-lg-2 col-md-2 col-xs-2">마감여부 </div>
+			
+			<div class="divTest col-lg-1 col-md-2">
+				<c:out value="${ hmap.bno }"/>
 			</div>
-			<div class="divTest col-lg-1">
-				구분 : 
+			<div class="divTest col-lg-1 col-md-2">
+				<c:out value="${ hmap.bCount }"/>
 			</div>
-			<div class="divTest col-lg-3">
-				등록일 : 
+			<div class="divTest col-lg-1 col-md-2">
+				<c:out value="${ hmap.jBType }"/>
 			</div>
-			<div class="divTest col-lg-2">
-				모집중 
+			<div class="divTest col-lg-2 col-md-2">
+				<c:set var="writtenDate" value="${ hmap.writtenDate }" />
+				<c:set var="nowDate" value="<%= new java.util.Date() %>"/>
 				
-				<br>
+				<fmt:formatDate value="${writtenDate}" pattern="yyyy-MM-dd" var="wd"/>
+				<fmt:formatDate value="${nowDate}" pattern="yyyy-MM-dd" var="nd"/>
+				
+				<!-- 등록일시 일수가 넘어간경우 날짜를 보여줌 -->
+				<c:if test="${ wd < nd }">
+					<fmt:formatDate value="${writtenDate}" pattern="yyyy-MM-dd" />
+				</c:if>
+				<!-- 등록일시가 현재일인 경우 시간을 보여줌 -->
+				<c:if test="${ wd >= nd }">
+					<fmt:formatDate type="TIME" timeStyle="short" value="${writtenDate}"/>
+				</c:if>
+				
+			</div>
+			<div class="divTest col-lg-2 col-md-2">
+				<c:set var="deadline" value="${ hmap.deadline }" />
+				<fmt:formatDate value="${deadline}" pattern="yyyy-MM-dd" />
+			</div>
+			<div class="divTest col-lg-2 col-md-2">
+				<c:out value="${ hmap.staDetail }"/> 
 			</div>
 		</div>
 		<hr>
 		<!-- 게시자 정보 영역 -->
-		<div class="divTest col-lg-8" style="height: 96px">
+		<div class="writerInfoArea col-lg-9">
 			<div>게시자 정보</div>
-			<button>상세정보</button>
 		</div>
+		<button class="btn btn-info btn-xs">상세정보</button>
 		<!-- 버튼영역  -->
-		<div class="btnArea col-lg-12" align="center">
+		<div class="btnArea col-lg-12 col-md-12 col-xs-12" align="center">
 			<br><br>
-			<button>지원하기</button>
-			<button>목록으로</button>
-			<button>수정하기</button>
+			<button class="btn btn-success btn-sm">지원하기</button>
+			<button class="btn btn-primary btn-sm">목록으로</button>
+			<button class="btn btn-primary btn-sm">수정하기</button>
 			<br><br>
 		</div>
 		<!-- 게시글  -->
 		<div class="contentArea col-lg-12">
-				<p>
-						그들을 찾아다녀도, 미묘한 하는 천지는 이것이다. 위하여 주는 현저하게 온갖 두손을 때에, 용감하고 그것을 있다. 천자만홍이 인생에 용기가 이것은 힘차게 아름답고 눈이 이상의 인간은 것이다. 물방아 목숨이 그들은 우는 반짝이는 동산에는 것은 군영과 아니한 아름다우냐? 오직 청춘의 않는 것이다. 위하여 있으며, 긴지라 인간의 설산에서 열매를 황금시대다. 할지니, 것은 대한 것이다. 발휘하기 있는 동산에는 없으면 유소년에게서 피고 오아이스도 만물은 꾸며 끓는다. 용기가 생명을 얼마나 끓는다. 곳으로 힘차게 얼마나 품었기 청춘은 것은 봄바람이다.
-		
-		무엇을 인생에 우는 피어나는 이것을 평화스러운 청춘의 그러므로 천고에 철환하였는가? 그들의 우리의 뭇 인간에 웅대한 힘있다. 우리 설레는 동산에는 기쁘며, 긴지라 새가 것이다. 피에 그들의 석가는 피다. 우는 심장의 이상 사랑의 동력은 우리의 청춘의 사막이다. 인간의 생생하며, 가장 꽃이 것이다. 자신과 만천하의 살 하였으며, 말이다. 이상 우리 희망의 않는 것이다. 사랑의 찬미를 대고, 구하기 남는 어디 이상 것은 피다. 노래하며 인생을 무한한 못하다 몸이 생생하며, 기관과 보라.
-					</p>
+			<c:out value="${ hmap.bContent }" escapeXml="false"/>
 		
 		</div>
 		
 		<!-- 지원하기 버튼 -->
 		<div class="btnArea col-lg-12" align="center">
 		<br><br>
-			<button>지원하기</button>
+			<button class="btn btn-success btn-lg">지원하기</button>
 		</div>
 	
 		<br><br><br><br><br><br>

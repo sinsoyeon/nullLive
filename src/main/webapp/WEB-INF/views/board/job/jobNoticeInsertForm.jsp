@@ -47,7 +47,7 @@
 						<h3>제목 </h3>
 						<input class="form-control col-lg-12 col-md-12 col-sm-8" id="bTitle" name="bTitle" type="text"  required  placeholder="제목을 입력하세요">
 						<!-- 임시 게시글 작성자 -->
-						<input type="hidden" name="bWriter" value="1">
+						<input type="hidden" name="bWriter" value="${ loginUser.mno }">
 						<input type="hidden" name="bType" value="JOBNOTICE">
 					</div>
 					<br>
