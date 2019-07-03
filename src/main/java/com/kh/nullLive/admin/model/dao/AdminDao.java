@@ -38,6 +38,10 @@ public interface AdminDao {
 
 	int exchange(SqlSessionTemplate sqlSession, int excno);
 
+	int updateBan(SqlSessionTemplate sqlSession, Member m);
+
+	int insertBan(SqlSessionTemplate sqlSession, Member m);
+
 
 
 
