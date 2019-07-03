@@ -116,6 +116,17 @@ public class StreamerDaoImpl implements StreamerDao {
 	}
 
 
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 3.
+	 * @comment : 스트리머 mno로 조회
+	 */
+	@Override
+	public Streamer selectStreamerMno(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("Streamer.selectStreamerMno",mno);
+  }
+  
 	//환전 신청 취소 (소연)
 	@Override
 	public int cancelExchange(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {

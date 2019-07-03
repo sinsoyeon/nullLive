@@ -35,7 +35,7 @@
 	.dateArea {
 		float: right;
 	}
-	.boardInfoHeader, .writerInfoArea {
+	.boardInfoHeader, .writerInfoArea, .profileArea{
 		border: solid 1px lightgray;
 	}
 	.profileImg{
@@ -56,18 +56,23 @@
 	.writerInfoArea{
 		height:96px;
 	}
+	
 </style>
 
 </head>
 <body>
 	<jsp:include page="jobMenubar.jsp"/>
+	<c:set var="board" value="${ boardMap.board }"/>
+	<c:set var="jBoard" value="${ boardMap.jBoard }"/>
+	<c:set var="member" value="${ boardMap.member }"/>
+	<c:set var="streamer" value="${ boardMap.streamer }"/>
 	<h1 align="center">매니저 구인구직 게시판</h1>
 	<hr>
 	
 	<!-- 구인구직 상세 보기 -->
 	<div class="outer">
 		<!-- 프로필 영역 -->
-		<div class="divTest col-lg-3" align="center">
+		<div class="profileArea col-lg-3 " align="center">
 			<div class="profileImg" align="center">
 				<img alt="" src="${contextPath}/resources/uploadFiles/profile_image/${hmap.imgSource}" width="100%" height="170px">
 				<c:if test="${empty hmap.imgSource}">
@@ -93,19 +98,20 @@
 			<div class="boardInfoHeader col-lg-1 col-md-2 col-xs-2">구분</div>
 			<div class="boardInfoHeader col-lg-2 col-md-2 col-xs-2">등록일시</div>
 			<div class="boardInfoHeader col-lg-2 col-md-2 col-xs-2">마감일시</div>
-			<div class="boardInfoHeader col-lg-2 col-md-2 col-xs-2">마감여부 </div>
+			<div class="boardInfoHeader col-lg-2 col-md-2 col-xs-2">마감여부</div>
 			
 			<div class="divTest col-lg-1 col-md-2">
-				<c:out value="${ hmap.bno }"/>
+				<c:out value="${ board.bno  }"/>
 			</div>
 			<div class="divTest col-lg-1 col-md-2">
-				<c:out value="${ hmap.bCount }"/>
+				<c:out value="${ board.BCount }"/>
 			</div>
-			<div class="divTest col-lg-1 col-md-2">
-				<c:out value="${ hmap.jBType }"/>
-			</div>
+			<<div class="divTest col-lg-1 col-md-2">
+				<c:out value="${ jBoard.JBtype }"/>
+			</div> 
 			<div class="divTest col-lg-2 col-md-2">
-				<c:set var="writtenDate" value="${ hmap.writtenDate }" />
+				<c:set var="writtenDate" value="${ board.writtenDate }"
+				 />
 				<c:set var="nowDate" value="<%= new java.util.Date() %>"/>
 				
 				<fmt:formatDate value="${writtenDate}" pattern="yyyy-MM-dd" var="wd"/>
@@ -122,17 +128,20 @@
 				
 			</div>
 			<div class="divTest col-lg-2 col-md-2">
-				<c:set var="deadline" value="${ hmap.deadline }" />
+				<c:set var="deadline" value="${ jBoard.deadLine }" />
 				<fmt:formatDate value="${deadline}" pattern="yyyy-MM-dd" />
 			</div>
 			<div class="divTest col-lg-2 col-md-2">
-				<c:out value="${ hmap.staDetail }"/> 
+				<c:out value="${ boardMap.boardStatus }"></c:out>
 			</div>
 		</div>
 		<hr>
 		<!-- 게시자 정보 영역 -->
 		<div class="writerInfoArea col-lg-9">
 			<div>게시자 정보</div>
+			<c:if test="${ jBoard.JBtype eq '구인' }">
+				<div><b>방송시작일:<c:out value="${ streamer.bstart_date }"/></b></div>
+			</c:if>
 		</div>
 		<button class="btn btn-info btn-xs">상세정보</button>
 		<!-- 버튼영역  -->
@@ -146,9 +155,11 @@
 		<!-- 게시글  -->
 		<div class="contentArea col-lg-12">
 			<c:out value="${ hmap.bContent }" escapeXml="false"/>
-		
 		</div>
-		
+		<!-- 첨부파일 영역 -->
+		<div class="attArea">
+			첨부파일
+		</div>
 		<!-- 지원하기 버튼 -->
 		<div class="btnArea col-lg-12" align="center">
 		<br><br>

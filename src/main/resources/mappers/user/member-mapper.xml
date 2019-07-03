@@ -48,6 +48,13 @@
 		WHERE MID = #{mid}
 		AND M_STATUS = 'Y'
 	</select>
+	<!-- mno로 맴버 조회 -->
+	<select id="selectMemberMno" resultMap="memberResultSet" parameterType="_int">
+		SELECT *
+		FROM MEMBER
+		WHERE MNO = #{mno}
+		AND M_STATUS = 'Y'
+	</select>
 	
 	<select id="selectPwd" resultType="java.lang.String" parameterType="java.lang.String">
 		SELECT MPWD
@@ -178,7 +185,7 @@
 		WHERE MID = #{userId}
 		AND M_STATUS = 'Y'
 	</select>
-	
+   
 	<!-- 회원가입 방송국 개설 -->
 	<insert id="insertBroadCenter" parameterType="Member">
 		INSERT INTO BROAD_CENTER(BCNO,MNO,ADULT)

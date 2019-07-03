@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -95,10 +96,27 @@
 					<tr>
 						<td id="bno">${ board.bno }</td>
 						
-						<td><c:out value="${ board }"/></td>
-						<td><c:out value="${ board.BTitle }"/></td>
-						<td><c:out value="${board.writtenDate}"/> </td>
-						<td><c:out value="${ board.BCount }"/></td>
+						<td><c:out value="${ board.nickName }"/></td>
+						<td><c:out value="${ board.bTitle }"/></td>
+						<td id="writtenDate">
+								<c:set var="writtenDate" value="${ board.writtenDate }" />
+								<c:set var="nowDate" value="<%= new java.util.Date() %>"/>
+								
+								<fmt:formatDate value="${writtenDate}" pattern="yyyy-MM-dd" var="wd"/>
+								<fmt:formatDate value="${nowDate}" pattern="yyyy-MM-dd" var="nd"/>
+								
+								<!-- 등록일시 일수가 넘어간경우 날짜를 보여줌 -->
+								<c:if test="${ wd < nd }">
+									<fmt:formatDate value="${writtenDate}" pattern="yyyy-MM-dd" />
+								</c:if>
+								<!-- 등록일시가 현재일인 경우 시간을 보여줌 -->
+								<c:if test="${ wd >= nd }">
+									<fmt:formatDate type="TIME" timeStyle="short" value="${writtenDate}"/>
+								</c:if>
+								
+								
+							</td>
+						<td><c:out value="${ board.bCount }"/></td>
 						
 						
 					</tr>

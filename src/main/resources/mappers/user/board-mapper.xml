@@ -26,22 +26,22 @@
 		<result property="reportMno" column="REPORT_MNO"/>
 		<result property="bStatus" column="B_STATUS"/>
 	</resultMap>
-	<!-- 구인구직 게시판용 board resultMap -->
-	<resultMap type="Board" id="boardResultSet2">
+
+	<!-- 구인구직 공지사항 리스트 조회용 resultMap -->	
+	<resultMap type="java.util.HashMap" id="jobBoardListResultSet">
 		<id property="bno" column="BNO"/>
 		<result property="bTitle" column="BTITLE"/>
 		<result property="bContent" column="BCONTENT"/>
 		<result property="writtenDate" column="WRITTEN_DATE"/>
-		<result property="modifyDate" column="MODIFY_DATE"/>
 		<result property="bCount" column="BCOUNT"/>
-		<result property="bType" column="BTYPE"/>
-		<result property="bWriter" column="BWRITER"/>
-		<result property="bStatus" column="B_STATUS"/>
+		<result property="nickName" column="NICK_NAME"/>
+		<result property="staDetail" column="STA_DETAIL"/>
 	</resultMap>
 	
-
-	<!-- job 게시글 resultSet -->
-	<resultMap type="java.util.HashMap" id="jobBoardResultSet">
+	
+	
+	<!-- job 매니저게시판 게시글 리스트 resultMap -->
+	<resultMap type="java.util.HashMap" id="jobMngListResultSet">
 		<id property="jbno" column="JBNO"/>
 		<result property="job" column="JOB"/>
 		<result property="jBtype" column="JBTYPE"/>
@@ -55,7 +55,7 @@
 		<result property="bType" column="BTYPE"/>
 		<result property="bWriter" column="BWRITER"/>
 		<result property="nickName" column="NICK_NAME"/>
-		<result property="bStatus" column="B_STATUS"/>
+		<result property="staDetail" column="STA_DETAIL"/>
 	</resultMap>
 	
 	<!-- job 게시글 상세보기 resultSet -->
@@ -286,11 +286,13 @@
 	</select>
 	
 	<!-- 구인구직 공지사항 리스트 페이징 조회 -->
-    <select id="selectJobNoticeTotalPaging" parameterType="PagingVo" resultType="Board">
+    <select id="selectJobNoticeTotalPaging" parameterType="PagingVo" resultMap="jobBoardListResultSet">
         SELECT *
         FROM (  SELECT ROWNUM RNUM, P.*
-                FROM (  SELECT *
-                        FROM BOARD
+                FROM (  SELECT B.BNO, M.NICK_NAME, B.BTITLE,B.WRITTEN_DATE,B.BCOUNT,bs.sta_detail
+                        FROM BOARD B
+                        JOIN MEMBER M ON(B.BWRITER = M.MNO)
+                        JOIN BOARD_STATUS BS ON(BS.B_STATUS = B.B_STATUS)
                         WHERE BTYPE='JOBNOTICE'
                         ORDER BY WRITTEN_DATE DESC ) P )
         WHERE RNUM BETWEEN #{start} AND #{last}
@@ -308,13 +310,14 @@
 	</select>
 	
 	<!-- jobBoard 매니저 게시판 페이징 조회 -->
-	<select id="selectJobMngTotalPaging" resultMap="jobBoardResultSet">
+	<select id="selectJobMngTotalPaging" resultMap="jobMngListResultSet">
 		SELECT *
 		FROM(SELECT ROWNUM RNUM, P.*
-    	  FROM(SELECT JB.JBNO, JB.JOB, JB.JBTYPE, JB.CONT_CONTENT, JB.BNO, JB.DEADLINE, B.BTITLE, B.BCONTENT, B.WRITTEN_DATE,B.BCOUNT, B.BTYPE,B.BWRITER,B.B_STATUS,M.NICK_NAME
+    	  FROM(SELECT JB.JBNO, JB.JOB, JB.JBTYPE, JB.CONT_CONTENT, JB.BNO, JB.DEADLINE, B.BTITLE, B.BCONTENT, B.WRITTEN_DATE,B.BCOUNT, B.BTYPE,B.BWRITER,BS.STA_DETAIL,M.NICK_NAME
             	FROM JOB_BOARD JB
             	JOIN BOARD B ON(JB.BNO = B.BNO)
                 JOIN MEMBER M ON(B.BWRITER = M.MNO)
+                JOIN BOARD_STATUS BS ON(B.B_STATUS = BS.B_STATUS)
            	 	WHERE B.BTYPE = 'JOBMNG'
            	 	ORDER BY JB.JBNO DESC) P)
     	WHERE RNUM BETWEEN #{start} AND #{last}
@@ -329,15 +332,31 @@
     </select>
     
     <!-- Select One JobBoard -->
-    <select id="selectOneJobBoard" resultMap="jobBoardDetailResultSet" parameterType="_int">
+    <!-- <select id="selectOneJobBoard" resultMap="jobBoardDetailResultSet" parameterType="_int">
     	SELECT B.BNO,B.BCONTENT, B.BTITLE,B.WRITTEN_DATE,B.MODIFY_DATE,B.BCOUNT,B.BTYPE,BS.STA_DETAIL,JB.JOB,JB.JBTYPE,JB.CONT_CONTENT,JB.DEADLINE,JB.PERPRICE,M.MNO,M.MID,M.NICK_NAME,M.ENROLL_DATE
 		FROM BOARD B
 		JOIN BOARD_STATUS BS ON(B.B_STATUS = BS.B_STATUS)
 		JOIN JOB_BOARD JB ON(B.BNO = JB.BNO)
 		JOIN MEMBER M ON(B.BWRITER = M.MNO)
-		--LEFT JOIN ATT_MANAGE AM ON(M.MNO = AM.MNO)
-		--LEFT JOIN ATTACHMENT A ON(A.ATTNO = AM.ATTNO)
+		LEFT JOIN ATT_MANAGE AM ON(M.MNO = AM.MNO)
+		LEFT JOIN ATTACHMENT A ON(A.ATTNO = AM.ATTNO)
 		WHERE B.BNO = #{bno}
+	</select> -->
+	<select id="selectOneBoard" resultMap="boardResultSet" parameterType="_int">
+    	SELECT * 
+    	FROM BOARD
+    	WHERE BNO = #{bno}
 	</select>
-
+	<select id="selectOneJobBoard" resultType="JobBoard" parameterType="_int">
+    	SELECT * 
+    	FROM JOB_BOARD
+    	WHERE BNO = #{bno}
+	</select>
+	
+	<!-- 게시글 상태 조회 -->
+	<select id="selectBoardStatus" resultType="java.lang.String" parameterType="_int">
+		SELECT STA_DETAIL
+		FROM BOARD_STATUS B
+		WHERE B_STATUS = #{bStatus}
+	</select>
 </mapper>

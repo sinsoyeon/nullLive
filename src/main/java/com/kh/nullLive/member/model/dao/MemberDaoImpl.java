@@ -117,6 +117,15 @@ public class MemberDaoImpl implements MemberDao {
 	public Member selectKakaoMember(SqlSessionTemplate sqlSession, String userId) {
 		return sqlSession.selectOne("Member.selectKakaoMember", userId);
 	}
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 3.
+	 * @comment : member mno로 조회
+	 */
+	@Override
+	public Member selectMemberMno(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("Member.selectMemberMno",mno);
+	}
 	//스트리머 정보 가져오기
 	@Override
 	public Streamer getStreamerInfo(SqlSessionTemplate sqlSession, int mno) {
@@ -127,7 +136,6 @@ public class MemberDaoImpl implements MemberDao {
 	public int createBroadCenter(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.insert("Member.insertBroadCenter",m);
 	}
-	
 
 
 }
