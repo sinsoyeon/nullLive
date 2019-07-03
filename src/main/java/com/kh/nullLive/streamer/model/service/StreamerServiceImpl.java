@@ -26,7 +26,7 @@ public class StreamerServiceImpl implements StreamerService{
 	}
 
 	@Override
-	public int selectStreamer(String streamer) {
+	public HashMap<String, Object> selectStreamer(String streamer) {
 
 		return smDao.selectStreamer(sqlSession,streamer);
 	}
@@ -100,6 +100,28 @@ public class StreamerServiceImpl implements StreamerService{
 	public HashMap<String, Object> selectOneExc(HashMap<String, Object> userInfoMap) {
 		// TODO Auto-generated method stub
 		return smDao.selectOneExc(sqlSession,userInfoMap);
+	}
+
+	@Override
+	public int cancelExchange(HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return smDao.cancelExchange(sqlSession,infoMap);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectChargeList(int mno) {
+		// TODO Auto-generated method stub
+		return smDao.selectChargeList(sqlSession,mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> ageChartData(int mno) {
+		
+		HashMap<String, Object>  myMap = smDao.selectAllFemale(sqlSession, mno);
+		
+		ArrayList<HashMap<String, Object>> returList=null;
+		
+		return returList;
 	}
 
 }

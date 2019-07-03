@@ -38,7 +38,7 @@
 						<li><a onclick="location.href='blackListManage.st'">블랙리스트 관리</a></li>
 						<li><a onclick="">방송 기록 관리</a></li>
 						<li><a onclick="location.href='prohibitiveWordManage.st'">금칙어 설정</a></li>
-						<li><a onclick="">통계페이지</a></li>
+						<li id="chartList"><a onclick="location.href='chartView.sm'">통계페이지</a></li>
 					</ul>
 					<h3>게시판</h3>
 					<ul>
