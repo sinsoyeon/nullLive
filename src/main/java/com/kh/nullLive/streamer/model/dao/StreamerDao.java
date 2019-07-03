@@ -10,7 +10,7 @@ import com.kh.nullLive.streamer.model.vo.Streamer;
 public interface StreamerDao {
 
 
-	int selectStreamer(SqlSessionTemplate sqlSession, String streamer);
+	HashMap<String, Object> selectStreamer(SqlSessionTemplate sqlSession, String streamer);
 
 	int insertSubscribe(SqlSessionTemplate sqlSession, Streamer stremaer);
 
@@ -35,5 +35,19 @@ public interface StreamerDao {
 	ArrayList<HashMap<String,Object>> selectExcList(SqlSessionTemplate sqlSession, int mno);
 
 	HashMap<String, Object> selectOneExc(SqlSessionTemplate sqlSession, HashMap<String, Object> userInfoMap);
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 3.
+	 * @comment : 스트리머 mno로 조회
+	 */
+	Streamer selectStreamerMno(SqlSessionTemplate sqlSession, int mno);
+
+	int cancelExchange(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
+	ArrayList<HashMap<String, Object>> selectChargeList(SqlSessionTemplate sqlSession, int mno);
+
+	HashMap<String,Object> selectAllFemale(SqlSessionTemplate sqlSession, int mno);
+
 
 }

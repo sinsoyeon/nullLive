@@ -7,6 +7,8 @@ import com.kh.nullLive.member.model.exception.LoginException;
 import com.kh.nullLive.member.model.exception.ProfileException;
 import com.kh.nullLive.member.model.exception.UpdateMemberException;
 import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.streamer.model.exception.SelectStreamerException;
+import com.kh.nullLive.streamer.model.vo.Streamer;
 
 public interface MemberService {
 	/**
@@ -40,10 +42,11 @@ public interface MemberService {
 	
 	/**
 	 * Author : ryan
-	 * Date : 2019. 6. 21.
-	 * Comment : 개인정보수정
+	 * Date : 2019. 6. 21. / 7. 2.
+	 * Comment : 개인정보수정 / 스트리머인 경우 추가
+	 * @param streamer 
 	 */
-	Member updateMember(Member m) throws UpdateMemberException;
+	Member updateMember(Member m, Streamer streamer) throws UpdateMemberException;
 
 	/**
 	 * Author : ryan
@@ -89,6 +92,22 @@ public interface MemberService {
 
 	/* 카카오 로그인 메소드(정연) */
 	Member kakaologinMember(String userId) throws LoginException;
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 2.
+	 * Comment : 스트리머 정보 가져오기
+	 * @throws SelectStreamerException 
+	 */
+	Streamer getStreamerInfo(int mno) throws SelectStreamerException;
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 3.
+	 * Comment : 회원가입 방송국 개설
+	 * @throws InsertMemberException 
+	 */
+	void createBroadCenter(Member m) throws InsertMemberException;
 
 	
 }

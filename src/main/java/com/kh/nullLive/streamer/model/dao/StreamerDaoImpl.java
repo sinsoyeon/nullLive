@@ -10,20 +10,14 @@ import com.kh.nullLive.streamer.model.vo.Streamer;
 
 @Repository
 public class StreamerDaoImpl implements StreamerDao {
-
+	
+	//스트리머 pk 조회
 	@Override
-	public int selectStreamer(SqlSessionTemplate sqlSession, String streamer) {
-		int sno = 0;
-		String temp = sqlSession.selectOne("Streamer.selectStreamer",streamer);
-		if(temp!=null) {
-			sno = Integer.parseInt(temp);
-		}
+	public HashMap<String, Object> selectStreamer(SqlSessionTemplate sqlSession, String streamer) {
 		
-		return sno;
+		return sqlSession.selectOne("Streamer.selectStreamer",streamer);
 	}
 
-	
-	
 	 //정기 구독자용 메소드 (소연)
 	@Override
 	public int insertSubscribe(SqlSessionTemplate sqlSession, Streamer stremaer) {
@@ -114,11 +108,45 @@ public class StreamerDaoImpl implements StreamerDao {
 	}
 
 
-
+	//환전 신청 상세 조회 (소연)
 	@Override
 	public HashMap<String, Object> selectOneExc(SqlSessionTemplate sqlSession, HashMap<String, Object> userInfoMap) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("Streamer.selectOneExc", userInfoMap);
+	}
+
+
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 3.
+	 * @comment : 스트리머 mno로 조회
+	 */
+	@Override
+	public Streamer selectStreamerMno(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("Streamer.selectStreamerMno",mno);
+  }
+  
+	//환전 신청 취소 (소연)
+	@Override
+	public int cancelExchange(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("Streamer.cancelExc", infoMap);
+	}
+
+	
+	//포인트 충전 내역 조회
+	@Override
+	public ArrayList<HashMap<String, Object>> selectChargeList(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("Streamer.selectChargeList", mno);
+	}
+
+	//여성 비율
+	@Override
+	public HashMap<String,Object> selectAllFemale(SqlSessionTemplate sqlSession, int mno) {
+		
+		return sqlSession.selectOne("Streamer.selectFmale",mno);
 	}
 	
 }

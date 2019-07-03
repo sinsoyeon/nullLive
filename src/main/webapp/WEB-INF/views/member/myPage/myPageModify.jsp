@@ -34,6 +34,7 @@
 					</div>
 					<div class="panel-body">
 						<form id="login-form" method="post">
+						<input type="hidden" name="mno" value="${loginUser.mno}"/>
 							<div>
 								아이디 : <input type="text" class="form-control" name="mid"
 									value="${loginUser.mid}" readonly>
@@ -42,7 +43,7 @@
 								비밀번호 : <button type="button" onclick="pwdModify()">비밀번호 변경</button>
 							</div>
 							<div>
-								이메일 : <input type="email" class="form-control" name="email"
+								이메일 : <input type="email" class="form-control" name="email" id="email"
 									placeholder="${loginUser.email}" autofocus/>
 							</div>
 							<div>
@@ -50,9 +51,23 @@
 								<button onclick="">휴대폰 변경</button>
 							</div>
 							<div>
-								닉네임 : <input type="text" name="nickName" class="form-control"
+								닉네임 : <input type="text" name="nickName" class="form-control" id="nickName"
 									placeholder="${loginUser.nickName}" />
 							</div>
+							<%-- 스트리머인 경우 --%>
+							<c:if test="${loginUser.isStreamer == 'Y'}">
+							<div>
+							은행 : <select name="bank_code" id="bank_code" class="form-control" style="width:150px;">
+								<option value="26">신한은행</option>
+							</select>
+								계좌번호 : <input type="text" name="account" class="form-control" id="account"
+									placeholder="${streamer.account}" />
+							</div>
+							<div>
+								은행주 : <input type="text" name="holder" class="form-control" id="holder"
+									placeholder="${streamer.holder}" />
+							</div>
+							</c:if>
 							<div style="margin-top:10px;">
 								<button onclick="modify()" align="center" class="form-control btn btn-primary">변경</button>
 							</div>
@@ -63,8 +78,31 @@
 		</div>
 	</div>
 	<script>
+		$(function(){
+			console.log('${loginUser.isStreamer}');
+		})
 		function modify(){
-			$("#login-form").attr('action','update.me').submit();
+			if($("#email").val() != ""){
+				if($("#nickName").val() != ""){
+					if('${loginUser.isStreamer}' == 'Y'){
+						if($("#account").val() != ""){
+							if($("#holder").val() != ""){
+								$("#login-form").attr('action','update.me').submit();	
+							}else{
+								alert('누락된 정보가 있습니다.');
+							}
+						}else{
+							alert('누락된 정보가 있습니다.');
+						}
+					}else{
+						$("#login-form").attr('action','update.me').submit();						
+					}
+				}else{
+					alert('누락된 정보가 있습니다.');
+				}
+			}else{
+				alert('누락된 정보가 있습니다.');
+			}
 		}
 		function pwdModify(){
 			window.open('pwdInput.me','new','width=420,height=200,menubar=no, status=no, toolbar=no');

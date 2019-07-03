@@ -143,7 +143,12 @@ public class AdminDaoImpl implements AdminDao{
 	 */
 	@Override
 	public int exchange(SqlSessionTemplate sqlSession, int excno) {
-		return sqlSession.update("Admin.");
+		return sqlSession.update("Admin.exchangeProcess",excno);
+	}
+
+	@Override
+	public int allExchange(SqlSessionTemplate sqlSession, int excno) {
+		return sqlSession.update("Admin.allExchangeProcess", excno);
 	}
 
 }

@@ -4,11 +4,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.nullLive.member.model.vo.Member;
-import com.kh.nullLive.streamer.model.vo.Streamer;
 import com.kh.nullLive.streaming.model.dao.StreamingDao;
-import com.kh.nullLive.streaming.model.exception.StreamerInsertException;
-import com.kh.nullLive.streaming.model.exception.StreamerUpdateException;
 
 @Service
 public class StreamingServiceImpl implements StreamingService {
@@ -17,29 +13,19 @@ public class StreamingServiceImpl implements StreamingService {
 	private SqlSessionTemplate sqlSession;
 	@Autowired
 	private StreamingDao sd;
-
-	//최초 방송 약관 동의 처리
+	
+	//스트리밍 시작
 	@Override
-	public int streamerChange(Member loginUser, Streamer streamer)
-			throws StreamerUpdateException, StreamerInsertException {
-		int result = 0;
-		result = sd.isStreamerUpdate(sqlSession,loginUser);
-		
-		if(result <= 0) {
-			throw new StreamerUpdateException("업데이트 실패!");
-		}else {
-			result = sd.insertStreamer(sqlSession,loginUser,streamer);
-			if(result <= 0) {
-				throw new StreamerInsertException("스트리머 추가 실패!");
-			}
-		}
-		return result;
+	public void startStreaming(int mno) {
+		int result = sd.startStreaming(sqlSession,mno);
 	}
 
-	//멤버 재로드
+	//스트리밍 종료
 	@Override
-	public Member resetMember(int mno) {
-		return sd.resetMember(sqlSession,mno);
+	public void endStreaming(int mno) {
+		int result = sd.endStreaming(sqlSession,mno);
 	}
+
+	
 	
 }

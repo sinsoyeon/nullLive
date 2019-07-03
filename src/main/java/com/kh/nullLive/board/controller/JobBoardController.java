@@ -238,20 +238,15 @@ public class JobBoardController {
 	public String selectOneJobBoard(HttpServletRequest request,Model model) {
 		int bno = Integer.parseInt(request.getParameter("bno"));
 			
-		HashMap<String,Object> hmap = jbs.selectOneJobBoard(bno);
-		String str = hmap.get("mno")+"";
-		int mno = Integer.parseInt(str);
-		Attachment att = null;
-		try {
-			att = ms.getProfile(mno);
-			System.out.println(att);
-			hmap.put("imgSource", att.getChangeName());
-		}catch (ProfileException e) {
-			//프로필 사진이 없는 경우
-		}
+		HashMap<String,Object> boardMap = jbs.selectOneJobBoard(bno);
+		/*
+		 * String str = hmap.get("mno")+""; int mno = Integer.parseInt(str); Attachment
+		 * att = null; try { att = ms.getProfile(mno); System.out.println(att);
+		 * hmap.put("imgSource", att.getChangeName()); }catch (ProfileException e) {
+		 * //프로필 사진이 없는 경우 }
+		 */
 		
-		
-		model.addAttribute("hmap",hmap);
+		model.addAttribute("boardMap",boardMap);
 		return "board/job/jobMngDetail";
 			
 			
@@ -375,7 +370,7 @@ public class JobBoardController {
 	 */
 	@RequestMapping("jobNoticeList.jbo")
 	public String selectListJobNotice(Model model, PagingVo paging) {
-		ArrayList<Board> lists = jbs.selectJobNoticePaging(paging);
+		ArrayList<HashMap<String,Object>> lists = jbs.selectJobNoticePaging(paging);
 		paging.setTotal(jbs.getJobNoticeListCount());
 		model.addAttribute("list", lists);
         model.addAttribute("pi", paging);
