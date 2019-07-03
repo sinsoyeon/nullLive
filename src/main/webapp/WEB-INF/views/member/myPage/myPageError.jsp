@@ -24,7 +24,7 @@
 </body>
 <script>
 	function error(){
-		alert(${msg});
+		alert('${msg}');
 		location.href="myPage.me";
 	}
 </script>
