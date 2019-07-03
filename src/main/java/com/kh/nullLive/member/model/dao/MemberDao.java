@@ -131,14 +131,14 @@ public interface MemberDao {
 
 	//카카오톡 로그인 정보 불러오기 메소드 (정연)
 	Member selectKakaoMember(SqlSessionTemplate sqlSession, String userId);
-
-	 * @author : uukk
+	
+	 /* @author : uukk
 	 * @date : 2019. 7. 3.
 	 * @comment : 회원 mno로 조회
 	 */
 	Member selectMemberMno(SqlSessionTemplate sqlSession,int mno);
   
-	 * Author : ryan
+	 /* Author : ryan
 	 * Date : 2019. 7. 2.
 	 * Comment : 스트리머 정보 가져오기
 	 */
