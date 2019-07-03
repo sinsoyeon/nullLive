@@ -48,8 +48,8 @@
 				url:"ageChart.sm",
 				type:"post",
 				data:{mno:mno},
-				success:function(){
-					
+				success:function(data){
+					data.ageChartData.myMap.
 				}
 			});
 		
