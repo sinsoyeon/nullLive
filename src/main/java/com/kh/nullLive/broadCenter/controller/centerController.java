@@ -1,5 +1,7 @@
 package com.kh.nullLive.broadCenter.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +27,20 @@ public class centerController {
 	//방송기능설정 페이지로 이동(정연)
 	@RequestMapping("broadSetting.st")
 	public String broadSetting() {
+		
 
 		return "streaming/broadCenter/broadSetting";
 	}
+	
 
 	//스트리머 메인페이지로 이동(정연)
 	@RequestMapping("main.st")
-	public String streamerMain() {
+	public String streamerMain(HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int mno = loginUser.getMno();
+		
+		//System.out.println("엠앤오: " + mno);
+			
 
 		return "streaming/broadCenter/streamerMain";
 	}

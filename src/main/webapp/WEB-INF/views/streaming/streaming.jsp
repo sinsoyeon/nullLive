@@ -77,7 +77,8 @@ video {
       var socket = io("http://127.0.0.1:9011");
       
       //엔터키 입력시
-      $("#msg").keydown(function(key){
+      $("#inputMsg").keydown(function(key){
+
          if(key.keyCode == 13){
             //msg_send 클릭
             msg_send.click();
@@ -111,6 +112,12 @@ video {
             //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
             $('<div></div>').text(msg.name + " : " + msg.message).appendTo("#chat-box");
         });
+     
+      //DB에 저장되어 있는 내용을 가져올 경우
+      socket.on('preload', function(data){
+    	  $('<div></div>').text(data.name + " : " + data.message).appendTo("#chat-box");
+      });
+
    });
    
 </script>
