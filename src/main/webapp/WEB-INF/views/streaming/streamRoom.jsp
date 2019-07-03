@@ -19,6 +19,7 @@
     </div>
 </body>
 <script>
+var mno = ${sessionScope.loginUser.mno};
 function my_init() {
 	easyrtc.setRoomOccupantListener( loggedInListener);
     easyrtc.easyApp("Company_Chat_Line", "self", ["caller"],
@@ -59,5 +60,23 @@ function performCall(easyrtcid) {
       }
   );
 }
+
+$(window).on('beforeunload', function() {
+    var msg = "팝업창을 닫으시겠습니까?";
+    var ua  = navigator.userAgent.toLowerCase();
+    if ((navigator.appName == 'Netscape' && ua.indexOf('trident') != -1) || (ua.indexOf("msie") != -1)){
+        confirm('test1');
+    }else{
+    	$.ajax({
+    		url:"endStreaming.st",
+    		type:"post",
+    		data:{mno,mno},
+    		success:function(data){
+    			console.log("성공 "+data);
+    		}
+    	});
+        return confirm('test2');
+    }
+});
 </script>
 </html>

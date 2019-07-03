@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.streamer.model.vo.Streamer;
 
 @Repository
 public class MemberDaoImpl implements MemberDao {
@@ -34,6 +35,11 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public int updateMember(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.update("Member.updateMember",m);
+	}
+	//스트리머계좌정보 수정
+	@Override
+	public int updateStreamer(SqlSessionTemplate sqlSession, Streamer s) {
+		return sqlSession.update("Streamer.updateStreamerInfo",s);
 	}
 	//비밀번호변경
 	@Override
@@ -111,6 +117,17 @@ public class MemberDaoImpl implements MemberDao {
 	public Member selectKakaoMember(SqlSessionTemplate sqlSession, String userId) {
 		return sqlSession.selectOne("Member.selectKakaoMember", userId);
 	}
+	//스트리머 정보 가져오기
+	@Override
+	public Streamer getStreamerInfo(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("Streamer.getStreamerInfo",mno);
+	}
+	//방송국 개설
+	@Override
+	public int createBroadCenter(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.insert("Member.insertBroadCenter",m);
+	}
+	
 
 
 }

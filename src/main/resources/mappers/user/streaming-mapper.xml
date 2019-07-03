@@ -30,24 +30,29 @@
 		<result property="adult" column="ADULT"/>
 	</resultMap>
 	
-	<!-- isStreamer Update -->
-	<update id="isStreamerUpdate" parameterType="Member">
-		UPDATE MEMBER
-		SET IS_STREAMER='Y'
-		WHERE MNO=#{mno}
-	</update>
 	
-	<!-- insert Streamer -->
-	<insert id="insertStreamer" parameterType="java.util.HashMap">
-		INSERT INTO STREAMER(SNO,MNO,BSTART_DATE,CUMULATIVE_SELECTION,BANK_CODE,ACCOUNT,HOLDER,IS_AUTH)
-		VALUES(SEQ_SNO.NEXTVAL,#{mno},SYSDATE,DEFAULT,#{bank_code},#{account},#{holder},DEFAULT)
-	</insert>
-	
+	<!-- selectMember(reset용) -->
 	<select id="selectMember" resultMap="memberResultSet" parameterType="_int">
 		SELECT *
 		FROM MEMBER
 		WHERE MNO = #{mno}
 		AND M_STATUS = 'Y'
 	</select>
+	
+	<!-- startStreaming(회륜) -->
+	<insert id="startStreaming" parameterType="_int">
+		INSERT INTO BROAD_HIS(BHNO,BH_START_DATE,BH_STATUS,BCNO)
+		VALUES(SEQ_BHNO.NEXTVAL,SYSDATE,DEFAULT,(SELECT BCNO FROM BROAD_CENTER JOIN MEMBER USING(MNO) WHERE MNO=#{mno}))
+	</insert>
+	
+	<!-- endStreaming(회륜) -->
+	<update id="endStreaming" parameterType="_int">
+		UPDATE BROAD_HIS
+		SET BH_END_DATE=SYSDATE,
+		BH_STATUS='N'
+		<!-- COUNT_VIEWERS, COUNT_RECOMMENDATION 미완 -->
+		WHERE BCNO = (SELECT BCNO FROM BROAD_CENTER JOIN MEMBER USING(MNO) WHERE MNO=#{mno})
+		AND BH_STATUS='Y'
+	</update>
 		
 </mapper>

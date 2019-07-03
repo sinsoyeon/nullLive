@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.streamer.model.vo.Streamer;
 
 public interface MemberDao {
 	/**
@@ -40,9 +41,16 @@ public interface MemberDao {
 	 * Author : ryan
 	 * Date : 2019. 6. 21.
 	 * Comment : 개인정보수정
+	 * @param streamer 
 	 */
 	int updateMember(SqlSessionTemplate sqlSession, Member m);
 
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 3.
+	 * Comment : 스트리머인 경우 추가
+	 */
+	int updateStreamer(SqlSessionTemplate sqlSession, Streamer s);
 	/**
 	 * Author : ryan
 	 * Date : 2019. 6. 21.
@@ -123,6 +131,20 @@ public interface MemberDao {
 
 	//카카오톡 로그인 정보 불러오기 메소드 (정연)
 	Member selectKakaoMember(SqlSessionTemplate sqlSession, String userId);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 2.
+	 * Comment : 스트리머 정보 가져오기
+	 */
+	Streamer getStreamerInfo(SqlSessionTemplate sqlSession, int mno);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 3.
+	 * Comment : 회원가입 시 방송국 개설
+	 */
+	int createBroadCenter(SqlSessionTemplate sqlSession, Member m);
 
 
 

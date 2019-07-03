@@ -1,10 +1,27 @@
 package com.kh.nullLive.broadCenter.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import com.kh.nullLive.broadCenter.model.exception.StreamerInsertException;
+import com.kh.nullLive.broadCenter.model.exception.StreamerUpdateException;
+import com.kh.nullLive.broadCenter.model.service.BroadCenterService;
+import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.streamer.model.vo.Streamer;
+
+@SessionAttributes("loginUser")
 @Controller
 public class centerController {
+	
+	@Autowired
+	BroadCenterService bcs;
+	
+	
 	//방송기능설정 페이지로 이동(정연)
 	@RequestMapping("broadSetting.st")
 	public String broadSetting() {
@@ -51,9 +68,31 @@ public class centerController {
 		return "streaming/streamerBoard/reportBlackListBoard";
 	}
 	//스트리머 프로필 수정  페이지로 이동(정연)
-		@RequestMapping("updateProfile.st")
-		public String updateProfile() {
-			return "streaming/broadCenter/updateProfile";
-		}
+	@RequestMapping("updateProfile.st")
+	public String updateProfile() {
+		return "streaming/broadCenter/updateProfile";
+	}
 
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 2.
+	 * Comment : 최초 방송 약관 동의 처리
+	 */
+	@RequestMapping("fStream.st")
+	public String firstStreaming(Model model,HttpSession session, Streamer streamer) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		System.out.println("streamer : "+streamer);
+		try {
+			bcs.streamerChange(loginUser,streamer);
+			model.addAttribute("loginUser",bcs.resetMember(loginUser.getMno()));
+			return "redirect:broadSetting.st";
+		} catch (StreamerUpdateException e) {
+			model.addAttribute("msg",e.getMessage());
+			return "common/errorPage";
+		} catch (StreamerInsertException e) {
+			model.addAttribute("msg",e.getMessage());
+			return "common/errorPage";
+		}
+	}
 }
