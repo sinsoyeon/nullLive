@@ -119,7 +119,11 @@ public class StreamerServiceImpl implements StreamerService{
 		
 		HashMap<String, Object>  myMap = smDao.selectAllFemale(sqlSession, mno);
 		
-		ArrayList<HashMap<String, Object>> returList=null;
+		
+		
+		ArrayList<HashMap<String, Object>> returList= new ArrayList<HashMap<String,Object>>();
+		
+		returList.add(myMap);
 		
 		return returList;
 	}
