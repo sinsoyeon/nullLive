@@ -30,7 +30,8 @@
 	
 	<!-- 회원정보 상세 resultMap -->
 	<resultMap type="UserDetail" id="UserDetailResultSet">
-		<id property="mid" column="MID"/>
+		<id property="mno" column="MNO"/>
+		<result property="mid" column="MID"/>
 		<result property="name" column="NAME"/>
 		<result property="nickName" column="NICK_NAME"/>
 		<result property="enrollDate" column="ENROLL_DATE"/>
@@ -38,6 +39,8 @@
 		<result property="broadAddress" column="broad_address"/>
 		<result property="report" column="REPORT"/>
 		<result property="broCount" column="BROCOUNT"/>
+		<result property="endDay" column="END_DAY"/>
+		<result property="banDay" column="BAN_DAY"/>
 	</resultMap>
 	
 	<!-- 신고 관련 관리자 resultSet  -->
@@ -59,8 +62,6 @@
 		JOIN MEMBER M USING(MNO)
 		ORDER BY 1 DESC
 	</select>
-	
-	
 	
 	<!-- 문의 내역 조회 -->
 	<select id="selectQuestion" resultMap="QuestionResultSet">
@@ -104,7 +105,8 @@
 	
 	<!-- 회원 상세보기 -->
 	<select id="selectUserDetail" resultMap="UserDetailResultSet" parameterType="java.lang.String">
-	SELECT M.MID,M.NAME, M.NICK_NAME, TO_CHAR(M.ENROLL_DATE, 'YYYY/MM/DD') ENROLL_DATE, M.M_STATUS, bc.broad_address, RCOU.REPORT, BCOU.BROCOUNT
+	SELECT M.MNO, M.MID,M.NAME, M.NICK_NAME, TO_CHAR(M.ENROLL_DATE, 'YYYY/MM/DD') ENROLL_DATE, M.M_STATUS, 
+			bc.broad_address, RCOU.REPORT, BCOU.BROCOUNT, TO_NUMBER(BA.BAN_END-BA.BAN_DATE) BAN_DAY, ROUND(TO_NUMBER(BA.BAN_END-SYSDATE)) END_DAY
 	FROM MEMBER M
 	JOIN BROAD_CENTER BC ON(M.MNO = BC.MNO)
 	LEFT JOIN (SELECT MM.MNO ,COUNT(*) REPORT
@@ -116,21 +118,52 @@
 	            JOIN BROAD_HIS BH ON(BRC.BCNO = BH.BCNO)
 	            JOIN MEMBER MMM ON(MMM.MNO = BRC.MNO)
 	            GROUP BY MMM.MID) BCOU ON(M.MID = BCOU.MID)
+    LEFT JOIN BAN BA ON(M.MNO = BA.MNO)
 	WHERE M.MID LIKE #{userId}
 	</select>
 	
 	<!-- 회원 상태 변경 -->
 	<update id="userStatusUpdate" parameterType="com.kh.nullLive.member.model.vo.Member">
-		 UPDATE MEMBER
-		<if test='mstatus eq "N".toString()'>
-		SET M_STATUS = 'N'
-		</if>
-		<if test='mstatus eq "Y".toString()'>
-		SET M_STATUS = 'Y'
-		</if>
-		WHERE MID LIKE #{mid}
+		UPDATE MEMBER
+		<choose>
+			<when test='mstatus eq "N".toString()'>
+				SET M_STATUS = 'N'
+			</when>
+			<when test='mstatus eq "Y".toString()'>
+				SET M_STATUS = 'Y'
+			</when>
+			<otherwise>
+				SET M_STATUS = 'B'
+			</otherwise>
+		</choose>
+		WHERE MNO LIKE #{mno}
 	</update>
-	
+
+<!-- BAN 내역 수정 -->
+<update id="updateBan" parameterType="com.kh.nullLive.member.model.vo.Member">
+	UPDATE BAN
+	SET BA_STATUS = 'N'
+	WHERE MNO = #{mno}
+</update>
+
+<!-- BAN 내역 추가 -->
+<insert id="insertBan" parameterType="com.kh.nullLive.member.model.vo.Member">
+	INSERT INTO BAN 
+	<choose>
+			<when test='mstatus eq "B3".toString()'>
+				VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  SYSDATE + (INTERVAL '30' DAY), DEFAULT, #{mno})
+			</when>
+			<when test='mstatus eq "B6".toString()'>
+				VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  SYSDATE + (INTERVAL '60' DAY), DEFAULT, #{mno})
+			</when>
+			<when test='mstatus eq "B9".toString()'>
+				VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  SYSDATE + (INTERVAL '90' DAY), DEFAULT, #{mno})
+			</when>
+			<otherwise>
+				VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  null, DEFAULT, #{mno})
+			</otherwise>
+		</choose>
+</insert>
 	
 	<!-- 관리자 신고 조회용 -->
     <select id="selectReportList" resultMap="ReportResultSet">
@@ -144,6 +177,7 @@
 		WHERE BTYPE LIKE 'REPORT'
 		ORDER BY 8,7 DESC
     </select>
+    
     <!-- 관리자 신고 디테일 조회 -->
     <select id="selectReportDetail" parameterType="_int" resultMap="ReportResultSet">
     	SELECT B.BTITLE , B.BCONTENT , B.WRITTEN_DATE , B.REPORT_TYPE, B.B_STATUS,  M.MID WRITER  ,MM.MID TARGET 

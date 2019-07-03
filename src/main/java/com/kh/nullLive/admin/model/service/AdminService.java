@@ -3,6 +3,7 @@ package com.kh.nullLive.admin.model.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.kh.nullLive.admin.model.exception.QuestionAnswerException;
 import com.kh.nullLive.admin.model.vo.Exchange;
 import com.kh.nullLive.admin.model.vo.Question;
 import com.kh.nullLive.admin.model.vo.Report;
@@ -31,7 +32,7 @@ public interface AdminService {
 
 	Question questionDetail(Question q);
 
-	int questionAnswer(Question q);
+	int questionAnswer(Question q) throws QuestionAnswerException;
 
 	int exchange(int excno);
 

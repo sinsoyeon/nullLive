@@ -12,6 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDetail {
+	private int mno; // MNO
 	private String mid; // MID
 	private String name; // NAME
 	private String nickName; // NICK_NAME
@@ -20,5 +21,7 @@ public class UserDetail {
 	private String broadAddress; // broad_address
 	private int report; // REPORT
 	private int broCount; // BROCOUNT
+	private int banDay; //BAN_DAY
+	private int endDay; //END_DAY
 
 }

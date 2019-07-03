@@ -21,7 +21,7 @@ tr>th {
 #memberPopup {
 	display: none;
 	width: 500px;
-	height: 320px;
+	height: 340px;
 	border: 1px solid darkgray;
 	background: white;
 	position: fixed;
@@ -75,6 +75,8 @@ td {
 .row.userContent>div:nth-child(1) {
 	top: 35px;
 	height: 170px;
+	padding-left: 0px;
+    padding-right: 15px;
 }
 
 img {
@@ -163,14 +165,17 @@ height: auto; */
 				<tbody>
 				<c:forEach items="${userList}" var="user" varStatus="number">
 					<tr>
-						<td>${ user.mno }
-						</td>
-						<td id='userId'>${user.mid}</td>	
+						<td>${user.mno}</td>
+						<td>${user.mid}</td>	
 						<td>${user.name}</td>	
 						<td>${user.nickName}</td>	
 						<td>${user.isStreamer}</td>	
 						<td>${user.enrollDate}</td>	
-						<td>${user.mstatus}</td>
+						<td>
+						<c:if test="${user.mstatus eq 'Y'}">활동중</c:if>
+						<c:if test="${user.mstatus eq 'N'}">영구정지</c:if>
+						<c:if test="${user.mstatus eq 'B'}">기간정지</c:if>
+						</td>
 					</tr>
 				</c:forEach>
 				</tbody>
@@ -212,12 +217,13 @@ height: auto; */
 	      <input type='hidden' name='listCnt' id='selected' value='${pi.listCnt}'>    
 	</form>
 
-
-<br>
+	<br>
 </body>
 <script>
 var memberId
+var memberNo
 var memberStatus
+var ban
 	$(function() {
 			$('li:eq(1)').addClass('active');
 			$('#menu1').addClass('active in');
@@ -231,17 +237,27 @@ var memberStatus
 		            data: {userId:userId},
 		            success: function(data){
 		            	
-		            	var mid = data.mid
-		            	var name = data.name
-		            	var nickName = data.nickName
-		            	var enrollDate = data.enrollDate
-		            	var broadAddress = data.broadAddress
-		            	var report = data.report
-		            	var broCount = data.broCount
-		            	var mStatus = data.memStatus
+		            	var mno = data.mno;
+		            	var mid = data.mid;
+		            	var name = data.name;
+		            	var nickName = data.nickName;
+		            	var enrollDate = data.enrollDate;
+		            	var broadAddress = data.broadAddress;
+		            	var report = data.report;
+		            	var broCount = data.broCount;
+		            	var mStatus = data.memStatus;
+		            	var endDay = data.endDay;
+		            	var banDay = data.banDay;
 		            	
+		            	memberNo = data.mno;
 		            	memberStatus = data.memStatus;
-		            	
+		            	if(banDay == 30){
+		            		ban ='B3';
+		            	}else if(banDay == 60){
+		            		ban ='B6';	
+		            	}else if(banDay == 90){
+		            		ban ='B9';	
+		            	}
 		            	
 		            	
 		            	$('#userDetailContent').append("<p>"+mid+"</p>");
@@ -252,11 +268,20 @@ var memberStatus
 		            	$('#userDetailContent').append("<p>"+report+"</p>");
 		            	$('#userDetailContent').append("<p>"+broCount+"</p>");
 		            	
+		            	
 		            	if(mStatus == 'Y'){
-		            		$('#userDetailContent').append("<div style='display: inline-block;'><select id='choiceStatus'><option value='Y' selected>활동</option><option value='N'>정지</option></select></div><div style='display: inline-block;'><button onclick='userStatusUpdate()'>적용</button></div>");
-		            	}else{
-							$('#userDetailContent').append("<div style='display: inline-block;'><select id='choiceStatus'><option value='Y' >활동</option><option value='N'selected>정지</option></select></div><div style='display: inline-block;'><button onclick='userStatusUpdate()'>적용</button></div>");
-		            	}
+		            		$('#userDetailContent').append("<div style='display: inline-block;'> <select id='choiceStatus'> <option value='Y' selected>활동중</option> <option value='B3'>30일 정지</option> <option value='B6'>60일 정지</option> <option value='B9'>90일 정지</option> <option value='N'>영구정지</option> </select> </div> <div style='display: inline-block;'> <button onclick='userStatusUpdate()'>적용</button> </div>");
+		            	}else if(banDay == 30){
+							$('#userDetailContent').append("<div style='display: inline-block;'> <p>남은 정지 : "+endDay+"일</p> </div> <div style='display: inline-block;'> <select id='choiceStatus'> <option value='Y'>활동중</option> <option value='B3' selected>30일 정지</option> <option value='B6'>60일 정지</option> <option value='B9'>90일 정지</option> <option value='N'>영구정지</option> </select> </div> <div style='display: inline-block;'> <button onclick='userStatusUpdate()'>적용</button> </div>");
+            		    }else if(banDay == 60){
+            		      	$('#userDetailContent').append("<div style='display: inline-block;'> <p>남은 정지 : "+endDay+"일</p> </div> <div style='display: inline-block;'> <select id='choiceStatus'> <option value='Y'>활동중</option> <option value='B3'>30일 정지</option> <option value='B6' selected>60일 정지</option> <option value='B9'>90일 정지</option> <option value='N'>영구정지</option> </select> </div> <div style='display: inline-block;'> <button onclick='userStatusUpdate()'>적용</button> </div>");
+            		    }else if(banDay == 90){
+            		       	$('#userDetailContent').append("<div style='display: inline-block;'> <p>남은 정지 : "+endDay+"일</p> </div> <div style='display: inline-block;'> <select id='choiceStatus'> <option value='Y'>활동중</option> <option value='B3'>30일 정지</option> <option value='B6'>60일 정지</option> <option value='B9' selected>90일 정지</option> <option value='N'>영구정지</option> </select> </div> <div style='display: inline-block;'> <button onclick='userStatusUpdate()'>적용</button> </div>");
+            		    }else if(mStatus == 'N'){
+            		    	$('#userDetailContent').append("<div> <p>영구 정지</p> </div> <div style='display: inline-block;'> <select id='choiceStatus'> <option value='Y'>활동중</option> <option value='B3'>30일 정지</option> <option value='B6'>60일 정지</option> <option value='B9'>90일 정지</option> <option value='N' selected>영구정지</option> </select> </div> <div style='display: inline-block;'> <button onclick='userStatusUpdate()'>적용</button> </div>");
+            		    }
+	            		
+		            	$('#userDetailContent').append("<p style='visibility: hidden;'>"+mno+"</p>");
 		            	
 		            },
 		            error: function(){
@@ -277,25 +302,23 @@ var memberStatus
 				$('#memberPopupBack').css("display","none");
 				$('#userDetailContent').children().remove();
 			});
-			
 	})
 	
 	function userStatusUpdate() {
-	
-	
 	var choiceStatus = $("#choiceStatus").val();
-		if (memberStatus == choiceStatus) {
+	
+		if (memberStatus == choiceStatus || ban == choiceStatus) {
 			alert("현재 상태입니다.");
 		} else {
 			var select = confirm("정말로 계정상태를 변경하시겠습니까? 확인을 누르시면 변경됩니다. ");
 			if (select) {
-				location.href = 'userStatusUpdate.ad?memberId=' + memberId + '&choiceStatus=' + choiceStatus
+				location.href = 'userStatusUpdate.ad?mno=' + memberNo + '&choiceStatus=' + choiceStatus
 				alert("변경되었습니다.");
 			} else {
 				alert("취소되었습니다.");
 			}
 		}
-
-	}
+};
+	
 </script>
 </html>

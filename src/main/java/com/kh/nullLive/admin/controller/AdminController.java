@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.kh.nullLive.admin.model.exception.QuestionAnswerException;
 import com.kh.nullLive.admin.model.service.AdminService;
 import com.kh.nullLive.admin.model.vo.Exchange;
 import com.kh.nullLive.admin.model.vo.Question;
@@ -83,11 +84,12 @@ public class AdminController {
 	 * @date : 2019. 6. 27.
 	 * @comment :계정 활동 및 정지
 	 */
+	
 	@RequestMapping("userStatusUpdate.ad")
-	public String userStatusUpdate(Model model, String memberId, String choiceStatus) {
+	public String userStatusUpdate(Model model, int mno, String choiceStatus) {
 		
 		Member m = new Member();
-		m.setMid(memberId);
+		m.setMno(mno);
 		m.setMstatus(choiceStatus);
 		int result = as.userStatusUpdate(m);
 
@@ -273,16 +275,16 @@ public class AdminController {
 		q.setBContent(bContent);
 		q.setQustionType(qustionType);
 		q.setBno(bno);
-		int result = as.questionAnswer(q);
-		if(result > 0 ) {
+		
+		int result;
+		try {
+			result = as.questionAnswer(q);
 			int bStatus = 3;
 			model.addAttribute("bno", bno);
 			model.addAttribute("bStatus", bStatus);
-			return "redirect:questionDetail.ad";
-		}else {
-			String msg = "실패...";
-			model.addAttribute("msg", msg);
-			return "common/errorPage";
+		} catch (QuestionAnswerException e) {
+			model.addAttribute("msg", e.getMessage());
 		}
+		return "redirect:questionDetail.ad";
 	}
 }
