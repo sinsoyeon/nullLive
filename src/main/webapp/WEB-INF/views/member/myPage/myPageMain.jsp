@@ -80,7 +80,7 @@
 		}
 		
 		function startStreaming(){
-			var pwdWin = window.open('startStreaming.st','new','width=1024,height=7680,menubar=no, status=no, toolbar=no');
+			var pwdWin = window.open('startStreaming.st','new','width=1024,height=768,menubar=no, status=no, toolbar=no');
 		}
 	</script>
 </body>
