@@ -30,6 +30,8 @@ import com.kh.nullLive.member.model.exception.ProfileException;
 import com.kh.nullLive.member.model.exception.UpdateMemberException;
 import com.kh.nullLive.member.model.service.MemberService;
 import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.streamer.model.exception.SelectStreamerException;
+import com.kh.nullLive.streamer.model.vo.Streamer;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -72,7 +74,7 @@ public class MemberController {
 			return "redirect:"+session.getAttribute("redirectUrl");
 		} catch (LoginException e) {
 			model.addAttribute("msg", e.getMessage());
-			return "common/errorPage";
+			return "main/mainError";
 		}
 	}
 	
@@ -112,6 +114,7 @@ public class MemberController {
 			ms.insertMember(m);
 			m.setMno(ms.getMno());
 			ms.insertProImage(m);
+			ms.createBroadCenter(m);
 			return "redirect:index.jsp";
 		} catch (InsertMemberException e) {
 			model.addAttribute("msg", e.getMessage());
@@ -148,28 +151,39 @@ public class MemberController {
 	
 	/**
 	 * Author : ryan
-	 * Date : 2019. 6. 21.
-	 * Comment : 개인정보수정 페이지 이동
+	 * Date : 2019. 6. 21. / 7. 2.
+	 * Comment : 개인정보수정 페이지 이동 / 스트리머인 경우 추가
 	 */
 	@RequestMapping("updatePage.me")
-	public String updatePage() {
+	public String updatePage(HttpSession session, Model model) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		if(loginUser.getIsStreamer().equals("Y")) {
+			try {
+				Streamer streamer = ms.getStreamerInfo(loginUser.getMno());
+				model.addAttribute("streamer",streamer);
+				return "member/myPage/myPageModify";
+			} catch (SelectStreamerException e) {
+				model.addAttribute("msg",e.getMessage());
+				return "common/errorPage";
+			}
+		}
 		return "member/myPage/myPageModify";
 	}
 	
 	/**
 	 * Author : ryan
-	 * Date : 2019. 6. 21.
-	 * Comment : 개인정보수정
+	 * Date : 2019. 6. 21. / 7. 2.
+	 * Comment : 개인정보수정 / 스트리머인 경우 추가
 	 */
 	@RequestMapping("update.me")
-	public String updateMember(Model model, SessionStatus status, Member m) {
+	public String updateMember(Model model, SessionStatus status, Member m, Streamer streamer) {
 		try {
-			Member loginUser = ms.updateMember(m);
+			Member loginUser = ms.updateMember(m,streamer);
 			model.addAttribute("loginUser", loginUser);
 			return "member/myPage/myPageModifySuccess";
 		} catch (UpdateMemberException e) {
 			model.addAttribute("msg", e.getMessage());
-			return "common/errorPage";
+			return "member/myPage/myPageError";
 		}
 	}
 	

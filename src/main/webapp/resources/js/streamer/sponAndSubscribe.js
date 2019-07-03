@@ -7,107 +7,132 @@ $(function() {
 	$("#sponTableArea").hide();
 	$("#searchArea").hide();
 	$("#myExcTableArea").hide();
+	$("#checkId").text('');
 });
 
 $("#streamerBtn").click(function() {
 	streamer = $("#streamerId").val();
-	$.ajax({
-		url : "selectStreamer.sm",
-		type : "post",
-		data : {streamer : streamer},
-		success : function(data) {
-			console.log('ajax실행');
-			console.log("data : " + data);
-			sno = data;
+	
+	if(streamer==$("#mid").val()){
+		$("#checkId").text('본인은 구독할 수 없습니다.');
+	}else{
+		
+		$.ajax({
+			url : "selectStreamer.sm",
+			type : "post",
+			data : {streamer : streamer},
+			success : function(data) {
+				console.log('ajax실행');
+				console.log("data : " + data);
+				sno = data.streamerInfo.SNO;
 
-			if (sno == null) {
-				alert('검색정보가 없습니다.');
-			} else {
-				alert(sno);
+				if (sno == null) {
+					$("#checkId").text('조회된 정보가 없습니다.');
+				} else {
+					$("#checkId").text(data.streamerInfo.NICK_NAME+'('+ data.streamerInfo.MID +')');
+				}
 			}
-		}
-	});
-
-	$("#logModal").modal("hide");
+		});
+	}
+	
 	console.log(streamer);
 });
-	
+
+$("#checkId").click(function(){
+	if(sno!=null)
+	$("#logModal").modal("hide");
+	console.log("mno :  " + $("#mno").val() + " , sno : " + sno);
+});
+
 	$("button[id=btnAmount]").click(function() {
+		if(sno==null){
+			alert('스트리머를 선택해주세요.');
+			$("#logModal").modal("show");
+		}else{
 				var amount = $(this).val();
 				var mno =$("#mno").val();
 				var IMP = window.IMP; // 생략가능
 				IMP.init('imp08034800'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
 
-				if (amount == 3300) {
-					IMP.request_pay({
-						pay_method : 'phone', // 'phone'만 지원됩니다.
-						merchant_uid : 'merchant_'
-							+ new Date().getTime(),
-							name : '최초인증결제',
-							amount : 10,
-							customer_uid : 'gildong_0001_1234',
-							buyer_email : 'iamport@siot.do',
-							buyer_name : '아임포트',
-							buyer_tel : '02-1234-1234'
-					}, function(rsp) {
-						if (rsp.success) {
-							$.ajax({
-								url : "subscribe.sm", // 서비스 웹서버
-								method : "POST",
-								data : {
-									amount : amount,
-									mno : mno,
-									sno : sno
-								},
-								success : function(data) {
-									alert('ajax접속 성공!')
-								}
-							});
-						} else {
-							alert(rsp.error_msg);
-						}
-					});
-
-				} else {
-					IMP.request_pay({
-						pg : 'inicis', // version 1.1.0부터 지원.
-						pay_method : 'card',
-						merchant_uid : 'merchant_'
-							+ new Date()
-					.getTime(),
-					name : '주문명:결제테스트',
-					amount : amount,
-					buyer_email : 'iamport@siot.do',
-					buyer_name : '구매자이름',
-					buyer_tel : '010-1234-5678',
-					buyer_addr : '서울특별시 강남구 삼성동',
-					buyer_postcode : '123-456',
-					m_redirect_url : 'https://www.yourdomain.com/payments/complete'
-					},
-					function(rsp) {
-						if (rsp.success) {
-							var msg = '결제가 완료되었습니다.';
-							$.ajax({
-								url : "monthlySubscribe.sm", // 서비스 웹서버
-								method : "POST",
-								data : {
-									amount : amount,
-									mno : mno,
-									sno : sno
-								},
-								success : function(
-										data) {
-									alert('ajax접속 성공!');
-								}
-							});
-						} else {
-							var msg = '결제에 실패하였습니다.';
-							msg += '에러내용 : '
-								+ rsp.error_msg;
-						}
-						alert(msg);
-					});
-				}
+					if (amount == 3300) {
+						IMP.request_pay({
+							pay_method : 'phone', // 'phone'만 지원됩니다.
+							merchant_uid : 'merchant_'
+								+ new Date().getTime(),
+								name : '최초인증결제',
+								amount : 10,
+								customer_uid : 'gildong_0001_1234',
+								buyer_email : 'iamport@siot.do',
+								buyer_name : '아임포트',
+								buyer_tel : '02-1234-1234'
+						}, function(rsp) {
+							if (rsp.success) {
+								$.ajax({
+									url : "subscribe.sm", // 서비스 웹서버
+									method : "POST",
+									data : {
+										amount : amount,
+										mno : mno,
+										sno : sno
+									},
+									success : function(data) {				
+										if(data=='success'){
+											alert('성공적으로 구독하였습니다!');
+										}
+									}
+								});
+							} else {
+								alert(rsp.error_msg);
+							}
+						});
+						
+					} 
+					//장기 구독자
+					else {
+						IMP.request_pay({
+							pg : 'inicis', // version 1.1.0부터 지원.
+							pay_method : 'card',
+							merchant_uid : 'merchant_'
+								+ new Date()
+						.getTime(),
+						name : '주문명:결제테스트',
+						amount : amount,
+						buyer_email : 'iamport@siot.do',
+						buyer_name : '구매자이름',
+						buyer_tel : '010-1234-5678',
+						buyer_addr : '서울특별시 강남구 삼성동',
+						buyer_postcode : '123-456',
+						m_redirect_url : 'https://www.yourdomain.com/payments/complete'
+						},
+						function(rsp) {
+							if (rsp.success) {
+								var msg = '결제가 완료되었습니다.';
+								$.ajax({
+									url : "monthlySubscribe.sm", // 서비스 웹서버
+									method : "POST",
+									data : {
+										amount : amount,
+										mno : mno,
+										sno : sno
+									},
+									success : function(
+											data) {
+										if(data=='success'){
+											alert('성공적으로 구독하였습니다.');
+										}else{
+											alert('구독 실패!');
+										}
+									}
+								});
+							} else {
+								var msg = '결제에 실패하였습니다.';
+								msg += '에러내용 : '
+									+ rsp.error_msg;
+							}
+							alert(msg);
+						});
+					}
+	}
 			});
 
 

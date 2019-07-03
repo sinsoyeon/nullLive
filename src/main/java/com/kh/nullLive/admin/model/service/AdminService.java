@@ -1,6 +1,7 @@
 package com.kh.nullLive.admin.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.kh.nullLive.admin.model.vo.Exchange;
 import com.kh.nullLive.admin.model.vo.Question;
@@ -34,7 +35,6 @@ public interface AdminService {
 
 	int exchange(int excno);
 
-
-
+	int allExchange(List<String> allExcList);
 
 }

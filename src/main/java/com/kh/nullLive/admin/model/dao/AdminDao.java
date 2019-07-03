@@ -38,6 +38,8 @@ public interface AdminDao {
 
 	int exchange(SqlSessionTemplate sqlSession, int excno);
 
+	int allExchange(SqlSessionTemplate sqlSession, int integer);
+
 
 
 

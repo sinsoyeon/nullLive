@@ -20,7 +20,8 @@
 	<div align="left">
 		<button data-toggle="modal" data-target="#logModal"
 			style="width: 150px; height: 150px; background: pink; color: white;">결제테스트</button>
-		<button onclick="location.href='subscribeView.me'"style="width: 150px; height: 150px; background: blue; color: white;">정기결제 폼</button>			
+		<button onclick="location.href='subscribeView.me'"style="width: 150px; height: 150px; background: blue; color: white;">정기결제 폼</button>	
+		<button onclick="location.href='chartView.sm?'"style="width: 150px; height: 150px; background: blue; color: white;">스트리머 통계 폼</button>					
 	</div>
 
 	<div id="logModal" class="modal fade" role="dialog" style="z-index:99999; important">
@@ -38,7 +39,7 @@
 						<p align="center"><i class="fa fa-heart" style="font-size:48px;color:#ed7679"></i>빠숑님에게 별풍선 선물하기</p>
 					</div>
 				
-					<p id="selectNull">보유 중인 NULL POINT : 50000 NULL</p>
+					<p id="selectNull">보유 중인 NULL POINT : ${loginUser.point }</p>
 					<table id="nullArea">
 						<tr>
 							<td><input type="radio" name="money" value="1000" id="moneyRadio1">
@@ -86,6 +87,11 @@
 
 
 	<script>
+		$(function(){
+			var IMP = window.IMP; // 생략가능
+			IMP.init('imp08034800'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+		});
+	
 		$("input:radio[name=money]").click(function(){			
 			console.log($(this).val());
 			$("#inputMoney").val("");
@@ -96,70 +102,61 @@
 		
 		function payment(){
 			var requestMsg = $("#requestMsg").val();
-			$(function(){
-				var amount = $("#inputMoney").val();
-				var IMP = window.IMP; // 생략가능
-				IMP.init('imp08034800'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
-				/*
-				//나중에 구현할 null Point 판별 부분
-				if(money > $("#money").val()){				
-				}
-				*/
-				
-				IMP.request_pay({
-					
-				    pg : 'inicis', // version 1.1.0부터 지원.
-				    pay_method : 'card',
-				    merchant_uid : 'merchant_' + new Date().getTime(),
-				    name : '주문명:결제테스트',
-				    amount :10 /*amount*/,
-				    buyer_email : 'iamport@siot.do',
-				    buyer_name : '구매자이름',
-				    buyer_tel : '010-1234-5678',
-				    buyer_addr : '서울특별시 강남구 삼성동',
-				    buyer_postcode : '123-456'
-				 
-				}, function(rsp) {
-				    if ( rsp.success ) {
-				        var msg = '결제가 완료되었습니다.';
-				        msg += '고유ID : ' + rsp.imp_uid;
-				        msg += '상점 거래ID : ' + rsp.merchant_uid;
-				        msg += '결제 금액 : ' + rsp.paid_amount;
-				        msg += '카드 승인번호 : ' + rsp.apply_num;
-				   /*    	$.ajax({ */
-					   		/* url:"tts.me", */
-					   	/* 	type:"post",
-					   		data:{requestMsg:requestMsg}, */
-					   	/* 	success:function(data){
-					   			alert('test'); */
-					   			insertNP(5000);
-					   		//}				   		
-					 /*   	}) */
-				    } else {
-				        var msg = '결제에 실패하였습니다.';
-				        msg += '에러내용 : ' + rsp.error_msg;
-				    }
-				    alert(msg);
-				});
-			})
+			var amount = $("#inputMoney").val();
 			
+	
+			if(${loginUser.point} > amount){		
+				insertNP(amount);
+			}else{
+				importService(amount);
+			}
 	     }
 		
-		function insertNP(np){
+		function insertNP(amount){
 			$.ajax({
 				url:"insertNP.sm",
 				type:"post",
 				data:{
 					mno:${loginUser.mno},
 					sno:4,
-					amount:5000
+					amount:amount
 				},
 				success:function(data){
 					alert('후원 완료!');
-					$('#logModal').hide();
+					$('#logModal').modal('hide');
 				}
 				
-			})
+			});
+		}
+		
+		function importService(amount){		
+			IMP.request_pay({
+				
+			    pg : 'inicis', // version 1.1.0부터 지원.
+			    pay_method : 'card',
+			    merchant_uid : 'merchant_' + new Date().getTime(),
+			    name : 'nullLive point 충전',
+			    amount :10 /*amount*/,
+			    buyer_email : '${loginUser.email}',
+			    buyer_name : '${loginUser.name}',
+			    buyer_tel : '010-1234-5678',
+			    buyer_addr : '서울특별시 강남구 테헤란로',
+			    buyer_postcode : '123-456'
+			 
+			}, function(rsp) {
+			    if ( rsp.success ) {
+			        var msg = '결제가 완료되었습니다.';
+			        msg += '고유ID : ' + rsp.imp_uid;
+			        msg += '상점 거래ID : ' + rsp.merchant_uid;
+			        msg += '결제 금액 : ' + rsp.paid_amount;
+			        msg += '카드 승인번호 : ' + rsp.apply_num;
+			        insertNP(amount);
+			    } else {
+			        var msg = '결제에 실패하였습니다.';
+			        msg += '에러내용 : ' + rsp.error_msg;
+			    }
+			    alert(msg);
+			});
 		}
 		
 		</script>

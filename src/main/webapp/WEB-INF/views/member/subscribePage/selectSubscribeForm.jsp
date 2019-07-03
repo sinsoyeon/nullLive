@@ -202,9 +202,15 @@ div {
 				<div class="modal-body">
 					<div id="bodyArea" align="center">
 						<h4>스트리머 아이디를 입력하세요!</h4>
-						<br /> <input type="hidden" id="sno" /> <label for="">아이디</label>
+						<br /> <input type="hidden" id="sno" /> 
+						<input type="hidden" id="mid" value="${loginUser.mid }" />
+						<label for="">아이디</label>
 						&nbsp;&nbsp;&nbsp; <input type="text" id="streamerId" />&nbsp;&nbsp;&nbsp;
 						<button id="streamerBtn">선택</button>
+						
+						<div>
+							<p id="checkId"></p>
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">

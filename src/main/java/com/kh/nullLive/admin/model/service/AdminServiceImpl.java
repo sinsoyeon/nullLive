@@ -1,6 +1,7 @@
 package com.kh.nullLive.admin.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,11 +95,37 @@ public class AdminServiceImpl implements AdminService {
 		return result;
 	}
 
+	
+	//소연 : 인효오빠꺼 이어받아서 환전처리
 	@Override
 	public int exchange(int excno) {
-		int result = ad.exchange(sqlSession, excno);
+		return ad.exchange(sqlSession, excno);
+	}
+
+	//소연 : 다중환전
+	@Override
+	public int allExchange(List<String> allExcList) {
+		int result = 0;
+		int temp = 0;
+		
+		for(int i=0;i<allExcList.size();i++) {
+			temp += ad.allExchange(sqlSession,Integer.parseInt(allExcList.get(i)));
+		}
+		
+		System.out.println("allExcList size : " + allExcList.size());
+		System.out.println("result : " + temp);
+		
+		if(temp == allExcList.size()) {
+			result = 1;
+		}
+		
+		System.out.println("returnResult : " + result);
+		
 		return result;
 	}
+
+	
+
 
 
 

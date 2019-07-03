@@ -6,15 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.vo.Streamer;
-import com.kh.nullLive.streaming.model.exception.StreamerInsertException;
-import com.kh.nullLive.streaming.model.exception.StreamerUpdateException;
 import com.kh.nullLive.streaming.model.service.StreamingService;
 
-@SessionAttributes("loginUser")
 @Controller
 public class StreamingController {
 	
@@ -32,33 +29,12 @@ public class StreamingController {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String isStreamer = loginUser.getIsStreamer();
 		if(isStreamer.equals("Y")) {
-			return "streaming/streaming";		
+			return "redirect:broadSetting.st";
 		}else {
 			return "member/myPage/firstStreaming";
 		}
 	}
 	
-	/**
-	 * Author : ryan
-	 * Date : 2019. 7. 2.
-	 * Comment : 최초 방송 약관 동의 처리
-	 */
-	@RequestMapping("fStream.st")
-	public String firstStreaming(Model model,HttpSession session, Streamer streamer) {
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		System.out.println("streamer : "+streamer);
-		try {
-			ss.streamerChange(loginUser,streamer);
-			model.addAttribute("loginUser",ss.resetMember(loginUser.getMno()));
-			return "streaming/broadCenter/broadSetting";
-		} catch (StreamerUpdateException e) {
-			model.addAttribute("msg",e.getMessage());
-			return "common/errorPage";
-		} catch (StreamerInsertException e) {
-			model.addAttribute("msg",e.getMessage());
-			return "common/errorPage";
-		}
-	}
 
 	@RequestMapping("record.st")
 	public String recordStraming() {
@@ -80,4 +56,28 @@ public class StreamingController {
 		return "streaming/streaming";
 	}
 
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 3.
+	 * Comment : 스트리밍 시작
+	 */
+	@RequestMapping("startStreaming.st")
+	public String startStreaming(Model model,HttpSession session) {
+		int mno = ((Member)session.getAttribute("loginUser")).getMno();
+		ss.startStreaming(mno);
+		return "streaming/streaming";
+	}
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 3.
+	 * Comment : 스트리밍 종료
+	 */
+	@RequestMapping("endStreaming.st")
+	public String endStreaming(@RequestParam(name="mno")int mno) {
+		ss.endStreaming(mno);
+		
+		return "streaming/endStreaming";
+	}
+	
 }
