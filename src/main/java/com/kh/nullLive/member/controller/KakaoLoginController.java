@@ -57,10 +57,11 @@ public class KakaoLoginController {
 			loginUser = ms.kakaologinMember(userId);
 			model.addAttribute("loginUser", loginUser);
 			System.out.println("컨트롤러 loginUser: " + loginUser);
-			
+
 			/* return "redirect:"+session.getAttribute("redirectUrl"); */
 			return "redirect:index.jsp";
-			
+			System.out.println(session.getAttribute("redirectUrl"));
+		
 		} catch (LoginException e) {
 			model.addAttribute("msg", e.getMessage());
 			return "common/errorPage";

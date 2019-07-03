@@ -81,7 +81,7 @@
 					이미지가 없습니다.
 					</div>
 				</c:if>
-				<label><c:out value="${ hmap.nickName }"/></label><br>
+				<label><c:out value="${ member.nickName }"/></label><br>
 				<label><i class="fas fa-ban"></i></label> &nbsp;
 				<label><i class="far fa-envelope"></i></label>
 				
@@ -140,21 +140,29 @@
 		<div class="writerInfoArea col-lg-9">
 			<div>게시자 정보</div>
 			<c:if test="${ jBoard.JBtype eq '구인' }">
-				<div><b>방송시작일:<c:out value="${ streamer.bstart_date }"/></b></div>
+				<div><b>방송시작일 :<c:out value="${ streamer.bstart_date }"/></b></div>
+				<div><b>구독자수 :<c:out value="${ boardMap.suCount }"/></b></div>
+				<div><b>누적추천수 :<c:out value="${ streamer.cumulative_selection }"/></b></div>
 			</c:if>
 		</div>
 		<button class="btn btn-info btn-xs">상세정보</button>
 		<!-- 버튼영역  -->
 		<div class="btnArea col-lg-12 col-md-12 col-xs-12" align="center">
 			<br><br>
-			<button class="btn btn-success btn-sm">지원하기</button>
+			<%-- 로그인된 유저이거나 작성자가 아닌경우 지원하기 버튼을 보여줌 --%>
+			<c:if test="${ !empty loginUser && loginUser.mno ne member.mno }">
+				<button class="btn btn-success btn-sm">지원하기</button>
+			</c:if>
+			<%-- 작성자인 경우 수정하기 버튼 활성화 --%>
+			<c:if test="${ loginUser.mno eq member.mno  }">
+				<button class="btn btn-primary btn-sm">수정하기</button>
+			</c:if>
 			<button class="btn btn-primary btn-sm">목록으로</button>
-			<button class="btn btn-primary btn-sm">수정하기</button>
 			<br><br>
 		</div>
 		<!-- 게시글  -->
 		<div class="contentArea col-lg-12">
-			<c:out value="${ hmap.bContent }" escapeXml="false"/>
+			<c:out value="${ board.BContent }" escapeXml="false"/>
 		</div>
 		<!-- 첨부파일 영역 -->
 		<div class="attArea">
@@ -163,37 +171,44 @@
 		<!-- 지원하기 버튼 -->
 		<div class="btnArea col-lg-12" align="center">
 		<br><br>
+		
+		<%-- 로그인된 유저이거나 작성자가 아닌경우 지원하기 버튼을 보여줌 --%>
+		<c:if test="${ !empty loginUser && loginUser.mno ne member.mno}">
 			<button class="btn btn-success btn-lg">지원하기</button>
+		</c:if>
 		</div>
-	
+		
 		<br><br><br><br><br><br>
 		<hr>
 		<br><br><br><br>
-		<!-- 지원 현황 영영 -->
-		<div>
+		<%-- 작성자인 경우에만 보여줌 --%>
+			
+		<!-- 지원 현황 영역 -->
+		<c:if test="${ loginUser.mno eq member.mno }">
 			<div>
-				<h4><b>지원현황</b></h4>
-				<hr>
+				<div>
+					<h4><b>지원현황</b></h4>
+					<hr>
+				</div>
+				
+				<!-- 지원 현황 테이블 -->
+				
+				<table align="center" class="col-lg-12">
+					<tr>
+						<th>ID</th>
+						<th>일자</th>
+						<th>지원서보기</th>
+						<th>승낙하기</th>
+					</tr>
+					<tr>
+						<td>bj인효</td>
+						<td>2019-06-04</td>
+						<td>지원서</td>
+						<td>승낙하기</td>
+					</tr>
+				</table>
 			</div>
-			
-			<!-- 지원 현황 테이블 -->
-			<table align="center" class="col-lg-12">
-				<tr>
-					<th>ID</th>
-					<th>일자</th>
-					<th>지원서보기</th>
-					<th>승낙하기</th>
-				</tr>
-				<tr>
-					<td>bj인효</td>
-					<td>2019-06-04</td>
-					<td>지원서</td>
-					<td>승낙하기</td>
-				</tr>
-			</table>
-			
-		</div>
-		
+		</c:if>
 		<br><br><br><br>
 	</div>
 </body>

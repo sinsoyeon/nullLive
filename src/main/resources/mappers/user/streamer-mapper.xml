@@ -44,7 +44,7 @@
 	<!-- 나를 구독한 사람 조회(소연) => 시간나면 구독 시작일 보여주기 -->
 	<select id="selectForMeSub" parameterType="_int"
 		resultType="java.util.HashMap">
-		select SUNO,m.NICK_NAME,MSG
+		select SUNO,m.NICK_NAME,MESSAGE
 		from member st,member m,streamer
 		s,subscription_his h
 		where st.mno = s.mno
@@ -120,6 +120,12 @@
 		FROM MEMBER,CHARGE
 		WHERE MEMBER.MNO = CHARGE.MNO
 		AND MEMBER.MNO=#{mno}
+	</select>
+	
+	<select id="womonUnder10">
+		SELECT 
+		FROM MEMBER
+		WHERE 
 	</select>
 	
 	<!-- 장기 구독자 추가(소연) -->

@@ -140,17 +140,17 @@ public class AdminServiceImpl implements AdminService {
 	 * @comment :문의 답변달기
 	 */
 	@Override
-	public int questionAnswer(Question q) throws QuestionAnswerException {
-	int result = 0;
-	int result1 = ad.updateQuestion(sqlSession,q);
-	int result2 = ad.insetAnswer(sqlSession,q);
-	
-	if (result1 > 0 && result2 > 0) {
-		result = 1;
-		}else {
+	public void questionAnswer(Question q) throws QuestionAnswerException {
+		int result = 0;
+		result = ad.insetAnswer(sqlSession,q);
+		if (result <= 0) {
 			throw new QuestionAnswerException("답변 전송 실패");
+		}else {
+			result += ad.updateQuestion(sqlSession,q);
+			if (result <= 1) {
+				throw new QuestionAnswerException("문의글 상태변경 실패");
+			}
 		}
-		return result;
 	}
 
 	

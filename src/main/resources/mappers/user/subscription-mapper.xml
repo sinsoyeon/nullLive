@@ -6,14 +6,13 @@
 
 <mapper namespace="Subscription">
 
-	<resultMap type="Subscription" id="subscriptionResultSet">
-		
-	</resultMap>
 	
 	<select id="getSubscriptionCount" resultType="_int" parameterType="_int">
 		SELECT COUNT(*) 
 		FROM SUBSCRIPTION_HIS
-		WHERE SNO = #{sno}
-		AND SU_STAUS = 'Y'
-	</select>
+        WHERE SNO = 1
+        AND SU_STATUS ='Y'
+<!-- 		WHERE SNO = 2
+		AND SU_STATUS = 'Y'
+ -->	</select>
 </mapper>
