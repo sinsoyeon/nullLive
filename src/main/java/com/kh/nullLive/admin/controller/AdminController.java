@@ -216,14 +216,14 @@ public class AdminController {
 	// 다중 정산
 
 	// 단일 정산
-	@RequestMapping("exchange.ad")
-	public String adminExchange(Model model ,int excno) {
-		
-		int result = as.exchange(excno);
-		
-		return "admin/exchange";
-	}
-
+	/* 맵핑 에러나서 주석 처리 (소연)
+	 * @RequestMapping("exchange.ad") public String adminExchange(Model model ,int
+	 * excno) {
+	 * 
+	 * int result = as.exchange(excno);
+	 * 
+	 * return "admin/exchange"; }
+	 */
 	// ----------------------------------- 고객센터
 
 	/**

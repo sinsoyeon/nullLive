@@ -24,33 +24,44 @@ public class StreamerController {
 	private StreamerService smService;
 	
 	@RequestMapping("selectStreamer.sm")
-	@ResponseBody
-	public String selectStreamer(String streamer) {
+	public ModelAndView selectStreamer(String streamer,ModelAndView modelAndView) {
 		System.out.println(streamer);
-		int sno = smService.selectStreamer(streamer);
-		System.out.println("sno : " + sno);
+		//int sno = smService.selectStreamer(streamer);
 		
-		return sno + "";
+		HashMap<String, Object> streamerInfo = smService.selectStreamer(streamer);
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("streamerInfo",streamerInfo);
+		
+		return modelAndView;
 	}	
 	
 	@RequestMapping("subscribe.sm")
+	@ResponseBody
 	public String insertSubscribe(Streamer stremaer) {
 		int result = smService.insertSubscribe(stremaer);
 		
 		if(result > 0) {
-			return "성공적으로 구독하였습니다.";			
+			return "success";			
 		}else {
-			return "구독에 실패했습니다.";
+			return "fail";
 		}
 	}
 	
 	@RequestMapping("monthlySubscribe.sm")
+	@ResponseBody
 	public String insertMonthlySubscribe(Streamer streamer,@RequestParam("amount")int amount) {
 		
 		System.out.println("amount : " + amount);
 		int result = smService.insertMnthlSbscr(streamer,amount);
 	
-		return "redirect:index.jsp";
+		if(result > 0) {
+			return "success";
+			
+		}else {
+			return "fail";
+		}
+		
 	}
 	
 	@RequestMapping("insertNP.sm")
@@ -213,4 +224,44 @@ public class StreamerController {
 		
 		return modelAndView;
 	}
+	
+	@RequestMapping("cancelExc.sm")
+	@ResponseBody
+	public String cancelExchange(int mno,int excno) {
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("mno", mno);
+		infoMap.put("excno",excno);
+		
+		int result = smService.cancelExchange(infoMap);
+
+		return "해당 내역을 삭제했습니다.";
+	}
+	
+	@RequestMapping("selectChargeList.sm")
+	public ModelAndView selectChargeList(ModelAndView modelAndview,int mno) {
+		
+		ArrayList<HashMap<String, Object>> chargeList = smService.selectChargeList(mno);
+		
+		modelAndview.setViewName("jsonView");
+		modelAndview.addObject("chargeList", chargeList);
+		
+		return modelAndview;
+	}
+	
+	@RequestMapping("chartView.sm")
+	public String chartView() {
+		return "streaming/streamer/streamerChartForm";
+	}
+	
+	@RequestMapping("ageChart.sm")
+	public ModelAndView ageChart(int mno,ModelAndView modelAndView) {
+		
+		ArrayList<HashMap<String, Object>> ageChartData = smService.ageChartData(mno);
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("ageChartData",ageChartData);
+		
+		return modelAndView;
+	}
+	
 }

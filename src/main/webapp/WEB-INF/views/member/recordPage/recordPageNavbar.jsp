@@ -4,8 +4,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="//code.jquery.com/jquery.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<script type="text/javascript"
+	src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<link rel="stylesheet"
+	href="${ contextPath }/resources/css/bootstrap/font-awesome.css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 <style>
   /* 사이드바 래퍼 스타일 */
   #page-wrapper {
@@ -66,9 +76,10 @@
   }
 </style>
 </head>
-
+<jsp:include page="../../common/menubar.jsp"/>
 <body id="myPageNavbar">
 	<div id="page-wrapper">
+	
 	<!-- 사이드바 -->
 		<div id="sidebar-wrapper">
 			<ul class="sidebar-nav">
@@ -83,7 +94,7 @@
 				<li><a href="updatePage.me">개인정보수정</a></li>
 				<li><a href="">방송파트너</a></li>
 				<li><a href="excView.sm">기록</a></li>
-				<li><a href="subscribeView.me">구독 및 후원</a></li>					
+				<li><a href="subscribeView.me">구독 및 후원</a></li>				
 			</ul>
 		</div>
 	</div>

@@ -152,5 +152,19 @@
 		JOIN MEMBER MM ON(B.REPORT_MNO = MM.MNO)
 		WHERE B.BNO = #{bno}
     </select>
+    
+    <!-- 환전 처리 (소연) -->
+    <update id="exchangeProcess" parameterType="_int">
+    	UPDATE EXCHANGE
+    	SET EXC_STATUS = 'Y'
+    	WHERE EXCNO = #{excno}
+    </update>
+    
+    <!-- 다중 환전 처리 -->
+    <update id="allExchangeProcess" parameterType="_int">
+    	UPDATE EXCHANGE
+    	SET EXC_STATUS = 'Y'
+    	WHERE EXCNO = #{excno}    	
+    </update>
 	
 </mapper>

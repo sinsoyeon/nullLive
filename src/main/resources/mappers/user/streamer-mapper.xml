@@ -20,12 +20,10 @@
 	</resultMap>
 
 	<!-- 스트리머 아이디 검색 후 SNO 반환 (소연) -->
-	<select id="selectStreamer" resultType="java.lang.String"
-		parameterType="java.lang.String">
-		SELECT SNO
+	<select id="selectStreamer" resultType="java.util.HashMap" parameterType="java.lang.String">
+		SELECT SNO,MID,NICK_NAME
 		FROM STREAMER,MEMBER
-		WHERE MEMBER.MNO =
-		STREAMER.MNO
+		WHERE MEMBER.MNO =STREAMER.MNO
 		AND MID = #{streamer}
 	</select>
 
@@ -99,7 +97,7 @@
 	
 	<!-- 환전 신청 내용 조회 -->
 	 <select id="selectExcList" resultType="java.util.HashMap" parameterType="_int">
-		SELECT EXC_STATUS,EXC_FEE,EXCNO,EXC_AMOUNT,TO_CHAR(APPLICATION_DATE,'YYYY/MM/DD') AS APPLICATION_DATE
+		SELECT EXC_STATUS,EXC_FEE,EXCNO,EXC_AMOUNT,TO_CHAR(APPLICATION_DATE,'YYYY/MM/DD') AS APPLICATION_DATE,NICK_NAME
 		FROM MEMBER,EXCHANGE
 		WHERE MEMBER.MNO = EXCHANGE.MNO
 		AND MEMBER.MNO = #{mno}
@@ -115,8 +113,15 @@
 		AND EXCNO = #{excno}
 		ORDER BY APPLICATION_DATE DESC
 	 </select>
-
-
+	 
+	 <!-- 포인트 충전 내역 조회 -->
+	<select id="selectChargeList" resultType="java.util.HashMap">
+		SELECT CHNO,CHAMOUNT,TO_CHAR(CHDATE,'YYYY/MM/DD') AS CHDATE,MEMBER.POINT
+		FROM MEMBER,CHARGE
+		WHERE MEMBER.MNO = CHARGE.MNO
+		AND MEMBER.MNO=#{mno}
+	</select>
+	
 	<!-- 장기 구독자 추가(소연) -->
 	<insert id="insertSub" parameterType="Streamer">
 		INSERT INTO
@@ -157,6 +162,7 @@
 		WHERE MNO = #{mno} 
 	</update>
 	
+  
 	<!-- isStreamer Update(회륜) -->
 	<update id="isStreamerUpdate" parameterType="Member">
 		UPDATE MEMBER
@@ -184,4 +190,12 @@
 		WHERE MNO=#{mno}
 	</update>
 	
+	<!-- 환전 신청 취소 (소연) -->
+	<delete id="cancelExc" parameterType="java.util.HashMap">
+		DELETE 
+		FROM EXCHANGE
+		WHERE MNO = #{mno}
+		AND EXCNO = #{excno}
+		AND EXC_STATUS = 'N'
+	</delete>
 </mapper>

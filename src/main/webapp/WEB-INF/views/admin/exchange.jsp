@@ -56,8 +56,8 @@ tr>th{
 				
 				<c:if test="${exchange.excStatus eq 'N'}">
 					<tr>
-						<td id='checkbox'><input type="checkbox"></td>
-						<td>${exchange.excno}</td>
+						<td id='checkbox'><input type="checkbox" name="checkExc" value="${exchange.excno}"></td>
+						<td>${exchange.excno} <input type="hidden" id="excno" value="${exchange.excno}" /></td>
 						<td>${exchange.nickName}</td>	
 						<td>${exchange.name}</td>	
 						<td>${exchange.excAmount}</td>	
@@ -110,7 +110,7 @@ tr>th{
 					<p>확인을 누르시면 환전 처리 됩니다.</p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger " data-dismiss="modal" id='exchange'>확인</button>
+					<button type="button" class="btn btn-danger " data-dismiss="modal" id="exchangeBtn">확인</button>
 					<button type="button" class="btn " data-dismiss="modal">취소</button>
 				</div>
 			</div>
@@ -138,10 +138,9 @@ tr>th{
 					<button type="button" class="btn " data-dismiss="modal">취소</button>
 				</div>
 			</div>
-
 		</div>
 	</div>
-
+<script type="text/javascript" src="${contextPath}/resources/js/admin/adminExchange.js"></script>
 </body>
 <script>
 var excno;
@@ -182,5 +181,8 @@ var excno;
 		
 		return false;
 	}
+	
+	
 </script>
+	
 </html>

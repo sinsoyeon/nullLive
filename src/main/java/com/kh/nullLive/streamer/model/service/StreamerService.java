@@ -8,7 +8,7 @@ import com.kh.nullLive.streamer.model.vo.Streamer;
 public interface StreamerService {
 
 
-	int selectStreamer(String streamer);
+	HashMap<String, Object> selectStreamer(String streamer);
 
 	int insertSubscribe(Streamer streamer);
 
@@ -31,5 +31,12 @@ public interface StreamerService {
 	ArrayList<HashMap<String,Object>> selectExcList(int mno);
 
 	HashMap<String, Object> selectOneExc(HashMap<String, Object> userInfoMap);
+
+	int cancelExchange(HashMap<String, Object> infoMap);
+
+	ArrayList<HashMap<String, Object>> selectChargeList(int mno);
+
+	ArrayList<HashMap<String, Object>> ageChartData(int mno);
+
 
 }
