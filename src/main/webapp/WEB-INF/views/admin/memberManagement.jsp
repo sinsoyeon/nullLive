@@ -20,7 +20,7 @@ tr>th {
 
 #memberPopup {
 	display: none;
-	width: 500px;
+	width: 520px;
 	height: 340px;
 	border: 1px solid darkgray;
 	background: white;
@@ -58,6 +58,7 @@ td {
 
 .userContent {
 	display: inline-block;
+	width: 530px;
 }
 
 .userContent.imgInfo {
@@ -75,8 +76,7 @@ td {
 .row.userContent>div:nth-child(1) {
 	top: 35px;
 	height: 170px;
-	padding-left: 0px;
-    padding-right: 15px;
+	padding-left: 7%;
 }
 
 img {

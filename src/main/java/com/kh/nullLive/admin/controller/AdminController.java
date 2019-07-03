@@ -276,15 +276,16 @@ public class AdminController {
 		q.setQustionType(qustionType);
 		q.setBno(bno);
 		
-		int result;
 		try {
-			result = as.questionAnswer(q);
+			as.questionAnswer(q);
 			int bStatus = 3;
 			model.addAttribute("bno", bno);
 			model.addAttribute("bStatus", bStatus);
+			return "redirect:questionDetail.ad";
 		} catch (QuestionAnswerException e) {
 			model.addAttribute("msg", e.getMessage());
+			return "common/errorPage";
+
 		}
-		return "redirect:questionDetail.ad";
 	}
 }

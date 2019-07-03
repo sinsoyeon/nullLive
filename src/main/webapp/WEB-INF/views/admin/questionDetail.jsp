@@ -44,7 +44,7 @@
     height: 150px;
     resize: none;
  }
- form input{
+ form .answertData{
  visibility :  hidden;
  }
 </style>
@@ -88,13 +88,13 @@
 							<br>
 							<form action="questionAnswer.ad" method="post"
 								id='questionAnswer'>
-								<textarea id='answer' name='bContent'></textarea>
+								<textarea id='answer' name='bContent' autofocus></textarea>
 								<div style="padding: 3%;">
-									<button style="float: left;" onclick="location.href='questionList.ad'">뒤로가기</button>
+									<input type="button"  style="float: left;" onclick="history.back();" value='뒤로가기'>
 									
-									<input name='bTitle' value="${questionContent.BTitle }">
-									<input name='qustionType' value="${questionContent.qustionType }"> 
-									<input name='bno' value="${questionContent.bno }">
+									<input class="answertData" name='bTitle' value="${questionContent.BTitle }">
+									<input class="answertData" name='qustionType' value="${questionContent.qustionType }"> 
+									<input class="answertData" name='bno' value="${questionContent.bno }">
 									
 									<button style="float: right;" onclick="return questionAnswer()">답변보내기</button>
 
@@ -129,15 +129,21 @@ $(function() {
 })
 
 function questionAnswer() {
-	var ok =confirm("확인을 누르면 답변이 전송됩니다.");
+	var ok = confirm("확인을 누르면 답변이 전송됩니다.");
+	
 	if(ok){
+		var answer = $("#answer").val();
+		if(answer == ""){
+			alert("내용을 작성하세요");
+			
+		}else{
 		alert("답변이 완료되었습니다.");
 		$("#questionAnswer").submit();
+		}
 	}else{
 		alert("취소되었습니다.");
 	}
 	return false;
 }
-
 </script>
 </html>
