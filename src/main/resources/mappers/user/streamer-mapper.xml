@@ -8,7 +8,7 @@
 	<!-- Streamer Vo Result Map(소연) -->
 	<resultMap type="Streamer" id="streamerResultSet">
 		<id property="sno" column="SNO" />
-		<result property="mno" column="MID" />
+		<result property="mno" column="MND" />
 		<result property="bstart_date" column="BSTART_DATE" />
 		<result property="cumulative_selection"
 			column="CUMULATIVE_SELECTION" />
@@ -160,6 +160,34 @@
 		UPDATE MEMBER 
 		SET POINT = (SELECT POINT FROM MEMBER WHERE MNO = #{mno}) - #{amount}
 		WHERE MNO = #{mno} 
+	</update>
+	
+  
+	<!-- isStreamer Update(회륜) -->
+	<update id="isStreamerUpdate" parameterType="Member">
+		UPDATE MEMBER
+		SET IS_STREAMER='Y'
+		WHERE MNO=#{mno}
+	</update>
+	
+	<!-- insert Streamer(회륜) -->
+	<insert id="insertStreamer" parameterType="java.util.HashMap">
+		INSERT INTO STREAMER(SNO,MNO,BSTART_DATE,CUMULATIVE_SELECTION,BANK_CODE,ACCOUNT,HOLDER,IS_AUTH)
+		VALUES(SEQ_SNO.NEXTVAL,#{mno},SYSDATE,DEFAULT,#{bank_code},#{account},#{holder},DEFAULT)
+	</insert>
+
+	<!-- 스트리머 정보 가져오기(회륜) -->
+	<select id="getStreamerInfo" parameterType="_int" resultMap="streamerResultSet">
+		SELECT *
+		FROM STREAMER
+		WHERE MNO=#{mno}
+	</select>
+	
+	<!-- 스트리머 계좌 정보 수정(회륜) -->
+	<update id="updateStreamerInfo" parameterType="Streamer">
+		UPDATE STREAMER
+		SET ACCOUNT=#{account}, BANK_CODE=#{bank_code}, HOLDER=#{holder}
+		WHERE MNO=#{mno}
 	</update>
 	
 	<!-- 환전 신청 취소 (소연) -->

@@ -127,11 +127,11 @@ NullLive는 사용자 콘텐츠에 포함된 어떠한 진술이나 내용에 �
 NullLive는 타인의 지적 재산을 존중하며 "디지털 밀레니엄 저작권법(이하 “DMCA”) 및 기타 관련 법률에 명시된 요건을 준수합니다. 저작권의 소유자이거나 대리인으로서 저작권을 침해하는 콘텐츠가 NullLive 서비스에 게시된 것으로 의심된다면 NullLive DMCA 가이드라인을 따라 알려주시기 바랍니다. 해당 가이드라인에는 NullLive 정책, 필수 기재 사항, 통지를 보낼 곳에 대해 자세히 안내되어 있습니다.
 </p>
 <form action="fStream.st" method="post" id="submitForm">
-<input type="text" name="account" placeholder="계좌번호 (-포함)"/>
-<select name="bank_code" id="">
+<input type="text" name="account" placeholder="계좌번호 (-포함)" id="account"/>
+<select name="bank_code" id="bank_code">
 	<option value="26">신한은행</option>
 </select>
-<input type="text" name="holder" placeholder="예금주"/>
+<input type="text" name="holder" id="holder" placeholder="예금주"/>
 </form>
 </div>
 				<div class="content-footer" align="center">
@@ -154,7 +154,15 @@ NullLive는 타인의 지적 재산을 존중하며 "디지털 밀레니엄 저�
 	}
 	
 	function next(){
-		$("#submitForm").submit();
+		if($("#account").val() != ""){
+			if($("#holder").val() != ""){
+				$("#submitForm").submit();				
+			}else{
+				alert('예금주를 입력해야합니다!');
+			}
+		}else{
+			alert('계좌번호를 입력해야합니다.');
+		}
 	}
 </script>
 </html>

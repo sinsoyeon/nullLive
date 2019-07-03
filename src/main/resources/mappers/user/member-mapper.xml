@@ -178,5 +178,11 @@
 		WHERE MID = #{userId}
 		AND M_STATUS = 'Y'
 	</select>
+	
+	<!-- 회원가입 방송국 개설 -->
+	<insert id="insertBroadCenter" parameterType="Member">
+		INSERT INTO BROAD_CENTER(BCNO,MNO,ADULT)
+		VALUES(SEQ_BCNO.NEXTVAL,#{mno},DEFAULT)
+	</insert>
 		
 </mapper>

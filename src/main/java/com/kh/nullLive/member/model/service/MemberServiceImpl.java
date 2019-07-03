@@ -13,6 +13,8 @@ import com.kh.nullLive.member.model.exception.LoginException;
 import com.kh.nullLive.member.model.exception.ProfileException;
 import com.kh.nullLive.member.model.exception.UpdateMemberException;
 import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.streamer.model.exception.SelectStreamerException;
+import com.kh.nullLive.streamer.model.vo.Streamer;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -31,7 +33,7 @@ public class MemberServiceImpl implements MemberService {
 		String encPassword = md.selectEncPassword(sqlSession,m);
 
 		if(!passwordEncoder.matches(m.getMpwd(), encPassword)) {
-			throw new LoginException("로그인 실패");
+			throw new LoginException("아이디 또는 비밀번호를 확인하세요");
 		}else {
 			loginMember = md.selectMember(sqlSession,m);
 		}
@@ -75,11 +77,19 @@ public class MemberServiceImpl implements MemberService {
 
 	//개인정보수정
 	@Override
-	public Member updateMember(Member m) throws UpdateMemberException {
+	public Member updateMember(Member m, Streamer streamer) throws UpdateMemberException {
 		int result = 0;
 		result = md.updateMember(sqlSession,m);
 		if(result <= 0 ) {
 			throw new UpdateMemberException("수정실패");
+		}
+		if(streamer.getAccount() != null) {
+			streamer.setMno(m.getMno());
+			result += md.updateStreamer(sqlSession,streamer);
+			
+			if(result <= 1 ) {
+				throw new UpdateMemberException("수정실패");
+			}
 		}
 		return md.selectMember(sqlSession, m);
 	}
@@ -156,6 +166,25 @@ public class MemberServiceImpl implements MemberService {
 		return loginMember;
 	}
 
+	//스트리머 정보 가져오기
+	@Override
+	public Streamer getStreamerInfo(int mno) throws SelectStreamerException {
+		Streamer streamer = md.getStreamerInfo(sqlSession,mno);
+		
+		if(streamer == null) {
+			throw new SelectStreamerException("스트리머 정보 불러오기 실패!");
+		}
+		return streamer;
+	}
 
+	//회원가입 방송국 개설
+	@Override
+	public void createBroadCenter(Member m) throws InsertMemberException {
+		int result = 0;
+		result = md.createBroadCenter(sqlSession,m);
+		if(result <= 0) {
+			throw new InsertMemberException("방송국 개시 실패");
+		}
+	}
 
 }
