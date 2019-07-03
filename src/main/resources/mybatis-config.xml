@@ -22,7 +22,7 @@
 		<typeAlias alias="Attachment" type="com.kh.nullLive.common.attachment.model.vo.Attachment"/>
 		<typeAlias alias="AttManage" type="com.kh.nullLive.common.attachment.model.vo.AttManage"/>
 		<typeAlias alias="Streamer" type="com.kh.nullLive.streamer.model.vo.Streamer"/>	
-		<!-- 구독 -->
+		<!-- 구독 -->	
 		<typeAlias alias="Subscription" type="com.kh.nullLive.subscription.model.vo.Subscription"/>	
 	
 	</typeAliases>
@@ -33,5 +33,6 @@
 		<mapper resource="mappers/user/streamer-mapper.xml" />
 		<mapper resource="mappers/user/admin-mapper.xml" />
 		<mapper resource="mappers/user/streaming-mapper.xml"/>
+		<mapper resource="mappers/user/subscription-mapper.xml"/>
 	</mappers>
 </configuration>

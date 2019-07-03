@@ -8,7 +8,9 @@
 <!-- Latest compiled and minified CSS -->
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
@@ -72,7 +74,7 @@
 					<!-- 마감일 -->
 					<div>
 						<h3>마감일</h3>
-						<input class="form-control" type="date" name="deadLine"> 
+						<input class="form-control" id="deadLine" type="text" name="deadLine"> 
 					</div>
 					<br>
 				</div>
@@ -100,5 +102,11 @@
 	</div>
 	
 	
+	
 </body>
+
+
+
+
+
 </html>

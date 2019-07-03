@@ -139,6 +139,7 @@ public class JobBoardServiceImpl implements JobBoardService{
 		int result = jbd.updateBoardCount(sqlSession,bno);
 		//board 조회
 		Board board = jbd.selectOneMngBoard(sqlSession,bno);
+		boardMap.put("board", board);
 		//board 상태 조회
 		System.out.println(jbd.selectOneBoardStatus(sqlSession,board.getBStatus()));
 		String boardStatus = (String)(jbd.selectOneBoardStatus(sqlSession,board.getBStatus()));
@@ -146,24 +147,25 @@ public class JobBoardServiceImpl implements JobBoardService{
 		
 		//jobBoard 조회
 		JobBoard jBoard = jbd.selectOnejobMngBoard(sqlSession,bno);
+		boardMap.put("jBoard", jBoard);
+		System.out.println(jBoard);
 		//글작성자 조회
 		int mno = Integer.parseInt((String)(board.getBWriter()+""));
 		Member member = md.selectMemberMno(sqlSession, mno);
-		
+		boardMap.put("member", member);
+		System.out.println(member);
 		if(jBoard.getJBtype().equals("구인")) {
 			//구인구직게시판 타입이 구인인경우 스트리머정보를 가져옴
 			Streamer streamer = sd.selectStreamerMno(sqlSession,mno);
 			System.out.println(streamer);
 			boardMap.put("streamer", streamer);
 			//구독자수 조회
-			System.out.println(streamer.getSno());
-			System.out.println(sud.getSubscriptionCount(sqlSession,streamer.getSno()));
-			int num = sud.getSubscriptionCount(sqlSession,streamer.getSno());
-			System.out.println(num);
+			int suCount = sud.getSubscriptionCount(sqlSession,streamer.getSno());
+			boardMap.put("suCount",suCount);
 		}
-		boardMap.put("board", board);
-		boardMap.put("jBoard", jBoard);
-		boardMap.put("member", member);
+		
+		
+		
 		
 		
 		return boardMap;
