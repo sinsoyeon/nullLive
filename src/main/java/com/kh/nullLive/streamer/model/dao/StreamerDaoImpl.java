@@ -146,7 +146,7 @@ public class StreamerDaoImpl implements StreamerDao {
 	@Override
 	public HashMap<String,Object> selectAllFemale(SqlSessionTemplate sqlSession, int mno) {
 		
-		return sqlSession.selectOne("Streamer.selectFmale",mno);
+		return sqlSession.selectOne("Streamer.womonUnder10",mno);
 	}
 	
 }

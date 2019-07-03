@@ -76,12 +76,11 @@ function drawVisualization1() {
   <div class="col-sm-1"></div>
   <div class="col-sm-5">
   <h3>회원 통계</h3>
-  	<div onclick="location.href='memberStatisticsList.ad'"  data-toggle="tooltip" title="회원 통계 페이지로 이동" id="chart_div" >
-  	</div>
-  	
+  	<div onclick="location.href='memberStatisticsList.ad'"  data-toggle="tooltip" title="회원 통계 페이지로 이동" id="chart_div" ></div>
   </div>
-  <h3>사이트 통계</h3>
-  <div class="col-sm-5"><div onclick="location.href='sitesStatisticsList.ad'" data-toggle="tooltip" title="사이트 통계 페이지로 이동" id="chart_div1">
+  <div class="col-sm-5">
+   <h3>사이트 통계</h3>
+  <div onclick="location.href='sitesStatisticsList.ad'" data-toggle="tooltip" title="사이트 통계 페이지로 이동" id="chart_div1">
   <br>
   	<br>
   	<br>

@@ -32,7 +32,7 @@ public interface AdminService {
 
 	Question questionDetail(Question q);
 
-	int questionAnswer(Question q) throws QuestionAnswerException;
+	void questionAnswer(Question q) throws QuestionAnswerException;
 
 	int exchange(int excno);
 

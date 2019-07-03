@@ -18,8 +18,9 @@
 
 <style type="text/css">
 body::-webkit-scrollbar {
-   display: none;
+	display: none;
 }
+
 input[type="checkbox"]#menu_state {
 	display: none;
 }
@@ -62,21 +63,21 @@ input[type="checkbox"]:checked ~ main {
 
 .sidebar label[for="menu_state"] i {
 	cursor: pointer;
-    position: absolute;
-    top: 50%;
-    right: -8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    background: #fff;
-    font-size: 10px;
-    color: #555;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 18px;
-    width: 18px;
-    border-radius: 50%;
-    transition: width 0.15s ease-in-out;
-    z-index: 1;
+	position: absolute;
+	top: 50%;
+	right: -8px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	background: #fff;
+	font-size: 10px;
+	color: #555;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 18px;
+	width: 18px;
+	border-radius: 50%;
+	transition: width 0.15s ease-in-out;
+	z-index: 1;
 }
 
 .sidebar label[for="menu_state"] i::before {
@@ -104,23 +105,37 @@ input[type="checkbox"]:checked ~ main {
 }
 
 .sidebar
+
  
+
 ul
+
  
+
 li
+
+
 :not
+
  
+
 (
 :last-child
+
  
+
 ){
 border-bottom
+
+
 :
+
  
+
 none
+
+
 ;
-
-
 }
 .sidebar ul li.active a {
 	background: #4c515d;
@@ -158,7 +173,7 @@ none
 }
 
 .sidebar ul li a span {
-    font-size: 16px;
+	font-size: 16px;
 	padding-left: 25px;
 	opacity: 0;
 	line-height: 50px;
@@ -209,94 +224,114 @@ main section h1 {
 </style>
 </head>
 <body>
-	<header style=" height: 50px; ">
-	<jsp:include page="../common/menubar.jsp" />
+	<header style="height: 50px;">
+		<jsp:include page="../common/menubar.jsp" />
 	</header>
 	<div class="row">
 		<div class="col-md-12">
 
-				<!-- sidebar -->
-				<input type="checkbox" id="menu_state" checked>
-				<nav class="sidebar" style=" margin-top: 50px; ">
-					<label for="menu_state"><i class="fa"></i></label>
-					<ul>
-						<li><a href="#"> <i class="fas fa-star fa-lg"></i> <span>즐겨찾기</span>
-						</a></li>
-						<li><a href="#"> <i class="fas fa-play fa-lg"></i> <span>LIVE</span>
-						</a></li>
-						<li><a href="#"> <i class="fas fa-video fa-lg"></i> <span>VOD</span>
-						</a></li>
-						<li><a href="jobMain.jbo"> <i class="fas fa-mouse-pointer fa-lg"></i>
-								<span>소통센터</span>
-						</a></li>
-						<li><a href="serviceMain.bo"> <i class="fas fa-headphones fa-lg"></i>
-								<span>고객센터</span>
-						</a></li>
-						<li><a><i class="fas fa-thumbs-up fa-lg"></i> <span>인기채널</span>
-							</a></li>
-		        <li data-content="2" class="unread" onclick="location.href='testForm.me'"><a
-				  	href="javascript:void(0)"> <i class="fa fa-heart"></i> <span>테스트용 탭</span>
-				</a></li> 
-				
-				<li><a href="main.ad"> <i class="fas fa-star fa-lg"></i> <span>관리자 테스트</span>
-						</a></li>
-				 
-				</a></li>
-				<li data-content="2" class="unread" onclick="location.href='main.st'"><a
-				  	href="javascript:void(0)"> <i class="fa fa-heart"></i> <span>스트리머 탭</span>
-				</a></li>    
-					</ul>
-				</nav>
-				
-				<!-- main content -->
-			<main style="padding-left: 2%;padding-right: 2%;">
-			<h1>Proin sodales velit vel nisi bibendum tempor</h1>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-				Phasellus tristique massa eget volutpat volutpat. Class aptent
-				taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-				himenaeos. Sed consectetur turpis nulla, a euismod nisi sollicitudin
-				eu. Aliquam elit neque, tristique nec venenatis ut, pharetra vitae
-				enim. Fusce non urna in odio euismod finibus eget vel tortor.
-				Quisque a purus ipsum. Donec ante nibh, porta eget magna non,
-				pharetra sodales ante. Phasellus erat massa, venenatis et velit et,
-				tincidunt finibus lorem. Lorem ipsum dolor sit amet, consectetur
-				adipiscing elit. Cum sociis natoque penatibus et magnis dis
-				parturient montes, nascetur ridiculus mus. Integer luctus facilisis
-				bibendum. Integer in arcu pharetra tellus auctor bibendum sed sed
-				turpis. Vestibulum imperdiet lacus lectus, vitae ultricies nisi
-				eleifend et. Mauris rhoncus nec eros quis dictum. Proin sodales
-				velit vel nisi bibendum tempor. Aenean tristique ipsum nec dictum
-				vehicula.</p>
+			<!-- sidebar -->
+			<input type="checkbox" id="menu_state" checked>
+			<nav class="sidebar" style="margin-top: 50px;">
+				<label for="menu_state"><i class="fa"></i></label>
+				<ul>
+					<li><a href="#"> <i class="fas fa-star fa-lg"></i> <span>즐겨찾기</span>
+					</a></li>
+					<li><a href="#"> <i class="fas fa-play fa-lg"></i> <span>LIVE</span>
+					</a></li>
+					<li><a href="#"> <i class="fas fa-video fa-lg"></i> <span>VOD</span>
+					</a></li>
+					<li><a href="jobMain.jbo"> <i
+							class="fas fa-mouse-pointer fa-lg"></i> <span>소통센터</span>
+					</a></li>
+					<li><a href="serviceMain.bo"> <i
+							class="fas fa-headphones fa-lg"></i> <span>고객센터</span>
+					</a></li>
+					<li><a><i class="fas fa-thumbs-up fa-lg"></i> <span>인기채널</span>
+					</a></li>
+					<li data-content="2" class="unread"
+						onclick="location.href='testForm.me'"><a
+						href="javascript:void(0)"> <i class="fa fa-heart"></i> <span>테스트용
+								탭</span>
+					</a></li>
 
-			<p>Nullam sed metus a dui auctor sodales quis nec tellus. Duis
-				porttitor tortor pulvinar auctor mattis. Sed ultrices urna in augue
-				venenatis tempus. Proin fringilla sodales eros. Ut aliquet odio nec
-				sagittis dictum. Cras ullamcorper, neque ac imperdiet hendrerit,
-				sapien nunc porta sapien, quis maximus nulla purus sit amet lectus.
-				Mauris rhoncus lectus non vehicula lacinia. Suspendisse eu mollis
-				ex, sit amet ultrices lorem. Cras elit risus, bibendum ut massa nec,
-				commodo commodo augue.</p>
+					<li><a href="main.ad"> <i class="fas fa-star fa-lg"></i> <span>관리자
+								테스트</span>
+					</a></li>
 
-			<p>Sed lacinia, ligula id venenatis auctor, libero turpis aliquet
-				nunc, sit amet ullamcorper dolor ligula quis felis. Vivamus
-				condimentum mi vel felis vehicula, eu placerat lacus semper. Sed
-				quis lacinia mauris. Donec aliquam vulputate metus, non imperdiet
-				lorem maximus a. Integer eget dignissim erat. Proin id finibus dui,
-				pretium consectetur turpis. Vivamus in tincidunt odio, eu iaculis
-				nisi. Integer in scelerisque mauris. Vivamus ac eros congue, mattis
-				nisl ac, venenatis lacus.</p>
+					</a>
+					</li>
+					<li data-content="2" class="unread"
+						onclick="location.href='main.st'"><a
+						href="javascript:void(0)"> <i class="fa fa-heart"></i> <span>스트리머
+								탭</span>
+					</a></li>
+				</ul>
+			</nav>
 
-			<p>Nunc viverra vestibulum tempor. Nulla consectetur sit amet
-				mauris at rutrum. Mauris eu rhoncus eros. Integer convallis magna ac
-				tincidunt laoreet. Proin molestie vitae erat id venenatis. Donec eu
-				imperdiet risus. Fusce gravida placerat dui eget sollicitudin. Cras
-				leo ligula, laoreet dapibus euismod ut, vehicula sit amet nunc.
-				Maecenas in nisl fringilla, aliquet diam ut, facilisis ex. In dui
-				risus, porttitor convallis ultricies nec, ornare eu leo.</p>
+			<!-- main content -->
+			<main style="padding-left: 2%;padding-right: 2%;width: 845px;height: 100%;">
+			<div class="container-fluid" style=" padding: 3%; padding-top: 4%; ">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="row">
+									<div class="col-md-2">
+										<span style=" font-size: 18px; ">HOT &nbsp;<i class="fas fa-crown"></i></span>
+									</div>
+									<div class="col-md-4"></div>
+									<div class="col-md-6"></div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="row">
+											<div class="col-md-4"></div>
+											<div class="col-md-4"></div>
+											<div class="col-md-4"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="row">
+									<div class="col-md-2">
+										<span style=" font-size: 17px; ">전체</span>
+									</div>
+									<div class="col-md-3"></div>
+									<div class="col-md-4"></div>
+									<div class="col-md-3"></div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="row">
+											<div class="col-md-4"></div>
+											<div class="col-md-4"></div>
+											<div class="col-md-4"></div>
+										</div>
+										<div class="row">
+											<div class="col-md-4"></div>
+											<div class="col-md-4"></div>
+											<div class="col-md-4"></div>
+										</div>
+										<div class="row">
+											<div class="col-md-4"></div>
+											<div class="col-md-4"></div>
+											<div class="col-md-4"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
 			</main>
 		</div>
-		</div>
-	
+	</div>
+
 </body>
 </html>
