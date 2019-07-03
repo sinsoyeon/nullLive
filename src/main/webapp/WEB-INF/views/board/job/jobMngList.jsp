@@ -131,12 +131,8 @@
 							</td>
 							
 							<!-- 마감여부 -->
-							<td id="bStatus">
-								<c:choose>
-									<c:when test="${ board.bStatus eq 500 }">모집중</c:when>
-									<c:when test="${ board.bStatus eq 501 }">모집완료</c:when>
-									<c:when test="${ board.bStatus eq 502 }">등록만료</c:when>
-								</c:choose>
+							<td id="staDetail">
+								<c:out value="${ board.staDetail}"/>
 							</td>
 						</tr>
 					</c:forEach>
@@ -197,10 +193,10 @@
 			}) 
 			//마감 여부에 따른 리스트 변경
 			$("#listArea td").each(function(){
-				var bStatus = $(this).text().trim();
+				var staDetail = $(this).text().trim();
 
 				//모집완료 , 등록만료글 이벤트 제거
-				if( bStatus == "모집완료" || bStatus == "등록만료"){
+				if( staDetail == "모집완료" || staDetail == "등록만료"){
 					$(this).parent().css({"background":"darkgray"});
 					$(this).parent().css({"color":"white"});
 					$(this).parent().find("td").each(function (){
@@ -213,7 +209,7 @@
 			/* //마감 여부에 따른 리스트 변경
 			$("#listArea tr").each(function(){
 				var bStatus = $(this).find("td").eq(6).text().trim();
-				console.log(bStatus);
+				console.log(staDetail);
 				if( bStatus == "모집완료"){
 					$(this).css({"background":"darkgray"});
 					$(this).find("td").each(function(){

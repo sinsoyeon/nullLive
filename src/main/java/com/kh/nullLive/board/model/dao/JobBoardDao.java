@@ -61,9 +61,20 @@ public interface JobBoardDao {
 
 	Member selectWriter(SqlSessionTemplate sqlSession, int bWriter);
 
-	ArrayList<Board> selectJobNoticePaging(SqlSessionTemplate sqlSession, PagingVo paging);
+	ArrayList<HashMap<String,Object>> selectJobNoticePaging(SqlSessionTemplate sqlSession, PagingVo paging);
 
 	int getJobNoticeListCount(SqlSessionTemplate sqlSession);
+
+	Board selectOneMngBoard(SqlSessionTemplate sqlSession, int bno);
+
+	JobBoard selectOnejobMngBoard(SqlSessionTemplate sqlSession, int bno);
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 3.
+	 * @comment : 게시글 상태 조회
+	 */
+	String selectOneBoardStatus(SqlSessionTemplate sqlSession, int bStatus);
 
 
 

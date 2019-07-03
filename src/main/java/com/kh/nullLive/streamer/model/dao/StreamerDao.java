@@ -36,4 +36,11 @@ public interface StreamerDao {
 
 	HashMap<String, Object> selectOneExc(SqlSessionTemplate sqlSession, HashMap<String, Object> userInfoMap);
 
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 3.
+	 * @comment : 스트리머 mno로 조회
+	 */
+	Streamer selectStreamerMno(SqlSessionTemplate sqlSession, int mno);
+
 }

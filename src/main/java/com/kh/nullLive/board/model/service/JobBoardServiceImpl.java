@@ -17,6 +17,9 @@ import com.kh.nullLive.board.model.vo.PageInfo;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.dao.MemberDao;
 import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.streamer.model.dao.StreamerDao;
+import com.kh.nullLive.streamer.model.vo.Streamer;
+import com.kh.nullLive.subscription.model.dao.SubscriptionDao;
 
 @Service
 public class JobBoardServiceImpl implements JobBoardService{
@@ -25,6 +28,10 @@ public class JobBoardServiceImpl implements JobBoardService{
 	private JobBoardDao jbd;
 	@Autowired
 	private MemberDao md;
+	@Autowired
+	private StreamerDao sd;
+	@Autowired
+	private SubscriptionDao sud;
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
@@ -127,7 +134,39 @@ public class JobBoardServiceImpl implements JobBoardService{
 	 */
 	@Override
 	public HashMap<String, Object> selectOneJobBoard(int bno) {
-		return jbd.selectOneBoard(sqlSession,bno);
+		HashMap<String,Object> boardMap = new HashMap<>();
+		//조회수 증가
+		int result = jbd.updateBoardCount(sqlSession,bno);
+		//board 조회
+		Board board = jbd.selectOneMngBoard(sqlSession,bno);
+		//board 상태 조회
+		System.out.println(jbd.selectOneBoardStatus(sqlSession,board.getBStatus()));
+		String boardStatus = (String)(jbd.selectOneBoardStatus(sqlSession,board.getBStatus()));
+		boardMap.put("boardStatus", boardStatus);
+		
+		//jobBoard 조회
+		JobBoard jBoard = jbd.selectOnejobMngBoard(sqlSession,bno);
+		//글작성자 조회
+		int mno = Integer.parseInt((String)(board.getBWriter()+""));
+		Member member = md.selectMemberMno(sqlSession, mno);
+		
+		if(jBoard.getJBtype().equals("구인")) {
+			//구인구직게시판 타입이 구인인경우 스트리머정보를 가져옴
+			Streamer streamer = sd.selectStreamerMno(sqlSession,mno);
+			System.out.println(streamer);
+			boardMap.put("streamer", streamer);
+			//구독자수 조회
+			System.out.println(streamer.getSno());
+			System.out.println(sud.getSubscriptionCount(sqlSession,streamer.getSno()));
+			int num = sud.getSubscriptionCount(sqlSession,streamer.getSno());
+			System.out.println(num);
+		}
+		boardMap.put("board", board);
+		boardMap.put("jBoard", jBoard);
+		boardMap.put("member", member);
+		
+		
+		return boardMap;
 	}
 
 	@Override
@@ -196,11 +235,21 @@ public class JobBoardServiceImpl implements JobBoardService{
 		return jbd.getJobMngListCount(sqlSession);
 	}
 
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 3.
+	 * @comment : 구인구직 공지사항 페이징 조회
+	 */
 	@Override
-	public ArrayList<Board> selectJobNoticePaging(PagingVo paging) {
+	public ArrayList<HashMap<String,Object>> selectJobNoticePaging(PagingVo paging) {
 		return jbd.selectJobNoticePaging(sqlSession,paging);
 	}
 
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 3.
+	 * @comment : 구인구직 공지사항 전체 갯수
+	 */
 	@Override
 	public int getJobNoticeListCount() {
 		return jbd.getJobNoticeListCount(sqlSession);

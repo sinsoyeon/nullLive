@@ -111,6 +111,15 @@ public class MemberDaoImpl implements MemberDao {
 	public Member selectKakaoMember(SqlSessionTemplate sqlSession, String userId) {
 		return sqlSession.selectOne("Member.selectKakaoMember", userId);
 	}
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 3.
+	 * @comment : member mno로 조회
+	 */
+	@Override
+	public Member selectMemberMno(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("Member.selectMemberMno",mno);
+	}
 
 
 }

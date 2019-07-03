@@ -120,5 +120,17 @@ public class StreamerDaoImpl implements StreamerDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("Streamer.selectOneExc", userInfoMap);
 	}
+
+
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 3.
+	 * @comment : 스트리머 mno로 조회
+	 */
+	@Override
+	public Streamer selectStreamerMno(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("Streamer.selectStreamerMno",mno);
+	}
 	
 }

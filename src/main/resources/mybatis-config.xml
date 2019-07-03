@@ -21,7 +21,10 @@
 		<typeAlias alias="PagingVo" type="com.kh.nullLive.common.paging.model.vo.PagingVo" />
 		<typeAlias alias="Attachment" type="com.kh.nullLive.common.attachment.model.vo.Attachment"/>
 		<typeAlias alias="AttManage" type="com.kh.nullLive.common.attachment.model.vo.AttManage"/>
-		<typeAlias alias="Streamer" type="com.kh.nullLive.streamer.model.vo.Streamer"/>		
+		<typeAlias alias="Streamer" type="com.kh.nullLive.streamer.model.vo.Streamer"/>	
+		<!-- 구독 -->
+		<typeAlias alias="Subscription" type="com.kh.nullLive.subscription.model.vo.Subscription"/>	
+	
 	</typeAliases>
 	
 	<mappers>
