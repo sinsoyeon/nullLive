@@ -117,15 +117,21 @@ public class StreamerServiceImpl implements StreamerService{
 	@Override
 	public ArrayList<HashMap<String, Object>> ageChartData(int mno) {
 		
-		HashMap<String, Object>  myMap = smDao.selectAllFemale(sqlSession, mno);
+		ArrayList<HashMap<String,Object>>  ageChartData = smDao.selectAllFemale(sqlSession, mno);
 		
 		
-		
-		ArrayList<HashMap<String, Object>> returList= new ArrayList<HashMap<String,Object>>();
-		
-		returList.add(myMap);
-		
-		return returList;
+		return ageChartData;
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> sponAgeChart(int mno) {
+		return smDao.sponAgeChart(sqlSession,mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> recomList(HashMap<String,Object> recomInfoMap) {
+		// TODO Auto-generated method stub
+		return smDao.recomList(sqlSession,recomInfoMap);
 	}
 
 }
