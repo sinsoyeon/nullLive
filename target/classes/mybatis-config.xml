@@ -7,10 +7,36 @@
 	<typeAliases>
 		<typeAlias alias="Member" type="com.kh.nullLive.member.model.vo.Member" />
 		<typeAlias alias="Board" type="com.kh.nullLive.board.model.vo.Board" />
+    
+		<!-- 구인구직게시판 vo -->
+		<typeAlias alias="JobBoard" type="com.kh.nullLive.board.model.vo.JobBoard" />
+		<typeAlias alias="Report" type="com.kh.nullLive.admin.model.vo.Report" />
+		
+		<!-- 관리자 -->
+		<typeAlias alias="Exchange" type="com.kh.nullLive.admin.model.vo.Exchange" />
+		<typeAlias alias="Question" type="com.kh.nullLive.admin.model.vo.Question" />
+		<typeAlias alias="UserDetail" type="com.kh.nullLive.admin.model.vo.UserDetail" />
+    
+		<!-- 페이징 모듈화 테스트중 -->
+		<typeAlias alias="PagingVo" type="com.kh.nullLive.common.paging.model.vo.PagingVo" />
+		<typeAlias alias="Attachment" type="com.kh.nullLive.common.attachment.model.vo.Attachment"/>
+		<typeAlias alias="AttManage" type="com.kh.nullLive.common.attachment.model.vo.AttManage"/>
+		<typeAlias alias="Streamer" type="com.kh.nullLive.streamer.model.vo.Streamer"/>	
+		<!-- 구독 -->	
+		<typeAlias alias="Subscription" type="com.kh.nullLive.subscription.model.vo.Subscription"/>
+		
+		<!-- 방송국 -->
+		<typeAlias alias="BroadCenter" type="com.kh.nullLive.broadCenter.model.vo.BroadCenter"/>
+	
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mappers/user/member-mapper.xml" />
 		<mapper resource="mappers/user/board-mapper.xml" />
+		<mapper resource="mappers/user/streamer-mapper.xml" />
+		<mapper resource="mappers/user/admin-mapper.xml" />
+		<mapper resource="mappers/user/streaming-mapper.xml"/>
+		<mapper resource="mappers/user/subscription-mapper.xml"/>
+		<mapper resource="mappers/user/broadCenter-mapper.xml"/>
 	</mappers>
 </configuration>

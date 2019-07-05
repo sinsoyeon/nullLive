@@ -60,7 +60,8 @@
 				<div class="col-md-3" style="display: block; float:left;margin-left:20px;margin-top:10px;width:200px;" align="center">
 					<button class="form-control btn btn-primary" onclick="location.href='main.st'">방송국으로</button>
 					<button style="margin-top:10px;" class="form-control btn btn-primary" onclick="location.href='start.st'">방송시작</button>
-					<button onclick='startStreaming();'>방송보기 test</button>
+					<button onclick='startStreaming();'>방송하기 test</button>
+					<button onclick="enterStreaming();">방송보기 test</button>
 				</div>
 				<div class="col-md-5" style="display: block; clear: left;">
 					<br />
@@ -81,6 +82,10 @@
 		
 		function startStreaming(){
 			var pwdWin = window.open('startStreaming.st','new','width=1024,height=768,menubar=no, status=no, toolbar=no');
+		}
+		
+		function enterStreaming(){
+			window.open('enterStreaming.st?bhno=1005','new','width=1024,height=768,menubar=no, status=no, toolbar=no');
 		}
 	</script>
 </body>

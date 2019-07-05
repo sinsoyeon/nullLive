@@ -18,6 +18,13 @@ public interface StreamingDao {
 	 */
 	int endStreaming(SqlSessionTemplate sqlSession, int mno);
 
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 5.
+	 * Comment : 방송 번호 가져오기
+	 */
+	int getBhno(SqlSessionTemplate sqlSession, int mno);
+
 
 
 }

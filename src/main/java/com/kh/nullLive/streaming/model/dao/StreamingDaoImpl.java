@@ -19,4 +19,10 @@ public class StreamingDaoImpl implements StreamingDao {
 		return sqlSession.update("Streaming.endStreaming",mno);
 	}
 
+	//방송 번호 가져오기
+	@Override
+	public int getBhno(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("Streaming.getBhno",mno);
+	}
+
 }
