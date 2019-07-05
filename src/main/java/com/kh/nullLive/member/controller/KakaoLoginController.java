@@ -60,7 +60,6 @@ public class KakaoLoginController {
 
 			/* return "redirect:"+session.getAttribute("redirectUrl"); */
 			return "redirect:index.jsp";
-			System.out.println(session.getAttribute("redirectUrl"));
 		
 		} catch (LoginException e) {
 			model.addAttribute("msg", e.getMessage());
