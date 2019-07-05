@@ -6,7 +6,6 @@
       <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/jl1.0.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/ojdbc8.jar!/" />
     </CLASSES>
-    <JAVADOC />
     <SOURCES />
   </library>
 </component>

@@ -188,8 +188,8 @@
    
 	<!-- 회원가입 방송국 개설 -->
 	<insert id="insertBroadCenter" parameterType="Member">
-		INSERT INTO BROAD_CENTER(BCNO,MNO,ADULT)
-		VALUES(SEQ_BCNO.NEXTVAL,#{mno},DEFAULT)
+		INSERT INTO BROAD_CENTER(BCNO,MNO)
+		VALUES(SEQ_BCNO.NEXTVAL,#{mno})
 	</insert>
 		
 </mapper>

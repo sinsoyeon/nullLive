@@ -26,6 +26,11 @@ public class StreamingServiceImpl implements StreamingService {
 		int result = sd.endStreaming(sqlSession,mno);
 	}
 
-	
+	//방송 번호 가져오기
+	@Override
+	public int getBhno(int mno) {
+		return sd.getBhno(sqlSession,mno);
+	}
+
 	
 }

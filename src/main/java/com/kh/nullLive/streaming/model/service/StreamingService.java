@@ -17,6 +17,13 @@ public interface StreamingService {
 	 */
 	void endStreaming(int mno);
 
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 5.
+	 * Comment : 방송 번호 가져오기
+	 */
+	int getBhno(int mno);
+
 	
 	
 }

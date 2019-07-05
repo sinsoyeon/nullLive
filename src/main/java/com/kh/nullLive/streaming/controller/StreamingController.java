@@ -51,9 +51,10 @@ public class StreamingController {
 		return "streaming/screenSharing/screenSharing";
 	}
 	
-	@RequestMapping("Test.st")
-	public String testStreaming() {
-		return "streaming/streaming";
+	@RequestMapping("enterStreaming.st")
+	public String enterStreaming(Model model,@RequestParam(name="bhno")int bhno) {
+		model.addAttribute("bhno",bhno);
+		return "streaming/testViewStream";
 	}
 
 	/**
@@ -65,6 +66,9 @@ public class StreamingController {
 	public String startStreaming(Model model,HttpSession session) {
 		int mno = ((Member)session.getAttribute("loginUser")).getMno();
 		ss.startStreaming(mno);
+		int bhno = ss.getBhno(mno);
+		System.out.println("bhno : "+bhno);
+		model.addAttribute("bhno",bhno);
 		return "streaming/streaming";
 	}
 	
@@ -74,8 +78,8 @@ public class StreamingController {
 	 * Comment : 스트리밍 종료
 	 */
 	@RequestMapping("endStreaming.st")
-	public String endStreaming(@RequestParam(name="mno")int mno) {
-		ss.endStreaming(mno);
+	public String endStreaming(@RequestParam(name="mno")String mno) {
+		ss.endStreaming(Integer.parseInt(mno));
 		
 		return "streaming/endStreaming";
 	}
