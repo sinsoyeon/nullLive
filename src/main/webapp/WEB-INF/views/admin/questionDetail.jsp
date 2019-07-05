@@ -88,7 +88,7 @@
 							<br>
 							<form action="questionAnswer.ad" method="post"
 								id='questionAnswer'>
-								<textarea id='answer' name='bContent' autofocus></textarea>
+								<textarea id='answer' name='bContent'></textarea>
 								<div style="padding: 3%;">
 									<input type="button"  style="float: left;" onclick="history.back();" value='뒤로가기'>
 									
@@ -126,6 +126,9 @@ $(function() {
 	$('li:eq(4)').addClass('active');
 	$('#menu4').addClass('active in');
 	$('#menu4 a:eq(4)').css('font-weight','bold');
+	setTimeout(function() { 
+	$('html, body').animate({ scrollTop: $(document).height()},2000);
+	}, 120)
 })
 
 function questionAnswer() {

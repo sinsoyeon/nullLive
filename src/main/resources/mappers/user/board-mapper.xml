@@ -384,8 +384,8 @@
 	    ORDER BY BNO DESC
 	</select>
 	
-	<!-- 관리자 FAQ 상세보기 -->
-	<select id="selectFAQDetail" resultMap="boardResultSet" parameterType="_int">
+	<!-- 관리자 FAQ/공지사항 상세보기 -->
+	<select id="adminSelectDetail" resultMap="boardResultSet" parameterType="_int">
 		SELECT *
 		FROM BOARD
 		WHERE BNO = #{bno}
@@ -397,16 +397,17 @@
 		VALUES (SEQ_BNO.NEXTVAL, #{bTitle}, #{bContent}, SYSDATE, SYSDATE, DEFAULT, 'FAQ', #{questionType}, NULL, NULL, NULL, 999, NULL, NULL, NULL, 7)
 	</insert>
 	
-	<!-- 관리자 FAQ 수정 -->
-	<update id="updateFAQ" parameterType="com.kh.nullLive.board.model.vo.Board">
+	<!-- 관리자 FAQ/공지사항 수정 -->
+	<update id="adminModifyUpdate" parameterType="com.kh.nullLive.board.model.vo.Board">
 		UPDATE BOARD
 		SET BTITLE = #{bTitle},
 			BCONTENT = #{bContent},
 			MODIFY_DATE = SYSDATE
 		WHERE BNO = #{bno}
 	</update>
-	<!-- 관리자 FAQ 삭제 -->
-	<delete id="deleteFAQ" parameterType="_int">
+	
+	<!-- 관리자 FAQ/공지사항  삭제 -->
+	<delete id="deleteContent" parameterType="_int">
 		DELETE FROM BOARD
         WHERE BNO = #{bno}
 	</delete>
@@ -420,18 +421,9 @@
 	</select>
 	
 	<!-- 관리자 공지사항 작성 -->
-	<insert id="insertNoticce" parameterType="com.kh.nullLive.board.model.vo.Board"> 
+	<insert id="insertNotice" parameterType="com.kh.nullLive.board.model.vo.Board"> 
 		INSERT INTO BOARD (BNO, BTITLE, BCONTENT, WRITTEN_DATE, MODIFY_DATE, BCOUNT, BTYPE, QUESTION_TYPE, REF_BNO, B_EMAIL, BBNO, BWRITER, REPORT_TYPE, IS_QR, REPORT_MNO, B_STATUS) 
 		VALUES (SEQ_BNO.NEXTVAL, #{bTitle}, #{bContent}, SYSDATE, SYSDATE, DEFAULT, 'SNOTICE', NULL, NULL, NULL, NULL, 999, NULL, NULL, NULL, 7)
 	</insert>
-	
-	<!-- 공지사항 상세보기 -->
-	<select id="selectNoticeDetail" resultMap="boardResultSet" parameterType="_int">
-		SELECT *
-		FROM BOARD
-		WHERE BNO = #{bno}
-	</select>
-	
-	<!-- 관리자 공지사항 수정 -->
 	
 </mapper>

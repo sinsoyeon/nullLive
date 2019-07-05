@@ -109,15 +109,16 @@ form .answertData {
 					<div id='btnDiv'>
 						<input type="button" style="float: left;"onclick="history.back();" value='뒤로가기'>
 						<button style="float: right; margin-left: 10px;" onclick="deleteFAQ()">삭제</button>
-						<button style="float: right;" id='modifyBtn'>수정</button> 
-					</div>
-					<div id='modify'>
-						<hr>
-						<h2>수정</h2>
-						<p style="float: left; margin: 1%;">제목</p>
-						<input id='modifyTitle' type="text" style="float: left; margin: 1%; width : 80%;" value="${FAQDetail.BTitle }">
-						<textarea id='modifyContent' autofocus>${FAQDetail.BContent }</textarea>
-						<input type="button" value="적용" style="float: right;" onclick="modifyFAQ()">
+						<button style="float: right;" id='modifyBtn' data-toggle="collapse" data-target="#demo">수정</button> 
+					</div><div id="demo" class="collapse">
+						<div id='modify'>
+							<hr>
+							<h2>수정</h2>
+							<p style="float: left; margin: 1%;">제목</p>
+							<input id='modifyTitle' type="text" style="float: left; margin: 1%; width : 80%;" value="${FAQDetail.BTitle }">
+							<textarea id='modifyContent' autofocus>${FAQDetail.BContent }</textarea>
+							<input type="button" value="적용" style="float: right;" onclick="modifyFAQ()">
+						</div>
 					</div>
 				</div>
 			</div>
@@ -133,6 +134,8 @@ $(function() {
 	$('#menu4 a:eq(2)').css('font-weight','bold');
 	$("#modifyBtn").click(function() {
 		$('#modify').css("display","block");
+		$('html, body').animate({ scrollTop: $(document).height()},1000);
+		
 	})
 })
 function modifyFAQ() {

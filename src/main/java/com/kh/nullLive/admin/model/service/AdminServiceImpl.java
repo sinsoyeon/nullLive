@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.nullLive.admin.model.dao.AdminDao;
 import com.kh.nullLive.admin.model.exception.QuestionAnswerException;
+import com.kh.nullLive.admin.model.vo.Ban;
 import com.kh.nullLive.admin.model.vo.Exchange;
 import com.kh.nullLive.admin.model.vo.Question;
 import com.kh.nullLive.admin.model.vo.Report;
@@ -99,6 +100,17 @@ public class AdminServiceImpl implements AdminService {
 	public ArrayList<Report> streamerReportList() {
 		ArrayList<Report> streamerReportList = ad.streamerReportList(sqlSession);
 		return streamerReportList;
+	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 3.
+	 * @comment :일반회원 신고 리스트
+	 */
+	@Override
+	public ArrayList<Report> memberReportList() {
+		ArrayList<Report> memberReportList = ad.memberReportList(sqlSession);
+		return memberReportList;
 	}
 	
 	/**
@@ -202,7 +214,7 @@ public class AdminServiceImpl implements AdminService {
 	/**
 	 * @author INHYO
 	 * @date : 2019. 7. 4.
-	 * @comment :FAQ 목록 조회
+	 * @comment :관리 목록 조회
 	 */
 	@Override
 	public ArrayList<Board> FAQList() {
@@ -223,12 +235,12 @@ public class AdminServiceImpl implements AdminService {
 	/**
 	 * @author INHYO
 	 * @date : 2019. 7. 4.
-	 * @comment :FAQ 상세보기
+	 * @comment :FAQ / 곤지사항  상세보기
 	 */
 	@Override
-	public Board FAQDetail(int bno) {
-		Board FAQDetail = ad.FAQDetail(sqlSession,bno);
-		return FAQDetail;
+	public Board detail(int bno) {
+		Board detail = ad.detail(sqlSession,bno);
+		return detail;
 	}
 	/**
 	 * @author INHYO
@@ -236,8 +248,8 @@ public class AdminServiceImpl implements AdminService {
 	 * @comment :FAQ 수정
 	 */
 	@Override
-	public int FAQModify(Board fAQModify) {
-		int result = ad.FAQModify(sqlSession, fAQModify);
+	public int modify(Board fAQModify) {
+		int result = ad.modify(sqlSession, fAQModify);
 		return result;
 	}
 	/**
@@ -246,8 +258,8 @@ public class AdminServiceImpl implements AdminService {
 	 * @comment :FAQ 삭제
 	 */
 	@Override
-	public int deleteFAQ(int bno) {
-		int result = ad.deleteFAQ(sqlSession,bno);
+	public int deleteContent(int bno) {
+		int result = ad.deleteContent(sqlSession,bno);
 		return result;
 	}
 	
@@ -269,22 +281,45 @@ public class AdminServiceImpl implements AdminService {
 	 * @comment :공지사항 작성
 	 */
 	@Override
-	public int insertNoticce(Board b) {
-		int result = ad.insertNoticce(sqlSession, b);
+	public int insertNotice(Board b) {
+		int result = ad.insertNotice(sqlSession, b);
 		return result;
 	}
 
 	/**
 	 * @author INHYO
-	 * @date : 2019. 7. 4.
-	 * @comment :FAQ 상세보기
+	 * @date : 2019. 7. 5.
+	 * @comment :밴 내역 찾기
 	 */
 	@Override
-	public Board noticeDetail(int bno) {
-		Board noticeDetail = ad.noticeDetail(sqlSession,bno);
-		return noticeDetail;
+	public String selectBan(int bno) {
+		String ban = ad.selectBan(sqlSession, bno);
+		return ban;
 	}
-	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 5.
+	 * @comment :신고처리 프로세스
+	 */
+	@Override
+	public int reportProcess(Report r, Member m) {
+		int result = 0;
+		
+		int result1 = ad.userStatusUpdate(sqlSession,m); // 회원의 상태를 변경
+		int result2 = ad.insertBan(sqlSession,m);// 밴내역 추가
+		
+		int bano = ad.selectBano(sqlSession, m.getMno()); // 게시판에 필요한 bano를 조회
+		r.setCou(bano);
+		int result3 = ad.updateReport(sqlSession, r);// bano를 가지고 해당 글 변경 및 처리 상태
+		
+		
+		//int result3 = ad.update
+		
+		
+		
+		return result;
+	}
+
 	
 
 	
