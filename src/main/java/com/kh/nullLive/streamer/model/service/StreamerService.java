@@ -42,5 +42,11 @@ public interface StreamerService {
 
 	ArrayList<HashMap<String, Object>> recomList(HashMap<String, Object> recomInfoMap);
 
+	HashMap<String,Object> todayRecom(int mno);
+
+	ArrayList<HashMap<String, Object>> selectAllChart(int mno);
+
+	ArrayList<HashMap<String, Object>> selectAllSubChart(int mno);
+
 
 }

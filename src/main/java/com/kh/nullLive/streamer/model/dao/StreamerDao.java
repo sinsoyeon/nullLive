@@ -52,6 +52,12 @@ public interface StreamerDao {
 
 	ArrayList<HashMap<String, Object>> recomList(SqlSessionTemplate sqlSession,HashMap<String, Object> recomInfoMap);
 
+	HashMap<String,Object> todayRecom(SqlSessionTemplate sqlSession, int mno);
+
+	ArrayList<HashMap<String, Object>> selectAllChart(SqlSessionTemplate sqlSession, int mno);
+
+	ArrayList<HashMap<String, Object>> selectAllSubChart(SqlSessionTemplate sqlSession, int mno);
+
 
 
 }
