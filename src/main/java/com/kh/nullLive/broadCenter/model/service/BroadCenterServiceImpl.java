@@ -55,8 +55,15 @@ public class BroadCenterServiceImpl implements BroadCenterService {
 
 	//방송기능 설정 페이지 정보 조회(정연)
 	@Override
-	public BroadCenter selectBroadSetting(int mno) {
+	public HashMap<String, Object> selectBroadSetting(int mno) {
 		return bcd.selectBroadSetting(sqlSession, mno);
 	}
+
+	//방송기능 설정 업데이트 (정연)
+	@Override
+	public int updateBroadSetting(HashMap<String, Object> broadInfo) {
+		return bcd.updateBroadSetting(sqlSession, broadInfo);
+	}
+
 	
 }

@@ -39,6 +39,9 @@ public interface BroadCenterDao {
 	HashMap<String, Object> selectMainInfo(SqlSessionTemplate sqlSession, int mno);
 
 	//방송기능설정 페이지 정보 조회(정연)
-	BroadCenter selectBroadSetting(SqlSessionTemplate sqlSession, int mno);
+	HashMap<String, Object> selectBroadSetting(SqlSessionTemplate sqlSession, int mno);
+
+	//방송기능 설정 업데이트 (정연)
+	int updateBroadSetting(SqlSessionTemplate sqlSession, HashMap<String, Object> broadInfo);
 
 }

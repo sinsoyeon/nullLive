@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.nullLive.broadCenter.model.exception.StreamerInsertException;
 import com.kh.nullLive.broadCenter.model.exception.StreamerUpdateException;
@@ -22,6 +23,7 @@ import com.kh.nullLive.broadCenter.model.vo.BroadCenter;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @SessionAttributes("loginUser")
@@ -38,9 +40,10 @@ public class centerController {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int mno = loginUser.getMno();
 		
-		BroadCenter broadCenter = bcs.selectBroadSetting(mno);
+		HashMap<String, Object> broadInfo = bcs.selectBroadSetting(mno); 
 		
-		model.addAttribute("broadCenter", broadCenter);
+		
+		model.addAttribute("broadInfo", broadInfo);
 		return "streaming/broadCenter/broadSetting";
 	}
 	
@@ -123,14 +126,28 @@ public class centerController {
 	
 	@RequestMapping(value = "updateSetting.st")
 	@ResponseBody
-	public Map<String, Object> updateSetting(@RequestParam(name="json") JSONObject json){
+	public int updateSetting(@RequestParam(name="json") String json, ModelAndView modelAndView){
+		//직렬화 시켜 가져온 오브젝트 배열을 JSONArray 형식으로 바꿔줌
+		JSONArray array = JSONArray.fromObject(json);
 
-		Map<String, Object> result= new HashMap<String, Object>();
-		result.put("타이틀", "ㅋ");
+		HashMap<String, Object> broadInfo = new HashMap<String, Object>();
 		
-		System.out.println("json" + json.get("bTitle"));
+		for(int i=0; i<array.size(); i++){
+	        
+	        //JSONArray 형태의 값을 가져와 JSONObject 로 풀어준다.    
+	        JSONObject obj = (JSONObject)array.get(i);
+	                
+	        broadInfo.put("title", obj.get("title"));
+	        broadInfo.put("category", obj.get("category"));
+	        broadInfo.put("pwd", obj.get("pwd"));
+	        broadInfo.put("endingComment", obj.get("endingComment"));
+	        broadInfo.put("bcno", obj.get("bcno"));
+	        //resendList.add(resendMap);	
+	    }
 		
-		return result;
+		int updateCheck = bcs.updateBroadSetting(broadInfo);
+		
+		return updateCheck;
 	}
 	
 }
