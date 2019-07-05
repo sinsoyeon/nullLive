@@ -48,11 +48,11 @@ public interface JobBoardService {
 
 	int getListCount();
 
-	ArrayList selectJobMngPaging(PagingVo paging);
+	ArrayList<HashMap<String,Object>> selectJobListJobPaging(HashMap<String,Object> hmap);
 
 	int selectJobMngTotalPaging();
 
-	int getJobMngListCount();
+	int getJobBoardListCount(String bType);
 
 	ArrayList<HashMap<String,Object>> selectJobNoticePaging(PagingVo paging);
 

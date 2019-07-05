@@ -49,13 +49,13 @@ public interface JobBoardDao {
 
 	int getListCount(SqlSessionTemplate sqlSession);
 
-	ArrayList selectJobMngPaging(SqlSessionTemplate sqlSession, PagingVo paging);
+	 ArrayList<HashMap<String,Object>> selectJobListJobPaging(SqlSessionTemplate sqlSession, HashMap<String,Object> hmap);
 
 	int insertJobJBoard(SqlSessionTemplate sqlSession, JobBoard jBoard);
 
 	int selectCurrval(SqlSessionTemplate sqlSession);
 
-	int getJobMngListCount(SqlSessionTemplate sqlSession);
+	int getJobBoardListCount(SqlSessionTemplate sqlSession,String bType);
 
 	HashMap<String, Object> selectOneBoard(SqlSessionTemplate sqlSession, int bno);
 

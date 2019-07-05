@@ -35,8 +35,8 @@
 
 					<ul class="nav navbar-nav">
 						<li><a href="jobNoticeList.jbo"><b>공지사항</b></a></li>
-						<li><a href="jobMngList.jbo"><b>매니저</b></a></li>
-						<li><a href="jobContentList.jbo"><b>콘텐츠제작자</b></a></li>
+						<li><a href="jobBoardList.jbo?bType=JOBMNG&url=board/job/jobMngList"><b>매니저</b></a></li>
+						<li><a href="jobBoardList.jbo?bType=JOBCON&url=board/job/jobContentList"><b>콘텐츠제작자</b></a></li>
 					</ul>
 					
 					<ul class="nav navbar-nav navbar-right">

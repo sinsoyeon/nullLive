@@ -10,7 +10,6 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.omg.CORBA.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +26,7 @@ import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.service.JobBoardService;
 import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.JobBoard;
-import com.kh.nullLive.board.model.vo.PageInfo;
-import com.kh.nullLive.common.Pagination;
-import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
-import com.kh.nullLive.member.model.exception.ProfileException;
 import com.kh.nullLive.member.model.service.MemberService;
 import com.kh.nullLive.member.model.vo.Member;
 
@@ -93,30 +88,7 @@ public class JobBoardController {
         System.out.println(sb.toString());
         return sb.toString();
     }
-	/**
-	 * @author : uukk
-	 * @date : 2019. 6. 18.
-	 * @comment : 구인구직 공지사항 리스트 조회용 메소드
-	 */
-	/* @RequestMapping("selectListJobNotice.jbo") */
-	public String selectListJobNotice(HttpServletRequest request) {
-		int currentPage = 1;
-		
-		if(request.getParameter("currentPage") != null) {
-			currentPage = Integer.parseInt(request.getParameter("currentPage"));
-		}
-    	
-    	//게시글 갯수 가져옴
-    	int listCount = jbs.getListCount();
-    	
-    	PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-    	
-    	ArrayList<Board> blist  = jbs.selectListJobNotice(pi);
-    	
-		request.setAttribute("blist", blist);
-		request.setAttribute("pi", pi);
-		return "board/job/jobNoticeList";
-	}
+	
 
 	/**
 	 * @author : uukk
@@ -184,14 +156,16 @@ public class JobBoardController {
 	 * @date : 2019. 6. 19.
 	 * @comment : 구인구직 게시판 매니저 리스트 조회용 메소드
 	 */
-	@RequestMapping("jobMngList.jbo")
-	public String selectListJobMngBoard(PagingVo paging,Model model) {
-		ArrayList list = jbs.selectJobMngPaging(paging);
-		paging.setTotal(jbs.getJobMngListCount());
-		System.out.println(paging.getTotal());
+	@RequestMapping("jobBoardList.jbo")
+	public String selectListJobBoard(Board board,PagingVo paging,Model model,HttpServletRequest request) {
+		HashMap<String,Object> hmap = new HashMap<>();
+		hmap.put("board", board);
+		hmap.put("paging", paging);
+		ArrayList<HashMap<String,Object>> list = jbs.selectJobListJobPaging(hmap);
+		paging.setTotal(jbs.getJobBoardListCount(board.getBType()));
 		model.addAttribute("list", list);
         model.addAttribute("pi", paging);
-		return "board/job/jobMngList";
+		return request.getParameter("url");
 	}
 	
 	/**
@@ -199,14 +173,18 @@ public class JobBoardController {
 	 * @date : 2019. 6. 19.
 	 * @comment : 구인구직 게시판 내가쓴글 조회용 메소드
 	 */
-	@RequestMapping("selectMyboard.jbo")
-	public String selectListJobMyBoard(Member member,Board board,PagingVo paging,Model model,HttpServletRequest request) {
+	@RequestMapping("jobMyboard.jbo")
+	public String selectListJobMyBoard(Board board,PagingVo paging,Model model,HttpServletRequest request) {
 		HashMap<String,Object> hmap = new HashMap<>();
+		
+		//요청 session에 loginUser정보를 넣어서 받음
+		Member member = (Member)request.getSession().getAttribute("loginUser");
+		request.getSession().getAttribute("loginUser");
+		
 		hmap.put("member", member);
 		hmap.put("board", board);
 		hmap.put("paging", paging);
 		
-		System.out.println(hmap);
 		ArrayList<HashMap<String,Object>> list = jbs.selectListJobMyBoardPaging(hmap);
 		paging.setTotal(jbs.getJobMyJobBoardCount(hmap));
 		model.addAttribute("list", list);
@@ -225,7 +203,7 @@ public class JobBoardController {
 		
 		try {
 			int result = jbs.insertJobBoard(board,jBoard);
-			return "redirect:index.jsp";
+			return "redirect:jobMain.jbo";
 		} catch (JobBoardInsertException e) {
 			model.addAttribute("msg",e.getMessage());
 			return "common/errorPage";
@@ -255,7 +233,15 @@ public class JobBoardController {
 		try {
 			boardMap = jbs.selectOneJobBoard(bno);
 			model.addAttribute("boardMap",boardMap);
-			return "board/job/jobMngDetail";
+			System.out.println(boardMap.get("jBoard"));
+			Board board = (Board)boardMap.get("board");
+			//bType에 따른 리턴 view 설정
+			if(board.getBType().equals("JOBCON")) {
+				return "board/job/jobContentDetail";
+			}else {
+				return "board/job/jobMngDetail";
+			}
+				
 		} catch (BoardSelectListException e) {
 			// TODO Auto-generated catch block
 			model.addAttribute("msg",e.getMessage());

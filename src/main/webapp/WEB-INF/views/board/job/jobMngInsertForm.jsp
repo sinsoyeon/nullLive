@@ -82,7 +82,7 @@
 				<!-- 내용영역 -->
 				<jsp:include page="contentInsertForm.jsp"/>
 				<div class="contentArea">
-						<textarea name="bContent" id="editor" required placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 400px;"></textarea>
+					<textarea name="bContent" id="editor" required placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 400px;"></textarea>
 				</div>
 				<br>
 				<!-- 첨부파일 영역 -->
