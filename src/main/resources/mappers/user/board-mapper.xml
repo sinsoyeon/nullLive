@@ -331,22 +331,14 @@
         WHERE BTYPE = 'JOBMNG'
     </select>
     
-    <!-- Select One JobBoard -->
-    <!-- <select id="selectOneJobBoard" resultMap="jobBoardDetailResultSet" parameterType="_int">
-    	SELECT B.BNO,B.BCONTENT, B.BTITLE,B.WRITTEN_DATE,B.MODIFY_DATE,B.BCOUNT,B.BTYPE,BS.STA_DETAIL,JB.JOB,JB.JBTYPE,JB.CONT_CONTENT,JB.DEADLINE,JB.PERPRICE,M.MNO,M.MID,M.NICK_NAME,M.ENROLL_DATE
-		FROM BOARD B
-		JOIN BOARD_STATUS BS ON(B.B_STATUS = BS.B_STATUS)
-		JOIN JOB_BOARD JB ON(B.BNO = JB.BNO)
-		JOIN MEMBER M ON(B.BWRITER = M.MNO)
-		LEFT JOIN ATT_MANAGE AM ON(M.MNO = AM.MNO)
-		LEFT JOIN ATTACHMENT A ON(A.ATTNO = AM.ATTNO)
-		WHERE B.BNO = #{bno}
-	</select> -->
+    <!-- board bno로 전체 조회  -->
 	<select id="selectOneBoard" resultMap="boardResultSet" parameterType="_int">
     	SELECT * 
     	FROM BOARD
     	WHERE BNO = #{bno}
 	</select>
+	
+	<!-- jobBoard bno로 전체 조회  -->
 	<select id="selectOneJobBoard" resultType="JobBoard" parameterType="_int">
     	SELECT * 
     	FROM JOB_BOARD
@@ -359,6 +351,30 @@
 		FROM BOARD_STATUS B
 		WHERE B_STATUS = #{bStatus}
 	</select>
+	
+	<!-- 내가 쓴 글 페이징 조회 -->
+	<select id="selectListJobMyBoardPaging" resultMap="jobMngListResultSet" parameterType="java.util.HashMap">
+		SELECT *
+		FROM(SELECT ROWNUM RNUM, P.*
+    		FROM(SELECT JB.JBNO, JB.JOB, JB.JBTYPE, JB.CONT_CONTENT, JB.BNO, JB.DEADLINE, B.BTITLE, B.BCONTENT, B.WRITTEN_DATE,B.BCOUNT, B.BTYPE,B.BWRITER,BS.STA_DETAIL,M.NICK_NAME
+			    FROM JOB_BOARD JB
+			    JOIN BOARD B ON(JB.BNO = B.BNO)
+			    JOIN MEMBER M ON(B.BWRITER = M.MNO)
+			    JOIN BOARD_STATUS BS ON(B.B_STATUS = BS.B_STATUS)
+			    WHERE M.MNO = #{member.mno}
+			    AND B.BTYPE = #{board.bType}
+			    ORDER BY JB.JBNO DESC) P)
+    	WHERE RNUM BETWEEN #{paging.start} AND #{paging.last}
+
+	</select>
+	
+	<!-- 내가쓴 글 리스트 총 갯수 조회 -->
+    <select id="selectJobMyBoardListCount" resultType="_int" parameterType="java.util.HashMap">
+        SELECT COUNT(*)
+        FROM BOARD
+        WHERE BTYPE = #{board.bType}
+        AND BWRITER = #{member.mno}
+    </select>
 	
 	<!-- 관리자 FAQ 조회 -->
 	<select id="selectFAQList" resultMap="boardResultSet" >

@@ -76,6 +76,15 @@ public interface JobBoardDao {
 	 */
 	String selectOneBoardStatus(SqlSessionTemplate sqlSession, int bStatus);
 
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 5.
+	 * @comment : 내가 쓴 글 조회
+	 */
+	ArrayList<HashMap<String, Object>> selectListJobMyBoardPaging(SqlSessionTemplate sqlSession, HashMap<String,Object> hmap);
+
+	int getJobMyJobBoardCount(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
 
 
 }
