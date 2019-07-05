@@ -23,7 +23,10 @@
 		<typeAlias alias="AttManage" type="com.kh.nullLive.common.attachment.model.vo.AttManage"/>
 		<typeAlias alias="Streamer" type="com.kh.nullLive.streamer.model.vo.Streamer"/>	
 		<!-- 구독 -->	
-		<typeAlias alias="Subscription" type="com.kh.nullLive.subscription.model.vo.Subscription"/>	
+		<typeAlias alias="Subscription" type="com.kh.nullLive.subscription.model.vo.Subscription"/>
+		
+		<!-- 방송국 -->
+		<typeAlias alias="BroadCenter" type="com.kh.nullLive.broadCenter.model.vo.BroadCenter"/>
 	
 	</typeAliases>
 	
@@ -34,5 +37,6 @@
 		<mapper resource="mappers/user/admin-mapper.xml" />
 		<mapper resource="mappers/user/streaming-mapper.xml"/>
 		<mapper resource="mappers/user/subscription-mapper.xml"/>
+		<mapper resource="mappers/user/broadCenter-mapper.xml"/>
 	</mappers>
 </configuration>

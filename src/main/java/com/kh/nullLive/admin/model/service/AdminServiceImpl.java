@@ -14,6 +14,7 @@ import com.kh.nullLive.admin.model.vo.Exchange;
 import com.kh.nullLive.admin.model.vo.Question;
 import com.kh.nullLive.admin.model.vo.Report;
 import com.kh.nullLive.admin.model.vo.UserDetail;
+import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.vo.Member;
 
@@ -57,8 +58,8 @@ public class AdminServiceImpl implements AdminService {
 	 * @comment :회원 상세보기
 	 */
 		@Override
-		public UserDetail userDetail(String userId) {
-			UserDetail userDetail = ad.userDetail(sqlSession, userId);
+		public UserDetail userDetail(UserDetail ud) {
+			UserDetail userDetail = ad.userDetail(sqlSession, ud);
 			return userDetail;
 		}
 
@@ -197,6 +198,102 @@ public class AdminServiceImpl implements AdminService {
 		
 		return result;
 	}
+
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :FAQ 목록 조회
+	 */
+	@Override
+	public ArrayList<Board> FAQList() {
+		ArrayList<Board> FAQList = ad.FAQList(sqlSession);
+		return FAQList;
+	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :FAQ 작성
+	 */
+	@Override
+	public int insertFAQ(Board b) {
+		int result = ad.insertFAQ(sqlSession, b);
+		return result;
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :FAQ 상세보기
+	 */
+	@Override
+	public Board FAQDetail(int bno) {
+		Board FAQDetail = ad.FAQDetail(sqlSession,bno);
+		return FAQDetail;
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :FAQ 수정
+	 */
+	@Override
+	public int FAQModify(Board fAQModify) {
+		int result = ad.FAQModify(sqlSession, fAQModify);
+		return result;
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :FAQ 삭제
+	 */
+	@Override
+	public int deleteFAQ(int bno) {
+		int result = ad.deleteFAQ(sqlSession,bno);
+		return result;
+	}
+	
+
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :공지사항 목록 조회
+	 */
+	@Override
+	public ArrayList<Board> noticeList() {
+		ArrayList<Board> noticeList = ad.noticeList(sqlSession);
+		return noticeList;
+	}
+
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :공지사항 작성
+	 */
+	@Override
+	public int insertNoticce(Board b) {
+		int result = ad.insertNoticce(sqlSession, b);
+		return result;
+	}
+
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :FAQ 상세보기
+	 */
+	@Override
+	public Board noticeDetail(int bno) {
+		Board noticeDetail = ad.noticeDetail(sqlSession,bno);
+		return noticeDetail;
+	}
+	
+	
+
+	
+
+
+	
+
+	
+	
 
 	
 

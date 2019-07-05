@@ -1,7 +1,11 @@
 package com.kh.nullLive.broadCenter.model.dao;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.mybatis.spring.SqlSessionTemplate;
 
+import com.kh.nullLive.broadCenter.model.vo.BroadCenter;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
@@ -29,5 +33,12 @@ public interface BroadCenterDao {
 	 * Comment : 멤버 재로드
 	 */
 	Member resetMember(SqlSessionTemplate sqlSession, int mno);
+
+	
+	//방송국 메인 페이지 정보 조회(정연)
+	HashMap<String, Object> selectMainInfo(SqlSessionTemplate sqlSession, int mno);
+
+	//방송기능설정 페이지 정보 조회(정연)
+	BroadCenter selectBroadSetting(SqlSessionTemplate sqlSession, int mno);
 
 }

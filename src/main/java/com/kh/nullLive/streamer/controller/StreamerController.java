@@ -245,6 +245,7 @@ public class StreamerController {
 		modelAndview.setViewName("jsonView");
 		modelAndview.addObject("chargeList", chargeList);
 		
+		
 		return modelAndview;
 	}
 	
@@ -261,7 +262,42 @@ public class StreamerController {
 		modelAndView.setViewName("jsonView");
 		modelAndView.addObject("ageChartData",ageChartData);
 		
+		System.out.println("ageChartData : " + ageChartData);
+		
 		return modelAndView;
 	}
+	
+	@RequestMapping("sponAgeChart.sm")
+	public ModelAndView sponAgeChart(int mno,ModelAndView modelAndView) {
+		ArrayList<HashMap<String, Object>> sponAgeChart = smService.sponAgeChart(mno);
+				
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("sponAgeChart",sponAgeChart);
+		
+		System.out.println(sponAgeChart);
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping("recomView.sm")
+	public String recomView() {
+		return "streaming/streamer/stearmerRecomChartForm";
+	}
+	
+	@RequestMapping("recom.sm")
+	public ModelAndView recomChart(int mno,int type,ModelAndView modelAndView) {
+		
+		HashMap<String, Object> recomInfoMap = new HashMap<String, Object>();
+		recomInfoMap.put("mno", mno);
+		recomInfoMap.put("type", type);
+		
+		ArrayList<HashMap<String, Object>> weeklyRecomList = smService.recomList(recomInfoMap);
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("weeklyRecomList", weeklyRecomList);
+		
+		return modelAndView;
+	}
+	
 	
 }

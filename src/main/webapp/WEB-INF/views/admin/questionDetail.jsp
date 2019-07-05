@@ -30,7 +30,7 @@
 	width: 95%;
 }
 
-.qustionContext{
+.questionContext{
 	background: white;
 	border: 1px solid lightgray;
 	border-radius: 5px 5px 5px 5px;
@@ -73,12 +73,12 @@
 				</div>
 				
 				<div class="row" align="center" style="width:95% ">
-					<div class="col-sm-4">${questionContent.qustionType }</div>
+					<div class="col-sm-4">${questionContent.questionType }</div>
 					<div class="col-sm-4">${questionContent.name }</div>
 					<div class="col-sm-4">${questionContent.WDate }</div>
 				</div>
 					<div style="padding: 3%;">
-						<div class="qustionContext"><br><p>${questionContent.BContent }</p><br></div>
+						<div class="questionContext"><br><p>${questionContent.BContent }</p><br></div>
 						<br>
 						<hr style="border: none; border-top: 3px dotted gray; color: #fff; height: 1px; width: 98%;">
 						<c:if test="${questionContent.BStatus eq 4 }">
@@ -93,7 +93,7 @@
 									<input type="button"  style="float: left;" onclick="history.back();" value='뒤로가기'>
 									
 									<input class="answertData" name='bTitle' value="${questionContent.BTitle }">
-									<input class="answertData" name='qustionType' value="${questionContent.qustionType }"> 
+									<input class="answertData" name='questionType' value="${questionContent.questionType }"> 
 									<input class="answertData" name='bno' value="${questionContent.bno }">
 									
 									<button style="float: right;" onclick="return questionAnswer()">답변보내기</button>
@@ -106,7 +106,7 @@
 								<p>완료된 답변</p>
 							</div>
 							<br>
-							<div class="qustionContext"><br><p>${questionContent.answer }</p><br></div>
+							<div class="questionContext"><br><p>${questionContent.answer }</p><br></div>
 							<div style="padding: 3%;">
 							<button style="float: left;" onclick="location.href='questionList.ad'">뒤로가기</button>
 						</div>

@@ -41,27 +41,27 @@ tr>th{
 				</thead>	
 				<tbody>
 				<c:set var = "listSize" value = "${QuestionList.size() }" />
-				<c:forEach items="${QuestionList}" var="qustion" varStatus="number">
-					<c:if test="${qustion.BStatus eq 4}"> 
+				<c:forEach items="${QuestionList}" var="question" varStatus="number">
+					<c:if test="${question.BStatus eq 4}"> 
 						<tr>
-							<td>${qustion.bno }	</td>
-							<td>${qustion.qustionType}</td>	
-							<td>${qustion.name}</td>	
-							<td>${qustion.BTitle}</td>	
-							<td>${qustion.WDate}</td>	
+							<td>${question.bno }	</td>
+							<td>${question.questionType}</td>	
+							<td>${question.name}</td>	
+							<td>${question.BTitle}</td>	
+							<td>${question.WDate}</td>	
 							<td>대기중</td>	
-							<td style="display: none;">${qustion.BStatus }</td>
+							<td style="display: none;">${question.BStatus }</td>
 						</tr>
 					</c:if>
-					<c:if test="${qustion.BStatus eq 3 }">
+					<c:if test="${question.BStatus eq 3 }">
 						<tr style="background: #eaeaea;">
-							<td>${qustion.bno }	</td>
-							<td>${qustion.qustionType}</td>	
-							<td>${qustion.name}</td>	
-							<td>${qustion.BTitle}</td>	
-							<td>${qustion.WDate}</td>	
+							<td>${question.bno }	</td>
+							<td>${question.questionType}</td>	
+							<td>${question.name}</td>	
+							<td>${question.BTitle}</td>	
+							<td>${question.WDate}</td>	
 							<td>완료</td>	
-							<td style="display: none;">${qustion.BStatus }</td>
+							<td style="display: none;">${question.BStatus }</td>
 						</tr>
 					</c:if>
 				</c:forEach>

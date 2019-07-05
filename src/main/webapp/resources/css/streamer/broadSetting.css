@@ -18,3 +18,17 @@
 	margin-top:auto;
 	margin-bottom:auto;
 }
+.row{
+	background:#f6f8fa;
+	color:#446600;
+}
+label{
+	font-size:18px;
+}
+#updateBtn{
+	height:50px;
+	width:130px;
+	margin-top:5%;
+	margin-left:30%;
+	font-size: 14px;
+}

@@ -24,7 +24,7 @@ public interface AdminService {
 
 	ArrayList<Question> questionList();
 
-	UserDetail userDetail(String userId);
+	UserDetail userDetail(UserDetail userDetail);
 
 	int userStatusUpdate(Member m);
 
@@ -37,5 +37,21 @@ public interface AdminService {
 	int exchange(int excno);
 
 	int allExchange(List<String> allExcList);
+
+	ArrayList<Board> FAQList();
+
+	ArrayList<Board> noticeList();
+
+	Board FAQDetail(int bno);
+
+	int FAQModify(Board fAQModify);
+
+	int insertFAQ(Board b);
+
+	int deleteFAQ(int bno);
+
+	int insertNoticce(Board b);
+
+	Board noticeDetail(int bno);
 
 }

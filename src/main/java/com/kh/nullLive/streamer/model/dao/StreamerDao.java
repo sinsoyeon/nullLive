@@ -36,6 +36,13 @@ public interface StreamerDao {
 
 	HashMap<String, Object> selectOneExc(SqlSessionTemplate sqlSession, HashMap<String, Object> userInfoMap);
 
+	int cancelExchange(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+	
+	ArrayList<HashMap<String, Object>> selectChargeList(SqlSessionTemplate sqlSession, int mno);
+	
+	ArrayList<HashMap<String,Object>> selectAllFemale(SqlSessionTemplate sqlSession, int mno);
+	
+	ArrayList<HashMap<String, Object>> sponAgeChart(SqlSessionTemplate sqlSession, int mno);
 	/**
 	 * @author : uukk
 	 * @date : 2019. 7. 3.
@@ -43,11 +50,8 @@ public interface StreamerDao {
 	 */
 	Streamer selectStreamerMno(SqlSessionTemplate sqlSession, int mno);
 
-	int cancelExchange(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+	ArrayList<HashMap<String, Object>> recomList(SqlSessionTemplate sqlSession,HashMap<String, Object> recomInfoMap);
 
-	ArrayList<HashMap<String, Object>> selectChargeList(SqlSessionTemplate sqlSession, int mno);
-
-	HashMap<String,Object> selectAllFemale(SqlSessionTemplate sqlSession, int mno);
 
 
 }
