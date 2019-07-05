@@ -106,7 +106,7 @@
 			<div class="divTest col-lg-1 col-md-2">
 				<c:out value="${ board.BCount }"/>
 			</div>
-			<<div class="divTest col-lg-1 col-md-2">
+			<div class="divTest col-lg-1 col-md-2">
 				<c:out value="${ jBoard.JBtype }"/>
 			</div> 
 			<div class="divTest col-lg-2 col-md-2">
@@ -157,7 +157,7 @@
 			<c:if test="${ loginUser.mno eq member.mno  }">
 				<button class="btn btn-primary btn-sm">수정하기</button>
 			</c:if>
-			<button class="btn btn-primary btn-sm">목록으로</button>
+			<button class="btn btn-primary btn-sm"  onclick="location.href='jobBoardList.jbo?bType=JOBMNG&url=board/job/jobMngList'">목록으로</button>
 			<br><br>
 		</div>
 		<!-- 게시글  -->

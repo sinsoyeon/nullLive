@@ -72,7 +72,7 @@
 		<div class="boardSelectArea">
 			<!-- 매니저 게시판 선택 -->
 			<div class="col-lg-1 col-md-1"></div> 
-			<div id="mngBoard " class="col-lg-4 col-md-4">
+			<div id="mngBoard" class="col-lg-4 col-md-4">
 				<!-- 이미지영역  -->
 				<div class="boardIcon">
 					
@@ -110,12 +110,12 @@
 	<script>
 		/*  매니저 게시판 이동 */
 		$("#mngBoard").click(function() {
-			console.log("매니저");
-			location.href="jobMngList.jbo";
+			console.log("dd");
+			location.href="jobBoardList.jbo?bType=JOBMNG&url=board/job/jobMngList";
 		});
 		/*  콘텐츠제작자 게시판 이동 */
 		$("#conBoard").click(function(){
-			location.href="jobContentList.jbo";
+			location.href="jobBoardList.jbo?bType=JOBCON&url=board/job/jobContentList";
 		});
 
 	</script>

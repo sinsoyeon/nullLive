@@ -40,7 +40,7 @@
 	
 	
 	
-	<!-- job 매니저게시판 게시글 리스트 resultMap -->
+	<!-- job 게시판 게시글 리스트 resultMap -->
 	<resultMap type="java.util.HashMap" id="jobMngListResultSet">
 		<id property="jbno" column="JBNO"/>
 		<result property="job" column="JOB"/>
@@ -59,26 +59,15 @@
 	</resultMap>
 	
 	<!-- job 게시글 상세보기 resultSet -->
-	<resultMap type="java.util.HashMap" id="jobBoardDetailResultSet">
-		<id property="bno" column="BNO"/>
-		<result property="bTitle" column="BTITLE"/>
-		<result property="bContent" column="BCONTENT"/>
-		<result property="writtenDate" column="WRITTEN_DATE"/>
-		<result property="modifyDate" column="MODIFY_DATE"/>
-		<result property="bCount" column="BCOUNT"/>
-		<result property="bType" column="BTYPE"/>
-		<result property="staDetail" column="STA_DETAIL"/>
+	<resultMap type="JobBoard" id="jobBoardResultSet">
+		<id property="jbno" column="JBNO"/>
 		<result property="job" column="JOB"/>
-		<result property="jBType" column="JBTYPE"/>
+		<result property="jBtype" column="JBTYPE"/>
 		<result property="contContent" column="CONT_CONTENT"/>
-		<result property="deadline" column="DEADLINE"/>
+		<result property="bno" column="BNO"/>
+		<result property="deadLine" column="DEADLINE"/>
 		<result property="perprice" column="PERPRICE"/>
-		<result property="mid" column="MID"/>
-		<result property="mno" column="MNO"/>
-		<result property="nickName" column="NICK_NAME"/>
-		<result property="enrollDate" column="ENROLL_DATE"/>
 	</resultMap>
-	
 	
 
 	
@@ -309,8 +298,8 @@
 		SELECT SEQ_BNO.CURRVAL FROM DUAL
 	</select>
 	
-	<!-- jobBoard 매니저 게시판 페이징 조회 -->
-	<select id="selectJobMngTotalPaging" resultMap="jobMngListResultSet">
+	<!-- jobBoard 게시판 페이징 조회 -->
+	<select id="selectJobTotalPaging" resultMap="jobMngListResultSet" parameterType="java.util.HashMap">
 		SELECT *
 		FROM(SELECT ROWNUM RNUM, P.*
     	  FROM(SELECT JB.JBNO, JB.JOB, JB.JBTYPE, JB.CONT_CONTENT, JB.BNO, JB.DEADLINE, B.BTITLE, B.BCONTENT, B.WRITTEN_DATE,B.BCOUNT, B.BTYPE,B.BWRITER,BS.STA_DETAIL,M.NICK_NAME
@@ -318,17 +307,17 @@
             	JOIN BOARD B ON(JB.BNO = B.BNO)
                 JOIN MEMBER M ON(B.BWRITER = M.MNO)
                 JOIN BOARD_STATUS BS ON(B.B_STATUS = BS.B_STATUS)
-           	 	WHERE B.BTYPE = 'JOBMNG'
+           	 	WHERE B.BTYPE = #{board.bType}
            	 	ORDER BY JB.JBNO DESC) P)
-    	WHERE RNUM BETWEEN #{start} AND #{last}
+    	WHERE RNUM BETWEEN #{paging.start} AND #{paging.last}
 
 	</select>
 	
-	<!-- 매니저 리스트 카운트 조회  -->
-    <select id="selectMngListCount" resultType="_int">
+	<!-- 구인구직 리스트 카운트 조회  -->
+    <select id="selectJobBoardListCount" resultType="_int" parameterType="java.lang.String">
         SELECT COUNT(*)
         FROM BOARD
-        WHERE BTYPE = 'JOBMNG'
+        WHERE BTYPE = #{bType}
     </select>
     
     <!-- board bno로 전체 조회  -->
@@ -339,7 +328,7 @@
 	</select>
 	
 	<!-- jobBoard bno로 전체 조회  -->
-	<select id="selectOneJobBoard" resultType="JobBoard" parameterType="_int">
+	<select id="selectOneJobBoard" resultMap="jobBoardResultSet" parameterType="_int">
     	SELECT * 
     	FROM JOB_BOARD
     	WHERE BNO = #{bno}

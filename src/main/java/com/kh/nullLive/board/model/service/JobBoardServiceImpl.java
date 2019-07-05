@@ -217,8 +217,8 @@ public class JobBoardServiceImpl implements JobBoardService{
 	 * @comment : 매니저 리스트 페이징 조회
 	 */
 	@Override
-	public ArrayList selectJobMngPaging(PagingVo paging) {
-		return jbd.selectJobMngPaging(sqlSession,paging);
+	public ArrayList<HashMap<String,Object>> selectJobListJobPaging(HashMap<String,Object> hmap) {
+		return jbd.selectJobListJobPaging(sqlSession,hmap);
 	}
 
 	@Override
@@ -233,8 +233,8 @@ public class JobBoardServiceImpl implements JobBoardService{
 	 * @comment : 매니저 리스트 전체조회
 	 */
 	@Override
-	public int getJobMngListCount() {
-		return jbd.getJobMngListCount(sqlSession);
+	public int getJobBoardListCount(String bType) {
+		return jbd.getJobBoardListCount(sqlSession,bType);
 	}
 
 	/**

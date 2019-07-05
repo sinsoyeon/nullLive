@@ -164,10 +164,8 @@ public class JobBoardDaoImpl implements JobBoardDao {
 	 * @comment : 구인구직 매니저게시판 게시글 페이징 조회
 	 */
 	@Override
-	public ArrayList selectJobMngPaging(SqlSessionTemplate sqlSession, PagingVo paging) {
-		ArrayList arr = (ArrayList) sqlSession.selectList("Board.selectJobMngTotalPaging",paging);
-		System.out.println(arr);
-		return arr;
+	public ArrayList<HashMap<String,Object>> selectJobListJobPaging(SqlSessionTemplate sqlSession, HashMap<String,Object> hmap) {
+		return (ArrayList) sqlSession.selectList("Board.selectJobTotalPaging",hmap);
 	}
 
 	/**
@@ -192,8 +190,8 @@ public class JobBoardDaoImpl implements JobBoardDao {
 	 * @comment : 매니저 리스트 총 갯수 조회
 	 */
 	@Override
-	public int getJobMngListCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("Board.selectMngListCount");
+	public int getJobBoardListCount(SqlSessionTemplate sqlSession,String bType) {
+		return sqlSession.selectOne("Board.selectJobBoardListCount",bType);
 	}
 
 	/**
