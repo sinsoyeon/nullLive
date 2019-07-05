@@ -270,7 +270,7 @@ main section h1 {
 			</nav>
 
 			<!-- main content -->
-			<main style="padding-left: 2%;padding-right: 2%;width: 845px;height: 100%;">
+			<main style="padding-left: 2%;padding-right: 2%;width: 100%;height: 100%;">
 			<div class="container-fluid" style=" padding: 3%; padding-top: 4%; ">
 				<div class="row">
 					<div class="col-md-12">
@@ -283,12 +283,10 @@ main section h1 {
 									<div class="col-md-4"></div>
 									<div class="col-md-6"></div>
 								</div>
-								<div class="row">
+								<div class="row" style=" height: 200px; padding: 2%; ">
 									<div class="col-md-12">
-										<div class="row">
-											<div class="col-md-4"></div>
-											<div class="col-md-4"></div>
-											<div class="col-md-4"></div>
+										<div class="row" id="hotDiv">
+											<div></div>
 										</div>
 									</div>
 								</div>
@@ -306,20 +304,8 @@ main section h1 {
 								</div>
 								<div class="row">
 									<div class="col-md-12">
-										<div class="row">
-											<div class="col-md-4"></div>
-											<div class="col-md-4"></div>
-											<div class="col-md-4"></div>
-										</div>
-										<div class="row">
-											<div class="col-md-4"></div>
-											<div class="col-md-4"></div>
-											<div class="col-md-4"></div>
-										</div>
-										<div class="row">
-											<div class="col-md-4"></div>
-											<div class="col-md-4"></div>
-											<div class="col-md-4"></div>
+										<div class="row" id="allDiv">
+											<div></div>
 										</div>
 									</div>
 								</div>
