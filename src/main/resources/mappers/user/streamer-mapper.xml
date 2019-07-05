@@ -330,12 +330,15 @@
 
 	<!-- 방송국 메인 조회(정연) -->
 	<select id="selectMainInfo" parameterType="_int" resultType="java.util.HashMap">
-		SELECT FSNO, SHSNO
+		SELECT FSNO, SHSNO, BCINTRO
 		FROM (SELECT COUNT(SNO) FSNO
 		FROM FAVORITES
 		WHERE SNO = #{mno}),
 		(SELECT COUNT(SNO) SHSNO
 		FROM SUBSCRIPTION_HIS
-		WHERE SNO = #{mno})
+		WHERE SNO = #{mno}),
+        (SELECT BCINTRO
+         FROM BROAD_CENTER
+         WHERE MNO = #{mno})
 	</select>
 </mapper>

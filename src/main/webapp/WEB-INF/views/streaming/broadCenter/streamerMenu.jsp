@@ -23,7 +23,7 @@
 			<div class="sidebar">
 				<div class="profile">
 					<img src="${ contextPath }/resources/image/bbashong.png"
-						class="img-circle" alt="Cinque Terre" id="profileImg">
+						class="img-circle" alt="Cinque Terre" id="profileImg" onclick="location.href='main.st'">
 					<h3 style="color: white">${loginUser.nickName}</h3>
 					<h5 style="color: white">@${loginUser.mid}</h5>
 				</div>

@@ -26,11 +26,28 @@
 					<table class="headInfo">
 						<tr>
 							<th>즐겨찾기 수 : </th>
-							<td>${mainInfo.FSNO}</td>
+							<c:if test="${mainInfo.FSNO == null}">
+								<td>0</td>
+							</c:if>
+							<c:if test="${mainInfo.FSNO != null}">
+								<td>${mainInfo.FSNO}</td>
+							</c:if>
 							<th>구독자 수 :</th>
-							<td>${mainInfo.SHSNO}</td>
+							<c:if test="${mainInfo.SHSNO == null}">
+								<td> 0 </td>
+							</c:if>
+							<c:if test="${mainInfo.SHSNO != null}">
+								<td>${mainInfo.SHSNO}</td>
+							</c:if>
 						</tr>
-					</table><br><br><br><br><br>
+					</table><br><br>
+					
+					<div class="intro">
+					<br>
+						<label style="font-size:25px; font-wight:bold;">인사말</label><br>
+						<label>${mainInfo.BCINTRO}</label>
+					</div>
+					<br><br><br>
 					<div class="broadStatus">
 					<label>방송 상태:</label>
 					<label>방송 전</label><br>

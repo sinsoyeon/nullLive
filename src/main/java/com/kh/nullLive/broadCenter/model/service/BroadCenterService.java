@@ -2,6 +2,7 @@ package com.kh.nullLive.broadCenter.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.kh.nullLive.broadCenter.model.exception.StreamerInsertException;
 import com.kh.nullLive.broadCenter.model.exception.StreamerUpdateException;
@@ -33,6 +34,9 @@ public interface BroadCenterService {
 	HashMap<String, Object> selectMainInfo(int mno);
 
 	//방송기능 설정 페이지 정보 조회(정연)
-	BroadCenter selectBroadSetting(int mno);
+	HashMap<String, Object> selectBroadSetting(int mno);
+
+	//방송기능 업데이트 (정연)
+	int updateBroadSetting(HashMap<String, Object> broadInfo);
 	
 }

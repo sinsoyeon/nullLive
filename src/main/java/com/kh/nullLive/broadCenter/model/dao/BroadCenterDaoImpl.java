@@ -46,8 +46,15 @@ public class BroadCenterDaoImpl implements BroadCenterDao {
 
 	//방송기능설정 페이지 정보 조회(정연)
 	@Override
-	public BroadCenter selectBroadSetting(SqlSessionTemplate sqlSession, int mno) {
+	public HashMap<String, Object> selectBroadSetting(SqlSessionTemplate sqlSession, int mno) {
 		return sqlSession.selectOne("BroadCenter.selectBroadSetting", mno);
+	}
+
+	
+	//방송기능 설정 업데이트 (정연)
+	@Override
+	public int updateBroadSetting(SqlSessionTemplate sqlSession, HashMap<String, Object> broadInfo) {
+		return sqlSession.update("BroadCenter.updateBroadSetting", broadInfo);
 	}
 
 }

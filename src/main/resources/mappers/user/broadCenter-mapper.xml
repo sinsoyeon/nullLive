@@ -17,10 +17,24 @@
 		<result property="adult" column="ADULT" />
 	</resultMap>
 
-	<select id="selectBroadSetting" parameterType="_int" resultMap="BroadCenterResultMap">
+	<!-- 방송국 기능 설정 조회(정연) -->
+	<select id="selectBroadSetting" parameterType="_int" resultType="java.util.HashMap">
 		SELECT *
-		FROM BROAD_CENTER
-		WHERE MNO = #{mno} 
+		FROM (SELECT BH.BHNO, BH.COUNT_VIEWERS, BH.BCNO, BH.COUNT_RECOMMENDATION,
+		BH.BROAD_TITLE, BH.BROAD_PWD, BH.BROAD_CATEGORY, BH.ADULT, BH.BH_STATUS,
+		BC.BROAD_ADDRESS, BC.BCINTRO, BC.MNO, BC.ENDING_COMMENT
+		FROM BROAD_HIS BH, BROAD_CENTER BC
+		WHERE BH.BCNO = BC.BCNO
+		AND BH.BCNO = #{mno}
+		ORDER BY BH.BHNO DESC)
+		WHERE ROWNUM = 1
 	</select>
+	
+	<!-- 방송국 기능 설정 업데이트(정연) -->
+	<update id="updateBroadSetting" parameterType="java.util.HashMap">
+		
+	</update>
+	
+	
 
 </mapper>
