@@ -109,38 +109,31 @@
 			AND M.MID LIKE '%'||#{searchValue}||'%'
 		</if>
 		ORDER BY SPON_DATE DESC
-	</select>
-
-
-	<!-- 환전 신청 내용 조회 -->
-	<select id="selectExcList" resultType="java.util.HashMap"
-		parameterType="_int">
-		SELECT
-		EXC_STATUS,EXC_FEE,EXCNO,EXC_AMOUNT,TO_CHAR(APPLICATION_DATE,'YYYY/MM/DD')
-		AS APPLICATION_DATE,NICK_NAME
+	</select>	
+	
+	
+	<!-- 환전 신청 내용 조회(소연) -->
+	 <select id="selectExcList" resultType="java.util.HashMap" parameterType="_int">
+		SELECT EXC_STATUS,EXC_FEE,EXCNO,EXC_AMOUNT,TO_CHAR(APPLICATION_DATE,'YYYY/MM/DD') AS APPLICATION_DATE,NICK_NAME
 		FROM MEMBER,EXCHANGE
 		WHERE MEMBER.MNO =
 		EXCHANGE.MNO
 		AND MEMBER.MNO = #{mno}
-		ORDER BY APPLICATION_DATE DESC
-	</select>
-
-	<!-- 환전 신청 내용 상세 보기 -->
-	<select id="selectOneExc" resultType="java.util.HashMap"
-		parameterType="java.util.HashMap">
-		SELECT
-		EXC_STATUS,EXC_FEE,EXCNO,EXC_AMOUNT,TO_CHAR(APPLICATION_DATE,'YYYY/MM/DD')
-		AS APPLICATION_DATE,NICK_NAME
+	 	ORDER BY APPLICATION_DATE DESC
+	 </select>
+	 
+	 <!-- 환전 신청 내용 상세 보기(소연) -->
+	 <select id="selectOneExc" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT EXC_STATUS,EXC_FEE,EXCNO,EXC_AMOUNT,TO_CHAR(APPLICATION_DATE,'YYYY/MM/DD') AS APPLICATION_DATE,NICK_NAME
 		FROM MEMBER,EXCHANGE
 		WHERE MEMBER.MNO =
 		EXCHANGE.MNO
 		AND MEMBER.MNO = #{mno}
 		AND EXCNO = #{excno}
-		ORDER BY
-		APPLICATION_DATE DESC
-	</select>
-
-	<!-- 포인트 충전 내역 조회 -->
+		ORDER BY APPLICATION_DATE DESC
+	 </select>
+	 
+	 <!-- 포인트 충전 내역 조회(소연) -->
 	<select id="selectChargeList" resultType="java.util.HashMap">
 		SELECT
 		CHNO,CHAMOUNT,TO_CHAR(CHDATE,'YYYY/MM/DD') AS CHDATE,MEMBER.POINT
@@ -150,10 +143,68 @@
 		AND MEMBER.MNO=#{mno}
 	</select>
 
-	<select id="womonUnder10">
-		SELECT
-		FROM MEMBER
-		WHERE
+	<!-- 나이별 구독 통계(소연) -->
+	<select id="selectAgeData" resultType="java.util.HashMap">
+	SELECT CEIL(TO_NUMBER(TO_CHAR(SYSDATE,'RRRR') - TO_CHAR(EXTRACT(YEAR FROM BIRTHDAY)))*0.1 -1)*10||'대' as "연령대",GENDER,COUNT(*)인원수
+	FROM (
+                SELECT DISTINCT M.MNO,M.BIRTHDAY,M.GENDER
+                FROM MEMBER M,MEMBER ST,STREAMER S,SPON_HIS H
+                WHERE ST.MNO = S.MNO
+                AND S.SNO = H.SNO
+                AND M.MNO = H.MNO
+                AND ST.MNO = #{mno})
+	GROUP BY CEIL(TO_NUMBER(TO_CHAR(SYSDATE,'RRRR') - TO_CHAR(EXTRACT(YEAR FROM BIRTHDAY)))*0.1 -1)*10||'대',GENDER
+	ORDER BY "연령대" DESC
+	</select>
+	
+	<!-- 나이별 후원 통계 (소연) -->
+	<select id="selectSponAgeData" resultType="java.util.HashMap">
+	SELECT CEIL(TO_NUMBER(TO_CHAR(SYSDATE,'RRRR') - TO_CHAR(EXTRACT(YEAR FROM BIRTHDAY)))*0.1 -1)*10||'대' as "연령대",GENDER,COUNT(*)인원수
+	FROM (
+                SELECT DISTINCT M.MNO,M.BIRTHDAY,M.GENDER
+                FROM MEMBER M,MEMBER ST,STREAMER S,subscription_his H
+                WHERE ST.MNO = S.MNO
+                AND S.SNO = H.SNO
+                AND M.MNO = H.MNO
+                AND ST.MNO = #{mno})
+	GROUP BY CEIL(TO_NUMBER(TO_CHAR(SYSDATE,'RRRR') - TO_CHAR(EXTRACT(YEAR FROM BIRTHDAY)))*0.1 -1)*10||'대',GENDER
+	ORDER BY "연령대" DESC
+	</select>
+	
+	<!-- 추천 통계(소연) -->
+	<select id="recomList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	SELECT TO_CHAR(BH_START_DATE,'MM')AS MONTH,SUM(COUNT_RECOMMENDATION) AS SUM
+	
+	<if test="type==1">
+	       ,TO_CHAR(BH_START_DATE,'IW')- TO_CHAR(TO_DATE(TO_CHAR(BH_START_DATE,'MM'),'MM'),'IW')+1 AS WEEK
+	</if>	
+		FROM MEMBER,BROAD_CENTER,BROAD_HIS
+		WHERE MEMBER.MNO = BROAD_CENTER.MNO
+		AND BROAD_CENTER.BCNO = BROAD_HIS.BCNO
+		AND BROAD_HIS.BCNO = #{mno}
+		AND BH_STATUS = 'N'
+	
+	<if test="type==1">
+		AND TO_CHAR(BH_START_DATE,'MM') >= TO_CHAR(SYSDATE,'MM')-3
+		GROUP BY TO_CHAR(BH_START_DATE,'MM'),TO_CHAR(BH_START_DATE,'IW')- TO_CHAR(TO_DATE(TO_CHAR(BH_START_DATE,'MM'),'MM'),'IW')+1
+	</if>
+	<if test="type==2">
+		AND TO_CHAR(BH_START_DATE,'MM') >= TO_CHAR(SYSDATE,'MM')-3
+		GROUP BY TO_CHAR(BH_START_DATE,'MM')
+	</if>
+	ORDER BY 1 ASC
+	</select>
+	
+	<!-- 오늘과 어제의 추천 수 비교 -->
+	<select id="compareYesterDay" resultType="java.util.HashMap">
+	SELECT YESTERDAY,TODAY
+	FROM(SELECT SUM(COUNT_RECOMMENDATION) AS YESTERDAY
+        FROM BROAD_HIS
+        WHERE BH_START_DATE = SYSDATE
+        AND bcno = #{mno}) , (SELECT SUM(COUNT_RECOMMENDATION) AS TODAY
+        FROM BROAD_HIS
+        WHERE BH_START_DATE = SYSDATE-1
+        AND bcno = #{mno})
 	</select>
 
 	<!-- 장기 구독자 추가(소연) -->

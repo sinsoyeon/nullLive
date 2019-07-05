@@ -38,5 +38,9 @@ public interface StreamerService {
 
 	ArrayList<HashMap<String, Object>> ageChartData(int mno);
 
+	ArrayList<HashMap<String, Object>> sponAgeChart(int mno);
+
+	ArrayList<HashMap<String, Object>> recomList(HashMap<String, Object> recomInfoMap);
+
 
 }
