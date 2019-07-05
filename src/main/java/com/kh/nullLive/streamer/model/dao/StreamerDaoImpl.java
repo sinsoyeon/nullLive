@@ -144,9 +144,20 @@ public class StreamerDaoImpl implements StreamerDao {
 
 	//여성 비율
 	@Override
-	public HashMap<String,Object> selectAllFemale(SqlSessionTemplate sqlSession, int mno) {
+	public ArrayList<HashMap<String,Object>> selectAllFemale(SqlSessionTemplate sqlSession, int mno) {
 		
-		return sqlSession.selectOne("Streamer.womonUnder10",mno);
+		return (ArrayList)sqlSession.selectList("Streamer.selectAgeData",mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> sponAgeChart(SqlSessionTemplate sqlSession, int mno) {
+		return (ArrayList)sqlSession.selectList("Streamer.selectSponAgeData",mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> recomList(SqlSessionTemplate sqlSession, HashMap<String, Object> recomInfoMap) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("Streamer.recomList",recomInfoMap);
 	}
 	
 }
