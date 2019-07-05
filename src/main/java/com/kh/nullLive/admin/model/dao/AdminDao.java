@@ -22,7 +22,7 @@ public interface AdminDao {
 
 	ArrayList<Question> questionList(SqlSessionTemplate sqlSession);
 
-	UserDetail userDetail(SqlSessionTemplate sqlSession, String userId);
+	UserDetail userDetail(SqlSessionTemplate sqlSession, UserDetail ud);
 
 	int userStatusUpdate(SqlSessionTemplate sqlSession, Member m);
 
@@ -43,6 +43,22 @@ public interface AdminDao {
 	int insertBan(SqlSessionTemplate sqlSession, Member m);
 
 	int allExchange(SqlSessionTemplate sqlSession, int integer);
+
+	ArrayList<Board> FAQList(SqlSessionTemplate sqlSession);
+
+	ArrayList<Board> noticeList(SqlSessionTemplate sqlSession);
+
+	Board FAQDetail(SqlSessionTemplate sqlSession, int bno);
+
+	int FAQModify(SqlSessionTemplate sqlSession, Board fAQModify);
+
+	int insertFAQ(SqlSessionTemplate sqlSession, Board b);
+
+	int deleteFAQ(SqlSessionTemplate sqlSession, int bno);
+
+	int insertNoticce(SqlSessionTemplate sqlSession, Board b);
+
+	Board noticeDetail(SqlSessionTemplate sqlSession, int bno);
 
 
 

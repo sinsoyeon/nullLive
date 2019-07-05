@@ -171,11 +171,7 @@ height: auto; */
 						<td>${user.nickName}</td>	
 						<td>${user.isStreamer}</td>	
 						<td>${user.enrollDate}</td>	
-						<td>
-						<c:if test="${user.mstatus eq 'Y'}">활동중</c:if>
-						<c:if test="${user.mstatus eq 'N'}">영구정지</c:if>
-						<c:if test="${user.mstatus eq 'B'}">기간정지</c:if>
-						</td>
+						<td>${user.mstatus}</td>
 					</tr>
 				</c:forEach>
 				</tbody>
@@ -230,11 +226,13 @@ var ban
 			$('#menu1 a:eq(0)').css('font-weight','bold');
 			$('tbody>tr').click(function() {
 				var userId = $(this).children().eq(1).html();
+				var statusType = $(this).children().eq(6).html();
+				
 				memberId = $(this).children().eq(1).html();
 				$.ajax({
 		            url: "userDeatil.ad",
 		            type: "post",
-		            data: {userId:userId},
+		            data: {userId:userId, statusType:statusType},
 		            success: function(data){
 		            	
 		            	var mno = data.mno;

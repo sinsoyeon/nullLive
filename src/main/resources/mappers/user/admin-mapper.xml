@@ -19,7 +19,7 @@
 	<!-- 1:1문의 resultMap  -->
 	<resultMap type="Question" id="QuestionResultSet">
 		<id property="bno" column="BNO"/>
-		<result property="qustionType" column="QUESTION_TYPE"/>
+		<result property="questionType" column="QUESTION_TYPE"/>
 		<result property="name" column="NAME"/>
 		<result property="bTitle" column="BTITLE"/>
 		<result property="bContent" column="BCONTENT"/>
@@ -54,6 +54,7 @@
 		<result property="writer" column="WRITER"/>
 		<result property="target" column="TARGET"/>
 	</resultMap>
+	
 	
 	<!-- 환전 내역 조회 -->
 	<select id="selectExchange" resultMap="ExchangeResultSet">
@@ -100,13 +101,19 @@
 	</update>
 	<insert id="insetAnswer" parameterType="Question">
 		INSERT INTO BOARD(BNO, BTITLE, BCONTENT, WRITTEN_DATE, BCOUNT, BTYPE, QUESTION_TYPE, REF_BNO, BWRITER, B_STATUS)
-		VALUES(SEQ_BNO.NEXTVAL, #{BTitle}, #{BContent}, SYSDATE, DEFAULT, 'QUESTION', #{qustionType}, #{bno}, 999, 7 )
+		VALUES(SEQ_BNO.NEXTVAL, #{BTitle}, #{BContent}, SYSDATE, DEFAULT, 'QUESTION', #{questionType}, #{bno}, 999, 7 )
 	</insert>
 	
 	<!-- 회원 상세보기 -->
-	<select id="selectUserDetail" resultMap="UserDetailResultSet" parameterType="java.lang.String">
+	<select id="selectUserDetail" resultMap="UserDetailResultSet" parameterType="com.kh.nullLive.admin.model.vo.UserDetail">
+	<if test='memStatus == "Y"'>
+	SELECT M.MNO, M.MID,M.NAME, M.NICK_NAME, TO_CHAR(M.ENROLL_DATE, 'YYYY/MM/DD') ENROLL_DATE, M.M_STATUS, 
+			bc.broad_address, RCOU.REPORT, BCOU.BROCOUNT
+	</if>
+	<if test='memStatus != "Y"'>
 	SELECT M.MNO, M.MID,M.NAME, M.NICK_NAME, TO_CHAR(M.ENROLL_DATE, 'YYYY/MM/DD') ENROLL_DATE, M.M_STATUS, 
 			bc.broad_address, RCOU.REPORT, BCOU.BROCOUNT, TO_NUMBER(BA.BAN_END-BA.BAN_DATE) BAN_DAY, ROUND(TO_NUMBER(BA.BAN_END-SYSDATE)) END_DAY
+	</if>
 	FROM MEMBER M
 	JOIN BROAD_CENTER BC ON(M.MNO = BC.MNO)
 	LEFT JOIN (SELECT MM.MNO ,COUNT(*) REPORT
@@ -118,8 +125,13 @@
 	            JOIN BROAD_HIS BH ON(BRC.BCNO = BH.BCNO)
 	            JOIN MEMBER MMM ON(MMM.MNO = BRC.MNO)
 	            GROUP BY MMM.MID) BCOU ON(M.MID = BCOU.MID)
-    LEFT JOIN BAN BA ON(M.MNO = BA.MNO)
-	WHERE M.MID LIKE #{userId}
+	<if test='memStatus != "Y"'>
+	LEFT JOIN BAN BA ON(M.MNO = BA.MNO)
+	</if>
+	WHERE M.MID LIKE #{mid}
+	<if test='memStatus != "Y"'>
+	AND BA.BA_STATUS LIKE 'Y'
+	</if>
 	</select>
 	
 	<!-- 회원 상태 변경 -->

@@ -16,6 +16,7 @@ import com.kh.nullLive.admin.model.vo.Exchange;
 import com.kh.nullLive.admin.model.vo.Question;
 import com.kh.nullLive.admin.model.vo.Report;
 import com.kh.nullLive.admin.model.vo.UserDetail;
+import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.vo.Member;
 
@@ -72,9 +73,15 @@ public class AdminController {
 	 * @comment : 회원 상세정보 조회
 	 */
 	@RequestMapping("userDeatil.ad")
-	public ResponseEntity<UserDetail> userDeatil(String userId) {
+	public ResponseEntity<UserDetail> userDeatil(String userId, String statusType) {
 		
-		UserDetail userDetail = as.userDetail(userId);
+		
+		UserDetail userDetail = new UserDetail();
+		
+		userDetail.setMid(userId);
+		userDetail.setMemStatus(statusType);
+		
+		userDetail = as.userDetail(userDetail);
 		
 		return new ResponseEntity<UserDetail>(userDetail, HttpStatus.OK);
 	}
@@ -269,11 +276,11 @@ public class AdminController {
 	 * @comment : 1:1문의 답변 달기
 	 */
 	@RequestMapping(value="questionAnswer.ad", method=RequestMethod.POST)
-	public String adminQuestionAnswer(Model model, String bTitle, String bContent, String qustionType, int bno) {
+	public String adminQuestionAnswer(Model model, String bTitle, String bContent, String questionType, int bno) {
 		Question q = new Question();
 		q.setBTitle(bTitle);
 		q.setBContent(bContent);
-		q.setQustionType(qustionType);
+		q.setQuestionType(questionType);
 		q.setBno(bno);
 		
 		try {
@@ -285,7 +292,214 @@ public class AdminController {
 		} catch (QuestionAnswerException e) {
 			model.addAttribute("msg", e.getMessage());
 			return "common/errorPage";
-
 		}
 	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :FAQ 목록 조회
+	 */
+	@RequestMapping("FAQList.ad")
+	public String adminFAQList(Model model) {
+		
+		ArrayList<Board> FAQList = as.FAQList();
+		
+		model.addAttribute("FAQList",FAQList);
+		
+		return "admin/FAQ";
+	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :FAQ 작성폼 이동
+	 */
+	@RequestMapping("FAQWrite.ad")
+	public String adminFAQWrit(Model model) {
+		return "admin/FAQWrite";
+	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :FAQ 작성
+	 */
+	@RequestMapping("insertFAQ.ad")
+	public String adminFAQWrit(Model model, String bTitle, String bContent, String type) {
+		Board b = new Board();
+		b.setBTitle(bTitle);
+		b.setBContent(bContent);
+		b.setQuestionType(type);
+		
+		int result = as.insertFAQ(b);
+		if(result > 0) {
+			return "redirect:FAQList.ad";
+		}else {
+			String msg = "작성 실패!";
+			model.addAttribute("msg", msg);
+			return "common/errorPage";
+					
+		}
+		
+	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 6. 24.
+	 * @comment : FAQ상세보기
+	 */
+	@RequestMapping("FAQDetail.ad")
+	public String adminFAQDetail(Model model, int bno) {
+		
+		Board FAQDetail = as.FAQDetail(bno);
+		model.addAttribute("FAQDetail", FAQDetail);
+		
+		return "admin/FAQDetail";
+	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 6. 24.
+	 * @comment : FAQ 수정
+	 */
+	@RequestMapping("FAQModify.ad")
+	public String adminFAQModify(Model model, int bno,String bTitle, String bContent) {
+		
+		Board b = new Board();
+		b.setBno(bno);
+		b.setBTitle(bTitle);
+		b.setBContent(bContent);
+		
+		int result = as.FAQModify(b);
+		
+		if(result > 0) {
+			model.addAttribute("bno", bno);
+			return "redirect:FAQDetail.ad";
+		}else {
+			String msg = "수정 실패!";
+			model.addAttribute("msg", msg);
+			return "common/errorPage";
+		}
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 6. 24.
+	 * @comment : FAQ 삭제
+	 */
+	@RequestMapping("deleteFAQ.ad")
+	public String adminDeleteFAQ(Model model, int bno) {
+		
+		int result = as.deleteFAQ(bno);
+		
+		if(result > 0) {
+			return "redirect:FAQList.ad";
+		}else {
+			String msg = "삭제 실패!";
+			model.addAttribute("msg", msg);
+			return "common/errorPage";
+		}
+	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :공지사항 목록 조회
+	 */
+	@RequestMapping("noticeList.ad")
+	public String adminNoticeList(Model model) {
+		
+		ArrayList<Board> noticeList = as.noticeList();
+		model.addAttribute("noticeList",noticeList);
+		
+		return "admin/notice";
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :공지사항 작성폼 이동
+	 */
+	@RequestMapping("noticeWrite.ad")
+	public String adminNoticeWrite(Model model) {
+		return "admin/noticeWrite";
+	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :공지사항 작성
+	 */
+	@RequestMapping("insertNotice.ad")
+	public String adminInsertNotice(Model model, String bTitle, String bContent) {
+		Board b = new Board();
+		b.setBTitle(bTitle);
+		b.setBContent(bContent);
+		
+		int result = as.insertNoticce(b);
+		if(result > 0) {
+			return "redirect:noticeList.ad";
+		}else {
+			String msg = "작성 실패!";
+			model.addAttribute("msg", msg);
+			return "common/errorPage";
+		}
+	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 6. 24.
+	 * @comment : 공지사항상세보기
+	 */
+	@RequestMapping("noticeDetail.ad")
+	public String adminNoticeDetail(Model model, int bno) {
+		
+		Board noticeDetail = as.noticeDetail(bno);
+		model.addAttribute("noticeDetail", noticeDetail);
+		
+		return "admin/noticeDetail";
+	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 6. 24.
+	 * @comment : 공지사항 수정
+	 */
+	@RequestMapping("noticeModify.ad")
+	public String adminNoticeModify(Model model, int bno,String bTitle, String bContent) {
+		
+		Board b = new Board();
+		b.setBno(bno);
+		b.setBTitle(bTitle);
+		b.setBContent(bContent);
+		
+		int result = as.FAQModify(b);
+		
+		if(result > 0) {
+			model.addAttribute("bno", bno);
+			return "redirect:noticeDetail.ad";
+		}else {
+			String msg = "수정 실패!";
+			model.addAttribute("msg", msg);
+			return "common/errorPage";
+		}
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 6. 24.
+	 * @comment : 공지사항 삭제
+	 */
+	@RequestMapping("deleteNotice.ad")
+	public String adminDeleteNotice(Model model, int bno) {
+		
+		int result = as.deleteFAQ(bno);
+		
+		if(result > 0) {
+			return "redirect:noticeList.ad";
+		}else {
+			String msg = "삭제 실패!";
+			model.addAttribute("msg", msg);
+			return "common/errorPage";
+		}
+	}
+	
 }
