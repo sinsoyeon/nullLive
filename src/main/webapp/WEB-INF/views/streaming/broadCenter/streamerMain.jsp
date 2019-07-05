@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,10 +25,10 @@
 				<div id="main">
 					<table class="headInfo">
 						<tr>
-							<th>즐겨찾기 수</th>
-							<td>1000</td>
-							<th>구독자 수</th>
-							<td>25</td>
+							<th>즐겨찾기 수 : </th>
+							<td>${mainInfo.FSNO}</td>
+							<th>구독자 수 :</th>
+							<td>${mainInfo.SHSNO}</td>
 						</tr>
 					</table><br><br><br><br><br>
 					<div class="broadStatus">

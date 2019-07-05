@@ -10,8 +10,7 @@
 		<id property="sno" column="SNO" />
 		<result property="mno" column="MND" />
 		<result property="bstart_date" column="BSTART_DATE" />
-		<result property="cumulative_selection"
-			column="CUMULATIVE_SELECTION" />
+		<result property="cumulative_selection" column="CUMULATIVE_SELECTION" ></result>
 		<result property="bank_code" column="BANK_CODE" />
 		<result property="account" column="ACCOUNT" />
 		<result property="holder" column="HOLDER" />
@@ -20,10 +19,12 @@
 	</resultMap>
 
 	<!-- 스트리머 아이디 검색 후 SNO 반환 (소연) -->
-	<select id="selectStreamer" resultType="java.util.HashMap" parameterType="java.lang.String">
+	<select id="selectStreamer" resultType="java.util.HashMap"
+		parameterType="java.lang.String">
 		SELECT SNO,MID,NICK_NAME
 		FROM STREAMER,MEMBER
-		WHERE MEMBER.MNO =STREAMER.MNO
+		WHERE
+		MEMBER.MNO =STREAMER.MNO
 		AND MID = #{streamer}
 	</select>
 
@@ -31,21 +32,25 @@
 	<!-- 내가 구독한 사람 조회(소연) -->
 	<select id="selectSubList" parameterType="_int"
 		resultType="java.util.HashMap">
-		SELECT SUNO,ST.NICK_NAME,TO_CHAR(SU_START_DATE,'YYYY/MM/DD') AS SU_START_DATE
-									,NVL(TO_CHAR(SU_PERIOD_DATE,'YYYY/MM/DD'),'2999/12/31') AS SU_PERIOD_DATE
+		SELECT
+		SUNO,ST.NICK_NAME,TO_CHAR(SU_START_DATE,'YYYY/MM/DD') AS SU_START_DATE
+		,NVL(TO_CHAR(SU_PERIOD_DATE,'YYYY/MM/DD'),'2999/12/31') AS
+		SU_PERIOD_DATE
 		FROM
 		MEMBER ST,MEMBER M,STREAMER S,SUBSCRIPTION_HIS H
 		WHERE ST.MNO = S.MNO
 		AND M.MNO = H.MNO
 		AND S.SNO = H.SNO
-		AND M.MNO = #{MNO}
+		AND M.MNO =
+		#{MNO}
 	</select>
 
 	<!-- 나를 구독한 사람 조회(소연) => 시간나면 구독 시작일 보여주기 -->
 	<select id="selectForMeSub" parameterType="_int"
 		resultType="java.util.HashMap">
 		select SUNO,m.NICK_NAME,MESSAGE
-		from member st,member m,streamer
+		from member st,member
+		m,streamer
 		s,subscription_his h
 		where st.mno = s.mno
 		AND M.MNO = H.MNO
@@ -54,80 +59,103 @@
 	</select>
 
 	<!-- 내가 후원한 사람 조회(소연) -->
-	<select id="selectSponList" parameterType="_int" resultType="java.util.HashMap">
-		SELECT TO_CHAR(SPON_DATE,'YYYY/MM/DD') AS SPON_DATE,ST.MID,ST.NICK_NAME,SPON_AMOUNT
-		FROM MEMBER M,MEMBER ST,STREAMER S, SPON_HIS H
+	<select id="selectSponList" parameterType="_int"
+		resultType="java.util.HashMap">
+		SELECT TO_CHAR(SPON_DATE,'YYYY/MM/DD') AS
+		SPON_DATE,ST.MID,ST.NICK_NAME,SPON_AMOUNT
+		FROM MEMBER M,MEMBER
+		ST,STREAMER S, SPON_HIS H
 		WHERE ST.MNO = S.MNO
 		AND ST.MNO = H.SNO
-		AND M.MNO = H.MNO
+		AND
+		M.MNO = H.MNO
 		AND M.MNO = #{mno}
 		ORDER BY SPON_DATE DESC
 	</select>
-	
-	
+
+
 	<!-- 나를 후원한 사람 조회(소연) -->
-	<select id="selectSponForMe" parameterType="_int" resultType="java.util.HashMap">
-		SELECT TO_CHAR(SPON_DATE,'YYYY/MM/DD') AS SPON_DATE ,M.MID,M.NICK_NAME,SPON_AMOUNT
-		FROM MEMBER M,MEMBER ST,STREAMER S, SPON_HIS H
+	<select id="selectSponForMe" parameterType="_int"
+		resultType="java.util.HashMap">
+		SELECT TO_CHAR(SPON_DATE,'YYYY/MM/DD') AS SPON_DATE
+		,M.MID,M.NICK_NAME,SPON_AMOUNT
+		FROM MEMBER M,MEMBER ST,STREAMER S,
+		SPON_HIS H
 		WHERE ST.MNO = S.MNO
 		AND ST.MNO = H.SNO
 		AND M.MNO = H.MNO
-		AND ST.MNO = #{mno}
+		AND
+		ST.MNO = #{mno}
 		ORDER BY SPON_DATE DESC
 	</select>
-	
-	
+
+
 	<!-- 검색 조건에 따른 후원자 리스트 조회(소연) -->
-	<select id="searchSponList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-		SELECT TO_CHAR(SPON_DATE,'YYYY/MM/DD') AS SPON_DATE ,M.MID,M.NICK_NAME,SPON_AMOUNT
-		FROM MEMBER M,MEMBER ST,STREAMER S, SPON_HIS H
+	<select id="searchSponList" parameterType="java.util.HashMap"
+		resultType="java.util.HashMap">
+		SELECT TO_CHAR(SPON_DATE,'YYYY/MM/DD') AS SPON_DATE
+		,M.MID,M.NICK_NAME,SPON_AMOUNT
+		FROM MEMBER M,MEMBER ST,STREAMER S,
+		SPON_HIS H
 		WHERE ST.MNO = S.MNO
 		AND ST.MNO = H.SNO
 		AND M.MNO = H.MNO
-		AND ST.MNO = #{mno}
+		AND
+		ST.MNO = #{mno}
 		<if test="searchCondition==1">
-		AND M.NICK_NAME LIKE '%'||#{searchValue}||'%'
+			AND M.NICK_NAME LIKE '%'||#{searchValue}||'%'
 		</if>
 		<if test="searchCondition==2">
-		AND M.MID LIKE '%'||#{searchValue}||'%'
-		</if>	
+			AND M.MID LIKE '%'||#{searchValue}||'%'
+		</if>
 		ORDER BY SPON_DATE DESC
-	</select>	
-	
-	
+	</select>
+
+
 	<!-- 환전 신청 내용 조회 -->
-	 <select id="selectExcList" resultType="java.util.HashMap" parameterType="_int">
-		SELECT EXC_STATUS,EXC_FEE,EXCNO,EXC_AMOUNT,TO_CHAR(APPLICATION_DATE,'YYYY/MM/DD') AS APPLICATION_DATE,NICK_NAME
+	<select id="selectExcList" resultType="java.util.HashMap"
+		parameterType="_int">
+		SELECT
+		EXC_STATUS,EXC_FEE,EXCNO,EXC_AMOUNT,TO_CHAR(APPLICATION_DATE,'YYYY/MM/DD')
+		AS APPLICATION_DATE,NICK_NAME
 		FROM MEMBER,EXCHANGE
-		WHERE MEMBER.MNO = EXCHANGE.MNO
+		WHERE MEMBER.MNO =
+		EXCHANGE.MNO
 		AND MEMBER.MNO = #{mno}
-	 	ORDER BY APPLICATION_DATE DESC
-	 </select>
-	 
-	 <!-- 환전 신청 내용 상세 보기 -->
-	 <select id="selectOneExc" resultType="java.util.HashMap" parameterType="java.util.HashMap">
-		SELECT EXC_STATUS,EXC_FEE,EXCNO,EXC_AMOUNT,TO_CHAR(APPLICATION_DATE,'YYYY/MM/DD') AS APPLICATION_DATE,NICK_NAME
+		ORDER BY APPLICATION_DATE DESC
+	</select>
+
+	<!-- 환전 신청 내용 상세 보기 -->
+	<select id="selectOneExc" resultType="java.util.HashMap"
+		parameterType="java.util.HashMap">
+		SELECT
+		EXC_STATUS,EXC_FEE,EXCNO,EXC_AMOUNT,TO_CHAR(APPLICATION_DATE,'YYYY/MM/DD')
+		AS APPLICATION_DATE,NICK_NAME
 		FROM MEMBER,EXCHANGE
-		WHERE MEMBER.MNO = EXCHANGE.MNO
+		WHERE MEMBER.MNO =
+		EXCHANGE.MNO
 		AND MEMBER.MNO = #{mno}
 		AND EXCNO = #{excno}
-		ORDER BY APPLICATION_DATE DESC
-	 </select>
-	 
-	 <!-- 포인트 충전 내역 조회 -->
+		ORDER BY
+		APPLICATION_DATE DESC
+	</select>
+
+	<!-- 포인트 충전 내역 조회 -->
 	<select id="selectChargeList" resultType="java.util.HashMap">
-		SELECT CHNO,CHAMOUNT,TO_CHAR(CHDATE,'YYYY/MM/DD') AS CHDATE,MEMBER.POINT
-		FROM MEMBER,CHARGE
+		SELECT
+		CHNO,CHAMOUNT,TO_CHAR(CHDATE,'YYYY/MM/DD') AS CHDATE,MEMBER.POINT
+		FROM
+		MEMBER,CHARGE
 		WHERE MEMBER.MNO = CHARGE.MNO
 		AND MEMBER.MNO=#{mno}
 	</select>
-	
+
 	<select id="womonUnder10">
-		SELECT 
+		SELECT
 		FROM MEMBER
-		WHERE 
+		WHERE
 	</select>
-	
+
 	<!-- 장기 구독자 추가(소연) -->
 	<insert id="insertSub" parameterType="Streamer">
 		INSERT INTO
@@ -154,54 +182,70 @@
 		VALUES
 		(SEQ_SPNO.NEXTVAL,#{amount},SYSDATE,#{streamer.mno},#{streamer.sno})
 	</insert>
-	
+
 	<!-- 환전 신청 추가 (소연) -->
 	<insert id="insertExchange" parameterType="java.util.HashMap">
-		INSERT INTO EXCHANGE 
-		VALUES (SEQ_ENO.NEXTVAL,${amount},SYSDATE,${exc_fee},'N',${mno},null)	
+		INSERT INTO EXCHANGE
+		VALUES (SEQ_ENO.NEXTVAL,${amount},SYSDATE,${exc_fee},'N',${mno},null)
 	</insert>
 
 	<!-- 환전 신청 후 포인트 차감(소연) -->
 	<update id="updatePoint" parameterType="java.util.HashMap">
-		UPDATE MEMBER 
+		UPDATE MEMBER
 		SET POINT = (SELECT POINT FROM MEMBER WHERE MNO = #{mno}) - #{amount}
-		WHERE MNO = #{mno} 
+		WHERE MNO = #{mno}
 	</update>
-	
-  
+
+
 	<!-- isStreamer Update(회륜) -->
 	<update id="isStreamerUpdate" parameterType="Member">
 		UPDATE MEMBER
-		SET IS_STREAMER='Y'
+		SET
+		IS_STREAMER='Y'
 		WHERE MNO=#{mno}
 	</update>
-	
+
 	<!-- insert Streamer(회륜) -->
 	<insert id="insertStreamer" parameterType="java.util.HashMap">
-		INSERT INTO STREAMER(SNO,MNO,BSTART_DATE,CUMULATIVE_SELECTION,BANK_CODE,ACCOUNT,HOLDER,IS_AUTH)
+		INSERT INTO
+		STREAMER(SNO,MNO,BSTART_DATE,CUMULATIVE_SELECTION,BANK_CODE,ACCOUNT,HOLDER,IS_AUTH)
 		VALUES(SEQ_SNO.NEXTVAL,#{mno},SYSDATE,DEFAULT,#{bank_code},#{account},#{holder},DEFAULT)
 	</insert>
 
 	<!-- 스트리머 정보 가져오기(회륜) -->
-	<select id="getStreamerInfo" parameterType="_int" resultMap="streamerResultSet">
+	<select id="getStreamerInfo" parameterType="_int"
+		resultMap="streamerResultSet">
 		SELECT *
 		FROM STREAMER
 		WHERE MNO=#{mno}
 	</select>
-	
+
 	<!-- 스트리머 계좌 정보 수정(회륜) -->
 	<update id="updateStreamerInfo" parameterType="Streamer">
 		UPDATE STREAMER
 		SET ACCOUNT=#{account}, BANK_CODE=#{bank_code}, HOLDER=#{holder}
-		WHERE MNO=#{mno}
+		WHERE
+		MNO=#{mno}
 	</update>
-	
+
 	<!-- 환전 신청 취소 (소연) -->
 	<delete id="cancelExc" parameterType="java.util.HashMap">
-		DELETE 
+		DELETE
 		FROM EXCHANGE
 		WHERE MNO = #{mno}
 		AND EXCNO = #{excno}
 		AND EXC_STATUS = 'N'
 	</delete>
+
+
+	<!-- 방송국 메인 조회(정연) -->
+	<select id="selectMainInfo" parameterType="_int" resultType="java.util.HashMap">
+		SELECT FSNO, SHSNO
+		FROM (SELECT COUNT(SNO) FSNO
+		FROM FAVORITES
+		WHERE SNO = #{mno}),
+		(SELECT COUNT(SNO) SHSNO
+		FROM SUBSCRIPTION_HIS
+		WHERE SNO = #{mno})
+	</select>
 </mapper>

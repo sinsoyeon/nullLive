@@ -1,20 +1,28 @@
 package com.kh.nullLive.broadCenter.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.nullLive.broadCenter.model.exception.StreamerInsertException;
 import com.kh.nullLive.broadCenter.model.exception.StreamerUpdateException;
 import com.kh.nullLive.broadCenter.model.service.BroadCenterService;
+import com.kh.nullLive.broadCenter.model.vo.BroadCenter;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.vo.Streamer;
+
+import net.sf.json.JSONObject;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -26,22 +34,28 @@ public class centerController {
 	
 	//방송기능설정 페이지로 이동(정연)
 	@RequestMapping("broadSetting.st")
-	public String broadSetting() {
+	public String broadSetting(HttpSession session, Model model) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		int mno = loginUser.getMno();
 		
-
+		BroadCenter broadCenter = bcs.selectBroadSetting(mno);
+		
+		model.addAttribute("broadCenter", broadCenter);
 		return "streaming/broadCenter/broadSetting";
 	}
 	
 
 	//스트리머 메인페이지로 이동(정연)
 	@RequestMapping("main.st")
-	public String streamerMain(HttpSession session) {
+	public String streamerMain(HttpSession session, Model model) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		int mno = loginUser.getMno();
 		
 		//System.out.println("엠앤오: " + mno);
-			
-
+		
+		HashMap<String, Object> mainInfo = bcs.selectMainInfo(mno);
+		
+		model.addAttribute("mainInfo", mainInfo);
 		return "streaming/broadCenter/streamerMain";
 	}
 
@@ -104,4 +118,19 @@ public class centerController {
 			return "common/errorPage";
 		}
 	}
+
+	
+	
+	@RequestMapping(value = "updateSetting.st")
+	@ResponseBody
+	public Map<String, Object> updateSetting(@RequestParam(name="json") JSONObject json){
+
+		Map<String, Object> result= new HashMap<String, Object>();
+		result.put("타이틀", "ㅋ");
+		
+		System.out.println("json" + json.get("bTitle"));
+		
+		return result;
+	}
+	
 }

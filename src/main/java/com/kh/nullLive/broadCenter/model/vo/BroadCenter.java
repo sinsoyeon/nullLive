@@ -15,7 +15,7 @@ public class BroadCenter implements java.io.Serializable{
 	private String broadTitle;		//BROAD_TITLE
 	private String broadPwd;		//BROAD_PWD
 	private int mno;				//MNO
-	private String isStreamer;		//IS_STREAMER
 	private String broadCategory;	//BROAD_CATEGORY
 	private String endingComment;	//ENDING_COMMNET
+	private String adult; 			//ADULT
 }
