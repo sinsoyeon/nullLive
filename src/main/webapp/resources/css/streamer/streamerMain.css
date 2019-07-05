@@ -4,20 +4,23 @@
 	padding-top:80px;
 }
 .headInfo{
-	border:1px solid gray;
 	width:90%;
 	margin-left:auto;
 	margin-right:auto;
 	text-align:center;
-	background:lightgray;
 	height:30px;
+	background:#e2f0d8;
+	border-radius:13px;
 }
-.headInfo td{
-	border:1px solid gray;
+.headInfo tr>td{
+	text-align:left;
 	width:25%;
+	border-radius:13px;
 }
-.headInfo th{
+.headInfo tr>th{
 	text-align:center;
+	border-radius:13px;
+	padding-left:10%;
 }
 .broadStatus{
 	padding-left: 5%;

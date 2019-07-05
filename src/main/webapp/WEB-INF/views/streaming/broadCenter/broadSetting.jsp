@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,31 +19,32 @@
 			</div>
 
 			<!-- main content -->
-			<div class="col-sm-9" style="padding-top: 80px;">
-				<h3>방송 기능 설정</h3>
+			<div class="col-sm-9 main" style="padding-top: 80px;">
+				<div class="head">
+					<h3 style="font-weight:bold; font-size:30px;">방송 기능 설정</h3>
+				</div>
 				<hr>
-				<main>
 				<div class="col-sm-6">
-					<label>방송제목</label><br>
+					<label>방송 제목</label><br>
 					<div class="ui input">
-						<input type="text" id="bTitle" />
+						<input type="text" id="bTitle" placeholder="${broadCenter.broadTitle}"/>
 					</div>
 					<br> <br> 
 					<label>방송 카테고리</label><br>
-					<div class="ui input" id="bCategory">
-						<input type="text" />
+					<div class="ui input">
+						<input type="text" id="bCategory"  placeholder="${broadCenter.broadCategory}"/>
 					</div>
 					<br> <br> 
 					<label>방송 속성</label><br> 
-					<input type="radio" id="bAdult"/> <span>연령 제한 방송</span><br> 
-					<input type="radio" id="bPwdCheck"/> <span>패스워드 설정</span>
+					<input type="radio" id="bAdult" name="bAdult"/> <span>연령 제한 방송</span><br> 
+					<input type="radio" id="bPwdCheck" name="bPwdCheck"/> <span>패스워드 설정</span>
 					<div class="ui input" style="width: 130px;">
-						<input type="text" id="bPwd"/>
+						<input type="text" id="bPwd" placeholder="${broadCenter.broadPwd}"/>
 					</div>
 					<br> <br> 
 					<label>방송 종료 멘트</label><br>
 					<div class="ui input" style="height: 100px;">
-						<input type="text" id="bEndingComment"/>
+						<input type="text" id="bEndingComment" placeholder="${broadCenter.endingComment}"/>
 					</div>
 					<br> <br> 
 					<label>다시보기 자동 저장</label><br> 
@@ -91,12 +93,54 @@
 					</div>
 				</div>
 			</div>
+				<button class="ui green button" id="updateBtn">업데이트</button>
 		</div>
-		</main>
-
 	</div>
+	
+	
+<!-- 
+<script>
+$("#updateBtn").click(function(){
+	var bTitle = $("#bTitle").val();
+	var bCategory = $("#bCategory").val();
+	var bAdult = $('input:radio[name=bAdult]').is(':checked');
+	var bPwdCheck = $('input:radio[name=bPwdCheck]').is(':checked');
+	var bPwd = $("#bPwd").val();
+	var bEndingComment = $("#bEndingComment").val();
+	
+	var obj = new Object();
+	obj.bTitle = $("#bTitle").val();
+	obj.bCategory = $("#bCategory").val();
+	obj.bPwd = $("#bPwd").val();
+	obj.bEndingComment = $("#bEndingComment").val();
+
+	var jsonData = JSON.stringfy(obj);
+	
+	console.log("jsonData");
+	
+	$.ajax({
+		type:"post",
+		url : updateSetting.st,
+		dataType: "json",
+		data : {
+			 json : jsonData
+		},
+		success:function(data){
+			console.log("성공! 데: " + data); 
+		},
+		error : function(){
+			console.log("실패!!!");
+		}
+		
+	});
+	
+});
 
 
+
+</script>
+
+ -->
 
 
 </body>

@@ -1,10 +1,12 @@
 package com.kh.nullLive.broadCenter.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.nullLive.broadCenter.model.vo.BroadCenter;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
@@ -32,6 +34,20 @@ public class BroadCenterDaoImpl implements BroadCenterDao {
 	@Override
 	public Member resetMember(SqlSessionTemplate sqlSession, int mno) {
 		return sqlSession.selectOne("Streaming.selectMember",mno);
+	}
+
+	
+	//방송국 메인 페이지 정보 조회(정연)
+	@Override
+	public HashMap<String, Object> selectMainInfo(SqlSessionTemplate sqlSession, int mno) {
+		
+		return sqlSession.selectOne("Streamer.selectMainInfo", mno);
+	}
+
+	//방송기능설정 페이지 정보 조회(정연)
+	@Override
+	public BroadCenter selectBroadSetting(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("BroadCenter.selectBroadSetting", mno);
 	}
 
 }

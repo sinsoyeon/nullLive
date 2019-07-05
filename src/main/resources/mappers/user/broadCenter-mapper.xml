@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BroadCenter">
+	<!-- 방송국 resultMap (정연) -->
+	<resultMap type="BroadCenter" id="BroadCenterResultMap">
+		<id property="bcno" column="BCNO" />
+		<result property="braodAddress" column="BROAD_ADDRESS" />
+		<result property="broadTitle" column="BROAD_TITLE" />
+		<result property="bcIntro" column="BCINTRO" />
+		<result property="broadPwd" column="BROAD_PWD" />
+		<result property="mno" column="MNO" />
+		<result property="broadCategory" column="BROAD_CATEGORY" />
+		<result property="endingComment" column="ENDING_COMMENT" />
+		<result property="adult" column="ADULT" />
+	</resultMap>
+
+	<select id="selectBroadSetting" parameterType="_int" resultMap="BroadCenterResultMap">
+		SELECT *
+		FROM BROAD_CENTER
+		WHERE MNO = #{mno} 
+	</select>
+
+</mapper>
