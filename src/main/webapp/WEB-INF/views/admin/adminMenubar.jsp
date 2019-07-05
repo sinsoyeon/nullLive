@@ -106,23 +106,23 @@
   		</div>
     </div>
     <div id="menu3" class="tab-pane fade">
-      <div class="btn-group btn-group-justified">
-      <a class="btn btn-link"></a>
-      <a class="btn btn-link"></a>
-      <a class="btn btn-link"></a>
-      <a class="btn btn-link"></a>
-      <a class="btn btn-link"></a>
-		    <a href="exchangeList.ad" class="btn btn-link">회원 환전</a>
-		    <a class="btn btn-link"></a>
-		    <a class="btn btn-link"></a>
-  		</div>
-    </div>
+		<div class="btn-group btn-group-justified">
+			<a class="btn btn-link" style="cursor: default"></a> 
+			<a class="btn btn-link" style="cursor: default"></a> 
+			<a class="btn btn-link" style="cursor: default"></a> 
+			<a class="btn btn-link" style="cursor: default"></a> 
+			<a class="btn btn-link" style="cursor: default"></a> 
+			<a href="exchangeList.ad" class="btn btn-link">회원 환전</a> 
+			<a class="btn btn-link" style="cursor: default"></a> 
+			<a class="btn btn-link" style="cursor: default"></a>
+		</div>
+	</div>
     <div id="menu4" class="tab-pane fade">
       <div class="btn-group btn-group-justified">
-      	<a class="btn btn-link"></a>
-		<a class="btn btn-link"></a>
-		<a class="btn btn-link"></a>
-      	<a class="btn btn-link"></a>
+      	<a class="btn btn-link" style="cursor: default"></a> 
+      	<a class="btn btn-link" style="cursor: default"></a> 
+      	<a href="FAQList.ad" class="btn btn-link">FAQ 관리</a> 
+      	<a href="noticeList.ad" class="btn btn-link">공지사항 관리</a> 
 		<a href="questionList.ad" class="btn btn-link">1:1문의 관리</a>
   		</div>
     </div>

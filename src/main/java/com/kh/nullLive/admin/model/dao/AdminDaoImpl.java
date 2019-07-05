@@ -39,10 +39,8 @@ public class AdminDaoImpl implements AdminDao{
 	 * @comment :회원 상세보기
 	 */
 	@Override
-	public UserDetail userDetail(SqlSessionTemplate sqlSession, String userId) {
-		UserDetail tme = sqlSession.selectOne("Admin.selectUserDetail", userId);
-		System.out.println("test"+tme);
-		return tme;
+	public UserDetail userDetail(SqlSessionTemplate sqlSession, UserDetail ud) {
+		return sqlSession.selectOne("Admin.selectUserDetail", ud);
 	}
 	/**
 	 * @author INHYO
@@ -150,5 +148,85 @@ public class AdminDaoImpl implements AdminDao{
 	public int allExchange(SqlSessionTemplate sqlSession, int excno) {
 		return sqlSession.update("Admin.allExchangeProcess", excno);
 	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :FAQ 목록 조회
+	 */
+	@Override
+	public ArrayList<Board> FAQList(SqlSessionTemplate sqlSession) {
+		return  (ArrayList)sqlSession.selectList("Board.selectFAQList");
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :FAQ 작성
+	 */
+	@Override
+	public int insertFAQ(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("Board.insertFAQ",b);
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :FAQ 상세보기
+	 */
+	@Override
+	public Board FAQDetail(SqlSessionTemplate sqlSession, int bno) {
+		return sqlSession.selectOne("Board.selectFAQDetail", bno);
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :FAQ 수정
+	 */
+	@Override
+	public int FAQModify(SqlSessionTemplate sqlSession, Board fAQModify) {
+		System.out.println("수정할것 : " + fAQModify);
+		return sqlSession.update("Board.updateFAQ",fAQModify);
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :FAQ 삭제
+	 */
+	@Override
+	public int deleteFAQ(SqlSessionTemplate sqlSession, int bno) {
+		return sqlSession.delete("Board.deleteFAQ",bno);
+	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :공지사항 목록 조회
+	 */
+	@Override
+	public ArrayList<Board> noticeList(SqlSessionTemplate sqlSession) {
+		return  (ArrayList)sqlSession.selectList("Board.selectNoticeList");
+	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :공지사항 작성
+	 */
+	@Override
+	public int insertNoticce(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("Board.insertNoticce",b);
+	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 4.
+	 * @comment :FAQ 상세보기
+	 */
+	@Override
+	public Board noticeDetail(SqlSessionTemplate sqlSession, int bno) {
+		return sqlSession.selectOne("Board.selectNoticeDetail", bno);
+	}
+	
+	
+	
+	
 
 }

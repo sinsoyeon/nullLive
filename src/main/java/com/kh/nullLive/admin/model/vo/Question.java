@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Question {
 	private int bno; // BNO
-	private String qustionType;// QUESTION_TYPE
+	private String questionType;// QUESTION_TYPE
 	private String name;// NAME
 	private String bTitle;// BTITLE
 	private String bContent;// "BCONTENT"

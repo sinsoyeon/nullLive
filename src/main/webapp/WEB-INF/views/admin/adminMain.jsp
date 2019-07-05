@@ -194,7 +194,7 @@ function drawVisualization1() {
 	  			<c:forEach items="${QuestionList}" var="question" begin="0" end="4" step="1">
 	  				<c:if test="${question.BStatus == 4}">
 	  					<tr>
-							<td>${question.qustionType}</td>	
+							<td>${question.questionType}</td>	
 							<td>${question.name}</td>	
 							<td>${question.BTitle}</td>	
 							<td>${question.WDate}</td>
@@ -203,7 +203,7 @@ function drawVisualization1() {
 					</c:if>
 					<c:if test="${question.BStatus == 3}">
 	  					<tr  style="background: #eaeaea;">
-							<td>${question.qustionType}</td>	
+							<td>${question.questionType}</td>	
 							<td>${question.name}</td>	
 							<td>${question.BTitle}</td>	
 							<td>${question.WDate}</td>
