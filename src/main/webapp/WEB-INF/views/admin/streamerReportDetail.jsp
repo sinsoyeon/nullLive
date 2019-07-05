@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,17 +71,43 @@
 				</div>
 					<div style="padding: 3%;">
 						<div id="reportContext"><br><p>${reportContent.BContent }</p><br></div>
-						<div style="padding: 3%;">
-							<button style="float: left;" onclick="location.href='streamerReportList.ad'">뒤로가기</button>
-							<button style="float: right;">처리</button>
-							<select style="float: right;">
-								<option>영구 정지</option>
-								<option>90일 정지</option>
-								<option>60일 정지</option>
-								<option>30일 정지</option>
-								<option>부적합</option>
-							</select> 
-						</div>
+						<c:if test="${reportContent.status == 5}">
+							<div style="padding: 3%;">
+								<button style="float: left;" onclick="history.back();">뒤로가기</button>
+								<button style="float: right;" onclick="reportProcess()">처리</button>
+								<select style="float: right;" id="choiceStatus">
+									<option value="N">영구 정지</option>
+									<option value="B9">90일 정지</option>
+									<option value="B6">60일 정지</option>
+									<option value="B3">30일 정지</option>
+									<option value="Y">부적합</option>
+								</select> 
+							</div>
+							<p style="visibility: hidden;" id="bno">${reportContent.bno }</p>
+							<p style="visibility: hidden;" id="mno">${reportContent.mno }</p>
+						</c:if>
+						<c:if test="${reportContent.status == 6}">
+							<div style="padding: 3%;">
+								<button style="float: left;" onclick="history.back();">뒤로가기</button>
+								<c:choose>
+									<c:when test="${ban eq 90 }">
+										<div>${ ban } 일 정지</div>
+									</c:when>
+									<c:when test="${ban eq 60 }">
+										<div>${ ban } 일 정지</div>
+									</c:when>
+									<c:when test="${ban eq 30 }">
+										<div>${ ban } 일 정지</div>
+									</c:when>
+									<c:when test="${reportContent.banNum eq 0 }">
+										<div>부적합</div>
+									</c:when>
+									<c:otherwise>
+										<div>영구정지 </div>
+									</c:otherwise>
+								</c:choose>
+							</div>
+						</c:if>
 					</div>
 					
 				</div>
@@ -98,5 +125,21 @@ $(function() {
 	$('#menu1').addClass('active in');
 	$('#menu1 a:eq(1)').css('font-weight','bold');
 })
+
+function reportProcess() {
+	
+	var choiceStatus = $("#choiceStatus").val();
+	var bno = $("#bno").text();
+	var mno = $("#mno").text();
+	
+	var select = confirm("정말로 계정상태를 변경하시겠습니까? 확인을 누르시면 변경됩니다. ");
+	if (select) {
+		location.href = 'reportProcess.ad?bno=' + bno + '&mno='+mno+ '&choiceStatus=' + choiceStatus
+		alert("변경되었습니다.");
+	} else {
+		alert("취소되었습니다.");
+	}
+	
+}
 </script>
 </html>

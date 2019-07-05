@@ -19,6 +19,8 @@ public interface AdminService {
 	int totalMemberSelect();
 
 	ArrayList<Report> streamerReportList();
+	
+	ArrayList<Report> memberReportList();
 
 	ArrayList<Exchange> exchangeList();
 
@@ -42,16 +44,22 @@ public interface AdminService {
 
 	ArrayList<Board> noticeList();
 
-	Board FAQDetail(int bno);
+	Board detail(int bno); // FAQ/공지사항 상세보기
 
-	int FAQModify(Board fAQModify);
+	int modify(Board fAQModify); // FAQ/공지사항 수정
 
 	int insertFAQ(Board b);
+	
+	int insertNotice(Board b);
 
-	int deleteFAQ(int bno);
+	int deleteContent(int bno); // FAQ/공지사항 삭제
 
-	int insertNoticce(Board b);
+	String selectBan(int bno);
 
-	Board noticeDetail(int bno);
+	int reportProcess(Report r, Member m);
+
+
+
+
 
 }

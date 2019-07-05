@@ -89,6 +89,9 @@ $(function() {
 	$('li:eq(4)').addClass('active');
 	$('#menu4').addClass('active in');
 	$('#menu4 a:eq(3)').css('font-weight','bold');
+	setTimeout(function() { 
+		$('html, body').animate({ scrollTop: $(document).height()},2000);
+		}, 120)
         
 });
 

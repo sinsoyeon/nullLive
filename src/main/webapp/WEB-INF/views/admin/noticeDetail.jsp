@@ -97,9 +97,9 @@ form .answertData {
 					
 					<div class="row" align="center" style="width:95% ">
 						<div id='nowBno' style="display: none;">${noticeDetail.bno }</div>
-						<div class="col-sm-3">${noticeDetail.writtenDate }</div>
-						<div class="col-sm-3">${noticeDetail.modifyDate }</div>
-						<div class="col-sm-3">${noticeDetail.BCount }</div>
+						<div class="col-sm-4">${noticeDetail.writtenDate }</div>
+						<div class="col-sm-4">${noticeDetail.modifyDate }</div>
+						<div class="col-sm-4">${noticeDetail.BCount }</div>
 					</div>
 					<div style="padding: 3%;">
 						<div class="questionContext"><br><p>${noticeDetail.BContent }</p><br></div>
@@ -107,8 +107,9 @@ form .answertData {
 					<div id='btnDiv'>
 						<input type="button" style="float: left;"onclick="history.back();" value='뒤로가기'>
 						<button style="float: right; margin-left: 10px;" onclick="deleteFAQ()">삭제</button>
-						<button style="float: right;" id='modifyBtn'>수정</button> 
+						<button style="float: right;" id='modifyBtn' data-toggle="collapse" data-target="#demo">수정</button> 
 					</div>
+					<div id="demo" class="collapse">
 					<div id='modify'>
 						<hr>
 						<h2>수정</h2>
@@ -116,6 +117,7 @@ form .answertData {
 						<input id='modifyTitle' type="text" style="float: left; margin: 1%; width : 80%;" value="${noticeDetail.BTitle }">
 						<textarea id='modifyContent' autofocus>${noticeDetail.BContent }</textarea>
 						<input type="button" value="적용" style="float: right;" onclick="modifyFAQ()">
+					</div>
 					</div>
 				</div>
 			</div>
@@ -131,6 +133,7 @@ $(function() {
 	$('#menu4 a:eq(3)').css('font-weight','bold');
 	$("#modifyBtn").click(function() {
 		$('#modify').css("display","block");
+		$('html, body').animate({ scrollTop: $(document).height()},1000);
 	})
 })
 function modifyFAQ() {
@@ -141,7 +144,7 @@ function modifyFAQ() {
 		var bTitle = $("#modifyTitle").val();
 		var bContent = $("#modifyContent").val();
 		
-		location.href='FAQModify.ad?bno='+bno+'&bTitle='+bTitle+'&bContent='+bContent
+		location.href='noticeModify.ad?bno='+bno+'&bTitle='+bTitle+'&bContent='+bContent
 		
 	}else{
 		alert("취소 되었습니다.");
@@ -154,7 +157,7 @@ function deleteFAQ() {
 	
 	if(deleteFAQ){
 		var bno = $("#nowBno").text();
-		location.href='deleteFAQ.ad?bno='+bno
+		location.href='deleteNotice.ad?bno='+bno
 		alert("삭제되었습니다.");
 	}else{
 		alert("취소되었습니다.")

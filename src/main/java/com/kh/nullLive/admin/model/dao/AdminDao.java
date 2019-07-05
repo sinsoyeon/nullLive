@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import com.kh.nullLive.admin.model.vo.Ban;
 import com.kh.nullLive.admin.model.vo.Exchange;
 import com.kh.nullLive.admin.model.vo.Question;
 import com.kh.nullLive.admin.model.vo.Report;
@@ -17,6 +18,8 @@ public interface AdminDao {
 	ArrayList<Member> memberList(SqlSessionTemplate sqlSession, PagingVo paging);
 
 	ArrayList<Report> streamerReportList(SqlSessionTemplate sqlSession);
+	
+	ArrayList<Report> memberReportList(SqlSessionTemplate sqlSession);
 
 	ArrayList<Exchange> exchangeList(SqlSessionTemplate sqlSession);
 
@@ -48,17 +51,25 @@ public interface AdminDao {
 
 	ArrayList<Board> noticeList(SqlSessionTemplate sqlSession);
 
-	Board FAQDetail(SqlSessionTemplate sqlSession, int bno);
+	Board detail(SqlSessionTemplate sqlSession, int bno);
 
-	int FAQModify(SqlSessionTemplate sqlSession, Board fAQModify);
+	int modify(SqlSessionTemplate sqlSession, Board fAQModify);
 
 	int insertFAQ(SqlSessionTemplate sqlSession, Board b);
 
-	int deleteFAQ(SqlSessionTemplate sqlSession, int bno);
+	int deleteContent(SqlSessionTemplate sqlSession, int bno);
 
-	int insertNoticce(SqlSessionTemplate sqlSession, Board b);
+	int insertNotice(SqlSessionTemplate sqlSession, Board b);
 
-	Board noticeDetail(SqlSessionTemplate sqlSession, int bno);
+	String selectBan(SqlSessionTemplate sqlSession, int bno);
+
+	int selectBano(SqlSessionTemplate sqlSession, int mno);
+
+	int updateReport(SqlSessionTemplate sqlSession, Report r);
+
+
+	
+
 
 
 

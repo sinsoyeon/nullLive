@@ -109,8 +109,6 @@ public class AdminController {
 		}
 	}
 
-	// 회원 상세정보 조회 닫기
-
 	/**
 	 * @author INHYO
 	 * @date : 2019. 6. 20.
@@ -136,31 +134,47 @@ public class AdminController {
 	@RequestMapping("streamerReportDetail.ad")
 	public String adminStreamerReportDetail(Model model, int bno) {
 		
+		String ban = as.selectBan(bno);
 		Report reportContent = as.reportDetail(bno);
 		model.addAttribute("reportContent", reportContent);
-		System.out.println("reportContent : " + reportContent);
+		model.addAttribute("ban", ban);
 		
 		return "admin/streamerReportDetail";
 	}
 
 	// 신고 처리 상태 적용
+	@RequestMapping("reportProcess.ad")
+	public String adminReportProcess(Model model, int bno, int mno, String choiceStatus) {
+		
+		Report r = new Report();
+		r.setBno(bno);
+		
+		Member m = new Member();
+		m.setMno(mno);
+		m.setMstatus(choiceStatus);
+		
+		int result = as.reportProcess(r,m);
+		
+		model.addAttribute("bno",bno);
+		return "redirect:streamerReportDetail.ad";
+	}
+	
 
 	// 상세보기 닫기
 
 	// --------------- 일반회원 신고
 
-	// 일반회원 신고 페이지 이동(페이징)
 	/**
 	 * @author INHYO
 	 * @date : 2019. 6. 20.
-	 * @comment :
+	 * @comment :일반회원 신고 페이지 이동(페이징)
 	 */
 	@RequestMapping("memberReportList.ad")
 	public String adminMemberReportList(Model model) {
 		
-		ArrayList<Report> streamerReportList = as.streamerReportList();
+		ArrayList<Report> memberReportList = as.memberReportList();
 		
-		model.addAttribute("streamerReportList", streamerReportList);
+		model.addAttribute("memberReportList", memberReportList);
 		
 		return "admin/memberReport";
 	}
@@ -173,7 +187,10 @@ public class AdminController {
 	 * @comment : 신고 상세보기
 	 */
 	@RequestMapping("memberReportDetail.ad")
-	public String adminMemberReportDetail(Model model) {
+	public String adminMemberReportDetail(Model model, int bno) {
+		Report reportContent = as.reportDetail(bno);
+		model.addAttribute("reportContent", reportContent);
+		
 		return "admin/memberReportDetail";
 	}
 
@@ -339,9 +356,7 @@ public class AdminController {
 			String msg = "작성 실패!";
 			model.addAttribute("msg", msg);
 			return "common/errorPage";
-					
 		}
-		
 	}
 	
 	/**
@@ -352,7 +367,7 @@ public class AdminController {
 	@RequestMapping("FAQDetail.ad")
 	public String adminFAQDetail(Model model, int bno) {
 		
-		Board FAQDetail = as.FAQDetail(bno);
+		Board FAQDetail = as.detail(bno);
 		model.addAttribute("FAQDetail", FAQDetail);
 		
 		return "admin/FAQDetail";
@@ -371,7 +386,7 @@ public class AdminController {
 		b.setBTitle(bTitle);
 		b.setBContent(bContent);
 		
-		int result = as.FAQModify(b);
+		int result = as.modify(b);
 		
 		if(result > 0) {
 			model.addAttribute("bno", bno);
@@ -390,7 +405,7 @@ public class AdminController {
 	@RequestMapping("deleteFAQ.ad")
 	public String adminDeleteFAQ(Model model, int bno) {
 		
-		int result = as.deleteFAQ(bno);
+		int result = as.deleteContent(bno);
 		
 		if(result > 0) {
 			return "redirect:FAQList.ad";
@@ -435,7 +450,7 @@ public class AdminController {
 		b.setBTitle(bTitle);
 		b.setBContent(bContent);
 		
-		int result = as.insertNoticce(b);
+		int result = as.insertNotice(b);
 		if(result > 0) {
 			return "redirect:noticeList.ad";
 		}else {
@@ -453,7 +468,7 @@ public class AdminController {
 	@RequestMapping("noticeDetail.ad")
 	public String adminNoticeDetail(Model model, int bno) {
 		
-		Board noticeDetail = as.noticeDetail(bno);
+		Board noticeDetail = as.detail(bno);
 		model.addAttribute("noticeDetail", noticeDetail);
 		
 		return "admin/noticeDetail";
@@ -472,7 +487,7 @@ public class AdminController {
 		b.setBTitle(bTitle);
 		b.setBContent(bContent);
 		
-		int result = as.FAQModify(b);
+		int result = as.modify(b);
 		
 		if(result > 0) {
 			model.addAttribute("bno", bno);
@@ -491,7 +506,7 @@ public class AdminController {
 	@RequestMapping("deleteNotice.ad")
 	public String adminDeleteNotice(Model model, int bno) {
 		
-		int result = as.deleteFAQ(bno);
+		int result = as.deleteContent(bno);
 		
 		if(result > 0) {
 			return "redirect:noticeList.ad";

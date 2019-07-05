@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,15 +64,15 @@
 				</div>
 				
 				<div class="row" align="center" style="width:95% ">
-					<div class="col-sm-3">명예훼손</div>
-					<div class="col-sm-3">bbashong</div>
-					<div class="col-sm-3">user02</div>
-					<div class="col-sm-3">2019.06.21</div>
+					<div class="col-sm-3"> ${ reportContent.reportType }</div>
+					<div class="col-sm-3">${reportContent.writer}</div>
+					<div class="col-sm-3">${reportContent.target}</div>
+					<div class="col-sm-3">${reportContent.writtenDate}</div>
 				</div>
 					<div style="padding: 3%;">
-						<div id="reportContext"><br><p>기분 드럽네요</p><br></div>
+						<div id="reportContext"><br><p>${reportContent.BContent }</p><br></div>
 						<div style="padding: 3%;">
-							<button style="float: left;" onclick="location.href='memberReportList.ad'">뒤로가기</button>
+							<button style="float: left;" onclick="history.back();">뒤로가기</button>
 							<button style="float: right;">처리</button>
 							<select style="float: right;">
 								<option>영구 정지</option>

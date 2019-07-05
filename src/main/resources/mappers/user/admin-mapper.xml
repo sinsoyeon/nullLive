@@ -53,6 +53,15 @@
 		<result property="status" column="B_STATUS"/>
 		<result property="writer" column="WRITER"/>
 		<result property="target" column="TARGET"/>
+		<result property="banNum" column="BCOUNT"/>
+	</resultMap>
+	
+	<resultMap type="Ban" id="BanResultSet">
+		<id property="bano" column="BANO"/>
+		<result property="banDate" column="BAN_DATE"/>
+		<result property="endDate" column="BAN_END"/>
+		<result property="baStatus" column="BA_STATUS"/>
+		<result property="mno" column="MNO"/>
 	</resultMap>
 	
 	
@@ -177,8 +186,8 @@
 		</choose>
 </insert>
 	
-	<!-- 관리자 신고 조회용 -->
-    <select id="selectReportList" resultMap="ReportResultSet">
+	<!-- 관리자 스트리머 신고 조회용 -->
+    <select id="selectStreamerReportList" resultMap="ReportResultSet">
     	SELECT B.BNO, B.BTITLE, B.REPORT_TYPE , M.MID WRITER  ,MM.MID TARGET  ,C.COU, B.WRITTEN_DATE, B.B_STATUS
 		FROM BOARD B
 		JOIN MEMBER M ON(B.BWRITER = M.MNO)
@@ -186,18 +195,54 @@
 		JOIN (SELECT REPORT_MNO, COUNT(*)COU
 		        FROM BOARD
 		        GROUP BY REPORT_MNO) C ON(C.REPORT_MNO = B.REPORT_MNO)
-		WHERE BTYPE LIKE 'REPORT'
+		WHERE BTYPE LIKE 'SREPORT'
 		ORDER BY 8,7 DESC
     </select>
     
-    <!-- 관리자 신고 디테일 조회 -->
+    <!-- 관리자 일반히원 신고 조회용 -->
+    <select id="selectMemberReportList" resultMap="ReportResultSet">
+    	SELECT B.BNO, B.BTITLE, B.REPORT_TYPE , M.MID WRITER  ,MM.MID TARGET  ,C.COU, B.WRITTEN_DATE, B.B_STATUS
+		FROM BOARD B
+		JOIN MEMBER M ON(B.BWRITER = M.MNO)
+		JOIN MEMBER MM ON(B.REPORT_MNO = MM.MNO)
+		JOIN (SELECT REPORT_MNO, COUNT(*)COU
+		        FROM BOARD
+		        GROUP BY REPORT_MNO) C ON(C.REPORT_MNO = B.REPORT_MNO)
+		WHERE BTYPE LIKE 'MREPORT'
+		ORDER BY 8,7 DESC
+    </select>
+    
+    <!-- 상세조회에 필요한 쿼리 -->
+    <select id="selectBan" parameterType="_int" resultType="java.lang.String">
+    	SELECT TO_NUMBER(BA.BAN_END-BA.BAN_DATE) BAN_DAY
+        FROM BAN BA
+        JOIN BOARD BO ON(BO.BCOUNT = BA.BANO)
+        WHERE BO.BNO = #{bno}
+    </select>
+    
+    <!-- 관리자 신고 상세 조회 -->
     <select id="selectReportDetail" parameterType="_int" resultMap="ReportResultSet">
-    	SELECT B.BTITLE , B.BCONTENT , B.WRITTEN_DATE , B.REPORT_TYPE, B.B_STATUS,  M.MID WRITER  ,MM.MID TARGET 
+    	SELECT B.BNO, B.BTITLE , B.BCONTENT , B.WRITTEN_DATE , B.REPORT_TYPE, B.B_STATUS,  M.MID WRITER  ,MM.MID TARGET ,B.BCOUNT, MM.MNO
 		FROM BOARD B
 		JOIN MEMBER M ON(B.BWRITER = M.MNO)
 		JOIN MEMBER MM ON(B.REPORT_MNO = MM.MNO)
 		WHERE B.BNO = #{bno}
     </select>
+    
+    <!-- 신고 프로세스 -->
+    <select id="selectBano" parameterType="_int" resultType="_int">
+    	SELECT BANO
+    	FROM BAN
+    	WHERE MNO = #{mno}
+    	AND BA_STATUS LIKE 'Y'
+    </select>
+    
+    <update id="updateReport" parameterType="com.kh.nullLive.admin.model.vo.Report">
+    	UPDATE BOARD
+    	SET BCOUNT = #{cou},
+    	B_STATUS = 6
+    	WHERE BNO = #{bno}
+    </update>
     
     <!-- 환전 처리 (소연) -->
     <update id="exchangeProcess" parameterType="_int">

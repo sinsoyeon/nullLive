@@ -25,4 +25,5 @@ public class Report {
 	private String writer;			//WRITER 신고자
 	private String target;			//TARGET 대상자
 	private int cou; // COU
+	private int banNum; // BCOUNT - 밴번호로 사용 
 }

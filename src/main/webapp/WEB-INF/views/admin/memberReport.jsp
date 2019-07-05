@@ -42,7 +42,7 @@ tr>th{
 					</tr>
 				</thead>	
 				<tbody>
-				<c:forEach items="${streamerReportList}" var="board" varStatus="number">
+				<c:forEach items="${memberReportList}" var="board" varStatus="number">
 					<c:if test="${board.status == 6}">
 					<tr style="background: #eaeaea;">
 						<td>${board.bno}</td>

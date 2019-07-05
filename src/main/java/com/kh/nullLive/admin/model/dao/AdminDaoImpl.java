@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.nullLive.admin.model.vo.Ban;
 import com.kh.nullLive.admin.model.vo.Exchange;
 import com.kh.nullLive.admin.model.vo.Question;
 import com.kh.nullLive.admin.model.vo.Report;
@@ -76,8 +77,19 @@ public class AdminDaoImpl implements AdminDao{
 	 */
 	@Override
 	public ArrayList<Report> streamerReportList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("Admin.selectReportList");
+		return (ArrayList)sqlSession.selectList("Admin.selectStreamerReportList");
 	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 3.
+	 * @comment :스트리머 신고 리스트
+	 */
+	@Override
+	public ArrayList<Report> memberReportList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("Admin.selectMemberReportList");
+	}
+	
 	/**
 	 * @author INHYO
 	 * @date : 2019. 7. 3.
@@ -169,30 +181,29 @@ public class AdminDaoImpl implements AdminDao{
 	/**
 	 * @author INHYO
 	 * @date : 2019. 7. 4.
-	 * @comment :FAQ 상세보기
+	 * @comment :FAQ/공지사항 상세보기
 	 */
 	@Override
-	public Board FAQDetail(SqlSessionTemplate sqlSession, int bno) {
-		return sqlSession.selectOne("Board.selectFAQDetail", bno);
+	public Board detail(SqlSessionTemplate sqlSession, int bno) {
+		return sqlSession.selectOne("Board.adminSelectDetail", bno);
 	}
 	/**
 	 * @author INHYO
 	 * @date : 2019. 7. 4.
-	 * @comment :FAQ 수정
+	 * @comment :FAQ/공지사항 수정
 	 */
 	@Override
-	public int FAQModify(SqlSessionTemplate sqlSession, Board fAQModify) {
-		System.out.println("수정할것 : " + fAQModify);
-		return sqlSession.update("Board.updateFAQ",fAQModify);
+	public int modify(SqlSessionTemplate sqlSession, Board fAQModify) {
+		return sqlSession.update("Board.adminModifyUpdate",fAQModify);
 	}
 	/**
 	 * @author INHYO
 	 * @date : 2019. 7. 4.
-	 * @comment :FAQ 삭제
+	 * @comment :FAQ/공지사항 삭제
 	 */
 	@Override
-	public int deleteFAQ(SqlSessionTemplate sqlSession, int bno) {
-		return sqlSession.delete("Board.deleteFAQ",bno);
+	public int deleteContent(SqlSessionTemplate sqlSession, int bno) {
+		return sqlSession.delete("Board.deleteContent",bno);
 	}
 	
 	/**
@@ -211,22 +222,22 @@ public class AdminDaoImpl implements AdminDao{
 	 * @comment :공지사항 작성
 	 */
 	@Override
-	public int insertNoticce(SqlSessionTemplate sqlSession, Board b) {
-		return sqlSession.insert("Board.insertNoticce",b);
+	public int insertNotice(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("Board.insertNotice",b);
 	}
 	
-	/**
-	 * @author INHYO
-	 * @date : 2019. 7. 4.
-	 * @comment :FAQ 상세보기
-	 */
 	@Override
-	public Board noticeDetail(SqlSessionTemplate sqlSession, int bno) {
-		return sqlSession.selectOne("Board.selectNoticeDetail", bno);
+	public String selectBan(SqlSessionTemplate sqlSession, int bno) {
+		return sqlSession.selectOne("Admin.selectBan", bno);
+	}
+	@Override
+	public int selectBano(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("Admin.selectBano",mno);
 	}
 	
+	@Override
+	public int updateReport(SqlSessionTemplate sqlSession, Report r) {
+		return sqlSession.update("Admin.updateReport",r);
+	}
 	
-	
-	
-
 }
