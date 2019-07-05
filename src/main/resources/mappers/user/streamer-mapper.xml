@@ -195,6 +195,20 @@
 	ORDER BY 1 ASC
 	</select>
 	
+	<select id="todayRecom" resultType="java.util.HashMap">
+	SELECT TODAY,YESTERDAY
+	FROM
+		(SELECT SUM(COUNT_RECOMMENDATION) AS TODAY
+        FROM BROAD_HIS
+        WHERE to_char(BH_START_DATE,'yyyymmdd') = to_char(SYSDATE,'yyyymmdd')
+        AND bcno = #{mno}) , 
+        (SELECT SUM(COUNT_RECOMMENDATION) AS YESTERDAY
+        FROM BROAD_HIS
+        WHERE to_char(BH_START_DATE,'yyyymmdd') = to_char(SYSDATE-1,'yyyymmdd')
+        AND bcno =  #{mno})
+		
+	</select>
+	
 	<!-- 오늘과 어제의 추천 수 비교 -->
 	<select id="compareYesterDay" resultType="java.util.HashMap">
 	SELECT YESTERDAY,TODAY
@@ -205,6 +219,31 @@
         FROM BROAD_HIS
         WHERE BH_START_DATE = SYSDATE-1
         AND bcno = #{mno})
+	</select>
+	
+	<!-- 최근 6개월의 스폰,구독 전체 조회  -->
+	<select id="selectAllChart" resultType="java.util.HashMap">
+		SELECT TO_CHAR(SPON_DATE,'MM')AS SPON_MONTH,COUNT(*) AS SPON_COUNT,TO_CHAR(SPON_DATE,'IW')- TO_CHAR(TO_DATE(TO_CHAR(SPON_DATE,'MM'),'MM'),'IW')+1 AS SPON_WEEK
+		FROM MEMBER,STREAMER,SPON_HIS
+		WHERE MEMBER.MNO = STREAMER.MNO
+		AND STREAMER.SNO = SPON_HIS.SNO
+		AND SPON_HIS.SNO = #{mno}
+		AND TO_CHAR(SPON_DATE,'YYYY') = TO_CHAR(SYSDATE,'YYYY')
+		AND TO_CHAR(SPON_DATE,'MM') >= TO_CHAR(SYSDATE,'MM')-6
+		GROUP BY TO_CHAR(SPON_DATE,'MM'),TO_CHAR(SPON_DATE,'IW')- TO_CHAR(TO_DATE(TO_CHAR(SPON_DATE,'MM'),'MM'),'IW')+1
+		ORDER BY 1 ASC
+	</select>
+	
+	<select id="selectAllSubChart" resultType="java.util.HashMap">	
+		SELECT TO_CHAR(SU_START_DATE,'MM')AS SU_MONTH,COUNT(*) AS SUB_COUNT,TO_CHAR(SU_START_DATE,'IW')- TO_CHAR(TO_DATE(TO_CHAR(SU_START_DATE,'MM'),'MM'),'IW')+1 AS SUB_WEEK
+		FROM MEMBER,STREAMER,SUBSCRIPTION_HIS
+		WHERE MEMBER.MNO = STREAMER.MNO
+		AND STREAMER.SNO = SUBSCRIPTION_HIS.SNO
+		AND SUBSCRIPTION_HIS.SNO = #{mno}
+		AND TO_CHAR(SU_START_DATE,'YYYY') = TO_CHAR(SYSDATE,'YYYY')
+		AND TO_CHAR(SU_START_DATE,'MM') >= TO_CHAR(SYSDATE,'MM')-6
+		GROUP BY TO_CHAR(SU_START_DATE,'MM'),TO_CHAR(SU_START_DATE,'IW')- TO_CHAR(TO_DATE(TO_CHAR(SU_START_DATE,'MM'),'MM'),'IW')+1
+		ORDER BY 1 ASC
 	</select>
 
 	<!-- 장기 구독자 추가(소연) -->

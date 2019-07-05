@@ -142,22 +142,45 @@ public class StreamerDaoImpl implements StreamerDao {
 		return (ArrayList)sqlSession.selectList("Streamer.selectChargeList", mno);
 	}
 
-	//여성 비율
+	// 나이와 성별 구독 통계 데이터
 	@Override
 	public ArrayList<HashMap<String,Object>> selectAllFemale(SqlSessionTemplate sqlSession, int mno) {
 		
 		return (ArrayList)sqlSession.selectList("Streamer.selectAgeData",mno);
 	}
 
+	// 나이와 성별 후원 통계 데이터
 	@Override
 	public ArrayList<HashMap<String, Object>> sponAgeChart(SqlSessionTemplate sqlSession, int mno) {
 		return (ArrayList)sqlSession.selectList("Streamer.selectSponAgeData",mno);
 	}
 
+	//월별 / 주간 추천 데이터 (동적쿼리 사용) 
 	@Override
 	public ArrayList<HashMap<String, Object>> recomList(SqlSessionTemplate sqlSession, HashMap<String, Object> recomInfoMap) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("Streamer.recomList",recomInfoMap);
+	}
+
+	//오늘과 어제의 추천 수 비교 통계 데이터
+	@Override
+	public HashMap<String,Object> todayRecom(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Streamer.todayRecom",mno);
+	}
+
+	
+	//지난 달 전체 후원,구독 통계 
+	@Override
+	public ArrayList<HashMap<String, Object>> selectAllChart(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("Streamer.selectAllChart", mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectAllSubChart(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("Streamer.selectAllSubChart", mno);
 	}
 	
 }

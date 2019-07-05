@@ -30,7 +30,8 @@
 			<jsp:include page="../streamer/chartNav.jsp" />	
 							<ol class="breadcrumb">
 				    <li><a href="" id="subBtn">주간 추천 통계</a></li>
-				    <li><a href="#" id="monthlyRecom">월별 추천 통계</a></li>    
+				    <li><a href="#" id="monthlyRecom">월별 추천 통계</a></li>
+				    <li><a href="#" id="todayRecom">어제와 오늘의 추천 비교</a></li>       
 			  </ol>	
 		</div>
 			
@@ -97,14 +98,40 @@
 		})
 		
 		
+		$("#todayRecom").click(function(){
+			var mno = $("#mno").val();
+			var todayRecom = new Array();
+			$.ajax({
+				url:"todayRecom.sm",
+				type:"post",
+				data:{mno:mno},
+				success:function(data,index,value){
+					console.log(data.todayRecom);
+					console.log(data.todayRecom.TODAY);
+						todayRecom[1] = ['오늘',data.todayRecom.TODAY];
+						todayRecom[0] = ['어제',data.todayRecom.YESTERDAY];
+				
+					drawChart(todayRecom,"어제와 오늘의 추천 수 비교","Data",3);
+				}
+			});
+		})
+		
+		
 		
 	      function drawChart(data,title,vaxis_title,type) {
 		    	var chartData = new google.visualization.DataTable();
 		        
-		        chartData.addColumn("string","차트");
-		        chartData.addColumn("number","추천수(단위 :1,날짜:월/주)");
 		        
+		        
+		        if(type==3){
+		        chartData.addColumn("string","날짜");
+		        chartData.addColumn("number","추천수");
 		        chartData.addRows(data);
+		        }else{
+		        	 chartData.addColumn("string","추천");
+				     chartData.addColumn("number","추천 수");
+		        	 chartData.addRows(data);	
+		        }
 		        
 		        
 		        var options = {
@@ -126,6 +153,9 @@
 		        chart.draw(chartData, options);
 		        }else if(type==1){
 		        	var chart = new google.visualization.LineChart(document.getElementById('donutchart'));
+			        chart.draw(chartData, options);
+		        }else if(type==3){
+		        	var chart = new google.visualization.ColumnChart(document.getElementById('donutchart'));
 			        chart.draw(chartData, options);
 		        }
 		        

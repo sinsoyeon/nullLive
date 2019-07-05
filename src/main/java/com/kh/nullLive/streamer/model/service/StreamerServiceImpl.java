@@ -134,4 +134,22 @@ public class StreamerServiceImpl implements StreamerService{
 		return smDao.recomList(sqlSession,recomInfoMap);
 	}
 
+	@Override
+	public HashMap<String,Object> todayRecom(int mno) {
+		// TODO Auto-generated method stub
+		return smDao.todayRecom(sqlSession,mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectAllChart(int mno) {
+		// TODO Auto-generated method stub
+		return smDao.selectAllChart(sqlSession,mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectAllSubChart(int mno) {
+		// TODO Auto-generated method stub
+		return smDao.selectAllSubChart(sqlSession,mno);
+	}
+
 }

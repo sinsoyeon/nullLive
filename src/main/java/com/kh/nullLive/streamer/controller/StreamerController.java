@@ -299,5 +299,42 @@ public class StreamerController {
 		return modelAndView;
 	}
 	
+	@RequestMapping("todayRecom.sm")
+	public ModelAndView todayRecom(int mno,ModelAndView modelAndView) {
+		
+		HashMap<String,Object> todayRecom = smService.todayRecom(mno);
+		
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("todayRecom",todayRecom);
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping("selectAllChart.sm")
+	public ModelAndView selectAllChart(int mno,ModelAndView modelAndView) {
+		ArrayList<HashMap<String, Object>> selectAllChart = smService.selectAllChart(mno);
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("selectAllChart",selectAllChart);
+		
+		
+		return modelAndView;
+	}
+	
+	//return : selectAllSubChart;
+	@RequestMapping("selectSubChart.sm")
+	public ModelAndView selectSubChart(int mno,ModelAndView modelAndView) {
+		ArrayList<HashMap<String, Object>> selectAllSubChart = smService.selectAllSubChart(mno);
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("selectAllSubChart",selectAllSubChart);
+		
+		return modelAndView;
+		
+	}
+
+	
+	
 	
 }
