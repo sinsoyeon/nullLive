@@ -262,6 +262,27 @@ public class JobBoardDaoImpl implements JobBoardDao {
 		return sqlSession.selectOne("Board.selectBoardStatus",bStatus);
 	}
 
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 5.
+	 * @comment : 내가 쓴 글 페이징 조회
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> 
+				selectListJobMyBoardPaging(SqlSessionTemplate sqlSession, HashMap<String,Object> hmap) {
+		return (ArrayList)sqlSession.selectList("Board.selectListJobMyBoardPaging", hmap);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 5.
+	 * @comment : 내가 쓴 글 총 갯수 조회
+	 */
+	@Override
+	public int getJobMyJobBoardCount(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.selectOne("Board.selectJobMyBoardListCount", hmap);
+	}
+
 
 
 

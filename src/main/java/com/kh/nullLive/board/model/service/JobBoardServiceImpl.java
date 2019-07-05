@@ -9,6 +9,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
 
 import com.kh.nullLive.board.model.dao.JobBoardDao;
+import com.kh.nullLive.board.model.exception.BoardSelectListException;
 import com.kh.nullLive.board.model.exception.JobBoardInsertException;
 import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.vo.Board;
@@ -93,11 +94,6 @@ public class JobBoardServiceImpl implements JobBoardService{
 		jbd.selectListJobMngBoard();
 	}
 
-	@Override
-	public void selectListJobMyBoard() {
-		jbd.selectListJobMyBoard();
-	}
-
 	/**
 	 * @author : uukk
 	 * @throws JobBoardInsertException 
@@ -129,44 +125,48 @@ public class JobBoardServiceImpl implements JobBoardService{
 
 	/**
 	 * @author : uukk
+	 * @throws BoardSelectListException 
 	 * @date : 2019. 7. 1.
 	 * @comment : 구인구직 게시판 상세조회
 	 */
 	@Override
-	public HashMap<String, Object> selectOneJobBoard(int bno) {
+	public HashMap<String, Object> selectOneJobBoard(int bno) throws BoardSelectListException {
 		HashMap<String,Object> boardMap = new HashMap<>();
 		//조회수 증가
 		int result = jbd.updateBoardCount(sqlSession,bno);
 		//board 조회
 		Board board = jbd.selectOneMngBoard(sqlSession,bno);
-		boardMap.put("board", board);
+		
 		//board 상태 조회
 		System.out.println(jbd.selectOneBoardStatus(sqlSession,board.getBStatus()));
 		String boardStatus = (String)(jbd.selectOneBoardStatus(sqlSession,board.getBStatus()));
-		boardMap.put("boardStatus", boardStatus);
+		
 		
 		//jobBoard 조회
 		JobBoard jBoard = jbd.selectOnejobMngBoard(sqlSession,bno);
-		boardMap.put("jBoard", jBoard);
+		
 		System.out.println(jBoard);
 		//글작성자 조회
 		int mno = Integer.parseInt((String)(board.getBWriter()+""));
 		Member member = md.selectMemberMno(sqlSession, mno);
-		boardMap.put("member", member);
+		
 		System.out.println(member);
 		if(jBoard.getJBtype().equals("구인")) {
 			//구인구직게시판 타입이 구인인경우 스트리머정보를 가져옴
 			Streamer streamer = sd.selectStreamerMno(sqlSession,mno);
-			System.out.println(streamer);
+			if(streamer == null) {
+				throw new BoardSelectListException("스트리머 정보 불러오기 실패");
+			}
 			boardMap.put("streamer", streamer);
 			//구독자수 조회
 			int suCount = sud.getSubscriptionCount(sqlSession,streamer.getSno());
 			boardMap.put("suCount",suCount);
 		}
 		
-		
-		
-		
+		boardMap.put("boardStatus", boardStatus);
+		boardMap.put("board", board);
+		boardMap.put("jBoard", jBoard);
+		boardMap.put("member", member);
 		
 		return boardMap;
 	}
@@ -255,6 +255,26 @@ public class JobBoardServiceImpl implements JobBoardService{
 	@Override
 	public int getJobNoticeListCount() {
 		return jbd.getJobNoticeListCount(sqlSession);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 5.
+	 * @comment : 내가 쓴 글 조회
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> selectListJobMyBoardPaging(HashMap<String,Object> hmap) {
+		return jbd.selectListJobMyBoardPaging(sqlSession,hmap);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 5.
+	 * @comment : 구인구직 매니저 전체 갯수
+	 */
+	@Override
+	public int getJobMyJobBoardCount(HashMap<String, Object> hmap) {
+		return jbd.getJobMyJobBoardCount(sqlSession,hmap);
 	}
 
 

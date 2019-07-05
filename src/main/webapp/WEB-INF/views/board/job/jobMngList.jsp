@@ -80,10 +80,14 @@
 			</div>	
 			
 			<!-- 버튼영역  -->	
-			<div class="btnArea">
-				<button class="btn">내가 쓴 글</button>
-				<button onclick="location.href='jobMngInsertForm.jbo'" class="btn">글쓰기</button>
-			</div>
+			
+			<c:if test="${ !empty loginUser }">
+				<div class="btnArea">
+					<button onclick="selectMyboard()"class="btn">내가 쓴 글</button>
+					<button onclick="location.href='jobMngInsertForm.jbo'" class="btn">글쓰기</button>
+				</div>
+			</c:if>
+			
 			<br><br>
 			
 				
@@ -158,13 +162,28 @@
                 <li><a onclick='pageLast(${pi.pageStartNum},${pi.total},${pi.listCnt},${pi.pageCnt});'>»</a></li>
                 
 	        </ul>
+	        
 	        <!-- 선택된 값들을 보낼 form 영역 -->
-	        <form action="jobMngList.jbo" method="get" id='frmPaging'>
+	        <c:set var="pagingHandler" value="${ jobMngList.jbo }"/>
+	      
+	        <c:if test="${ isMyBoardList eq true }">
+	        	<c:set var="pagingHandler" value="${ selectMyboard.jbo }"/>
+	        </c:if>
+	        <form onSubmit="pagingHandler" method="get" id='frmPaging'>
 	            <!--출력할 페이지번호, 출력할 페이지 시작 번호, 출력할 리스트 갯수 -->
 	            <input type='hidden' name='index' id='index' value='${pi.index}'>
 	            <input type='hidden' name='pageStartNum' id='pageStartNum' value='${pi.pageStartNum}'>
-	            <input type='hidden' name='listCnt' id='selected' value='${pi.listCnt}'>    
+	            <input type='hidden' name='listCnt' id='selected' value='${pi.listCnt}'>
+	            <!-- 페이징 추가 쿼리스트링 -->
+	            <!-- 내가 쓴 글 페이징 -->
+	            <c:if test="${ isMyBoardList eq true }">
+	        		<input type='hidden' name='bType' value='JOBMNG'>
+	        		<input type='hidden' name='mno' value='${ loginUser.mno }'>
+	        		<input type='hidden' name='url' value='board/job/jobMngList'>
+	      		</c:if>
 	        </form>
+	        
+	        
 	        <!-- 검색바 영역 -->
 	        <br>
 			<div class="searchArea" align="center">
@@ -182,6 +201,7 @@
 	<script>
 		//게시판 상세보기
 		$(function(){
+			
 			
 			$("#listArea td").mouseenter(function(){
 				$(this).parent().css({"background":"#e2f0d8","cursor":"pointer"});
@@ -219,8 +239,16 @@
 					});
 				}
 			});  */
-			
+			console.log(location.href)
 		})
+		//내가 쓴 글 조회
+		function selectMyboard(){
+			var sub = "bType=JOBMNG&mno="+'${ loginUser.mno }'+"&url=board/job/jobMngList";
+			location.href="selectMyboard.jbo?"+sub ;
+		}
 	</script>
+	
+	
+	
 </body>
 </html>

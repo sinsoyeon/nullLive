@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.omg.CORBA.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.kh.nullLive.board.model.exception.BoardSelectListException;
 import com.kh.nullLive.board.model.exception.JobBoardInsertException;
 import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.service.JobBoardService;
@@ -197,9 +199,20 @@ public class JobBoardController {
 	 * @date : 2019. 6. 19.
 	 * @comment : 구인구직 게시판 내가쓴글 조회용 메소드
 	 */
-	public String selectListJobMyBoard(Board board,Model model) {
-		jbs.selectListJobMyBoard();
-		return null;
+	@RequestMapping("selectMyboard.jbo")
+	public String selectListJobMyBoard(Member member,Board board,PagingVo paging,Model model,HttpServletRequest request) {
+		HashMap<String,Object> hmap = new HashMap<>();
+		hmap.put("member", member);
+		hmap.put("board", board);
+		hmap.put("paging", paging);
+		
+		System.out.println(hmap);
+		ArrayList<HashMap<String,Object>> list = jbs.selectListJobMyBoardPaging(hmap);
+		paging.setTotal(jbs.getJobMyJobBoardCount(hmap));
+		model.addAttribute("list", list);
+        model.addAttribute("pi", paging);
+        model.addAttribute("isMyBoardList",true);
+		return request.getParameter("url");
 	}
 	
 	/**
@@ -238,7 +251,16 @@ public class JobBoardController {
 	public String selectOneJobBoard(HttpServletRequest request,Model model) {
 		int bno = Integer.parseInt(request.getParameter("bno"));
 			
-		HashMap<String,Object> boardMap = jbs.selectOneJobBoard(bno);
+		HashMap<String, Object> boardMap;
+		try {
+			boardMap = jbs.selectOneJobBoard(bno);
+			model.addAttribute("boardMap",boardMap);
+			return "board/job/jobMngDetail";
+		} catch (BoardSelectListException e) {
+			// TODO Auto-generated catch block
+			model.addAttribute("msg",e.getMessage());
+			return "common/errorPage";
+		}
 		/*
 		 * String str = hmap.get("mno")+""; int mno = Integer.parseInt(str); Attachment
 		 * att = null; try { att = ms.getProfile(mno); System.out.println(att);
@@ -246,8 +268,7 @@ public class JobBoardController {
 		 * //프로필 사진이 없는 경우 }
 		 */
 		
-		model.addAttribute("boardMap",boardMap);
-		return "board/job/jobMngDetail";
+		
 			
 			
 	}

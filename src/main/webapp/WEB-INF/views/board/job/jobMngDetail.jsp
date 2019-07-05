@@ -89,7 +89,7 @@
 		</div>
 		<!-- 게시글 정보 영역 -->
 		<div class="divTest col-lg-9">
-			<div><h2><c:out value="${ hmap.bTitle }"/></h2></div>
+			<div><h2><c:out value="${ board.BTitle }"/></h2></div>
 		</div>
 		<div class="boardInfoArea" >
 			

@@ -74,7 +74,7 @@
 					<!-- 마감일 -->
 					<div>
 						<h3>마감일</h3>
-						<input class="form-control" id="deadLine" type="text" name="deadLine"> 
+						<input class="form-control" id="deadLine" type="date" name="deadLine"> 
 					</div>
 					<br>
 				</div>
