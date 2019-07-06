@@ -15,6 +15,7 @@ import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.board.model.vo.PageInfo;
+import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.dao.MemberDao;
 import com.kh.nullLive.member.model.vo.Member;
@@ -69,9 +70,16 @@ public class JobBoardServiceImpl implements JobBoardService{
 		return board;
 	}
 
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 6.
+	 * @comment : 구인구직 공지사항 작성
+	 */
 	@Override
-	public int insertJobNotice(Board board) {
-		return jbd.insertJobNotice(sqlSession,board);
+	public void insertJobNotice(Board board,Attachment att) {
+		int result = 0;
+		
+		//return jbd.insertJobNotice(sqlSession,board);
 	}
 
 	@Override

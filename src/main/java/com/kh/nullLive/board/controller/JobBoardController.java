@@ -1,11 +1,14 @@
 package com.kh.nullLive.board.controller;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kh.nullLive.board.model.exception.BoardSelectListException;
 import com.kh.nullLive.board.model.exception.JobBoardInsertException;
@@ -26,6 +31,9 @@ import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.service.JobBoardService;
 import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.JobBoard;
+import com.kh.nullLive.common.AttchmentUtil;
+import com.kh.nullLive.common.FileUtil;
+import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.service.MemberService;
 import com.kh.nullLive.member.model.vo.Member;
@@ -113,22 +121,26 @@ public class JobBoardController {
 	
 	/**
 	 * @author : uukk
+	 * @throws Exception 
 	 * @date : 2019. 6. 19.
 	 * @comment : 구인구직 공지사항 글쓰기용 메소드
 	 */
 	@RequestMapping("insertBoard.jbo")
-	public String insertJobNotice(Board board, Model model) {
+	public String insertJobNotice(Board board,HttpServletRequest request,Model model) throws Exception{
 		
+		ArrayList<Attachment> attList = (ArrayList)AttchmentUtil.getAttList(request);
+
+		System.out.println(attList);
 		
-		int result = jbs.insertJobNotice(board);
-		
-		if(result> 0 ) {
-			return "redirect:jobMain.jbo";
-		}else {
-			model.addAttribute("msg","공지사항 작성 실패");
-			return "common/board/jobNoticeList";
+		//파일 삭제
+		for(int i=0; i<attList.size(); i++) {
+			FileUtil.deleteFile(attList.get(i).getFilePath(),attList.get(i).getChangeName());
 		}
 		
+        return null;
+
+
+
 	}
 	
 	/**

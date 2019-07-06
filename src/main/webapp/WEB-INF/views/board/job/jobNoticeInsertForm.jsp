@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
 <html>
 <script src="https://cdn.ckeditor.com/ckeditor5/12.2.0/classic/ckeditor.js"></script>
@@ -29,7 +30,7 @@
 
 </head>
 <body>
-
+	<c:if test="${ loginUser.isAdmin eq 'Y' }">
 	<jsp:include page="jobMenubar.jsp"/>
 	<jsp:include page="contentInsertForm.jsp"/>
 	<h1 align="center">공지사항</h1>
@@ -39,7 +40,7 @@
 	<div class="outer">
 		<div class="">
 			<h2>공지사항 작성</h2>	
-			 <form action="insertBoard.jbo" method="post" id="insertBoardFrm" >
+			 <form action="insertBoard.jbo" method="post" id="insertBoardFrm" enctype="multipart/form-data">
 				<!-- 제목영역 -->
 				<div>
 					<!-- 제목 -->
@@ -74,6 +75,10 @@
 
 		</div>
 	</div>
+	</c:if>
+	<c:if test="${ loginUser.isAdmin ne 'Y' }">
+		<h1>잘못된 경로로 접근하셨습니다.</h1>
+	</c:if>
 </body>
 </html>
 
