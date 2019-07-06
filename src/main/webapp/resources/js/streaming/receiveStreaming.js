@@ -46,6 +46,24 @@ function logVideoLoaded(event) {
 }
 localVideo.addEventListener('loadedmetadata', logVideoLoaded);
 
+//RTCPerrConnection 으로 peer connection
+function maybeStart(){
+	console.log('>>>>>> maybeStart() ',isStarted, isChannelReady);
+	if(!isStarted && isChannelReady){
+		console.log('>>>>>> creating peer connection');
+		createPeerConnection();
+		//pc.addStream(localStream);
+		isStarted = true;
+		console.log('isInitiator',isInitiator);
+		if(isInitiator){			//스트리머인경우 client에게 rtc 요청
+			doCall();
+		}
+	}
+}
+
+window.onbeforeunload = function () {
+  sendMessage('bye');
+};
 ////////////////////////////////////////////////////////////////////////////////////////////////
 //Define RTC peer connection behavior.
 //PeerConnection생성
@@ -170,12 +188,7 @@ socket.on('connection', function () {
 
 socket.on('collabo', function (room) {
 	socket.emit('create or join', room);
-	console.log('Attempted to create or  join room', room);
-});
-
-socket.on('created', function (room) {
-	console.log('Created room ' + room);
-	isInitiator = true;
+	console.log('Attempted to create or  join room on collabo', room);
 });
 
 socket.on('full', function (room) {
@@ -183,9 +196,13 @@ socket.on('full', function (room) {
 });
 
 socket.on('join', function (room) {
-	console.log('Another peer made a request to join room ' + room);
-	console.log('This peer is the initiator of room ' + room + '!');
-	isChannelReady = true;
+  console.log('Another peer made a request to join room ' + room); 
+  if(isInitiator){
+    console.log('This peer is the initiator of room ' + room + '!');
+    isChannelReady = true;
+  }else{
+    console.log('This peer is not the initiator of room '+room+'!');
+  }
 });
 
 socket.on('joined', function (room) {

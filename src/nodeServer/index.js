@@ -45,7 +45,7 @@ io.sockets.on('connection', function(socket) {
       socket.join(room);
       socket.emit('joined', room, socket.id);
       io.sockets.in(room).emit('ready');
-    } else { // max two clients
+    } else { // max 10 clients
       socket.emit('full', room);
     }
   });
@@ -61,4 +61,7 @@ io.sockets.on('connection', function(socket) {
     }
   });
 
+  socket.on('bye', function(){
+    console.log('received bye');
+  });
 });
