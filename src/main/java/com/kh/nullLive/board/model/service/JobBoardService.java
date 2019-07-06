@@ -9,6 +9,7 @@ import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.board.model.vo.PageInfo;
+import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.vo.Member;
 
@@ -18,7 +19,7 @@ public interface JobBoardService {
 
 	Board selectOneJobNotice(int bno) throws SelectOneBoardException;
 
-	int insertJobNotice(Board board);
+	void insertJobNotice(Board board, Attachment att);
 
 	void updateJobNotice();
 

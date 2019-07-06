@@ -10,6 +10,12 @@
 		<p>
 			<input class="form-control" type="file" id="file" name="file_0">
 			<a href="#this" class="btn" id="delete" name="delete">삭제</a>
+			<input class="form-control" type="file" id="file" name="file_1">
+			<a href="#this" class="btn" id="delete" name="delete">삭제</a>
+			<input class="form-control" type="file" id="file" name="file_2">
+			<a href="#this" class="btn" id="delete" name="delete">삭제</a>
+			<input class="form-control" type="file" id="file" name="file_3">
+			<a href="#this" class="btn" id="delete" name="delete">삭제</a>
 		</p>
 	</div>
 	
