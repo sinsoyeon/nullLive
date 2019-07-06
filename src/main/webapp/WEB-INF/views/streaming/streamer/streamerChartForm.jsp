@@ -101,114 +101,102 @@
 			});	
 		}
 		
-		function selectAllChart(){
-			var mno = $("#mno").val();
-			var result;
-			var sponData = new Array();
-			var subData  = new Array();
-			$.ajax({
-				url:"selectAllChart.sm",
-				type:"post",
-				data:{mno:mno},
-				success:function(data){
-				/* 	sponData = data.selectAllChart; */
-					
-					$.each(data.selectAllChart,function(i,value){
-						sponData[i] = [value["SPON_MONTH"]+'/'+value["SPON_WEEK"],value["SPON_COUNT"]];
-					});
-				
-					
-					//원하는 양식 : 월을 기준으로 후원자 및 구독자  [월/주] , 구독자 수 , 후원자 수 
-			
-					$.ajax({
-						url:"selectSubChart.sm",
-						type:"post",
-						data:{mno:mno},
-						success:function(data){
-						/*  subData = data.selectAllSubChart; */
-						
-											
-						$.each(data.selectAllSubChart,function(i,value){
-							subData[i] = [value["SU_MONTH"]+'/'+value["SUB_WEEK"],value["SUB_COUNT"]];
-						});
-						
-							console.log(sponData);
-							console.log(subData);
-							
-					
-							selectAllChartDraw(sponData,subData,'최근 6개월 집계'); 
-						}
-						
-					});
-					
-					
-				}
-			});
-			   	  
-		}
-		
-		function selectAllChartDraw(sponData,subData,title){
-			var sponLength = sponData.length -1;//5
-			var subLength = subData.length -1;//3
-			
-			var tempData = new Array();
-			var totalData = new Array();
-			
-			$.each(sponData,function(index,value){
-				tempData.push(sponData[index][0]);
-			}); 
-			
-			$.each(subData,function(index,value){
-				tempData.push(subData[index][0]);
-			}); 
-			
-			totalData = tempData.reduce(function(a,b){
-				if (a.indexOf(b) < 0 ) a.push(b);
-				return a;
-			  },[]);
-			
-			
-			$.each(totalData,function(index,value){
-				
-				$.each(sponData,function(i,value){
-					if(sponData[i].SPON_MONTH==totalData[i]){
-						 
-					}
-				});
-				
-			});
-			
-			
-			/* var chartData = new google.visualization.DataTable();
-	        
-	        chartData.addColumn("string","월/주");
-	        chartData.addColumn("number","후원 수");
-	        chartData.addColumn("number","구독 수");
-	        
-	        chartData.addRows(data);
-
-	        var options = {
-	          title: title,
-	          pieHole: 0.4,
-	          tooltip:{textStyle : {fontSize:13}, showColorCode : false},
-	          animation: { //차트가 뿌려질때 실행될 애니메이션 효과
-                   startup: true,
-                   duration: 1000,
-                   easing: 'linear' },
-	          legend:{
-	        	  position:'top',
-	        	  titlePosition:'in'
-			        	
-	          }
-	        };
-	        
-	        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-	        chart.draw(chartData, options);
-			
-			
-			drawChart(sponAgeData,"나이/연령대별 구독자","Data",1); */
-		}
-		
+	      function selectAllChart(){
+	          var mno = $("#mno").val();
+	          var result;
+	          var sponData = new Array();
+	          var subData  = new Array();
+	          $.ajax({
+	             url:"selectAllChart.sm",
+	             type:"post",
+	             data:{mno:mno},
+	             success:function(data){
+	             /*    sponData = data.selectAllChart; */
+	                
+	                $.each(data.selectAllChart,function(i,value){
+	                   sponData[i] = {
+	                               SPON_MONTH : value["SPON_MONTH"]+'/'+value["SPON_WEEK"],
+	                               SPON_COUNT : value["SPON_COUNT"]
+	                             };
+	                });
+	                
+	             console.log(sponData);
+	                
+	                //원하는 양식 : 월을 기준으로 후원자 및 구독자  [월/주] , 구독자 수 , 후원자 수          
+	                $.ajax({
+	                   url:"selectSubChart.sm",
+	                   type:"post",
+	                   data:{mno:mno},
+	                   success:function(data){
+	                   /*  subData = data.selectAllSubChart; */
+	                   
+	                                  
+	                   $.each(data.selectAllSubChart,function(i,value){
+	                      subData[i] = 
+	                                  {
+	                                  SUB_MONTH:value["SU_MONTH"]+'/'+value["SUB_WEEK"],
+	                                     SUB_COUNT:value["SUB_COUNT"]}      
+	                               ;
+	                      });
+	                      selectAllChartDraw(sponData,subData,'최근 6개월 집계'); 
+	                   }
+	                   
+	                });
+	                
+	                
+	             }
+	          });
+	                  
+	       }
+	       
+	       function selectAllChartDraw(sponData,subData,title){
+	    	    var tempData = new Array();
+	            var totalData = [];
+	            var sponArray = 0;
+	            var subArray = 0;
+	            var newArray = new Array();
+	            console.log('selectAllChartDraw');
+	            
+	            $.each(sponData,function(index,value){
+	               tempData.push(sponData[index].SPON_MONTH);
+	            }); 
+	            
+	            $.each(subData,function(index,value){
+	               tempData.push(subData[index].SUB_MONTH);
+	            }); 
+	            
+	   	        totalData = tempData.reduce(function(a,b){
+	               if (a.indexOf(b) < 0 ) a.push(b);
+	               return a;
+	             },[]);
+	   	        
+	   	        
+	   	        for(var i=0; i<totalData.length; i++){
+	   	        	sponArray=0;
+	   	        	subArray=0;
+	   	        	
+		            $.each(sponData,function(index,value){
+		              	if(totalData[i] == sponData[index].SPON_MONTH){
+		              		sponArray = sponData[index].SPON_COUNT;
+		              		
+		              	}
+		            	
+		            }); 
+		            
+		            $.each(subData,function(index,value){
+		              	if(totalData[i] == subData[index].SUB_MONTH){
+		              		subArray = subData[index].SUB_COUNT;
+		              		
+		              	}
+		            }); 
+		            
+	   	        	
+	   	        	newArray[i] = [totalData[i],sponArray,subArray];
+	   	        }
+	   	        
+	 			
+	
+	   }//selectAllChartDraw 끝		
 		
       function drawChart(data,title,vaxis_title,type) {
 	    	var chartData = new google.visualization.DataTable();
