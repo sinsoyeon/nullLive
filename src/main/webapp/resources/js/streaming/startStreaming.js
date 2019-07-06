@@ -83,7 +83,7 @@ localVideo.addEventListener('loadedmetadata', logVideoLoaded);
 //RTCPerrConnection 으로 peer connection
 function maybeStart(){
 	console.log('>>>>>> maybeStart() ',isStarted, localStream, isChannelReady);
-	if(!isStarted && typeof LocalStream !== 'undefined' && isChannelReady){
+	if(isChannelReady){
 		console.log('>>>>>> creating peer connection');
 		createPeerConnection();
 		pc.addStream(localStream);
@@ -205,10 +205,11 @@ function hangup() {
   sendMessage('bye');
 }
 
+//remote peer 종료
 function handleRemoteHangup() {
   console.log('Session terminated.');
-  stop();
-  isInitiator = false;
+  //stop();
+  //isInitiator = false;
 }
 
 function stop() {
@@ -246,12 +247,13 @@ socket.on('full', function (room) {
 socket.on('join', function (room) {
 	console.log('Another peer made a request to join room ' + room);
 	console.log('This peer is the initiator of room ' + room + '!');
-	isChannelReady = true;
+  isChannelReady = true;
+  maybeStart();
 });
 
 socket.on('joined', function (room) {
 	console.log('joined: ' + room);
-	isChannelReady = true;
+  isChannelReady = true;
 });
 
 socket.on('log', function (array) {

@@ -85,7 +85,7 @@
 		}
 		
 		function enterStreaming(){
-			window.open('enterStreaming.st?bhno=1005','new','width=1024,height=768,menubar=no, status=no, toolbar=no');
+			window.open('enterStreaming.st?bhno=1018','new','width=1024,height=768,menubar=no, status=no, toolbar=no');
 		}
 	</script>
 </body>
