@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,6 +22,7 @@
 
 			<!-- main content -->
 			<div class="col-sm-9" style="padding-top: 80px;">
+				<input type="hidden" id="mno" value="${loginUser.mno}" />
 				<h3>블랙리스트 관리</h3>
 				<hr>
 				<div class="ui category search">
@@ -87,7 +89,10 @@
 
 	</div>
 
+<script>
 
+
+</script>
 
 
 </body>
