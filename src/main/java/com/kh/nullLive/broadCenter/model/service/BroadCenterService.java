@@ -38,5 +38,8 @@ public interface BroadCenterService {
 
 	//방송기능 업데이트 (정연)
 	int updateBroadSetting(HashMap<String, Object> broadInfo);
+
+	////매니저 설정 페이지로 이동(정연)
+	ArrayList<HashMap<String, Object>> selectpartnerList(int mno);
 	
 }

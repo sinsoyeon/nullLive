@@ -34,7 +34,7 @@
 					<h3>방송 설정</h3>
 					<ul>
 						<li><a onclick="location.href='broadSetting.st'">방송 기능 설정</a></li>
-						<li><a onclick="location.href='partnerManage.st'">매니저 설정</a></li>
+						<li><a onclick="location.href='partnerManage.st?mno=${loginUser.mno}'">매니저 설정</a></li>
 						<li><a onclick="location.href='blackListManage.st'">블랙리스트 관리</a></li>
 						<li><a onclick="">방송 기록 관리</a></li>
 						<li><a onclick="location.href='prohibitiveWordManage.st'">금칙어 설정</a></li>

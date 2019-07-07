@@ -4,12 +4,12 @@
 	border:1px solid gray;
 	text-align:center;
 }
-.managerDetail th{
+.managerDetail>table>th{
 	text-align:center;
 	height:30px;
 	background:lightgray;
 }
-th, td{
+.managerDetail>th, td{
 	border-bottom: 1px solid gray;
 }
 .button{
@@ -23,4 +23,11 @@ tr:hover{
 	width:130px;
 	height:50px;
 	font-size:14px;
+}
+.row{
+	background:#f6f8fa;
+	color:#446600;
+}
+label{
+	font-size: 17px;
 }

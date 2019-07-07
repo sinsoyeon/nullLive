@@ -30,10 +30,21 @@
 		WHERE ROWNUM = 1
 	</select>
 	
-	<!-- 방송국 기능 설정 업데이트(정연) -->
-	<update id="updateBroadSetting" parameterType="java.util.HashMap">
-		
-	</update>
+	<!-- 방송기능 broad_his 삽입 (정연) -->
+	<insert id="updateBroadSetting" parameterType="java.util.HashMap">
+		INSERT INTO BROAD_HIS 
+		VALUES(SEQ_BHNO.NEXTVAL, SYSDATE, NULL, 'Y', NULL, #{bcno}, NULL, #{title}, #{pwd}, #{category}, #{adult})
+	</insert>
+	
+	<select id="selectpartnerList" parameterType="_int" resultType="java.util.HashMap">
+		SELECT P.PNO, P.SNO, P.MNO, P.CNO, P.PTYPE, C.JBNO, C.C_SDATE,
+		C.C_EDATE, C.PERPRICE, M.MID, M.NICK_NAME
+		FROM MEMBER M, PARTNER P, CONTRACT C, STREAMER S
+		WHERE P.MNO = M.MNO
+		AND P.SNO = S.SNO
+		AND P.CNO = C.CNO
+		AND P.SNO = #{mno}
+	</select>
 	
 	
 

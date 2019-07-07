@@ -65,5 +65,11 @@ public class BroadCenterServiceImpl implements BroadCenterService {
 		return bcd.updateBroadSetting(sqlSession, broadInfo);
 	}
 
+	//매니저 설정 페이지로 이동(정연)
+	@Override
+	public ArrayList<HashMap<String, Object>> selectpartnerList(int mno) {
+		return bcd.selectpartnerList(sqlSession, mno);
+	}
+
 	
 }
