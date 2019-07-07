@@ -1,8 +1,13 @@
 package com.kh.nullLive.streamer.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.nullLive.broadCenter.model.service.BroadCenterService;
+import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.service.StreamerService;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
@@ -22,6 +29,10 @@ public class StreamerController {
 	
 	@Autowired
 	private StreamerService smService;
+	
+	@Autowired
+
+	private BroadCenterService bcs;
 	
 	@RequestMapping("selectStreamer.sm")
 	public ModelAndView selectStreamer(String streamer,ModelAndView modelAndView) {
@@ -335,6 +346,109 @@ public class StreamerController {
 	}
 
 	
+	@RequestMapping("selectOneBlackList.sm")
+	public ModelAndView selectOneBlackList(int blno,int mno,ModelAndView modelAndView) {
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("blno", blno);
+		infoMap.put("mno", mno);
+		
+		HashMap<String, Object> blackDetail = bcs.selectOneBlackList(infoMap);
+		
+		
+		blackDetail.put("BL_DATE",(blackDetail.get("BL_DATE").toString()));
+		
+		System.out.println("blackDetail : " + blackDetail);
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("blackDetail", blackDetail);
+		
+		
+		return modelAndView;
+	}
+		
+	@RequestMapping("insertBlackList.sm")
+	public void insertBlackList(String userId,HttpSession session,HttpServletResponse response) {
+
+		response.setContentType("text/html; charset=utf-8");
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		
+		System.out.println("mno : " + ((Member)session.getAttribute("loginUser")).getMno());
+		infoMap.put("userId", userId);
+		infoMap.put("mno", ((Member)session.getAttribute("loginUser")).getMno());
+		
+		int result = smService.insertBlackList(infoMap);
+		
+		try {
+			PrintWriter pw = response.getWriter();
+			
+			if(result > 0) {
+				pw.println("<script>alert('블랙리스트에 추가 되었습니다.'); location.href='blackListManage.st';</script>\n");
+			}else {
+				pw.println("<script>alert('블랙리스트 추가에 실패하였습니다.'); location.href='blackListManage.st';</script>\n");
+			}
+			
+			pw.flush();
+		}catch(IOException e) {
+			
+		}
+			
+	}
+	
+	@RequestMapping("allDeleteBlackList.sm")
+	public void deleteAllBlackList(HttpSession session,HttpServletResponse response) {		
+		
+		int result = smService.deleteAllBlackList(((Member)session.getAttribute("loginUser")).getMno());
+		
+		
+		response.setContentType("text/html; charset=utf-8");
+		try {
+			PrintWriter pw = response.getWriter();
+			
+			if(result > 0) {
+				pw.println("<script>alert('모든 블랙리스트가 삭제 되었습니다.'); location.href='blackListManage.st';</script>\n");
+			}else {
+				pw.println("<script>alert('블랙리스트 삭제에 실패하였습니다.'); location.href='blackListManage.st';</script>\n");
+			}
+			
+			pw.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("searchBlackList.sm")
+	public ModelAndView searchBlackList(String searchValue,HttpSession session,ModelAndView modelAndView) {
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		
+		infoMap.put("searchValue", searchValue);
+		infoMap.put("mno",((Member)session.getAttribute("loginUser")).getMno());
+		
+		ArrayList<HashMap<String, Object>> searchList = smService.searchBlackList(infoMap);
+		
+		System.out.println(searchList);
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("searchList",searchList);
+		
+		return modelAndView;
+	}
 	
 	
+	@RequestMapping("mutipleDeleteBlack.sm")
+	@ResponseBody
+	public String mutipleDeleteBlack(@RequestParam(name="checkList[]")List<String> checkList,HttpSession session) {
+		System.out.println("checkList  : " + checkList);
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("checkList", checkList);
+		infoMap.put("mno", ((Member)session.getAttribute("loginUser")).getMno());
+		
+		/* int result = smService.mutipleDeleteBlack(infoMap); */
+		
+		
+		return "";
+	}
 }

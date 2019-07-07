@@ -64,6 +64,28 @@ public class BroadCenterServiceImpl implements BroadCenterService {
 	public int updateBroadSetting(HashMap<String, Object> broadInfo) {
 		return bcd.updateBroadSetting(sqlSession, broadInfo);
 	}
+	
+	//블랙 리스트 조회 (소여ㄴ)
+	@Override
+	public ArrayList<HashMap<String, Object>> selectBlackList(int mno) {
+		// TODO Auto-generated method stub
+		return bcd.selectBlackList(sqlSession,mno);
+	}
+
+	//블랙 리스트 인원수 조회 (소연)
+	@Override
+	public int selectBlackListCount(int mno) {
+		// TODO Auto-generated method stub
+		return bcd.selectBlackListCount(sqlSession,mno);
+	}
+
+	@Override
+	public HashMap<String, Object> selectOneBlackList(HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return bcd.selectOneBlackList(sqlSession,infoMap);
+	}
+	
+	
 
 	
 }

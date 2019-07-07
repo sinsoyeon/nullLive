@@ -48,5 +48,13 @@ public interface StreamerService {
 
 	ArrayList<HashMap<String, Object>> selectAllSubChart(int mno);
 
+	int insertBlackList(HashMap<String, Object> infoMap);
+
+	int deleteAllBlackList(int mno);
+
+	ArrayList<HashMap<String, Object>> searchBlackList(HashMap<String, Object> infoMap);
+
+	//int mutipleDeleteBlack(HashMap<String, Object> infoMap);
+
 
 }

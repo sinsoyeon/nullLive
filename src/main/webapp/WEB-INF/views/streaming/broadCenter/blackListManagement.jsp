@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
 <link rel="stylesheet"
 	href="${ contextPath }/resources/css/streamer/blackListManagement.css">
 <link rel="stylesheet"
@@ -28,59 +29,72 @@
 				<div class="ui category search">
 				<label>현재 블랙리스트 목록</label>
 					<div class="ui icon input">
-						<input class="prompt" type="text"> <i
-							class="search icon"></i>
+						
 					</div>
 					<div style="float:right;">
-						현재 블랙리스트 수:
+						현재 블랙리스트 수: <c:out value="${blackCount}"></c:out>명
 						<label></label>
 					</div>
 				</div>
-				<div class="ui input">
-					<input type="text" id="blackList" style="height: 80px;" />
+				<div class="ui input" style="overflow:scroll; width:300px; height:150px; padding:10px; background-color:#F6F6F6;">
+					
+					<table style="float:center;" id="blackListTable">
+						<c:forEach var="black" items="${blackList}" varStatus="status">
+							<tr id="blackTr">
+								<td>
+								<input type="hidden" id="blno" value='${black.BLNO}'/>
+								<label>${status.count}.<c:out value="${black.NICK_NAME}" />(<c:out value="${black.MID}" />)</label></td>
+							</tr>
+						</c:forEach>
+					</table>
 				</div>
 				<br> <br> 
-				<label>블랙리스트 추가</label><br>
-				<div class="ui category search">
-					<div class="ui icon input">
-						<input class="prompt" type="text" style="width: 600px;"> <i
+				
+				<div class="row" style="width:700px;">
+				
+			
+					
+						<label>블랙리스트 추가</label> 	
+					
+						<label style="padding-left:250px;">블랙리스트 검색</label>
+						
+					<div class="ui icon input" style="width:700px; hieght:300px; float:left;">
+						<input class="prompt" id="userId" type="text"> <i
 							class="search icon"></i>
+						<button class="ui green button" id="insertBtn">추가</button>
+						
+					
+					<input class="prompt" type="text" id="searchValue"> <i
+							class="search icon"></i> 
+						<button class="ui green button" id="searchBtn">검색</button>
 					</div>
-					<button class="ui green button">추가</button>
+					
+	
+
 				</div>
 				<br> <label>블랙리스트 상세 조회</label>
 				<table class="blackListDetail">
-					<tr>
-						<th></th>
-						<th>아이디</th>
-						<th>닉네임</th>
-						<th>벤 날짜</th>
-					</tr>
-					<tr>
-						<td><input type="checkbox" /></td>
-						<td>bashongMon</td>
-						<td>빠숑맘</td>
-						<td>2019/06/21</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" /></td>
-						<td>bashongMon</td>
-						<td>빠숑맘</td>
-						<td>2019/06/21</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" /></td>
-						<td>bashongMon</td>
-						<td>빠숑맘</td>
-						<td>2019/06/21</td>
-					</tr>
+					<thead>
+						<tr>
+							<th>선택</th>
+							<th>아이디</th>
+							<th>닉네임</th>
+							<th>벤 날짜</th>
+						</tr>
+					<thead>
+					<tbody>
+					
+					
+					</tbody>
+
 				</table>
 				<br>
-				<button class="ui green button">벤 해제</button>
+				<button class="ui green button" id="deleteBtn">벤 해제</button>
 				<button class="ui green button">귓속말</button>
 				<br>
 				<br>
 				<button class="ui green button" id="update">업데이트</button>
+				<button class="ui green button" id="allDeleteBtn">전체 삭제</button>
 
 			</div>
 		</div>
@@ -88,12 +102,108 @@
 
 
 	</div>
-
-<script>
-
-
-</script>
-
-
+	
+	<script>
+		$("#blackListTable  #blackTr").click(function(){
+		 	var blno = $(this).children("td").find("#blno").val();
+		 	var mno = ${loginUser.mno};
+	
+		 	$.ajax({
+		 		url:"selectOneBlackList.sm",
+		 		type:"post",
+		 		data:{blno:blno,mno:mno},//success:function
+		 		success:function(data){
+		 			$(".blackListDetail > tbody").html('');
+		 			$(".blackListDetail > tbody")
+		 										.append('<tr><td><input type="checkBox" name="checkBox"><input type="hidden"  id="blnoOne" name="blnoOne"></input></td><td>'
+		 												+ data.blackDetail.MID + '</td>'
+		 												+ '<td>'+ data.blackDetail.NICK_NAME +'</td>'
+		 												+ '<td>' + data.blackDetail.BL_DATE + '</td></tr>');
+		 			$('#blnoOne').val(data.blackDetail.BLNO);
+		 			$('input[name="checkBox"]').val(data.blackDetail.BLNO);
+		 			console.log($('#blnoOne').val());
+		 			console.log('check : ' + $('input[name="checkBox"]').val());
+		 		},
+		 		error:function(data){
+		 			alert(data.msg);
+		 		}
+		 	});
+		 	
+		});
+		
+		$('#insertBtn').click(function(){
+			if(confirm($("#userId").val() + '님을 블랙리스트에 추가하시겠습니까 ? ')){
+				var userId = $("#userId").val();				
+					location.href='insertBlackList.sm?userId='+ userId;
+			}
+		});
+		
+		$('#update').click(function(){
+			location.href='blackListManage.st';
+		});
+		
+		
+		$('#allDeleteBtn').click(function(){
+			if(confirm('전부 블랙리스트에서 삭제 하시겠습니까?')){
+				
+				location.href="allDeleteBlackList.sm";
+			
+			}
+		});
+		
+		
+		$('#searchBtn').click(function(){
+			var searchValue = $('#searchValue').val();
+			$('#blnoOne').val('');
+			
+			$.ajax({
+				url:"searchBlackList.sm",
+				type:"post",
+				data:{searchValue:searchValue},
+				success:function(data){
+		 			$(".blackListDetail > tbody").html('');
+		 			
+		 			
+		 			$.each(data.searchList,function(index,value){		 						 			
+			 			$(".blackListDetail > tbody")
+			 										.append('<tr><td><input type="checkBox"  name="checkBox" id="checkBox">'
+			 												+ '<input type="hidden" name="blnoOne" id="blnoOne" value="'  
+			 												+ value["BLNO"] + '"'
+			 												+ '/>'
+			 												+ '</td><td>'
+			 												+ value["MID"] + '</td>'
+			 												+ '<td>'+ value["NICK_NAME"] +'</td>'
+			 												+ '<td>' + value["BL_DATE"] + '</td></tr>');
+	
+			 			$('#blnoOne').attr('value',value["BLNO"]); 
+		 			});
+				}
+			})
+			
+		});
+		
+		
+		
+		
+		$('#deleteBtn').click(function(){
+			var checkList = [];
+			
+			$("input[name='checkBox']:checked").each(function(i){
+				checkList.push($(this).parent('td').find('#blnoOne').val());
+			})
+			
+			console.log(checkList);
+			
+			$.ajax({
+				url:"mutipleDeleteBlack.sm",
+				type:"post",
+				data:{checkList:checkList},
+				success:function(data){
+					console.log(data);
+				}
+				
+			});
+		});
+	</script>
 </body>
 </html>
