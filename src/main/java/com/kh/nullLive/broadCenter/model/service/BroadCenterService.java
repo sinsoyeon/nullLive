@@ -38,5 +38,15 @@ public interface BroadCenterService {
 
 	//방송기능 업데이트 (정연)
 	int updateBroadSetting(HashMap<String, Object> broadInfo);
+
+	//블랙 리스트 조회 (소연)
+	ArrayList<HashMap<String, Object>> selectBlackList(int mno);
+
+	//블랙리스트 인원수 조회 (소연)
+	int selectBlackListCount(int mno);
+
+	HashMap<String, Object> selectOneBlackList(HashMap<String, Object> infoMap);
+	
+	
 	
 }

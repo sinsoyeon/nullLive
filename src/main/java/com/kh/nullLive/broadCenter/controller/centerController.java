@@ -68,11 +68,27 @@ public class centerController {
 
 		return "streaming/broadCenter/partnerManagement";
 	}
-	//블랙리스트 페이지로 이동(정연)
+	
+	
+	//블랙리스트 페이지로 이동(정연) // 블랙리스트 조회 (소연)
 	@RequestMapping("blackListManage.st")
-	public String blackListManage() {
+	public String blackListManage(HttpSession session,Model model) {
+		int mno = ((Member)session.getAttribute("loginUser")).getMno();
+		
+		
+		int blackCount = bcs.selectBlackListCount(mno);
+		ArrayList<HashMap<String, Object>> blackList = bcs.selectBlackList(mno);
+		
+		System.out.println("blackList : " + blackList);
+		System.out.println("blackCount : " + blackCount);
+		
+		model.addAttribute("blackCount",blackCount);
+		model.addAttribute("blackList",blackList);
+		
 		return "streaming/broadCenter/blackListManagement";
 	}
+	
+	
 	//금칙어 관리 페이지로 이동(정연)
 	@RequestMapping("prohibitiveWordManage.st")
 	public String prohibitiveWordManage() {
@@ -149,5 +165,8 @@ public class centerController {
 		
 		return updateCheck;
 	}
+	
+
+	
 	
 }

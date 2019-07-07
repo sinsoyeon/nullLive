@@ -162,7 +162,7 @@ public class StreamerDaoImpl implements StreamerDao {
 		return (ArrayList)sqlSession.selectList("Streamer.recomList",recomInfoMap);
 	}
 
-	//오늘과 어제의 추천 수 비교 통계 데이터
+	//오늘과 어제의 추천 수 비교 통계 데이터(소연)
 	@Override
 	public HashMap<String,Object> todayRecom(SqlSessionTemplate sqlSession, int mno) {
 		// TODO Auto-generated method stub
@@ -170,17 +170,41 @@ public class StreamerDaoImpl implements StreamerDao {
 	}
 
 	
-	//지난 달 전체 후원,구독 통계 
+	//최근 6개월 통계(소연)
 	@Override
 	public ArrayList<HashMap<String, Object>> selectAllChart(SqlSessionTemplate sqlSession, int mno) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("Streamer.selectAllChart", mno);
 	}
 
+	//최근 6개월 통계(소연)
 	@Override
 	public ArrayList<HashMap<String, Object>> selectAllSubChart(SqlSessionTemplate sqlSession, int mno) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("Streamer.selectAllSubChart", mno);
 	}
-	
+
+	//블랙리스트 추가 (소연)	
+	@Override
+	public int insertBlackList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("Streamer.insertBlackList",infoMap);
+	}
+
+	//블랙리스트 전체 삭제 (소연)
+	@Override
+	public int deleteAllBlackList(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("Streamer.deleteAllBlackList",mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> searchBlackList(SqlSessionTemplate sqlSession,HashMap<String, Object> infoMap) {
+		return (ArrayList)sqlSession.selectList("Streamer.searchBlackList", infoMap);
+	}
+	/*
+	 * @Override public int mutipleDeleteBlack(SqlSessionTemplate sqlSession,
+	 * HashMap<String, Object> infoMap) { // TODO Auto-generated method stub return
+	 * ; }
+	 */
 }

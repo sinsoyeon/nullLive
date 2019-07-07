@@ -152,4 +152,32 @@ public class StreamerServiceImpl implements StreamerService{
 		return smDao.selectAllSubChart(sqlSession,mno);
 	}
 
+	@Override
+	public int insertBlackList(HashMap<String, Object> infoMap) {
+		return smDao.insertBlackList(sqlSession,infoMap);
+	}
+
+	@Override
+	public int deleteAllBlackList(int mno) {
+		// TODO Auto-generated method stub
+		return smDao.deleteAllBlackList(sqlSession,mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> searchBlackList(HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return smDao.searchBlackList(sqlSession,infoMap);
+	}
+
+	/*
+	 * @Override public int mutipleDeleteBlack(HashMap<String, Object> infoMap) {
+	 * int result=0;
+	 * 
+	 * List<String>
+	 * 
+	 * result += smDao.mutipleDeleteBlack(sqlSession,infoMap);
+	 * 
+	 * 
+	 * return result; }
+	 */
 }

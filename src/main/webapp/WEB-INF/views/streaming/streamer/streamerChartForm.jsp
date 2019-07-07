@@ -31,7 +31,7 @@
 			<ol class="breadcrumb">
 		    <li><a href="" id="subBtn">연령대 별 구독자</a></li>
 		    <li><a href="#" id="sponBtn">연령대 별 후원자</a></li>    
-		    <li><a href="#" id="allBtn">최근 3개월 전체 분포</a></li>    
+		    <li><a href="#" id="allBtn">최근 6개월 전체 분포</a></li>    
 		  </ol>
 		</div>
 			
@@ -152,8 +152,8 @@
 	       function selectAllChartDraw(sponData,subData,title){
 	    	    var tempData = new Array();
 	            var totalData = [];
-	            var sponArray = 0;
-	            var subArray = 0;
+	            var sponValue = 0;
+	            var subValue = 0;
 	            var newArray = new Array();
 	            console.log('selectAllChartDraw');
 	            
@@ -177,7 +177,7 @@
 	   	        	
 		            $.each(sponData,function(index,value){
 		              	if(totalData[i] == sponData[index].SPON_MONTH){
-		              		sponArray = sponData[index].SPON_COUNT;
+		              		sponValue = sponData[index].SPON_COUNT;
 		              		
 		              	}
 		            	
@@ -185,17 +185,41 @@
 		            
 		            $.each(subData,function(index,value){
 		              	if(totalData[i] == subData[index].SUB_MONTH){
-		              		subArray = subData[index].SUB_COUNT;
+		              		subValue = subData[index].SUB_COUNT;
 		              		
 		              	}
 		            }); 
 		            
 	   	        	
-	   	        	newArray[i] = [totalData[i],sponArray,subArray];
+	   	        	newArray[i] = [totalData[i],sponValue,subValue];
 	   	        }
 	   	        
 	 			
+				var chartData = new google.visualization.DataTable();
+				        
+		        chartData.addColumn("string","월/주");
+		        chartData.addColumn("number","후원 수");
+		        chartData.addColumn("number","구독 수");
+		        
+		        chartData.addRows(newArray);
 	
+		        var options = {
+		          title: title,
+		          pieHole: 0.4,
+		          tooltip:{textStyle : {fontSize:13}, showColorCode : false},
+		          animation: { //차트가 뿌려질때 실행될 애니메이션 효과
+	                   startup: true,
+	                   duration: 1000,
+	                   easing: 'linear' },
+		          legend:{
+		        	  position:'top',
+		        	  titlePosition:'in'
+				        	
+		          }
+		        };
+				        
+	        	var chart = new google.visualization.LineChart(document.getElementById('donutchart'));
+	        	chart.draw(chartData, options);
 	   }//selectAllChartDraw 끝		
 		
       function drawChart(data,title,vaxis_title,type) {
