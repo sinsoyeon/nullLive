@@ -28,3 +28,11 @@ tr:hover{
 	background:#f6f8fa;
 	color:#446600;
 }
+
+#allDeleteBtn{
+	float:right;
+	width:130px;
+	height:50px;
+	font-size:14px;
+}
+

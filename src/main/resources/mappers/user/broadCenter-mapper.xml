@@ -46,6 +46,34 @@
 		AND P.SNO = #{mno}
 	</select>
 	
+	<!-- blackList 조회(소연) -->
+	<select id="selectBlackList" resultType="java.util.HashMap">
+		SELECT BLNO,M.MID,M.NICK_NAME,TO_CHAR(BL_DATE,'YYYY/MM/DD') AS BL_DATE
+		FROM MEMBER M,MEMBER ST,BLACKLIST B
+		WHERE M.MNO = B.MNO
+		AND ST.MNO = B.SNO
+		AND ST.MNO =  #{mno}
+		AND BL_STATUS = 'Y'	
+	</select>
 	
-
+	<!-- blackList Count 조회 (소연) -->
+	<select id="selectBlackListCount" resultType="_int">
+		SELECT count(*) as 인원수
+	FROM MEMBER M,MEMBER ST,BLACKLIST B
+	WHERE M.MNO = B.MNO
+	AND ST.MNO = B.SNO
+	AND ST.MNO = #{mno}
+	AND BL_STATUS = 'Y'
+	</select>
+	
+	<select id="selectOneBlackList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT BLNO,M.MID,M.NICK_NAME,TO_CHAR(BL_DATE,'YYYY/MM/DD')AS BL_DATE
+		FROM MEMBER M,MEMBER ST,BLACKLIST B
+		WHERE M.MNO = B.MNO
+		AND ST.MNO = B.SNO
+		AND ST.MNO = #{mno}
+		AND BLNO = #{blno}
+		AND BL_STATUS = 'Y'	
+	</select>
+	
 </mapper>

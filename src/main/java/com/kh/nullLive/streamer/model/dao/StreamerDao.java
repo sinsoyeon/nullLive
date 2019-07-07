@@ -58,6 +58,14 @@ public interface StreamerDao {
 
 	ArrayList<HashMap<String, Object>> selectAllSubChart(SqlSessionTemplate sqlSession, int mno);
 
+	int insertBlackList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
+	int deleteAllBlackList(SqlSessionTemplate sqlSession, int mno);
+
+	ArrayList<HashMap<String, Object>> searchBlackList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
+	//int mutipleDeleteBlack(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
 
 
 }

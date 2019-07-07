@@ -47,4 +47,10 @@ public interface BroadCenterDao {
 	//매니저 설정 페이지로 이동(정연)
 	ArrayList<HashMap<String, Object>> selectpartnerList(SqlSessionTemplate sqlSession, int mno);
 
+	ArrayList<HashMap<String, Object>> selectBlackList(SqlSessionTemplate sqlSession, int mno);
+
+	int selectBlackListCount(SqlSessionTemplate sqlSession, int mno);
+
+	HashMap<String, Object> selectOneBlackList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
 }

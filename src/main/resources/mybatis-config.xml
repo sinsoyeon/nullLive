@@ -28,6 +28,9 @@
 		
 		<!-- 방송국 -->
 		<typeAlias alias="BroadCenter" type="com.kh.nullLive.broadCenter.model.vo.BroadCenter"/>
+		
+		<!-- 스트리밍 -->
+		<typeAlias alias="BroadHis" type="com.kh.nullLive.streaming.model.vo.BroadHis"/>
 	
 	</typeAliases>
 	

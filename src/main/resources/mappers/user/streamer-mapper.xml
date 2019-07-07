@@ -301,6 +301,11 @@
 		STREAMER(SNO,MNO,BSTART_DATE,CUMULATIVE_SELECTION,BANK_CODE,ACCOUNT,HOLDER,IS_AUTH)
 		VALUES(SEQ_SNO.NEXTVAL,#{mno},SYSDATE,DEFAULT,#{bank_code},#{account},#{holder},DEFAULT)
 	</insert>
+	
+	<!-- 블랙리스트 추가 -->
+	<insert id="insertBlackList" parameterType="java.util.HashMap">
+		INSERT INTO BLACKLIST VALUES(SEQ_BLNO.NEXTVAL,#{mno},SYSDATE,'Y',(SELECT MNO FROM MEMBER WHERE MID=#{userId}))
+	</insert>
 
 	<!-- 스트리머 정보 가져오기(회륜) -->
 	<select id="getStreamerInfo" parameterType="_int"
@@ -341,4 +346,23 @@
          FROM BROAD_CENTER
          WHERE MNO = #{mno})
 	</select>
+	
+	<!-- 모든 블랙리스트 유저들 업데이트 (소연) -->
+	<update id="deleteAllBlackList" parameterType="_int">
+		UPDATE BLACKLIST SET BL_STATUS = 'N' WHERE SNO = #{mno}
+	</update>
+	
+	<!-- 블랙리스트 search (소연) -->
+	<select id="searchBlackList" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+	SELECT BLNO,M.NICK_NAME,M.MID,B.BLNO,TO_CHAR(BL_DATE,'YYYY/MM/DD') AS BL_DATE
+	FROM MEMBER ST,MEMBER M,BLACKLIST B
+	WHERE ST.MNO = B.SNO
+	AND M.MNO = B.MNO
+	AND ST.MNO = #{mno}
+	AND (M.MID LIKE '%'||upper(#{searchValue})||'%' 
+		OR M.MID LIKE '%'||lower(#{searchValue})||'%'
+	    OR M.NICK_NAME LIKE '%'||upper(#{searchValue})||'%' 
+	    OR M.NICK_NAME LIKE '%'||upper(#{searchValue})||'%')
+	AND BL_STATUS = 'Y'
+	</select>	
 </mapper>

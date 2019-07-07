@@ -9,7 +9,7 @@
 <script>
 	window.onload = function(){
 		alert('${msg}');
-		location.href="index.jsp";
+		location.href="loginPage.me";
 	}
 </script>
 <body>

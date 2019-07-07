@@ -41,5 +41,16 @@ public interface BroadCenterService {
 
 	////매니저 설정 페이지로 이동(정연)
 	ArrayList<HashMap<String, Object>> selectpartnerList(int mno);
+
+	//블랙 리스트 조회 (소연)
+	ArrayList<HashMap<String, Object>> selectBlackList(int mno);
+
+	//블랙리스트 인원수 조회 (소연)
+	int selectBlackListCount(int mno);
+
+	HashMap<String, Object> selectOneBlackList(HashMap<String, Object> infoMap);
+	
+	
+
 	
 }

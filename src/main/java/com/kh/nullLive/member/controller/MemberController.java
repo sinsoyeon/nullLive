@@ -43,6 +43,16 @@ public class MemberController {
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 7.
+	 * Comment : 에러 상황 발생 시
+	 */
+	@RequestMapping("errorMeet.me")
+	public String errorMeet() {
+		return "redirect:index.jsp";
+	}
+
+	/**
 	 * @Author : ryan
 	 * @Date : 2019. 6. 19.
 	 * @Comment : 로그인 화면 호출
@@ -130,9 +140,13 @@ public class MemberController {
 	@RequestMapping("myPage.me")
 	public String myPage(Model model,HttpServletRequest request) {
 		try {
-			Attachment att = ms.getProfile(((Member)(request.getSession().getAttribute("loginUser"))).getMno());
-			model.addAttribute("imgSource", att.getChangeName());
-			return "member/myPage/myPageMain";
+			if((Member)request.getSession().getAttribute("loginUser") != null){
+				Attachment att = ms.getProfile(((Member)(request.getSession().getAttribute("loginUser"))).getMno());
+				model.addAttribute("imgSource", att.getChangeName());
+				return "member/myPage/myPageMain";
+			}else {
+				return "member/needLogin";
+			}
 		} catch (ProfileException e) {
 			model.addAttribute("msg", e.getMessage());
 			return "common/errorPage";

@@ -30,6 +30,20 @@
 		<result property="adult" column="ADULT"/>
 	</resultMap>
 	
+	<resultMap type="BroadHis" id="broadHisResultSet">
+		<id property="bhno" column="BHNO"/>
+		<result property="startDate" column="BH_START_DATE"/>
+		<result property="endDate" column="BH_END_DATE"/>
+		<result property="bhStatus" column="BH_STATUS"/>
+		<result property="countViewers" column="COUNT_VIEWERS"/>
+		<result property="bcno" column="BCNO"/>
+		<result property="streamerId" column="MID"/>
+		<result property="countRecommendation" column="COUNT_RECOMMENDATION"/>
+		<result property="btitle" column="BROAD_TITLE"/>
+		<result property="bpwd" column="BROAD_PWD"/>
+		<result property="bcategory" column="BROAD_CATEGORY"/>
+		<result property="adult" column="ADULT"/>
+	</resultMap>
 	
 	<!-- selectMember(reset용) -->
 	<select id="selectMember" resultMap="memberResultSet" parameterType="_int">
@@ -40,31 +54,83 @@
 	</select>
 	
 	<!-- startStreaming(회륜) -->
-	<insert id="startStreaming" parameterType="_int">
-		INSERT INTO BROAD_HIS(BHNO,BH_START_DATE,BH_STATUS,BCNO,BROAD_TITLE,BROAD_PWD,BROAD_CATEGORY,ADULT)
-		VALUES(SEQ_BHNO.NEXTVAL,SYSDATE,DEFAULT,
-        (SELECT BCNO FROM BROAD_CENTER JOIN MEMBER USING(MNO) WHERE MNO=#{mno}),
-        'TEST','TESTPWD','캠방',DEFAULT)
+	<insert id="startStreaming" parameterType="BroadHis">
+		INSERT INTO BROAD_HIS(BHNO,BH_START_DATE,BH_STATUS,COUNT_VIEWERS,COUNT_RECOMMENDATION,BCNO,BROAD_TITLE,BROAD_PWD,BROAD_CATEGORY,ADULT)
+		VALUES(SEQ_BHNO.NEXTVAL,SYSDATE,DEFAULT,0,0,
+        (SELECT BCNO FROM BROAD_CENTER JOIN MEMBER USING(MNO) WHERE MID=#{streamerId}),
+        #{btitle},
+        <choose>
+         <when test="pwdCheck.equals('true')">#{bpwd}</when>
+         <otherwise>NULL</otherwise>
+        </choose>
+        ,#{bcategory},
+        <choose>
+         <when test="adult.equals('false')">'N'</when>
+         <otherwise>
+         'Y'
+         </otherwise>
+         </choose>
+         )
 	</insert>
 	
 	<!-- endStreaming(회륜) -->
-	<update id="endStreaming" parameterType="_int">
+	<update id="endStreaming" parameterType="java.lang.String">
 		UPDATE BROAD_HIS
 		SET BH_END_DATE=SYSDATE,
 		BH_STATUS='N'
 		<!-- COUNT_VIEWERS, COUNT_RECOMMENDATION 미완 -->
-		WHERE BCNO = (SELECT BCNO FROM BROAD_CENTER JOIN MEMBER USING(MNO) WHERE MNO=#{mno})
+		WHERE BCNO = (SELECT BCNO FROM BROAD_CENTER JOIN MEMBER USING(MNO) WHERE MID=#{mid})
 		AND BH_STATUS='Y'
 	</update>
 	
-	<!-- 방송 번호 가져오기(회륜) -->
-	<select id="getBhno" resultType="_int">
-		SELECT BHNO
-		FROM BROAD_HIS
-		JOIN BROAD_CENTER USING(BCNO)
+	<!-- 방송 주소 가져오기(회륜) -->
+	<select id="getStreamerAdress" resultType="java.lang.String">
+		SELECT BROAD_ADDRESS
+		FROM BROAD_CENTER
 		JOIN MEMBER USING(MNO)
 		WHERE MNO=#{mno}
+		AND M_STATUS='Y'
+	</select>
+	
+	<!-- 방송 중인지(회륜) -->
+	<select id="isOnAir" parameterType="java.lang.String" resultType="_int">
+		SELECT COUNT(*)
+		FROM BROAD_HIS
+		JOIN BROAD_CENTER USING(BCNO)
+		WHERE BROAD_ADDRESS=#{streamerAddress}
 		AND BH_STATUS='Y'
 	</select>
+	
+	<!-- 방송 입장 처리(회륜) -->
+	<insert id="enterStream" parameterType="java.util.HashMap">
+		INSERT INTO VIEW_HIS(VINO,VIEW_START_DATE,MNO,BHNO)
+		VALUES(SEQ_VINO.NEXTVAL,SYSDATE,#{m.mno},
+		(SELECT BHNO FROM BROAD_HIS JOIN BROAD_CENTER USING(BCNO) WHERE BROAD_ADDRESS=#{address} AND BH_STATUS='Y')
+		)
+	</insert>
 		
+	<!-- 시청자 입장 시도 시 방송 정보 가져오기(회륜) -->
+	<select id="getBroadHis" parameterType="java.lang.String" resultMap="broadHisResultSet">
+		SELECT * FROM BROAD_HIS
+		JOIN BROAD_CENTER USING(BCNO)
+		JOIN MEMBER USING(MNO)
+		WHERE MID=#{streamerAddress}
+		AND BH_STATUS='Y'
+	</select>
+	
+	<!-- 시청 종료(회륜) -->
+	<update id="exitStreaming" parameterType="java.util.HashMap">
+		UPDATE VIEW_HIS
+		SET VIEW_END_DATE=SYSDATE
+		WHERE MNO=(SELECT MNO FROM MEMBER WHERE MID=#{mid})
+		AND BHNO=#{bhno}
+	</update>
+	
+	<!-- 누적 시청자 수 추가(회륜) -->
+	<update id="updateViewerCount" parameterType="java.lang.String">
+		UPDATE BROAD_HIS
+		SET COUNT_VIEWERS = (SELECT COUNT_VIEWERS FROM BROAD_HIS JOIN BROAD_CENTER USING(BCNO) WHERE BROAD_ADDRESS=#{streamerAddress} AND BH_STATUS='Y') + 1
+		WHERE BCNO = (SELECT BCNO FROM BROAD_CENTER WHERE BROAD_ADDRESS=#{streamerAddress})
+		AND BH_STATUS='Y'
+	</update>
 </mapper>
