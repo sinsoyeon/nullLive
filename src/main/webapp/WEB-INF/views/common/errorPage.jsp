@@ -10,4 +10,8 @@
 <body>
 	<h1><c:out value="${msg}"/></h1>
 </body>
+<script>
+alert('${msg}');
+location.href="errorMeet.me";
+</script>
 </html>

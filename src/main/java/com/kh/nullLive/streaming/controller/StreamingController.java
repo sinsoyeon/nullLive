@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.nullLive.member.model.vo.Member;
-import com.kh.nullLive.streamer.model.vo.Streamer;
+import com.kh.nullLive.streaming.model.exception.EnterStreamingException;
 import com.kh.nullLive.streaming.model.service.StreamingService;
+import com.kh.nullLive.streaming.model.vo.BroadHis;
 
 @Controller
 public class StreamingController {
@@ -41,20 +42,31 @@ public class StreamingController {
 		return "streaming/recording/record";
 	}
 
-	@RequestMapping("connect.st")
-	public String connectStreaming() {
-		return "streaming/peerConnection/connection";
-	}
-
 	@RequestMapping("screenSharing.st")
 	public String screenSharing() {
 		return "streaming/screenSharing/screenSharing";
 	}
 	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 7.
+	 * Comment : 스트리밍 시청
+	 */
 	@RequestMapping("enterStreaming.st")
-	public String enterStreaming(Model model,@RequestParam(name="bhno")int bhno) {
-		model.addAttribute("bhno",bhno);
-		return "streaming/testViewStream";
+	public String enterStreaming(Model model,HttpSession session,@RequestParam(name="streamerAddress")String streamerAddress) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		BroadHis broadHis;
+		try {
+			broadHis = ss.enterStream(loginUser,streamerAddress);
+			model.addAttribute("title", broadHis.getBtitle());
+			model.addAttribute("bhno",broadHis.getBhno());
+			model.addAttribute("mid",loginUser.getMid());
+			model.addAttribute("streamerAddress",streamerAddress);	//방송 주소 찾아가기 위함
+			return "streaming/streamRoom";
+		} catch (EnterStreamingException e) {
+			model.addAttribute("msg",e.getMessage());
+			return "streaming/errorPage";
+		}
 	}
 
 	/**
@@ -63,13 +75,12 @@ public class StreamingController {
 	 * Comment : 스트리밍 시작
 	 */
 	@RequestMapping("startStreaming.st")
-	public String startStreaming(Model model,HttpSession session) {
-		int mno = ((Member)session.getAttribute("loginUser")).getMno();
-		ss.startStreaming(mno);
-		int bhno = ss.getBhno(mno);
-		System.out.println("bhno : "+bhno);
-		model.addAttribute("bhno",bhno);
-		return "streaming/streaming";
+	public String startStreaming(Model model,HttpSession session,BroadHis broadHis) {
+		broadHis.setStreamerId(((Member)session.getAttribute("loginUser")).getMid());
+		ss.startStreaming(broadHis);
+		model.addAttribute("title", broadHis.getBtitle());
+		model.addAttribute("streamerAddress",broadHis.getStreamerId());
+		return "streaming/streamRoom";
 	}
 	
 	/**
@@ -78,10 +89,19 @@ public class StreamingController {
 	 * Comment : 스트리밍 종료
 	 */
 	@RequestMapping("endStreaming.st")
-	public String endStreaming(@RequestParam(name="mno")String mno) {
-		ss.endStreaming(Integer.parseInt(mno));
-		
-		return "streaming/endStreaming";
+	public String endStreaming(@RequestParam(name="mid")String mid) {
+		ss.endStreaming(mid);
+		return null;
 	}
 	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 7.
+	 * Comment : 시청 종료
+	 */
+	@RequestMapping("exitStreaming.st")
+	public String exitStreaming(@RequestParam(name="mid")String mid,@RequestParam(name="bhno")String bhno) {
+		ss.exitStreaming(mid,bhno);
+		return null;
+	}
 }

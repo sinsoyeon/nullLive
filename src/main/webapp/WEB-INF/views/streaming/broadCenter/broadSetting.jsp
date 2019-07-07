@@ -124,6 +124,7 @@
 			</div>
 				<input id="mno" value="${broadInfo.BCNO}" hidden/>
 				<button class="ui green button" id="updateBtn">업데이트</button>
+				<button class="ui green button" type="button" id="startBtn" onclick="startStreaming();">방송시작</button>
 		</div>
 	</div>
 	
@@ -180,7 +181,49 @@ $("#updateBtn").click(function(){
 	
 });
 
-
+function startStreaming(){
+	var strWin = window.open('','newWin','width=1024,height=768,menubar=no, status=no, toolbar=no');
+	
+	var bTitle = $("#bTitle").val();
+	var bCategory = $("#bCategory").val();
+	var bAdult = $('input:radio[name=bAdult]').is(':checked');
+	var bPwdCheck = $('input:radio[name=bPwdCheck]').is(':checked');
+	var bPwd = $("#bPwd").val();
+	
+	var form = document.createElement('form');
+	form.setAttribute('method','post');
+	form.setAttribute('action',"startStreaming.st");
+	form.setAttribute('target','newWin');
+	document.body.appendChild(form);
+	
+	var btitle = document.createElement('input');
+	btitle.setAttribute('type','hidden');
+	btitle.setAttribute('name','btitle');
+	btitle.setAttribute('value',bTitle);
+	form.appendChild(btitle);
+	var bcategory = document.createElement('input');
+	bcategory.setAttribute('type','hidden');
+	bcategory.setAttribute('name','bcategory');
+	bcategory.setAttribute('value',bCategory);
+	form.appendChild(bcategory);
+	var adult = document.createElement('input');
+	adult.setAttribute('type','hidden');
+	adult.setAttribute('name','adult');
+	adult.setAttribute('value',bAdult);
+	form.appendChild(adult);
+	var pwdCheck = document.createElement('input');
+	pwdCheck.setAttribute('type','hidden');
+	pwdCheck.setAttribute('name','pwdCheck');
+	pwdCheck.setAttribute('value',bPwdCheck);
+	form.appendChild(pwdCheck);
+	var pwd = document.createElement('input');
+	pwd.setAttribute('type','hidden');
+	pwd.setAttribute('name','bpwd');
+	pwd.setAttribute('value',bPwd);
+	form.appendChild(pwd);
+	
+	form.submit();
+}
 
 </script>
 
