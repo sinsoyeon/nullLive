@@ -64,8 +64,15 @@ public class centerController {
 
 	//매니저 설정 페이지로 이동(정연)
 	@RequestMapping("partnerManage.st")
-	public String partnerManage() {
-
+	public String partnerManage(@RequestParam("mno")int mno, Model model) {
+		/*
+		 * Member loginUser = (Member)session.getAttribute("loginUser"); int mno =
+		 * loginUser.getMno();
+		 */
+		
+		ArrayList<HashMap<String, Object>> partnerList = bcs.selectpartnerList(mno);
+		
+		model.addAttribute("partnerList", partnerList);
 		return "streaming/broadCenter/partnerManagement";
 	}
 	
@@ -139,31 +146,40 @@ public class centerController {
 	}
 
 	
-	
+	//방송하기 broad_his에 삽입(정연)
 	@RequestMapping(value = "updateSetting.st")
 	@ResponseBody
-	public int updateSetting(@RequestParam(name="json") String json, ModelAndView modelAndView){
+	public String updateSetting(@RequestParam(name="json") String json, Model model){
 		//직렬화 시켜 가져온 오브젝트 배열을 JSONArray 형식으로 바꿔줌
 		JSONArray array = JSONArray.fromObject(json);
 
 		HashMap<String, Object> broadInfo = new HashMap<String, Object>();
-		
+
 		for(int i=0; i<array.size(); i++){
-	        
-	        //JSONArray 형태의 값을 가져와 JSONObject 로 풀어준다.    
-	        JSONObject obj = (JSONObject)array.get(i);
-	                
-	        broadInfo.put("title", obj.get("title"));
-	        broadInfo.put("category", obj.get("category"));
-	        broadInfo.put("pwd", obj.get("pwd"));
-	        broadInfo.put("endingComment", obj.get("endingComment"));
-	        broadInfo.put("bcno", obj.get("bcno"));
-	        //resendList.add(resendMap);	
-	    }
+
+			//JSONArray 형태의 값을 가져와 JSONObject 로 풀어준다.    
+			JSONObject obj = (JSONObject)array.get(i);
+
+			broadInfo.put("title", obj.get("title"));
+			broadInfo.put("category", obj.get("category"));
+			broadInfo.put("pwd", obj.get("pwd"));
+			broadInfo.put("endingComment", obj.get("endingComment"));
+			broadInfo.put("bcno", obj.get("bcno"));
+			broadInfo.put("adult", obj.get("adult"));
+			broadInfo.put("pwdCheck", obj.get("pwdCheck"));
+			//resendList.add(resendMap);	
+		}
 		
-		int updateCheck = bcs.updateBroadSetting(broadInfo);
+		int insertCheck = bcs.updateBroadSetting(broadInfo);
 		
-		return updateCheck;
+		if(insertCheck > 0) {
+			return "broadSetting.st";
+		}else {
+			return "common/errorPage";
+		}
+
+		//System.out.println("확인: " + insertCheck);
+
 	}
 	
 

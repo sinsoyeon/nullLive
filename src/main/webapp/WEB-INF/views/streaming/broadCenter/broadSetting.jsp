@@ -63,14 +63,14 @@
 					<br> <br> 
 					<br>
 					<label>방송 종료 멘트</label><br>
-					<div class="ui input" style="height: 100px; width:150px;">
-						<c:if test="${broadInfo.ENDING_COMMENT == null}">
+					<div class="ui input" style="height: 100px; width:300px;">
+						<%-- <c:if test="${broadInfo.ENDING_COMMENT == null}">
 							<input type="text" id="bEndingComment" />
-						</c:if>
+						</c:if> --%>
 						<c:if test="${broadInfo.ENDING_COMMENT != null}">
 							<input type="text" id="bEndingComment" value="${broadInfo.ENDING_COMMENT}"/>
 						</c:if>	
-					</div> 
+					</div> <br><br><br>
 					<label>다시보기 자동 저장</label><br> 
 					<input type="radio" id="autoSave"/> <span>사용 함</span> 
 					<input type="radio" /> <span>사용 안 함</span><br> <br> 
@@ -122,36 +122,49 @@
 					</div>
 				</div>
 			</div>
-				<input id="mno" value="${broadInfo.BCNO}" hidden/>
-				<button class="ui green button" id="updateBtn">업데이트</button>
+      
+				<input id="bcno" value="${broadInfo.BCNO}" hidden/>
+				<button class="ui green button" id="updateBtn">방송 시작하기</button>
 				<button class="ui green button" type="button" id="startBtn" onclick="startStreaming();">방송시작</button>
+
 		</div>
 	</div>
 	
 	
 <script>
 $("#updateBtn").click(function(){
-	var bTitle = $("#bTitle").val();
-	var bCategory = $("#bCategory").val();
-	var bAdult = $('input:radio[name=bAdult]').is(':checked');
-	var bPwdCheck = $('input:radio[name=bPwdCheck]').is(':checked');
-	var bPwd = $("#bPwd").val();
-	var bEndingComment = $("#bEndingComment").val();
-	
 	/* var obj = new Object();
 	obj.bTitle = $("#bTitle").val();
 	obj.bCategory = $("#bCategory").val();
 	obj.bPwd = $("#bPwd").val();
 	obj.bEndingComment = $("#bEndingComment").val(); */
+	
+	var bAdult = $('input:radio[name=bAdult]').is(':checked');
+	var bPwdCheck = $('input:radio[name=bPwdCheck]').is(':checked');
+	var bPwd = '';
 
+	if(bAdult == true){
+		bAdult = 'Y';
+	}else{
+		bAdult = 'N';
+	}
+	
+	if(bPwdCheck == true){
+		bPwdCheck = 'Y';
+		bPwd = $("#bPwd").val();
+	}else{
+		bPwdCheck = 'N';
+	}
 	
 	var param = [];
 	var data = {
 		title : $("#bTitle").val(),
 		category : $("#bCategory").val(),
-		pwd : $("#bPwd").val(),
+		pwd : bPwd,
 		endingComment : $("#bEndingComment").val(),
-		mno : $("#bcno").val()
+		bcno : $("#bcno").val(),
+		adult : bAdult,
+		pwdCheck : bPwdCheck
 	};
 	
 	//param배열에 data 오브젝트를 담는다
@@ -160,24 +173,26 @@ $("#updateBtn").click(function(){
 	//param데이터 직렬화
 	var jsonData = JSON.stringify(param);
 	/* jQuery.ajaxSettings.traditional = true; */
-
 	
-	 $.ajax({
+	console.log(data);
+
+	   $.ajax({
 		type:"post",
 		url : "updateSetting.st",
 		traditional:true,
 		dataType: "json",
-		data : { json : jsonData },
+		data : { json : jsonData},
 		success:function(data){
-			if(data>0){
+			console.log("성공인데?" + data)
+			/* if(data>0){
 				location.href='broadSetting.st';
-			} 
+			} */ 
 		},
 		error : function(){
 			console.log("실패!!!");
 		}
 		
-	});
+	});  
 	
 });
 

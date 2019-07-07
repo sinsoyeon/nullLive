@@ -44,6 +44,9 @@ public interface BroadCenterDao {
 	//방송기능 설정 업데이트 (정연)
 	int updateBroadSetting(SqlSessionTemplate sqlSession, HashMap<String, Object> broadInfo);
 
+	//매니저 설정 페이지로 이동(정연)
+	ArrayList<HashMap<String, Object>> selectpartnerList(SqlSessionTemplate sqlSession, int mno);
+
 	ArrayList<HashMap<String, Object>> selectBlackList(SqlSessionTemplate sqlSession, int mno);
 
 	int selectBlackListCount(SqlSessionTemplate sqlSession, int mno);

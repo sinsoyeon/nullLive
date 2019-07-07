@@ -40,12 +40,13 @@
 								<td>${mainInfo.SHSNO}</td>
 							</c:if>
 						</tr>
-					</table><br><br>
-					
-					<div class="intro">
-					<br>
-						<label style="font-size:25px; font-wight:bold;">인사말</label><br>
-						<label>${mainInfo.BCINTRO}</label>
+					</table><br><br><br>
+
+					<div class="introBox">
+						<label style="font-size: 25px; font-wight: bold;">인사말</label><br>
+						<div class="intro">
+							<br> <label>${mainInfo.BCINTRO}</label>
+						</div>
 					</div>
 					<br><br><br>
 					<div class="broadStatus">
@@ -56,7 +57,7 @@
 
 					<!-- 방송화면 삽입-->
 					<br><br>
-					<button class="ui green button" id="button">방송 시작하기</button>
+					<button class="ui green button" id="button" onclick="location.href='broadSetting.st'">방송 시작</button>
 																	
 					</div>
 				</div>

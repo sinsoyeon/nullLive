@@ -57,6 +57,12 @@ public class BroadCenterDaoImpl implements BroadCenterDao {
 		return sqlSession.update("BroadCenter.updateBroadSetting", broadInfo);
 	}
 
+
+	//매니저 설정 페이지로 이동(정연)
+	@Override
+	public ArrayList<HashMap<String, Object>> selectpartnerList(SqlSessionTemplate sqlSession, int mno) {
+		return (ArrayList)sqlSession.selectList("BroadCenter.selectpartnerList", mno);
+
 	@Override
 	public ArrayList<HashMap<String, Object>> selectBlackList(SqlSessionTemplate sqlSession, int mno) {
 		return (ArrayList)sqlSession.selectList("BroadCenter.selectBlackList",mno);
@@ -71,6 +77,7 @@ public class BroadCenterDaoImpl implements BroadCenterDao {
 	public HashMap<String, Object> selectOneBlackList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("BroadCenter.selectOneBlackList",infoMap);
+
 	}
 
 }
