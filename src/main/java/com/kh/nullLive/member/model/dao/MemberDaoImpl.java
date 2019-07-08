@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
+import com.kh.nullLive.member.model.vo.BankAccount;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
@@ -36,10 +37,10 @@ public class MemberDaoImpl implements MemberDao {
 	public int updateMember(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.update("Member.updateMember",m);
 	}
-	//스트리머계좌정보 수정
+	//계좌정보 수정
 	@Override
-	public int updateStreamer(SqlSessionTemplate sqlSession, Streamer s) {
-		return sqlSession.update("Streamer.updateStreamerInfo",s);
+	public int updateBankAccount(SqlSessionTemplate sqlSession, BankAccount bankAccount) {
+		return sqlSession.update("Streamer.updateStreamerInfo",bankAccount);
 	}
 	//비밀번호변경
 	@Override
@@ -126,15 +127,20 @@ public class MemberDaoImpl implements MemberDao {
 	public Member selectMemberMno(SqlSessionTemplate sqlSession, int mno) {
 		return sqlSession.selectOne("Member.selectMemberMno",mno);
 	}
-	//스트리머 정보 가져오기
+	//계좌 정보 가져오기
 	@Override
-	public Streamer getStreamerInfo(SqlSessionTemplate sqlSession, int mno) {
-		return sqlSession.selectOne("Streamer.getStreamerInfo",mno);
+	public BankAccount getBankAccount(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("Member.getBankAccountInfo",mno);
 	}
 	//방송국 개설
 	@Override
 	public int createBroadCenter(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.insert("Member.insertBroadCenter",m);
+	}
+	//계좌 잇는지
+	@Override
+	public int existBankAccount(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("Member.existBankAccount",mno);
 	}
 
 

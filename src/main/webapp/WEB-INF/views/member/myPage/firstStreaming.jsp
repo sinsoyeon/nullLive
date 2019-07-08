@@ -55,8 +55,8 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<div class="content-body"
-					style="overflow: scroll; height:250px;">
+				<div class="content-body" id="contractArea"
+					style="overflow: scroll; height:350px;">
 					<p>사용자는 NullLive에서 방송하거나 사전 녹화한 오디오 및 비디오 저작물을 배포할 수 있고, 채팅, 게시판, 포럼 게시물, Wiki 게시물, 대화형 음성 서비스와 같은 서비스를 이용할 수 있으며, NullLive 서비스의 다른 활동에 참여하여 콘텐츠, 메시지, 텍스트, 사운드, 이미지, 응용 프로그램, 코드, 기타 데이터나 자료(이하 “사용자 콘텐츠”)를 제작, 게시, 전송, 수행, 저장할 수 있습니다.
 
 a. NullLive에 라이선스 부여
@@ -127,17 +127,17 @@ NullLive는 사용자 콘텐츠에 포함된 어떠한 진술이나 내용에 �
 NullLive는 타인의 지적 재산을 존중하며 "디지털 밀레니엄 저작권법(이하 “DMCA”) 및 기타 관련 법률에 명시된 요건을 준수합니다. 저작권의 소유자이거나 대리인으로서 저작권을 침해하는 콘텐츠가 NullLive 서비스에 게시된 것으로 의심된다면 NullLive DMCA 가이드라인을 따라 알려주시기 바랍니다. 해당 가이드라인에는 NullLive 정책, 필수 기재 사항, 통지를 보낼 곳에 대해 자세히 안내되어 있습니다.
 </p>
 <form action="fStream.st" method="post" id="submitForm">
-<input type="text" name="account" placeholder="계좌번호 (-포함)" id="account"/>
+<!-- <input type="text" name="account" placeholder="계좌번호 (-포함)" id="account"/>
 <select name="bank_code" id="bank_code">
 	<option value="26">신한은행</option>
 </select>
-<input type="text" name="holder" id="holder" placeholder="예금주"/>
+<input type="text" name="holder" id="holder" placeholder="예금주"/> -->
 </form>
 </div>
 				<div class="content-footer" align="center">
 					<button type="button" class="btn btn-secondary" onclick="cancel();">취소</button>
 					<label for="">위 약관을 읽고 이에 동의하면 다음을 누르세요.</label>
-					<button type="button" class="btn btn-primary" onclick="next();">다음</button>
+					<button type="button" class="btn btn-primary" id="confirmBtn" onclick="next();" disabled="true">다음</button>
 				</div>
 			</div>
 		</div>
@@ -149,9 +149,19 @@ NullLive는 타인의 지적 재산을 존중하며 "디지털 밀레니엄 저�
 	}
 	
 	function cancel(){
-		alert('약관에 동의하시지 않으면 스트리밍 할 수 없습니다!')
+		alert('약관에 동의하시지 않으면 스트리밍 할 수 없습니다!');
 		location.href="myPage.me";
 	}
+	
+	$("#contractArea").scroll(function(){
+		console.log('scrolling!');
+		console.log('scrollTop : '+$(this).scrollTop());
+		console.log('innerHeight : '+$(this).innerHeight());
+		console.log('scrollHeight : '+$(this)[0].scrollHeight);
+		if($(this).scrollTop() + $(this).innerHeight()-15 >= $(this)[0].scrollHeight){
+			document.getElementById('confirmBtn').disabled=false;
+		}
+	});
 	
 	function next(){
 		if($("#account").val() != ""){

@@ -7,8 +7,6 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,8 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kh.nullLive.board.model.exception.BoardSelectListException;
 import com.kh.nullLive.board.model.exception.JobBoardInsertException;
@@ -32,7 +28,6 @@ import com.kh.nullLive.board.model.service.JobBoardService;
 import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.common.AttchmentUtil;
-import com.kh.nullLive.common.FileUtil;
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.service.MemberService;
@@ -110,7 +105,9 @@ public class JobBoardController {
 		System.out.println(bno);
 		try {
 			Board board = jbs.selectOneJobNotice(bno);
+			ArrayList<Attachment> attList = jbs.selectListBoardAtt(bno);
 			model.addAttribute("board",board);
+			model.addAttribute("attList",attList);
 			return "board/job/jobNoticeDetail";
 		} catch (SelectOneBoardException e) {
 			model.addAttribute("msg",e.getMessage());
@@ -126,21 +123,24 @@ public class JobBoardController {
 	 * @comment : 구인구직 공지사항 글쓰기용 메소드
 	 */
 	@RequestMapping("insertBoard.jbo")
-	public String insertJobNotice(Board board,HttpServletRequest request,Model model) throws Exception{
+	public String insertJobNotice(Board board,HttpServletRequest request,Model model) {
+		ArrayList<Attachment> attList = null;
 		
-		ArrayList<Attachment> attList = (ArrayList)AttchmentUtil.getAttList(request);
-
-		System.out.println(attList);
-		
-		//파일 삭제
-		for(int i=0; i<attList.size(); i++) {
-			FileUtil.deleteFile(attList.get(i).getFilePath(),attList.get(i).getChangeName());
+		try {
+			attList = (ArrayList)AttchmentUtil.getAttList(request);
+			System.out.println("갯수 : "+attList);
+			jbs.insertJobNotice(board, attList);
+			return "redirect:jobNoticeList.jbo";
+		} catch (Exception e) {
+			//에러 발생시 파일 삭제
+			for(int i=0; i<attList.size(); i++) {
+				File file = new File(attList.get(i).getFilePath()+"\\"+attList.get(i).getChangeName());
+		        file.delete();
+			}
+			model.addAttribute("msg",e.getMessage());
+			return "common/errorPage";
 		}
 		
-        return null;
-
-
-
 	}
 	
 	/**
@@ -259,15 +259,6 @@ public class JobBoardController {
 			model.addAttribute("msg",e.getMessage());
 			return "common/errorPage";
 		}
-		/*
-		 * String str = hmap.get("mno")+""; int mno = Integer.parseInt(str); Attachment
-		 * att = null; try { att = ms.getProfile(mno); System.out.println(att);
-		 * hmap.put("imgSource", att.getChangeName()); }catch (ProfileException e) {
-		 * //프로필 사진이 없는 경우 }
-		 */
-		
-		
-			
 			
 	}
 	
@@ -394,6 +385,18 @@ public class JobBoardController {
 		model.addAttribute("list", lists);
         model.addAttribute("pi", paging);
 		return "board/job/jobNoticeList";
+	}
+	
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 8.
+	 * @comment : 첨부파일 다운로드
+	 */
+	@RequestMapping("jobBoardDownloadFile.jbo")
+	public String selectBoardDownload(Model model, HttpServletRequest request, Attachment att) {
+		System.out.println(att);
+		
+		return null;
 	}
 	
 }

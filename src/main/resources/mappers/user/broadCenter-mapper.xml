@@ -36,14 +36,16 @@
 		VALUES(SEQ_BHNO.NEXTVAL, SYSDATE, NULL, 'Y', NULL, #{bcno}, NULL, #{title}, #{pwd}, #{category}, #{adult})
 	</insert>
 	
+	<!-- 파트너 리스트 조회(정연) -->
 	<select id="selectpartnerList" parameterType="_int" resultType="java.util.HashMap">
-		SELECT P.PNO, P.SNO, P.MNO, P.CNO, P.PTYPE, C.JBNO, C.C_SDATE,
+		SELECT P.PNO, P.SNO, P.MNO, P.CNO, P.PTYPE, C.JBNO, TO_CHAR(C.C_SDATE, 'YYYY/MM/DD') AS C_SDATE,
 		C.C_EDATE, C.PERPRICE, M.MID, M.NICK_NAME
 		FROM MEMBER M, PARTNER P, CONTRACT C, STREAMER S
 		WHERE P.MNO = M.MNO
 		AND P.SNO = S.SNO
 		AND P.CNO = C.CNO
 		AND P.SNO = #{mno}
+		AND M.M_STATUS = 'Y'
 	</select>
 	
 	<!-- blackList 조회(소연) -->
@@ -74,6 +76,18 @@
 		AND ST.MNO = #{mno}
 		AND BLNO = #{blno}
 		AND BL_STATUS = 'Y'	
+	</select>
+	
+	<!--  -->
+	<select id="partnerDetail" parameterType="_int" resultType="java.util.HashMap">
+		SELECT P.PNO, P.SNO, P.MNO, P.CNO, P.PTYPE, C.JBNO, TO_CHAR(C.C_SDATE, 'YYYY/MM/DD') AS C_SDATE,
+		C.C_EDATE, C.PERPRICE, M.MID, M.NICK_NAME, M.PHONE
+		FROM MEMBER M, PARTNER P, CONTRACT C, STREAMER S
+		WHERE P.MNO = M.MNO
+		AND P.SNO = S.SNO
+		AND P.CNO = C.CNO
+		AND M.MNO = #{mno}
+		AND M.M_STATUS = 'Y'
 	</select>
 	
 </mapper>

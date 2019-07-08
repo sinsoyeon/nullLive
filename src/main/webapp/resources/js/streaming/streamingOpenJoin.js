@@ -33,23 +33,48 @@ function openJoinStreaming() {
 var connection = new RTCMultiConnection();
 
 // by default, socket.io server is assumed to be deployed on your own URL
-connection.socketURL = 'http://localhost:9002/';
 
 // comment-out below line if you do not have your own socket.io server
 // connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+connection.socketURL = 'http://localhost:9002/';
 
+// type of broadCast
 connection.socketMessageEvent = 'video-broadcast-demo';
 
+//web-cam braodcast
 connection.session = {
     audio: true,
     video: true,
     oneway: true
 };
+//screen-sharing
+// connection.session = {
+//     screen: true,
+//     oneway: true
+// };
 
 connection.sdpConstraints.mandatory = {
     OfferToReceiveAudio: false,
     OfferToReceiveVideo: false
 };
+//...............resolution change..............
+// function applyConstraints(stream) {
+//     var width = 1280;
+//     var height = 720;
+
+//     var supports = navigator.mediaDevices.getSupportedConstraints();
+
+//     var constraints = {};
+//     if (supports.width && supports.height) {
+//         constraints = {
+//             width: width,
+//             height: height
+//         };
+//     }
+// }
+
+// applyConstraints(connection.attachStreams[0]);
+// ...............................resoultion change end
 
 // https://www.rtcmulticonnection.org/docs/iceServers/
 // use your own TURN-server here!
@@ -75,13 +100,14 @@ connection.onstream = function(event) {
     event.mediaElement.volume = 0;
 
     var video = document.createElement('video');
-
     try {
         video.setAttributeNode(document.createAttribute('autoplay'));
         video.setAttributeNode(document.createAttribute('playsinline'));
+        video.setAttributeNode(document.createAttribute('controls'));
     } catch (e) {
         video.setAttribute('autoplay', true);
         video.setAttribute('playsinline', true);
+        video.setAttribute('controls', true);
     }
 
     if(event.type === 'local') {
@@ -93,13 +119,12 @@ connection.onstream = function(event) {
       }
     }
     video.srcObject = event.stream;
-
     var width = parseInt(connection.videosContainer.clientWidth) - 20;
     var mediaElement = getHTMLMediaElement(video, {
         //title: event.userid,          //영상 속성으로 위에 id 출력됌
         buttons: ['full-screen'],
         width: width,
-        showOnMouseEnter: false
+        showOnMouseEnter: false,
     });
 
     connection.videosContainer.appendChild(mediaElement);
@@ -107,9 +132,37 @@ connection.onstream = function(event) {
     setTimeout(function() {
         mediaElement.media.play();
     }, 5000);
-
     mediaElement.id = event.streamid;
-};
+    
+    // to keep room-id in cache
+    localStorage.setItem(connection.socketMessageEvent, connection.sessionid);
+    // ..............RecordRTC................start
+    var recorder = connection.recorder;
+    if(!recorder) {
+        recorder = RecordRTC([event.stream], {
+            type: 'video'
+        });
+        recorder.startRecording();
+        connection.recorder = recorder;
+    }
+    if(!connection.recorder.streams) {
+        connection.recorder.streams = [];
+    }
+    connection.recorder.streams.push(event.stream);
+    recordingStatus.innerHTML = 'Recording ' + connection.recorder.streams.length + ' streams';
+}
+
+function endRecordAndService(){
+    var recorder = connection.recorder;
+    if(!recorder) return alert('No recorder found.');
+    recorder.stopRecording(function() {
+        var blob = recorder.getBlob();
+        invokeSaveAsDialog(blob);
+        connection.recorder = null;
+    });
+}
+    //.......................................RecordRTCend
+
 
 connection.onstreamended = function(event) {
     var mediaElement = document.getElementById(event.streamid);

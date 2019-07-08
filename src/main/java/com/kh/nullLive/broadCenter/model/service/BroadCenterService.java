@@ -16,11 +16,10 @@ public interface BroadCenterService {
 	 * Author : ryan
 	 * Date : 2019. 7. 2.
 	 * Comment :  최초 방송 약관 동의 처리
-	 * @param streamer 
 	 * @throws StreamerUpdateException 
 	 * @throws StreamerInsertException 
 	 */
-	int streamerChange(Member loginUser, Streamer streamer) throws StreamerUpdateException, StreamerInsertException;
+	int streamerChange(Member loginUser) throws StreamerUpdateException, StreamerInsertException;
 
 	/**
 	 * Author : ryan
@@ -49,6 +48,12 @@ public interface BroadCenterService {
 	int selectBlackListCount(int mno);
 
 	HashMap<String, Object> selectOneBlackList(HashMap<String, Object> infoMap);
+
+	
+	//파트너 상세 조회(정연)
+	HashMap<String, Object> partnerDetail(int mno) throws StreamerUpdateException;
+
+	
 	
 	
 

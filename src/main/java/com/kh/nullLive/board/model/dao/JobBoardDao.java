@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.board.model.vo.PageInfo;
+import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.vo.Member;
 
@@ -84,6 +85,14 @@ public interface JobBoardDao {
 	ArrayList<HashMap<String, Object>> selectListJobMyBoardPaging(SqlSessionTemplate sqlSession, HashMap<String,Object> hmap);
 
 	int getJobMyJobBoardCount(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+	int insertJobNoticeAttList(SqlSessionTemplate sqlSession, HashMap<String, Object> attHmap);
+
+	ArrayList<Integer> getAttnoList(SqlSessionTemplate sqlSession, int size);
+
+	int insertJobNoticeAttMng(SqlSessionTemplate sqlSession, HashMap<String, Object> attmHmap);
+
+	ArrayList<Attachment> selectListBoardAtt(SqlSessionTemplate sqlSession, int bno);
 
 
 

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.nullLive.broadCenter.model.exception.StreamerInsertException;
 import com.kh.nullLive.broadCenter.model.exception.StreamerUpdateException;
 import com.kh.nullLive.broadCenter.model.service.BroadCenterService;
@@ -129,11 +130,10 @@ public class centerController {
 	 * Comment : 최초 방송 약관 동의 처리
 	 */
 	@RequestMapping("fStream.st")
-	public String firstStreaming(Model model,HttpSession session, Streamer streamer) {
+	public String firstStreaming(Model model,HttpSession session) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
-		System.out.println("streamer : "+streamer);
 		try {
-			bcs.streamerChange(loginUser,streamer);
+			bcs.streamerChange(loginUser);
 			model.addAttribute("loginUser",bcs.resetMember(loginUser.getMno()));
 			return "redirect:broadSetting.st";
 		} catch (StreamerUpdateException e) {
@@ -182,7 +182,22 @@ public class centerController {
 
 	}
 	
+	
+	//파트너 상세 조회(정연)
+	@RequestMapping(value = "partnerDetail.st"/* , produces = "application/text; charset=UTF-8" */)
+	@ResponseBody
+	public String PartnerDetail(@RequestParam("mno")int mno, Model model) throws StreamerUpdateException {
+		
+		HashMap<String, Object> data = bcs.partnerDetail(mno);
+		
+		System.out.println("디테일: " + data);
+		
+		Gson gson = new Gson();
+		
+		model.addAttribute("data", data);
 
+		return gson.toJson(data);
+	}
 	
-	
+
 }

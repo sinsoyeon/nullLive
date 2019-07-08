@@ -4,19 +4,12 @@
 	border:1px solid gray;
 	text-align:center;
 }
-.managerDetail>table>th{
-	text-align:center;
-	height:30px;
-	background:lightgray;
-}
-.managerDetail>th, td{
-	border-bottom: 1px solid gray;
-}
 .button{
 	float:right;
 }
-tr:hover{
-	background:#79d279;
+
+.partnerTable tr:hover{
+	background:#cfefcf;
 }
 #update{
 	float:right;
@@ -30,4 +23,28 @@ tr:hover{
 }
 label{
 	font-size: 17px;
+}
+.partnerBox{
+	color:black;
+	width:35%;
+	height:100%;
+	background:white;
+}
+.form-check{
+	display:inline-block;
+}
+.memberDetailInfo{
+	width:80%;
+	height:auto;
+	text-align:center;
+	margin-left:auto;
+	margin-right:auto;
+}
+.memberDetailInfo tr{
+	height:40px;
+	border-top:1px solid gray;
+	border-bottom:1px solid gray;
+}
+.memberDetailInfo td {
+	width:25%;
 }

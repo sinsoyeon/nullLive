@@ -54,18 +54,18 @@
 								닉네임 : <input type="text" name="nickName" class="form-control" id="nickName"
 									placeholder="${loginUser.nickName}" />
 							</div>
-							<%-- 스트리머인 경우 --%>
-							<c:if test="${loginUser.isStreamer == 'Y'}">
+							<%-- 계좌 정보가 있는 경우 --%>
+							<c:if test="${existBankAccount == 'Y'}">
 							<div>
-							은행 : <select name="bank_code" id="bank_code" class="form-control" style="width:150px;">
+							은행 : <select name="bankCode" id="bankCode" class="form-control" style="width:150px;">
 								<option value="26">신한은행</option>
 							</select>
-								계좌번호 : <input type="text" name="account" class="form-control" id="account"
-									placeholder="${streamer.account}" />
+								계좌번호 : <input type="text" name="bankAccount" class="form-control" id="bankAccount"
+									placeholder="${bankAccount.account}" />
 							</div>
 							<div>
 								은행주 : <input type="text" name="holder" class="form-control" id="holder"
-									placeholder="${streamer.holder}" />
+									placeholder="${bankAccount.holder}" />
 							</div>
 							</c:if>
 							<div style="margin-top:10px;">
@@ -85,7 +85,7 @@
 			if($("#email").val() != ""){
 				if($("#nickName").val() != ""){
 					if('${loginUser.isStreamer}' == 'Y'){
-						if($("#account").val() != ""){
+						if($("#bankAccount").val() != ""){
 							if($("#holder").val() != ""){
 								$("#login-form").attr('action','update.me').submit();	
 							}else{

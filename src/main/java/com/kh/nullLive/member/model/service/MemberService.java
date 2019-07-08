@@ -6,6 +6,7 @@ import com.kh.nullLive.member.model.exception.InsertMemberException;
 import com.kh.nullLive.member.model.exception.LoginException;
 import com.kh.nullLive.member.model.exception.ProfileException;
 import com.kh.nullLive.member.model.exception.UpdateMemberException;
+import com.kh.nullLive.member.model.vo.BankAccount;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.exception.SelectStreamerException;
 import com.kh.nullLive.streamer.model.vo.Streamer;
@@ -43,10 +44,10 @@ public interface MemberService {
 	/**
 	 * Author : ryan
 	 * Date : 2019. 6. 21. / 7. 2.
-	 * Comment : 개인정보수정 / 스트리머인 경우 추가
+	 * Comment : 개인정보수정 / 계좌 있는 경우 추가
 	 * @param streamer 
 	 */
-	Member updateMember(Member m, Streamer streamer) throws UpdateMemberException;
+	Member updateMember(Member m, BankAccount bankAccount) throws UpdateMemberException;
 
 	/**
 	 * Author : ryan
@@ -96,10 +97,10 @@ public interface MemberService {
 	/**
 	 * Author : ryan
 	 * Date : 2019. 7. 2.
-	 * Comment : 스트리머 정보 가져오기
+	 * Comment : 계좌 정보 가져오기
 	 * @throws SelectStreamerException 
 	 */
-	Streamer getStreamerInfo(int mno) throws SelectStreamerException;
+	BankAccount getBankAccount(int mno) throws SelectStreamerException;
 
 	/**
 	 * Author : ryan
@@ -108,6 +109,13 @@ public interface MemberService {
 	 * @throws InsertMemberException 
 	 */
 	void createBroadCenter(Member m) throws InsertMemberException;
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 7.
+	 * Comment : 계좌 있는지
+	 */
+	int existBankAccount(int mno);
 
 	
 }

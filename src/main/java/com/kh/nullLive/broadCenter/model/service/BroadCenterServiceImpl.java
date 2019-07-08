@@ -24,15 +24,16 @@ public class BroadCenterServiceImpl implements BroadCenterService {
 
 	//최초 방송 약관 동의 처리
 	@Override
-	public int streamerChange(Member loginUser, Streamer streamer)
+	public int streamerChange(Member loginUser)
 			throws StreamerUpdateException, StreamerInsertException {
 		int result = 0;
+		//Member의 isStreamer 업데이트
 		result = bcd.isStreamerUpdate(sqlSession,loginUser);
 		
 		if(result <= 0) {
 			throw new StreamerUpdateException("업데이트 실패!");
 		}else {
-			result = bcd.insertStreamer(sqlSession,loginUser,streamer);
+			result = bcd.insertStreamer(sqlSession,loginUser);
 			if(result <= 0) {
 				throw new StreamerInsertException("스트리머 추가 실패!");
 			}
@@ -91,6 +92,20 @@ public class BroadCenterServiceImpl implements BroadCenterService {
 	@Override
 	public ArrayList<HashMap<String, Object>> selectpartnerList(int mno) {
 		return bcd.selectpartnerList(sqlSession, mno);
+	}
+	
+	//파트너 상세 조회(정연)
+	@Override
+	public HashMap<String, Object> partnerDetail(int mno) throws StreamerUpdateException{
+		HashMap<String, Object> detail = bcd.partnerDetail(sqlSession, mno);
+		
+		if(detail == null) {
+			throw new StreamerUpdateException("매니저 상세 조회 실패!");
+		}
+		
+		return detail;
+		
+		
 	}
 
 	

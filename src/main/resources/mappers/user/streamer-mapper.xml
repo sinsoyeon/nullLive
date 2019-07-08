@@ -17,6 +17,16 @@
 		<result property="is_auth" column="IS_AUTH" />
 		<result property="nickName" column="NICK_NAME" />
 	</resultMap>
+	
+	<!-- Streamer Vo Result Map2(병욱) -->
+	<resultMap type="Streamer" id="streamerResultSet2">
+		<id property="sno" column="SNO" />
+		<result property="mno" column="MNO" />
+		<result property="bstart_date" column="BSTART_DATE" />
+		<result property="cumulative_selection" column="CUMULATIVE_SELECTION" ></result>
+		<result property="holder" column="HOLDER" />
+		<result property="is_auth" column="IS_AUTH" />
+	</resultMap>
 
 	<!-- 스트리머 아이디 검색 후 SNO 반환 (소연) -->
 	<select id="selectStreamer" resultType="java.util.HashMap"
@@ -297,32 +307,16 @@
 	</update>
 
 	<!-- insert Streamer(회륜) -->
-	<insert id="insertStreamer" parameterType="java.util.HashMap">
+	<insert id="insertStreamer" parameterType="Member">
 		INSERT INTO
-		STREAMER(SNO,MNO,BSTART_DATE,CUMULATIVE_SELECTION,BANK_CODE,ACCOUNT,HOLDER,IS_AUTH)
-		VALUES(SEQ_SNO.NEXTVAL,#{mno},SYSDATE,DEFAULT,#{bank_code},#{account},#{holder},DEFAULT)
+		STREAMER(SNO,MNO,BSTART_DATE,CUMULATIVE_SELECTION,IS_AUTH)
+		VALUES(SEQ_SNO.NEXTVAL,#{mno},SYSDATE,DEFAULT,DEFAULT)
 	</insert>
 	
 	<!-- 블랙리스트 추가 -->
 	<insert id="insertBlackList" parameterType="java.util.HashMap">
 		INSERT INTO BLACKLIST VALUES(SEQ_BLNO.NEXTVAL,#{mno},SYSDATE,'Y',(SELECT MNO FROM MEMBER WHERE MID=#{userId}))
 	</insert>
-
-	<!-- 스트리머 정보 가져오기(회륜) -->
-	<select id="getStreamerInfo" parameterType="_int"
-		resultMap="streamerResultSet">
-		SELECT *
-		FROM STREAMER
-		WHERE MNO=#{mno}
-	</select>
-
-	<!-- 스트리머 계좌 정보 수정(회륜) -->
-	<update id="updateStreamerInfo" parameterType="Streamer">
-		UPDATE STREAMER
-		SET ACCOUNT=#{account}, BANK_CODE=#{bank_code}, HOLDER=#{holder}
-		WHERE
-		MNO=#{mno}
-	</update>
 
 	<!-- 환전 신청 취소 (소연) -->
 	<delete id="cancelExc" parameterType="java.util.HashMap">
@@ -367,10 +361,12 @@
 	AND BL_STATUS = 'Y'
 	</select>	
 	
-	
 	<!-- 다중 블랙리스트 처리 -->
 	<update id="mutipleDeleteBlack" parameterType="java.util.HashMap">
 		UPDATE BLACKLIST SET BL_STATUS = 'N' WHERE SNO = #{mno} AND BLNO = #{blno}
 	</update>
 	
+	<select id="selectStreamerMno" parameterType="_int" resultType="streamerResultSet2">
+		SELECT * FROM STREAMER WHERE BNO = #{bno}
+	</select>
 </mapper>

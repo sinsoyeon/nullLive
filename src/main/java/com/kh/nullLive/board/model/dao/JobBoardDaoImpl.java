@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.board.model.vo.PageInfo;
+import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.vo.Member;
 
@@ -279,6 +280,46 @@ public class JobBoardDaoImpl implements JobBoardDao {
 	@Override
 	public int getJobMyJobBoardCount(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
 		return sqlSession.selectOne("Board.selectJobMyBoardListCount", hmap);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 8.
+	 * @comment : 구인구직 공지사항 첨부파일 입력
+	 */
+	@Override
+	public int insertJobNoticeAttList(SqlSessionTemplate sqlSession, HashMap<String, Object> attHmap) {
+		return sqlSession.insert("Board.insertJobNoticeAttList", attHmap);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 8.
+	 * @comment : 첨부파일 currval list 조회
+	 */
+	@Override
+	public ArrayList<Integer> getAttnoList(SqlSessionTemplate sqlSession, int size) {
+		return (ArrayList)sqlSession.selectList("Board.selectAttCurrvalList",size);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 8.
+	 * @comment : 첨부파일 공지사항 관리 등록
+	 */
+	@Override
+	public int insertJobNoticeAttMng(SqlSessionTemplate sqlSession, HashMap<String, Object> attmHmap) {
+		return sqlSession.insert("Board.insertJobNoticeAttManager",attmHmap);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 8.
+	 * @comment : 첨부파일 조회용
+	 */
+	@Override
+	public ArrayList<Attachment> selectListBoardAtt(SqlSessionTemplate sqlSession, int bno) {
+		return (ArrayList)sqlSession.selectList("Board.selectListBoardAtt",bno);
 	}
 
 

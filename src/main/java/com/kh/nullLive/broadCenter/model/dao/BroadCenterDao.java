@@ -25,7 +25,7 @@ public interface BroadCenterDao {
 	 * Comment : Streamer 테이블 추가
 	 * @param streamer 
 	 */
-	int insertStreamer(SqlSessionTemplate sqlSession, Member loginUser, Streamer streamer);
+	int insertStreamer(SqlSessionTemplate sqlSession, Member loginUser);
 
 	/**
 	 * Author : ryan
@@ -52,5 +52,8 @@ public interface BroadCenterDao {
 	int selectBlackListCount(SqlSessionTemplate sqlSession, int mno);
 
 	HashMap<String, Object> selectOneBlackList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
+	//파트너 상세 조회(정연)
+	HashMap<String, Object> partnerDetail(SqlSessionTemplate sqlSession, int mno);
 
 }

@@ -83,6 +83,7 @@
 		<result property="attDiv" column="ATT_DIV"/>
 		<result property="attStatus" column="ATT_STATUS"/>
 	</resultMap>
+
 	
 	<!-- 고객센터 FAQ 전체 게시글 수 조회용 쿼리문 -->
 	<select id="selectFListCount" resultType="_int">
@@ -414,5 +415,51 @@
 		INSERT INTO BOARD (BNO, BTITLE, BCONTENT, WRITTEN_DATE, MODIFY_DATE, BCOUNT, BTYPE, QUESTION_TYPE, REF_BNO, B_EMAIL, BBNO, BWRITER, REPORT_TYPE, IS_QR, REPORT_MNO, B_STATUS) 
 		VALUES (SEQ_BNO.NEXTVAL, #{bTitle}, #{bContent}, SYSDATE, SYSDATE, DEFAULT, 'SNOTICE', NULL, NULL, NULL, NULL, 999, NULL, NULL, NULL, 7)
 	</insert>
+	
+	<!-- 구인구직 공지사항 첨부파일 입력 -->
+	<insert id="insertJobNoticeAttList" parameterType="java.util.HashMap">
+		<foreach collection="attList" item="attList" separator=" " open="INSERT ALL " close="SELECT * FROM DUAL">
+			INTO ATTACHMENT(ATTNO,UPLOAD_DATE,FILE_PATH,MODIFY_DATE,DOWNLOAD,
+									ORIGIN_NAME,CHANGE_NAME,ATT_DIV,ATT_STATUS)
+			VALUES 
+			(
+				(SELECT GET_ATTNO_ID FROM DUAL),
+				SYSDATE,
+				#{attList.filePath},
+				SYSDATE,DEFAULT,
+				#{attList.originName},
+				#{attList.changeName},
+				#{attList.attDiv},
+				DEFAULT
+			)
+		</foreach>
+	</insert>
+	
+	<!-- 첨부파일  CURRVAL 조회-->
+	<select id="selectAttCurrvalList" parameterType="_int" resultType="_int">
+		SELECT ATTNO 
+		FROM( SELECT ROWNUM RNUM, P.*
+		      FROM ( SELECT * FROM ATTACHMENT ORDER BY ATTNO DESC) P)
+		WHERE RNUM BETWEEN 1 AND #{size}
+		ORDER BY ATTNO ASC
+	</select>
+	
+	<!-- 구인구직 공지사항 첨부파일 매니저 입력 -->
+	<insert id="insertJobNoticeAttManager" parameterType="java.util.HashMap">
+		<foreach collection="attnoList" item="attnoList" separator=" " open="INSERT ALL " close="SELECT * FROM DUAL">
+		INTO ATT_MANAGE(USAGE,AMNO,ATTNO,BNO)
+		VALUES ('게시판첨부파일',(SELECT GET_AMNO_ID FROM DUAL),#{attnoList},#{bno})
+		</foreach>
+	</insert>
+	
+	<!-- 첨부파일 조회용 -->
+	<select id="selectListBoardAtt" parameterType="_int" resultMap="AttachmentResultSet">
+		SELECT *
+		FROM ATTACHMENT A
+		JOIN ATT_MANAGE M USING(ATTNO)
+		WHERE ATT_STATUS='Y'
+		AND BNO= #{bno}
+	</select>
+	
 	
 </mapper>
