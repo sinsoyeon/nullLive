@@ -80,6 +80,7 @@
 							<th scope="col">아이디</th>
 							<th scope="col">닉네임</th>
 							<th scope="col">시작 날짜</th>
+							<th style="visibility: hidden;"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -90,7 +91,7 @@
 							<td><c:out value="${manager.MID}" /></td>
 							<td><c:out value="${manager.NICK_NAME}" /></td>
 							<td><c:out value="${manager.C_SDATE}" /></td>
-							<td><input type="text" class="tableMno" hidden/>${manager.MNO}</td>
+							<td style="visibility: hidden;" class="tableMno">${manager.MNO}</td>
 						</tr>
 						</c:if>
 					</c:forEach>	
@@ -111,6 +112,7 @@
 							<th scope="col">아이디</th>
 							<th scope="col">닉네임</th>
 							<th scope="col">시작 날짜</th>
+							<th style="visibility: hidden;"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -121,7 +123,7 @@
 							<td><c:out value="${editor.MID}" /></td>
 							<td><c:out value="${editor.NICK_NAME}" /></td>
 							<td><c:out value="${editor.C_SDATE}" /></td>
-							<td><input type="text" class="tableMno" hidden/>${editor.MNO}</td>
+							<td style="visibility: hidden;" class="tableMno">${editor.MNO}</td>
 						</tr>
 						</c:if>
 					</c:forEach>	
@@ -178,19 +180,19 @@
 		console.log("m:" + mno); 
 		
 		 $.ajax({
-			url:"partnerDetail.st",
+			url:"partnerDetail.sm",
 			data:{mno:mno},
 			dataType: "json",
-			contentType:"application/json;charset=UTF-8",
+			contentType:"application/json;charset=UTF-8", 
 			type:"get",
 			success:function(data){
 				console.log(data);
-				$(".partnerId").text(data.MID);
-				$(".partnerNickName").text(data.NICK_NAME);
-				$(".partnerSdate").text(data.C_SDATE);
-				$(".partnerType").text(data.PTYPE);
-				$(".partnerPrice").text(data.PERPRICE);
-				$(".partnerPhone").text(data.PHONE);
+				$(".partnerId").text(data.data.MID);
+				$(".partnerNickName").text(data.data.NICK_NAME);
+				$(".partnerSdate").text(data.data.C_SDATE);
+				$(".partnerType").text(data.data.PTYPE);
+				$(".partnerPrice").text(data.data.PERPRICE);
+				$(".partnerPhone").text(data.data.PHONE);
 			},
 			error:function(){
 				console.log("상세조회 실패!");

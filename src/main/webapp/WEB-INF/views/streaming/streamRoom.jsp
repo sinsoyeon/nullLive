@@ -37,6 +37,12 @@
   height:100%;
   background-color: red;
 }
+#chat-box{
+   background:gray;
+   color:white;
+   width:100%;
+   height:95%;
+}
 </style>
 </head>
 <body>
@@ -50,7 +56,11 @@
     </section>
   </div>
   <nav id="chatArea">
-  	<div style="display:none;" id="otherClients"></div>
+  	<div id="chat-box"></div>
+    <input type="text" id="inputMsg"/>
+    <button id="msg_send">전송</button>
+    <input id="nickName" value="빠숑" type="text" hidden>
+  	<!-- <div style="display:none;" id="otherClients"></div> -->
   </nav>
   <footer>
     <div class="card border-secondary mb-3" style="max-width: 18rem;">
@@ -115,6 +125,73 @@ $(window).on('beforeunload', function() {
 	      	}
     	}
 });
+
+
+//채팅
+$(document).ready(function(){
+    var socket = io("http://127.0.0.1:9011");
+    
+    //엔터키 입력시
+    $("#inputMsg").keydown(function(key){
+
+       if(key.keyCode == 13){
+          //msg_send 클릭
+          msg_send.click();
+       }
+    });
+    
+    //msg_send 클릭시
+    $("#msg_send").click(function(){
+       /* var output ='';
+       output += $("#nickName").val();
+       output += ' : ';
+       output += $("#inputMsg").val(); */
+       
+       //소켓에 send_msg 이벤트로 msg 전달
+       socket.emit('send_msg',{
+          name: $('#nickName').val(),
+          message : $("#inputMsg").val()
+       
+       });
+       
+       
+       /* socket.emit("send_msg", output); */
+       
+       
+       //#inputMsg 비움
+       $("#inputMsg").val("");
+    });
+    
+    //소켓 서버로 부터 send_msg를 통해 이벤트를 받을 경우 
+      socket.on('send_msg', function(msg) {
+          //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
+          $('<div></div>').text(msg.name + " : " + msg.message).appendTo("#chat-box");
+      });
+   
+    //DB에 저장되어 있는 내용을 가져올 경우
+    socket.on('preload', function(data){
+  	  $('<div></div>').text(data.name + " : " + data.message).appendTo("#chat-box");
+    });
+
+ });
+ $(window).on('beforeunload', function() {
+	    var msg = "팝업창을 닫으시겠습니까?";
+	    var ua  = navigator.userAgent.toLowerCase();
+	    if ((navigator.appName == 'Netscape' && ua.indexOf('trident') != -1) || (ua.indexOf("msie") != -1)){
+	        confirm('test1');
+	    }else{
+	    	$.ajax({
+	    		url:"endStreaming.st",
+	    		type:"post",
+	    		data:{mno:mno},
+	    		success:function(data){
+	    			console.log("성공 "+data);
+	    		}
+	    	});
+	        return confirm('test2');
+	    }
+	});
+
 </script>
 </body>
 </html>
