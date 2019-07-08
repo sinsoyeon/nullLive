@@ -131,7 +131,7 @@
 	
 	
 <script>
-$("#startBtn").click(function(){
+$("#btn").click(function(){
 	/* var obj = new Object();
 	obj.bTitle = $("#bTitle").val();
 	obj.bCategory = $("#bCategory").val();

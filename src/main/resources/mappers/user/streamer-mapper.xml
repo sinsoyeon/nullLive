@@ -18,7 +18,6 @@
 		<result property="nickName" column="NICK_NAME" />
 	</resultMap>
 	
-	
 
 	<!-- 스트리머 아이디 검색 후 SNO 반환 (소연) -->
 	<select id="selectStreamer" resultType="java.util.HashMap"
@@ -358,5 +357,5 @@
 		UPDATE BLACKLIST SET BL_STATUS = 'N' WHERE SNO = #{mno} AND BLNO = #{blno}
 	</update>
 	
-	
+
 </mapper>
