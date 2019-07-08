@@ -66,4 +66,10 @@ public class StreamingDaoImpl implements StreamingDao {
 		return sqlSession.update("Streaming.updateViewerCount",streamerAddress);
 	}
 
+	@Override
+	public int checkBlackList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Streaming.checkBlackList",infoMap);
+	}
+
 }

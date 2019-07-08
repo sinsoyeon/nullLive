@@ -1,5 +1,7 @@
 package com.kh.nullLive.streaming.model.service;
 
+import java.util.HashMap;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,6 +60,15 @@ public class StreamingServiceImpl implements StreamingService {
 	@Override
 	public void exitStreaming(String mid, String bhno) {
 		int result = sd.exitStreaming(sqlSession,mid,bhno);
+	}
+
+	@Override
+	public int checkBlackList(Member loginUser, String streamerAddress) {
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("loginUser", loginUser);
+		infoMap.put("streamerAddress", streamerAddress);
+			
+		return sd.checkBlackList(sqlSession,infoMap);
 	}
 
 	

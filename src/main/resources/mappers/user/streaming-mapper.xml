@@ -133,4 +133,17 @@
 		WHERE BCNO = (SELECT BCNO FROM BROAD_CENTER WHERE BROAD_ADDRESS=#{streamerAddress})
 		AND BH_STATUS='Y'
 	</update>
+	
+	<!-- 블랙리스트  체크 (소연) -->
+	<select id="checkBlackList" parameterType="java.util.HashMap" resultType="_int">
+	SELECT COUNT(*) BLACK_COUNT
+	FROM MEMBER M,BLACKLIST B
+	WHERE M.MNO = B.MNO
+	AND M.MNO = #{loginUser.mno}
+	AND SNO = (SELECT SNO 
+               FROM MEMBER,BROAD_CENTER 
+               WHERE MEMBER.MNO = BROAD_CENTER.MNO  
+               AND BROAD_ADDRESS = #{streamerAddress})	
+    AND BL_STATUS ='Y'
+	</select>
 </mapper>

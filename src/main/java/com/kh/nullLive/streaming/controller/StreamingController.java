@@ -1,5 +1,9 @@
 package com.kh.nullLive.streaming.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,18 +57,41 @@ public class StreamingController {
 	 * Comment : 스트리밍 시청
 	 */
 	@RequestMapping("enterStreaming.st")
-	public String enterStreaming(Model model,HttpSession session,@RequestParam(name="streamerAddress")String streamerAddress) {
+	public String enterStreaming(Model model,HttpSession session,@RequestParam(name="streamerAddress")String streamerAddress,
+									HttpServletResponse response) {
+		response.setContentType("text/html; charset=utf-8");
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		BroadHis broadHis;
 		try {
-			broadHis = ss.enterStream(loginUser,streamerAddress);
-			model.addAttribute("title", broadHis.getBtitle());
-			model.addAttribute("bhno",broadHis.getBhno());
-			model.addAttribute("mid",loginUser.getMid());
-			model.addAttribute("streamerAddress",streamerAddress);	//방송 주소 찾아가기 위함
-			return "streaming/streamRoom";
+			
+			int result = ss.checkBlackList(loginUser,streamerAddress);
+			
+			PrintWriter pw = response.getWriter();
+			
+			if(result > 0) {			
+				pw.println("<script>alert('해당 방송에 접근할 수 없습니다.'); window.close() </script>\n");
+				
+				pw.flush();
+				pw.close();
+				
+				return "redirect:index.jsp";
+			}else {
+				broadHis = ss.enterStream(loginUser,streamerAddress);
+				model.addAttribute("title", broadHis.getBtitle());
+				model.addAttribute("bhno",broadHis.getBhno());
+				model.addAttribute("mid",loginUser.getMid());
+				model.addAttribute("streamerAddress",streamerAddress);	//방송 주소 찾아가기 위함
+				
+				return "streaming/streamRoom";
+				
+			}
+			
+			
 		} catch (EnterStreamingException e) {
 			model.addAttribute("msg",e.getMessage());
+			return "streaming/errorPage";
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			return "streaming/errorPage";
 		}
 	}

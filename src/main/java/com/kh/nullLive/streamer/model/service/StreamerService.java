@@ -54,7 +54,7 @@ public interface StreamerService {
 
 	ArrayList<HashMap<String, Object>> searchBlackList(HashMap<String, Object> infoMap);
 
-	//int mutipleDeleteBlack(HashMap<String, Object> infoMap);
+	int mutipleDeleteBlack(HashMap<String, Object> infoMap);
 
 
 }

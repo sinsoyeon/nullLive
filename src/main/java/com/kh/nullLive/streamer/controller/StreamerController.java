@@ -443,12 +443,17 @@ public class StreamerController {
 		System.out.println("checkList  : " + checkList);
 		
 		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		
 		infoMap.put("checkList", checkList);
 		infoMap.put("mno", ((Member)session.getAttribute("loginUser")).getMno());
 		
-		/* int result = smService.mutipleDeleteBlack(infoMap); */
+	    int result = smService.mutipleDeleteBlack(infoMap); 
 		
-		
-		return "";
+	    
+	    if(result == checkList.size()) {
+	    	return "success";
+	    }else {
+	    	return "fail";
+	    }
 	}
 }

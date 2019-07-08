@@ -202,9 +202,13 @@ public class StreamerDaoImpl implements StreamerDao {
 	public ArrayList<HashMap<String, Object>> searchBlackList(SqlSessionTemplate sqlSession,HashMap<String, Object> infoMap) {
 		return (ArrayList)sqlSession.selectList("Streamer.searchBlackList", infoMap);
 	}
-	/*
-	 * @Override public int mutipleDeleteBlack(SqlSessionTemplate sqlSession,
-	 * HashMap<String, Object> infoMap) { // TODO Auto-generated method stub return
-	 * ; }
-	 */
+
+	@Override
+	public int mutipleDeleteBlack(SqlSessionTemplate sqlSession, HashMap<String, Object> temp) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("Streamer.mutipleDeleteBlack",temp);
+	}
+
+
+	
 }
