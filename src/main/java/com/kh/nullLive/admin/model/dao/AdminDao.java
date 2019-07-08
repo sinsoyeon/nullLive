@@ -15,64 +15,82 @@ import com.kh.nullLive.member.model.vo.Member;
 
 public interface AdminDao {
 
+	// 회원 목록
 	ArrayList<Member> memberList(SqlSessionTemplate sqlSession, PagingVo paging);
 
+	// 스트리머 신고 목록
 	ArrayList<Report> streamerReportList(SqlSessionTemplate sqlSession);
-	
+
+	// 일반회원 신고목록
 	ArrayList<Report> memberReportList(SqlSessionTemplate sqlSession);
 
+	// 환전신청 목록
 	ArrayList<Exchange> exchangeList(SqlSessionTemplate sqlSession);
 
+	// 문의 목록
 	ArrayList<Question> questionList(SqlSessionTemplate sqlSession);
-
+	
+	// 회원 상세보기
 	UserDetail userDetail(SqlSessionTemplate sqlSession, UserDetail ud);
 
+	// 회원 상태 변경
 	int userStatusUpdate(SqlSessionTemplate sqlSession, Member m);
 
+	// 총 회원수 조회(페이징)
 	int totalMemberSelect(SqlSessionTemplate sqlSession);
 
+	// 신고 상세보기
 	Report reportDetail(SqlSessionTemplate sqlSession, int bno);
 
+	// 문의 상세보기
 	Question questionDetail(SqlSessionTemplate sqlSession, Question q);
 
+	// 문의 상태 변경
 	int updateQuestion(SqlSessionTemplate sqlSession, Question q);
 
+	// 문의 답변
 	int insetAnswer(SqlSessionTemplate sqlSession, Question q);
 
+	// 단일 환전
 	int exchange(SqlSessionTemplate sqlSession, int excno);
 
+	// BAN 테이블 회원 정지상태 변경
 	int updateBan(SqlSessionTemplate sqlSession, Member m);
 
+	// BAN 내역 추가
 	int insertBan(SqlSessionTemplate sqlSession, Member m);
 
+	// 다중 환전
 	int allExchange(SqlSessionTemplate sqlSession, int integer);
 
+	// FAQ 목록
 	ArrayList<Board> FAQList(SqlSessionTemplate sqlSession);
 
+	// 공지사항 목록
 	ArrayList<Board> noticeList(SqlSessionTemplate sqlSession);
 
+	// FAQ/공지사항 상세보기
 	Board detail(SqlSessionTemplate sqlSession, int bno);
 
+	// FAQ/공지사항 수정
 	int modify(SqlSessionTemplate sqlSession, Board fAQModify);
 
+	// FAQ 작성
 	int insertFAQ(SqlSessionTemplate sqlSession, Board b);
 
+	// FAQ/공지사항 삭제
 	int deleteContent(SqlSessionTemplate sqlSession, int bno);
 
+	// 공지사항 작성
 	int insertNotice(SqlSessionTemplate sqlSession, Board b);
 
+	// 신고 상세보기에 필요한 정지 내역
 	String selectBan(SqlSessionTemplate sqlSession, int bno);
 
-	int selectBano(SqlSessionTemplate sqlSession, int mno);
+	// 신고글 업데이트
+	int updateReport(SqlSessionTemplate sqlSession, int bno);
 
-	int updateReport(SqlSessionTemplate sqlSession, Report r);
-
-
-	
-
-
-
-
-
+	// 신고관련 BAN 내역 추가
+	int insertReportBan(SqlSessionTemplate sqlSession, Member m);
 
 }

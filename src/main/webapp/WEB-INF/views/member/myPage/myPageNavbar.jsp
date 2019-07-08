@@ -81,7 +81,7 @@
 				<li><a href="">다시보기</a></li>
 				<li><hr /></li>
 				<li><a href="updatePage.me">개인정보수정</a></li>
-				<li><a href="">방송파트너</a></li>
+				<li><a href="partner.me">방송파트너</a></li>
 				<li><a href="excView.sm">기록</a></li>
 				<li><a href="subscribeView.me">구독 및 후원</a></li>					
 			</ul>

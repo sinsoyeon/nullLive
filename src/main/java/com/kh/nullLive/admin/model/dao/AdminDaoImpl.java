@@ -226,18 +226,32 @@ public class AdminDaoImpl implements AdminDao{
 		return sqlSession.insert("Board.insertNotice",b);
 	}
 	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 8.
+	 * @comment : 정지 내역 찾기
+	 */
 	@Override
 	public String selectBan(SqlSessionTemplate sqlSession, int bno) {
 		return sqlSession.selectOne("Admin.selectBan", bno);
 	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 8.
+	 * @comment : 신고글 처리 변경
+	 */
 	@Override
-	public int selectBano(SqlSessionTemplate sqlSession, int mno) {
-		return sqlSession.selectOne("Admin.selectBano",mno);
+	public int updateReport(SqlSessionTemplate sqlSession, int bno) {
+		return sqlSession.update("Admin.updateReport",bno);
 	}
-	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 8.
+	 * @comment : BAN 테이블 내역 추가
+	 */
 	@Override
-	public int updateReport(SqlSessionTemplate sqlSession, Report r) {
-		return sqlSession.update("Admin.updateReport",r);
+	public int insertReportBan(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.insert("Admin.insertReportBan", m);
 	}
 	
 }

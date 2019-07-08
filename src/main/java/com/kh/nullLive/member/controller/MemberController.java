@@ -304,4 +304,14 @@ public class MemberController {
 		}
 		return "lengthError";
 	}
+	
+	/**
+	 * Author : INHYO
+	 * Date : 2019. 7. 8
+	 * Comment : 방송파트너 페이지 
+	 */
+	@RequestMapping("partner.me")
+	public String partner(Member m,Model model) {
+			return "member/myPage/myPagePartner";
+	}
 }

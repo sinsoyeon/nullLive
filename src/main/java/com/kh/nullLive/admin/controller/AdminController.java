@@ -129,7 +129,7 @@ public class AdminController {
 	/**
 	 * @author INHYO
 	 * @date : 2019. 6. 21.
-	 * @comment : 신고 상세보기
+	 * @comment : 스트리머 신고 상세보기
 	 */
 	@RequestMapping("streamerReportDetail.ad")
 	public String adminStreamerReportDetail(Model model, int bno) {
@@ -142,25 +142,24 @@ public class AdminController {
 		return "admin/streamerReportDetail";
 	}
 
-	// 신고 처리 상태 적용
-	@RequestMapping("reportProcess.ad")
-	public String adminReportProcess(Model model, int bno, int mno, String choiceStatus) {
-		
-		Report r = new Report();
-		r.setBno(bno);
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 08.
+	 * @comment : 스트리머 신고 처리
+	 */
+	@RequestMapping("streamerRreportProcess.ad")
+	public String adminStreamerReportProcess(Model model, int bno, int mno, String choiceStatus) {
 		
 		Member m = new Member();
 		m.setMno(mno);
 		m.setMstatus(choiceStatus);
+		m.setPoint(bno); // 개시판 고유번호 잠깐 사용...
 		
-		int result = as.reportProcess(r,m);
+		int result = as.reportProcess(bno,m);
 		
 		model.addAttribute("bno",bno);
 		return "redirect:streamerReportDetail.ad";
 	}
-	
-
-	// 상세보기 닫기
 
 	// --------------- 일반회원 신고
 
@@ -184,19 +183,35 @@ public class AdminController {
 	/**
 	 * @author INHYO
 	 * @date : 2019. 6. 21.
-	 * @comment : 신고 상세보기
+	 * @comment : 일반회원 신고 상세보기
 	 */
 	@RequestMapping("memberReportDetail.ad")
 	public String adminMemberReportDetail(Model model, int bno) {
+		String ban = as.selectBan(bno);
 		Report reportContent = as.reportDetail(bno);
 		model.addAttribute("reportContent", reportContent);
+		model.addAttribute("ban", ban);
 		
 		return "admin/memberReportDetail";
 	}
 
-	// 신고 처리 상태 적용
-
-	// 상세보기 닫기
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 08.
+	 * @comment : 일반 회원 신고 처리
+	 */
+	@RequestMapping("memberReportProcess.ad")
+	public String adminMemberReportProcess(Model model, int bno, int mno, String choiceStatus) {
+		
+		Member m = new Member();
+		m.setMno(mno);
+		m.setMstatus(choiceStatus);
+		m.setPoint(bno); // 개시판 고유번호 잠깐 사용...
+		int result = as.reportProcess(bno,m);
+		
+		model.addAttribute("bno",bno);
+		return "redirect:memberReportDetail.ad";
+	}
 
 	// ----------------------------------- 통계
 
