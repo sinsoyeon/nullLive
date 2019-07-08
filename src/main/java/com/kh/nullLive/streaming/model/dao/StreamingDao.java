@@ -1,5 +1,7 @@
 package com.kh.nullLive.streaming.model.dao;
 
+import java.util.HashMap;
+
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.nullLive.member.model.vo.Member;
@@ -62,6 +64,8 @@ public interface StreamingDao {
 	 * Comment : 누적 시청자 수 update
 	 */
 	int updateViewerCount(SqlSessionTemplate sqlSession, String streamerAddress);
+
+	int checkBlackList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
 
 
 

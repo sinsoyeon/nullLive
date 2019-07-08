@@ -64,7 +64,8 @@ public interface StreamerDao {
 
 	ArrayList<HashMap<String, Object>> searchBlackList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
 
-	//int mutipleDeleteBlack(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+	int mutipleDeleteBlack(SqlSessionTemplate sqlSession, HashMap<String, Object> temp);
+
 
 
 

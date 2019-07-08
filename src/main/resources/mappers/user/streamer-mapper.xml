@@ -181,7 +181,7 @@
 		FROM MEMBER,BROAD_CENTER,BROAD_HIS
 		WHERE MEMBER.MNO = BROAD_CENTER.MNO
 		AND BROAD_CENTER.BCNO = BROAD_HIS.BCNO
-		AND BROAD_HIS.BCNO = #{mno}
+		AND BROAD_CENTER.BCNO = (SELECT BCNO FROM BROAD_CENTER WHERE MNO = #{mno})
 		AND BH_STATUS = 'N'
 	
 	<if test="type==1">
@@ -195,17 +195,18 @@
 	ORDER BY 1 ASC
 	</select>
 	
+		<!-- 오늘과 어제의 추천 수 비교 -->
 	<select id="todayRecom" resultType="java.util.HashMap">
-	SELECT TODAY,YESTERDAY
-	FROM
+        SELECT NVL(TODAY,0)as TODAY,NVL(YESTERDAY,0) AS YESTERDAY
+		FROM
 		(SELECT SUM(COUNT_RECOMMENDATION) AS TODAY
         FROM BROAD_HIS
         WHERE to_char(BH_START_DATE,'yyyymmdd') = to_char(SYSDATE,'yyyymmdd')
-        AND bcno = #{mno}) , 
+        AND bcno = (SELECT bcno FROM BROAD_CENTER WHERE MNO =  #{mno})) , 
         (SELECT SUM(COUNT_RECOMMENDATION) AS YESTERDAY
         FROM BROAD_HIS
         WHERE to_char(BH_START_DATE,'yyyymmdd') = to_char(SYSDATE-1,'yyyymmdd')
-        AND bcno =  #{mno})
+        AND bcno = (SELECT bcno FROM BROAD_CENTER WHERE MNO =  #{mno}))
 		
 	</select>
 	
@@ -365,4 +366,11 @@
 	    OR M.NICK_NAME LIKE '%'||upper(#{searchValue})||'%')
 	AND BL_STATUS = 'Y'
 	</select>	
+	
+	
+	<!-- 다중 블랙리스트 처리 -->
+	<update id="mutipleDeleteBlack" parameterType="java.util.HashMap">
+		UPDATE BLACKLIST SET BL_STATUS = 'N' WHERE SNO = #{mno} AND BLNO = #{blno}
+	</update>
+	
 </mapper>

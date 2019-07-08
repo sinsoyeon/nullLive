@@ -2,6 +2,7 @@ package com.kh.nullLive.streamer.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -169,15 +170,26 @@ public class StreamerServiceImpl implements StreamerService{
 		return smDao.searchBlackList(sqlSession,infoMap);
 	}
 
-	/*
-	 * @Override public int mutipleDeleteBlack(HashMap<String, Object> infoMap) {
-	 * int result=0;
-	 * 
-	 * List<String>
-	 * 
-	 * result += smDao.mutipleDeleteBlack(sqlSession,infoMap);
-	 * 
-	 * 
-	 * return result; }
-	 */
+	
+	 @Override 
+	 public int mutipleDeleteBlack(HashMap<String, Object> infoMap) {
+		 
+		 int result=0;
+		  
+		  
+		 for (int i = 0; i < ((List<String>)infoMap.get("checkList")).size(); i++) {
+			 HashMap<String, Object> temp  = new HashMap<String, Object>();
+			 
+			 temp.put("mno", infoMap.get("mno"));
+			 temp.put("blno", Integer.parseInt(((List<String>)infoMap.get("checkList")).get(i)));
+			 
+			 result += smDao.mutipleDeleteBlack(sqlSession,temp);	
+			 
+			 System.out.println(result);
+		}
+		  
+		  
+		 return result; 
+	 }
+	
 }

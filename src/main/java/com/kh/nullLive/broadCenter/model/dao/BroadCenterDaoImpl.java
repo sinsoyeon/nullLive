@@ -62,6 +62,7 @@ public class BroadCenterDaoImpl implements BroadCenterDao {
 	@Override
 	public ArrayList<HashMap<String, Object>> selectpartnerList(SqlSessionTemplate sqlSession, int mno) {
 		return (ArrayList)sqlSession.selectList("BroadCenter.selectpartnerList", mno);
+	}
 
 	@Override
 	public ArrayList<HashMap<String, Object>> selectBlackList(SqlSessionTemplate sqlSession, int mno) {

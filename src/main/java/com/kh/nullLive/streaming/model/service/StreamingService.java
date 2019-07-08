@@ -42,6 +42,8 @@ public interface StreamingService {
 	 */
 	void exitStreaming(String mid, String bhno);
 
+	int checkBlackList(Member loginUser, String streamerAddress);
+
 	
 	
 }
