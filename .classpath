@@ -35,6 +35,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/sy/Desktop/soso/kh/프로젝트/미니프로젝트/jl1.0.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

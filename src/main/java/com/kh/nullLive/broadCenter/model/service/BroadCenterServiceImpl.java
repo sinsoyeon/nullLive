@@ -24,15 +24,16 @@ public class BroadCenterServiceImpl implements BroadCenterService {
 
 	//최초 방송 약관 동의 처리
 	@Override
-	public int streamerChange(Member loginUser, Streamer streamer)
+	public int streamerChange(Member loginUser)
 			throws StreamerUpdateException, StreamerInsertException {
 		int result = 0;
+		//Member의 isStreamer 업데이트
 		result = bcd.isStreamerUpdate(sqlSession,loginUser);
 		
 		if(result <= 0) {
 			throw new StreamerUpdateException("업데이트 실패!");
 		}else {
-			result = bcd.insertStreamer(sqlSession,loginUser,streamer);
+			result = bcd.insertStreamer(sqlSession,loginUser);
 			if(result <= 0) {
 				throw new StreamerInsertException("스트리머 추가 실패!");
 			}

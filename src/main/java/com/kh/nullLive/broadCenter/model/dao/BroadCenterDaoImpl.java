@@ -21,13 +21,8 @@ public class BroadCenterDaoImpl implements BroadCenterDao {
 
 	//Streamer 테이블 추가
 	@Override
-	public int insertStreamer(SqlSessionTemplate sqlSession, Member loginUser, Streamer streamer) {
-		HashMap<String,Object> hmap = new HashMap<String,Object>();
-		hmap.put("mno", loginUser.getMno());
-		hmap.put("bank_code",streamer.getBank_code());
-		hmap.put("account", streamer.getAccount());
-		hmap.put("holder",streamer.getHolder());
-		return sqlSession.insert("Streamer.insertStreamer",hmap);
+	public int insertStreamer(SqlSessionTemplate sqlSession, Member loginUser) {
+		return sqlSession.insert("Streamer.insertStreamer",loginUser);
 	}
 
 	//멤버 재로드
@@ -62,6 +57,7 @@ public class BroadCenterDaoImpl implements BroadCenterDao {
 	@Override
 	public ArrayList<HashMap<String, Object>> selectpartnerList(SqlSessionTemplate sqlSession, int mno) {
 		return (ArrayList)sqlSession.selectList("BroadCenter.selectpartnerList", mno);
+	}
 
 	@Override
 	public ArrayList<HashMap<String, Object>> selectBlackList(SqlSessionTemplate sqlSession, int mno) {

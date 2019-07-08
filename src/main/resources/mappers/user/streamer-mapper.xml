@@ -296,32 +296,16 @@
 	</update>
 
 	<!-- insert Streamer(회륜) -->
-	<insert id="insertStreamer" parameterType="java.util.HashMap">
+	<insert id="insertStreamer" parameterType="Member">
 		INSERT INTO
-		STREAMER(SNO,MNO,BSTART_DATE,CUMULATIVE_SELECTION,BANK_CODE,ACCOUNT,HOLDER,IS_AUTH)
-		VALUES(SEQ_SNO.NEXTVAL,#{mno},SYSDATE,DEFAULT,#{bank_code},#{account},#{holder},DEFAULT)
+		STREAMER(SNO,MNO,BSTART_DATE,CUMULATIVE_SELECTION,IS_AUTH)
+		VALUES(SEQ_SNO.NEXTVAL,#{mno},SYSDATE,DEFAULT,DEFAULT)
 	</insert>
 	
 	<!-- 블랙리스트 추가 -->
 	<insert id="insertBlackList" parameterType="java.util.HashMap">
 		INSERT INTO BLACKLIST VALUES(SEQ_BLNO.NEXTVAL,#{mno},SYSDATE,'Y',(SELECT MNO FROM MEMBER WHERE MID=#{userId}))
 	</insert>
-
-	<!-- 스트리머 정보 가져오기(회륜) -->
-	<select id="getStreamerInfo" parameterType="_int"
-		resultMap="streamerResultSet">
-		SELECT *
-		FROM STREAMER
-		WHERE MNO=#{mno}
-	</select>
-
-	<!-- 스트리머 계좌 정보 수정(회륜) -->
-	<update id="updateStreamerInfo" parameterType="Streamer">
-		UPDATE STREAMER
-		SET ACCOUNT=#{account}, BANK_CODE=#{bank_code}, HOLDER=#{holder}
-		WHERE
-		MNO=#{mno}
-	</update>
 
 	<!-- 환전 신청 취소 (소연) -->
 	<delete id="cancelExc" parameterType="java.util.HashMap">

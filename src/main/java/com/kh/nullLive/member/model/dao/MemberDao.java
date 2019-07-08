@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
+import com.kh.nullLive.member.model.vo.BankAccount;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
@@ -48,9 +49,9 @@ public interface MemberDao {
 	/**
 	 * Author : ryan
 	 * Date : 2019. 7. 3.
-	 * Comment : 스트리머인 경우 추가
+	 * Comment : 계좌 정보 수정
 	 */
-	int updateStreamer(SqlSessionTemplate sqlSession, Streamer s);
+	int updateBankAccount(SqlSessionTemplate sqlSession, BankAccount bankAccount);
 	/**
 	 * Author : ryan
 	 * Date : 2019. 6. 21.
@@ -144,10 +145,9 @@ public interface MemberDao {
 	/*
 	 * Author : ryan
 	 * Date : 2019. 7. 2.
-	 * Comment : 스트리머 정보 가져오기
+	 * Comment : 계좌 정보 가져오기
 	 */
-  
-	Streamer getStreamerInfo(SqlSessionTemplate sqlSession, int mno);
+	BankAccount getBankAccount(SqlSessionTemplate sqlSession, int mno);
 
 	/**
 	 * Author : ryan
@@ -155,6 +155,13 @@ public interface MemberDao {
 	 * Comment : 회원가입 시 방송국 개설
 	 */
 	int createBroadCenter(SqlSessionTemplate sqlSession, Member m);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 7.
+	 * Comment : 계좌 정보 있는지
+	 */
+	int existBankAccount(SqlSessionTemplate sqlSession, int mno);
 
 
 

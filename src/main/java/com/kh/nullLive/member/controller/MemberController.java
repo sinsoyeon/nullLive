@@ -2,8 +2,6 @@ package com.kh.nullLive.member.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,9 +27,9 @@ import com.kh.nullLive.member.model.exception.LoginException;
 import com.kh.nullLive.member.model.exception.ProfileException;
 import com.kh.nullLive.member.model.exception.UpdateMemberException;
 import com.kh.nullLive.member.model.service.MemberService;
+import com.kh.nullLive.member.model.vo.BankAccount;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.exception.SelectStreamerException;
-import com.kh.nullLive.streamer.model.vo.Streamer;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -166,15 +164,17 @@ public class MemberController {
 	/**
 	 * Author : ryan
 	 * Date : 2019. 6. 21. / 7. 2.
-	 * Comment : 개인정보수정 페이지 이동 / 스트리머인 경우 추가
+	 * Comment : 개인정보수정 페이지 이동 / 계좌 정보 있는 경우 추가
 	 */
 	@RequestMapping("updatePage.me")
 	public String updatePage(HttpSession session, Model model) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
-		if(loginUser.getIsStreamer().equals("Y")) {
+		int result = ms.existBankAccount(loginUser.getMno());
+		if(result > 0) {
 			try {
-				Streamer streamer = ms.getStreamerInfo(loginUser.getMno());
-				model.addAttribute("streamer",streamer);
+				BankAccount bankAccount = ms.getBankAccount(loginUser.getMno());
+				model.addAttribute("existBankAccount", "Y");
+				model.addAttribute("bankAccount",bankAccount);
 				return "member/myPage/myPageModify";
 			} catch (SelectStreamerException e) {
 				model.addAttribute("msg",e.getMessage());
@@ -187,12 +187,12 @@ public class MemberController {
 	/**
 	 * Author : ryan
 	 * Date : 2019. 6. 21. / 7. 2.
-	 * Comment : 개인정보수정 / 스트리머인 경우 추가
+	 * Comment : 개인정보수정 / 계좌 있는 경우 추가
 	 */
 	@RequestMapping("update.me")
-	public String updateMember(Model model, SessionStatus status, Member m, Streamer streamer) {
+	public String updateMember(Model model, SessionStatus status, Member m, BankAccount bankAccount) {
 		try {
-			Member loginUser = ms.updateMember(m,streamer);
+			Member loginUser = ms.updateMember(m,bankAccount);
 			model.addAttribute("loginUser", loginUser);
 			return "member/myPage/myPageModifySuccess";
 		} catch (UpdateMemberException e) {
@@ -263,25 +263,25 @@ public class MemberController {
 	@RequestMapping("modifyProImage.me")
 	public String modifyProImage(Model model, Member m, HttpServletRequest request,
 			@RequestParam(name="proImgFile",required=false)MultipartFile file) {
-		String root = request.getSession().getServletContext().getRealPath("resources");
-		
-		String filePath = root+"\\uploadFiles\\profile_image";
+		String root = request.getSession().getServletContext().getContextPath();
+		System.out.println("root : "+root);
+		String filePath = "resources\\uploadFiles\\profile_image";
 		System.out.println("filePath : "+filePath);
 		
 		String originName = file.getOriginalFilename();
 		String ext = originName.substring(originName.lastIndexOf("."));
 		String changeName = CommonUtils.getRandomString();
 		Attachment att = new Attachment();
-		att.setOriginName(originName+ext);
+		att.setOriginName(originName);
 		att.setChangeName(changeName+ext);
 		att.setFilePath(filePath);
-			try {
-				file.transferTo(new File(filePath+"\\"+changeName+ext));
-				ms.updateProImage(m,att);
-			} catch (IllegalStateException | IOException | UpdateMemberException e) {
-				new File(filePath+"\\"+changeName+ext).delete();
-				model.addAttribute("msg", e.getMessage());
-			}
+		try {
+			file.transferTo(new File(filePath+"\\"+changeName+ext));
+			ms.updateProImage(m,att);
+		} catch (IllegalStateException | IOException | UpdateMemberException e) {
+			new File(filePath+"\\"+changeName+ext).delete();
+			model.addAttribute("msg", e.getMessage());
+		}
 		
 		return "member/myPage/modifyProImageEnd";
 	}
