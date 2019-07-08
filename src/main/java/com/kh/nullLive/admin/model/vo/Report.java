@@ -24,6 +24,7 @@ public class Report {
 	private int status;			//B_STATUS 처리상태
 	private String writer;			//WRITER 신고자
 	private String target;			//TARGET 대상자
-	private int cou; // COU
-	private int banNum; // BCOUNT - 밴번호로 사용 
+	private int cou; // COU 누적 신고수
+	private int mno; //	회원 상태변경을 위함 MNO 
+	private int banNo; //	BOARD와 BAN의 내역을 비교하기 위함
 }

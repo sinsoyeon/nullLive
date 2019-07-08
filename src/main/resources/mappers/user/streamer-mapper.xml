@@ -18,15 +18,7 @@
 		<result property="nickName" column="NICK_NAME" />
 	</resultMap>
 	
-	<!-- Streamer Vo Result Map2(병욱) -->
-	<resultMap type="Streamer" id="streamerResultSet2">
-		<id property="sno" column="SNO" />
-		<result property="mno" column="MNO" />
-		<result property="bstart_date" column="BSTART_DATE" />
-		<result property="cumulative_selection" column="CUMULATIVE_SELECTION" ></result>
-		<result property="holder" column="HOLDER" />
-		<result property="is_auth" column="IS_AUTH" />
-	</resultMap>
+	
 
 	<!-- 스트리머 아이디 검색 후 SNO 반환 (소연) -->
 	<select id="selectStreamer" resultType="java.util.HashMap"
@@ -366,7 +358,5 @@
 		UPDATE BLACKLIST SET BL_STATUS = 'N' WHERE SNO = #{mno} AND BLNO = #{blno}
 	</update>
 	
-	<select id="selectStreamerMno" parameterType="_int" resultType="streamerResultSet2">
-		SELECT * FROM STREAMER WHERE BNO = #{bno}
-	</select>
+	
 </mapper>

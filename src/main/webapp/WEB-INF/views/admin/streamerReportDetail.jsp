@@ -52,7 +52,7 @@
 				<br>
 			</div>
 			<div id="contentBackground">
-				<div id="titleBar">저작권 침해 신고합니다.</div>
+				<div id="titleBar">${reportContent.BTitle}</div>
 				<br>
 				<div id="inContent">
 				
@@ -99,7 +99,7 @@
 									<c:when test="${ban eq 30 }">
 										<div>${ ban } 일 정지</div>
 									</c:when>
-									<c:when test="${reportContent.banNum eq 0 }">
+									<c:when test="${reportContent.banNo eq 0 }">
 										<div>부적합</div>
 									</c:when>
 									<c:otherwise>
@@ -134,7 +134,7 @@ function reportProcess() {
 	
 	var select = confirm("정말로 계정상태를 변경하시겠습니까? 확인을 누르시면 변경됩니다. ");
 	if (select) {
-		location.href = 'reportProcess.ad?bno=' + bno + '&mno='+mno+ '&choiceStatus=' + choiceStatus
+		location.href = 'streamerRreportProcess.ad?bno=' + bno + '&mno='+mno+ '&choiceStatus=' + choiceStatus
 		alert("변경되었습니다.");
 	} else {
 		alert("취소되었습니다.");

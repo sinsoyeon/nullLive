@@ -53,7 +53,8 @@
 		<result property="status" column="B_STATUS"/>
 		<result property="writer" column="WRITER"/>
 		<result property="target" column="TARGET"/>
-		<result property="banNum" column="BCOUNT"/>
+		<result property="mno" column="MNO"/>
+		<result property="banNo" column="BAN_NO"/>
 	</resultMap>
 	
 	<resultMap type="Ban" id="BanResultSet">
@@ -160,31 +161,31 @@
 		WHERE MNO LIKE #{mno}
 	</update>
 
-<!-- BAN 내역 수정 -->
-<update id="updateBan" parameterType="com.kh.nullLive.member.model.vo.Member">
-	UPDATE BAN
-	SET BA_STATUS = 'N'
-	WHERE MNO = #{mno}
-</update>
-
-<!-- BAN 내역 추가 -->
-<insert id="insertBan" parameterType="com.kh.nullLive.member.model.vo.Member">
-	INSERT INTO BAN 
-	<choose>
-			<when test='mstatus eq "B3".toString()'>
-				VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  SYSDATE + (INTERVAL '30' DAY), DEFAULT, #{mno})
-			</when>
-			<when test='mstatus eq "B6".toString()'>
-				VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  SYSDATE + (INTERVAL '60' DAY), DEFAULT, #{mno})
-			</when>
-			<when test='mstatus eq "B9".toString()'>
-				VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  SYSDATE + (INTERVAL '90' DAY), DEFAULT, #{mno})
-			</when>
-			<otherwise>
-				VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  null, DEFAULT, #{mno})
-			</otherwise>
-		</choose>
-</insert>
+	<!-- BAN 내역 수정 -->
+	<update id="updateBan" parameterType="com.kh.nullLive.member.model.vo.Member">
+		UPDATE BAN
+		SET BA_STATUS = 'N'
+		WHERE MNO = #{mno}
+	</update>
+	
+	<!-- BAN 내역 추가 -->
+	<insert id="insertBan" parameterType="com.kh.nullLive.member.model.vo.Member">
+		INSERT INTO BAN 
+		<choose>
+				<when test='mstatus eq "B3".toString()'>
+					VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  SYSDATE + (INTERVAL '30' DAY), DEFAULT, #{mno},NULL)
+				</when>
+				<when test='mstatus eq "B6".toString()'>
+					VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  SYSDATE + (INTERVAL '60' DAY), DEFAULT, #{mno},NULL)
+				</when>
+				<when test='mstatus eq "B9".toString()'>
+					VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  SYSDATE + (INTERVAL '90' DAY), DEFAULT, #{mno},NULL)
+				</when>
+				<otherwise>
+					VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  null, DEFAULT, #{mno}, NULL)
+				</otherwise>
+			</choose>
+	</insert>
 	
 	<!-- 관리자 스트리머 신고 조회용 -->
     <select id="selectStreamerReportList" resultMap="ReportResultSet">
@@ -199,7 +200,7 @@
 		ORDER BY 8,7 DESC
     </select>
     
-    <!-- 관리자 일반히원 신고 조회용 -->
+    <!-- 관리자 일반회원 신고 조회용 -->
     <select id="selectMemberReportList" resultMap="ReportResultSet">
     	SELECT B.BNO, B.BTITLE, B.REPORT_TYPE , M.MID WRITER  ,MM.MID TARGET  ,C.COU, B.WRITTEN_DATE, B.B_STATUS
 		FROM BOARD B
@@ -212,35 +213,47 @@
 		ORDER BY 8,7 DESC
     </select>
     
-    <!-- 상세조회에 필요한 쿼리 -->
+    <!-- 신고 상세조회에 필요한 쿼리 -->
     <select id="selectBan" parameterType="_int" resultType="java.lang.String">
     	SELECT TO_NUMBER(BA.BAN_END-BA.BAN_DATE) BAN_DAY
         FROM BAN BA
-        JOIN BOARD BO ON(BO.BCOUNT = BA.BANO)
+        JOIN BOARD BO ON(BO.BNO = BA.BNO)
         WHERE BO.BNO = #{bno}
     </select>
     
     <!-- 관리자 신고 상세 조회 -->
     <select id="selectReportDetail" parameterType="_int" resultMap="ReportResultSet">
-    	SELECT B.BNO, B.BTITLE , B.BCONTENT , B.WRITTEN_DATE , B.REPORT_TYPE, B.B_STATUS,  M.MID WRITER  ,MM.MID TARGET ,B.BCOUNT, MM.MNO
+    	SELECT B.BNO, B.BTITLE , B.BCONTENT , B.WRITTEN_DATE , B.REPORT_TYPE, B.B_STATUS,  M.MID WRITER  ,MM.MID TARGET ,BA.BNO BAN_NO, MM.MNO
 		FROM BOARD B
 		JOIN MEMBER M ON(B.BWRITER = M.MNO)
 		JOIN MEMBER MM ON(B.REPORT_MNO = MM.MNO)
+		LEFT JOIN BAN BA ON(BA.BNO = B.BNO)
 		WHERE B.BNO = #{bno}
     </select>
     
     <!-- 신고 프로세스 -->
-    <select id="selectBano" parameterType="_int" resultType="_int">
-    	SELECT BANO
-    	FROM BAN
-    	WHERE MNO = #{mno}
-    	AND BA_STATUS LIKE 'Y'
-    </select>
-    
+    <!-- 해당 글에 맞는 밴 내역 추가 -->
+   <insert id="insertReportBan" parameterType="com.kh.nullLive.member.model.vo.Member">
+	INSERT INTO BAN 
+	<choose>
+			<when test='mstatus eq "B3".toString()'>
+				VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  SYSDATE + (INTERVAL '30' DAY), DEFAULT, #{mno}, #{point})
+			</when>
+			<when test='mstatus eq "B6".toString()'>
+				VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  SYSDATE + (INTERVAL '60' DAY), DEFAULT, #{mno}, #{point})
+			</when>
+			<when test='mstatus eq "B9".toString()'>
+				VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  SYSDATE + (INTERVAL '90' DAY), DEFAULT, #{mno}, #{point})
+			</when>
+			<otherwise>
+				VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  NULL, DEFAULT, #{mno}, #{point})
+			</otherwise>
+		</choose>
+	</insert>
+    <!-- 신고글 처리상태 변경 -->
     <update id="updateReport" parameterType="com.kh.nullLive.admin.model.vo.Report">
     	UPDATE BOARD
-    	SET BCOUNT = #{cou},
-    	B_STATUS = 6
+    	SET B_STATUS = 6
     	WHERE BNO = #{bno}
     </update>
     

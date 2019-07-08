@@ -235,7 +235,7 @@ public class AdminServiceImpl implements AdminService {
 	/**
 	 * @author INHYO
 	 * @date : 2019. 7. 4.
-	 * @comment :FAQ / 곤지사항  상세보기
+	 * @comment :FAQ / 공지사항  상세보기
 	 */
 	@Override
 	public Board detail(int bno) {
@@ -289,7 +289,7 @@ public class AdminServiceImpl implements AdminService {
 	/**
 	 * @author INHYO
 	 * @date : 2019. 7. 5.
-	 * @comment :밴 내역 찾기
+	 * @comment :정지 내역 찾기
 	 */
 	@Override
 	public String selectBan(int bno) {
@@ -302,20 +302,13 @@ public class AdminServiceImpl implements AdminService {
 	 * @comment :신고처리 프로세스
 	 */
 	@Override
-	public int reportProcess(Report r, Member m) {
+	public int reportProcess(int bno, Member m) {
 		int result = 0;
-		
-		int result1 = ad.userStatusUpdate(sqlSession,m); // 회원의 상태를 변경
-		int result2 = ad.insertBan(sqlSession,m);// 밴내역 추가
-		
-		int bano = ad.selectBano(sqlSession, m.getMno()); // 게시판에 필요한 bano를 조회
-		r.setCou(bano);
-		int result3 = ad.updateReport(sqlSession, r);// bano를 가지고 해당 글 변경 및 처리 상태
-		
-		
-		//int result3 = ad.update
-		
-		
+		if(!m.getMstatus().equals("Y")) {
+			int result1 = ad.userStatusUpdate(sqlSession,m); // 회원의 상태를 변경
+			int result2 = ad.insertReportBan(sqlSession,m);// 밴내역 추가
+		}
+		int result3 = ad.updateReport(sqlSession, bno);// 해당 글 처리 상태 변경
 		
 		return result;
 	}
