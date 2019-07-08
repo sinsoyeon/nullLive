@@ -49,6 +49,12 @@ public interface BroadCenterService {
 	int selectBlackListCount(int mno);
 
 	HashMap<String, Object> selectOneBlackList(HashMap<String, Object> infoMap);
+
+	
+	//파트너 상세 조회(정연)
+	HashMap<String, Object> partnerDetail(int mno) throws StreamerUpdateException;
+
+	
 	
 	
 
