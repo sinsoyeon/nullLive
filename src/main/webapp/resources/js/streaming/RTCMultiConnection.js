@@ -157,11 +157,11 @@ var RTCMultiConnection = function(roomid, forceOptions) {
         } catch (e) {};
 
         if (!connection.socketURL) {
-            connection.socketURL = 'http://localhost:9002/';
+            connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
         }
 
         if (connection.socketURL.substr(connection.socketURL.length - 1, 1) != '/') {
-            // connection.socketURL = 'https://domain.com:9001/';
+            connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
             throw '"socketURL" MUST end with a slash.';
         }
 

@@ -71,7 +71,7 @@
 <!-- rtc script -->
 <script src="${contextPath}/resources/js/streaming/RTCMultiConnection.js"></script>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-<script src="http://127.0.0.1:9002/socket.io/socket.io.js"> </script>	<!-- rtc signaling server on socket.io // port:9002 -->
+<script src="https://rtcmulticonnection.herokuapp.com:443/socket.io/socket.io.js"> </script>	<!-- rtc signaling server on socket.io // port:9002 -->
 <script src="${contextPath}/resources/js/streaming/streamingOpenJoin.js"></script>
 <script src="${contextPath}/resources/js/streaming/RecordRTC.js"></script>
 <!-- custom layout for HTML5 audio/video elements -->
