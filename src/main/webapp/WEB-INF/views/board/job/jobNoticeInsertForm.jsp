@@ -5,6 +5,9 @@
 <html>
 <script src="https://cdn.ckeditor.com/ckeditor5/12.2.0/classic/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="./resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -32,7 +35,6 @@
 <body>
 	<c:if test="${ loginUser.isAdmin eq 'Y' }">
 	<jsp:include page="jobMenubar.jsp"/>
-	<jsp:include page="contentInsertForm.jsp"/>
 	<h1 align="center">공지사항</h1>
 	<hr>
 	
@@ -79,6 +81,34 @@
 	<c:if test="${ loginUser.isAdmin ne 'Y' }">
 		<h1>잘못된 경로로 접근하셨습니다.</h1>
 	</c:if>
+	
+	<script type="text/javascript">
+	    $(function(){
+	        var obj = [];              
+	        nhn.husky.EZCreator.createInIFrame({
+	            oAppRef: obj,
+	            elPlaceHolder: "editor",
+	            sSkinURI: "./resources/editor/SmartEditor2Skin.html",
+	            htParams : {
+	                bUseToolbar : true,            
+	                bUseVerticalResizer : true,    
+	                bUseModeChanger : true,
+	            }
+	        });
+	        $("#save").click(function(){ 
+				var bTitle = $("#bTitle").val();        	
+				
+				if(bTitle==""){
+					alert("제목을 입력해주세요");
+					return;
+				}
+				
+				
+				obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []); 
+				$("#insertBoardFrm").submit();
+			})
+	    });
+	</script>
 </body>
 </html>
 

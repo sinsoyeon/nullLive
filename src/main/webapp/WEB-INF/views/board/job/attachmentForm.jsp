@@ -16,7 +16,7 @@
 </style>
 <body>
 	<div id="fileDiv">
-		<input class="form-control fileForm" type="file" id="file" name="file_0">		
+		<input class="form-control fileForm" type="file" id="file" name="file" onchange="fn_sizeChk(this)">		
 	</div>
 	<a href=fn_deleteFile() class='btn' name='delete'>삭제</a>
 	<a href="#this" class="btn" id="addFile">파일 추가</a>
@@ -35,7 +35,7 @@
 		}); 
 	})
 	function fn_addFile(){ 
-		var str = "<input class='form-control fileForm' type='file' name='file_'+(gfv_count++)+'>";
+		var str = "<input class='form-control fileForm' type='file' name='file_'+(gfv_count++)+' onchange='fn_sizeChk(this)'>";
 					/* <a href='#this' class='btn' name='delete'>삭제</a>";  */
 		$("#fileDiv").append(str); 
 		
@@ -46,6 +46,20 @@
 		}
 
 	}
+	function fn_sizeChk(obj){
+
+		var maxSize = 20971520;
+		var size =obj.files[0].size;
+		
+		if(maxSize < size){
+			alert("20MB 이상은 업로드 하실 수 없습니다.");
+			$(obj).val("");
+		}
+	}
+/* 	$("input[name='file']").change(function(){
+		console.log("dd");
+		console.log(this)
+	}) */
 	</script>
 </body>
 </html>

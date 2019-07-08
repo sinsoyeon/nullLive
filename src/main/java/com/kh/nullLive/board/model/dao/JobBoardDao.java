@@ -94,6 +94,8 @@ public interface JobBoardDao {
 
 	ArrayList<Attachment> selectListBoardAtt(SqlSessionTemplate sqlSession, int bno);
 
+	Attachment selectOneJobAtt(SqlSessionTemplate sqlSession, int attno);
+
 
 
 }

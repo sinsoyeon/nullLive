@@ -182,8 +182,16 @@
 			<c:out value="${ board.BContent }" escapeXml="false"/>
 		</div>
 		<!-- 첨부파일 영역 -->
-		<div class="attArea col-lg-12">
-			첨부파일
+		<div class="col-lg-12">
+			<label>첨부파일</label>
+			<br>
+
+			<c:forEach var="row" items="${attList}" >
+				<div>
+					<input type="hidden" class="attno" name="attno" value="${row.attno }">
+					<a href="#this" name="file">${row.originName }</a><br>
+				</div>
+			</c:forEach>
 		</div>
 		<!-- 지원하기 버튼 -->
 		<div class="btnArea col-lg-12" align="center">

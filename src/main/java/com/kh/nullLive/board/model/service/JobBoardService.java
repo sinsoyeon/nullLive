@@ -30,7 +30,7 @@ public interface JobBoardService {
 
 	ArrayList<HashMap<String, Object>> selectListJobMyBoardPaging(HashMap<String,Object> hmap);
 
-	int insertJobBoard(Board board, JobBoard jBoard) throws JobBoardInsertException;
+	int insertJobBoard(Board board, JobBoard jBoard, ArrayList<Attachment> attList) throws JobBoardInsertException, AttachmentInsertException;
 
 	void searchJobBoard();
 
@@ -63,6 +63,8 @@ public interface JobBoardService {
 	int getJobMyJobBoardCount(HashMap<String, Object> hmap);
 
 	ArrayList<Attachment> selectListBoardAtt(int bno);
+
+	Attachment selectOneJobAtt(int attno);
 
 
 }

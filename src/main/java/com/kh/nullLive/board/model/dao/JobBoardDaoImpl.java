@@ -315,11 +315,21 @@ public class JobBoardDaoImpl implements JobBoardDao {
 	/**
 	 * @author : uukk
 	 * @date : 2019. 7. 8.
-	 * @comment : 첨부파일 조회용
+	 * @comment : 첨부파일 리스트 조회용
 	 */
 	@Override
 	public ArrayList<Attachment> selectListBoardAtt(SqlSessionTemplate sqlSession, int bno) {
 		return (ArrayList)sqlSession.selectList("Board.selectListBoardAtt",bno);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 8.
+	 * @comment : 첨부파일 1개 조회용
+	 */
+	@Override
+	public Attachment selectOneJobAtt(SqlSessionTemplate sqlSession, int attno) {
+		return sqlSession.selectOne("Board.selectOneJobAtt",attno);
 	}
 
 
