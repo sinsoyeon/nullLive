@@ -25,7 +25,7 @@ public interface BroadCenterDao {
 	 * Comment : Streamer 테이블 추가
 	 * @param streamer 
 	 */
-	int insertStreamer(SqlSessionTemplate sqlSession, Member loginUser, Streamer streamer);
+	int insertStreamer(SqlSessionTemplate sqlSession, Member loginUser);
 
 	/**
 	 * Author : ryan

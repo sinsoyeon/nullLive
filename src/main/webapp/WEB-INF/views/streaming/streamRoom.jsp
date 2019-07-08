@@ -60,6 +60,7 @@
         <h5 class="card-title"></h5>
         <p class="card-text"></p>
       </div>
+      <button onclick="endRecordAndService()">downtest</button>
     </div>
   </footer>
   <input type="hidden" id="mid" value="${loginUser.mid}"/>
@@ -72,6 +73,7 @@
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script src="http://127.0.0.1:9002/socket.io/socket.io.js"> </script>	<!-- rtc signaling server on socket.io // port:9002 -->
 <script src="${contextPath}/resources/js/streaming/streamingOpenJoin.js"></script>
+<script src="${contextPath}/resources/js/streaming/RecordRTC.js"></script>
 <!-- custom layout for HTML5 audio/video elements -->
 <link rel="stylesheet" href="${contextPath}/resources/css/streaming/getHTMLMediaElement.css">
 <script src="${contextPath}/resources/css/streaming/getHTMLMediaElement.js"></script>
@@ -91,7 +93,8 @@ $(window).on('beforeunload', function() {
 	                type:"post",
 	                data:{mid:mid},
 	                success:function(data){
-	                    console.log("성공 "+data);
+                    endRecordAndService();
+	                  console.log("성공 "+data);
 	                }
 	            });
 	        	return confirm('test2');

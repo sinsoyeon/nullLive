@@ -15,9 +15,6 @@ public class Streamer implements Serializable{
 	private int mno;
 	private Date bstart_date;
 	private int cumulative_selection;
-	private int bank_code;
-	private String account;
-	private String holder;
 	private String is_auth;
 	private String nickName;	//Member.nickName
 }

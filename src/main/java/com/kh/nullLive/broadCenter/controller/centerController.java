@@ -130,11 +130,10 @@ public class centerController {
 	 * Comment : 최초 방송 약관 동의 처리
 	 */
 	@RequestMapping("fStream.st")
-	public String firstStreaming(Model model,HttpSession session, Streamer streamer) {
+	public String firstStreaming(Model model,HttpSession session) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
-		System.out.println("streamer : "+streamer);
 		try {
-			bcs.streamerChange(loginUser,streamer);
+			bcs.streamerChange(loginUser);
 			model.addAttribute("loginUser",bcs.resetMember(loginUser.getMno()));
 			return "redirect:broadSetting.st";
 		} catch (StreamerUpdateException e) {

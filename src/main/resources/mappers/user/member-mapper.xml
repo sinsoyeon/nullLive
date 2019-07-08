@@ -191,5 +191,12 @@
 		INSERT INTO BROAD_CENTER(BCNO,BROAD_ADDRESS,MNO)
 		VALUES(SEQ_BCNO.NEXTVAL,#{mid},#{mno})
 	</insert>
+	
+	<select id="existBankAccount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM BANK_ACCOUNT
+		WHERE MNO=#{mno}
+		AND BANK_STATUS='Y'
+	</select>
 		
 </mapper>

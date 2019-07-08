@@ -12,6 +12,7 @@ import com.kh.nullLive.member.model.exception.InsertMemberException;
 import com.kh.nullLive.member.model.exception.LoginException;
 import com.kh.nullLive.member.model.exception.ProfileException;
 import com.kh.nullLive.member.model.exception.UpdateMemberException;
+import com.kh.nullLive.member.model.vo.BankAccount;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.exception.SelectStreamerException;
 import com.kh.nullLive.streamer.model.vo.Streamer;
@@ -77,15 +78,15 @@ public class MemberServiceImpl implements MemberService {
 
 	//개인정보수정
 	@Override
-	public Member updateMember(Member m, Streamer streamer) throws UpdateMemberException {
+	public Member updateMember(Member m, BankAccount bankAccount) throws UpdateMemberException {
 		int result = 0;
 		result = md.updateMember(sqlSession,m);
 		if(result <= 0 ) {
 			throw new UpdateMemberException("수정실패");
 		}
-		if(streamer.getAccount() != null) {
-			streamer.setMno(m.getMno());
-			result += md.updateStreamer(sqlSession,streamer);
+		if(bankAccount.getBankAccount() != null) {
+			bankAccount.setMno(m.getMno());
+			result += md.updateBankAccount(sqlSession,bankAccount);
 			
 			if(result <= 1 ) {
 				throw new UpdateMemberException("수정실패");
@@ -168,13 +169,13 @@ public class MemberServiceImpl implements MemberService {
 
 	//스트리머 정보 가져오기
 	@Override
-	public Streamer getStreamerInfo(int mno) throws SelectStreamerException {
-		Streamer streamer = md.getStreamerInfo(sqlSession,mno);
+	public BankAccount getBankAccount(int mno) throws SelectStreamerException {
+		BankAccount bankAccount = md.getBankAccount(sqlSession,mno);
 		
-		if(streamer == null) {
+		if(bankAccount == null) {
 			throw new SelectStreamerException("스트리머 정보 불러오기 실패!");
 		}
-		return streamer;
+		return bankAccount;
 	}
 
 	//회원가입 방송국 개설
@@ -185,6 +186,12 @@ public class MemberServiceImpl implements MemberService {
 		if(result <= 0) {
 			throw new InsertMemberException("방송국 개시 실패");
 		}
+	}
+
+	//계좌 있는지
+	@Override
+	public int existBankAccount(int mno) {
+		return md.existBankAccount(sqlSession,mno);
 	}
 
 }
