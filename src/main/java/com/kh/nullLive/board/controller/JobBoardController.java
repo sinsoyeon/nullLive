@@ -1,15 +1,22 @@
 package com.kh.nullLive.board.controller;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,9 +107,7 @@ public class JobBoardController {
 	 */
 	@RequestMapping("selectOneJobNotice.jbo")
 	public String selectOneJobNotice(HttpServletRequest request, Model model) {
-		System.out.println(request.getParameter("bno"));
 		int bno = Integer.parseInt(request.getParameter("bno"));
-		System.out.println(bno);
 		try {
 			Board board = jbs.selectOneJobNotice(bno);
 			ArrayList<Attachment> attList = jbs.selectListBoardAtt(bno);
@@ -211,15 +216,23 @@ public class JobBoardController {
 	 * @comment : 구인구직 게시판 글쓰기
 	 */
 	@RequestMapping("insertJobBoard.jbo")
-	public String insertJobBoard(Board board,JobBoard jBoard,Model model) {
-		
+	public String insertJobBoard(Board board,JobBoard jBoard,Model model,HttpServletRequest request) {
+		ArrayList<Attachment> attList = null;
 		try {
-			int result = jbs.insertJobBoard(board,jBoard);
+			attList = (ArrayList)AttchmentUtil.getAttList(request);
+			System.out.println(attList);
+			int result = jbs.insertJobBoard(board,jBoard,attList);
 			return "redirect:jobMain.jbo";
-		} catch (JobBoardInsertException e) {
+		} catch (Exception e) {
+			//에러 발생시 파일 삭제
+			for(int i=0; i<attList.size(); i++) {
+				File file = new File(attList.get(i).getFilePath()+"\\"+attList.get(i).getChangeName());
+		        file.delete();
+			}
 			model.addAttribute("msg",e.getMessage());
 			return "common/errorPage";
 		}
+		
 	}
 	
 	/**
@@ -244,6 +257,8 @@ public class JobBoardController {
 		HashMap<String, Object> boardMap;
 		try {
 			boardMap = jbs.selectOneJobBoard(bno);
+			ArrayList<Attachment> attList = jbs.selectListBoardAtt(bno);
+			model.addAttribute("attList", attList);
 			model.addAttribute("boardMap",boardMap);
 			System.out.println(boardMap.get("jBoard"));
 			Board board = (Board)boardMap.get("board");
@@ -389,12 +404,46 @@ public class JobBoardController {
 	
 	/**
 	 * @author : uukk
+	 * @throws IOException 
 	 * @date : 2019. 7. 8.
 	 * @comment : 첨부파일 다운로드
 	 */
 	@RequestMapping("jobBoardDownloadFile.jbo")
-	public String selectBoardDownload(Model model, HttpServletRequest request, Attachment att) {
+	public String selectBoardDownload(Model model, HttpServletRequest request,HttpServletResponse response,  Attachment att) throws IOException {
 		System.out.println(att);
+		Attachment attachment = jbs.selectOneJobAtt(att.getAttno());
+		
+		
+		//폴더에서 파일을 읽어드릴 스트림 생성
+		BufferedInputStream buf = null;
+		
+		//클라이언트로 내보낼 출력스트립생성
+		ServletOutputStream downOut = null;
+		
+		downOut = response.getOutputStream();
+		
+		//스트림으로 전송할 파일 객체 생성 경로 + 이름
+		File downFile = new File(attachment.getFilePath() + "\\"+ attachment.getChangeName());
+	
+		response.setContentType("text/plain; charset=utf-8 ");
+	
+		//한글 파일명에 대한 인코딩처리
+		//강제적으로 다운로드 처리
+		response.setHeader("Content-Disposition", "attachment; filename=\""+ new String(attachment.getOriginName().getBytes("UTF-8"), "ISO-8859-1") + "\"");
+		response.setContentLength((int)downFile.length());
+	
+		FileInputStream fin = new FileInputStream(downFile);
+		
+		buf = new BufferedInputStream(fin);
+		
+		int readBytes = 0;
+		
+		while((readBytes = buf.read()) != -1) {
+			downOut.write(readBytes);
+		}
+		
+		downOut.close();
+		buf.close();
 		
 		return null;
 	}

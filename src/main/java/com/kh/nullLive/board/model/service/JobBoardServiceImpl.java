@@ -141,24 +141,54 @@ public class JobBoardServiceImpl implements JobBoardService{
 	/**
 	 * @author : uukk
 	 * @throws JobBoardInsertException 
+	 * @throws AttachmentInsertException 
 	 * @date : 2019. 6. 26.
 	 * @comment : 구인구직게시판 작성
 	 */
 	@Override
-	public int insertJobBoard(Board board, JobBoard jBoard) throws JobBoardInsertException {
+	public int insertJobBoard(Board board, JobBoard jBoard,ArrayList<Attachment> attList) throws JobBoardInsertException, AttachmentInsertException {
+		HashMap<String,Object> attHmap = new HashMap<>();
 		int result = 0;
 		int boardResult = jbd.insertJobBoard(sqlSession,board);
+		attHmap.put("board", board);
 		int boardCurrval = jbd.selectCurrval(sqlSession);
-		System.out.println(boardCurrval);
+		
 		jBoard.setBno(boardCurrval);
 		int jBoardResult = jbd.insertJobJBoard(sqlSession,jBoard);
-		System.out.println(jBoardResult);
-		if(boardResult > 0 && jBoardResult > 0) {
-			result = 1;
-		}else {
-			result = 0;
-			throw new JobBoardInsertException("구인구직게시판 작성 실패");
+		
+		if(boardResult<=0 || jBoardResult<=0) {
+			throw new JobBoardInsertException("구인구직 작성 실패");
 		}
+		
+		
+		if(attList.size() != 0) {
+			
+			attHmap.put("attList", attList);
+			
+			//Attachment 입력
+			int attResult = jbd.insertJobNoticeAttList(sqlSession,attHmap);
+			
+			HashMap<String,Object> attmHmap = new HashMap<>();
+			
+			//작성 attachment currval조회
+			ArrayList<Integer> attnoList = jbd.getAttnoList(sqlSession,attList.size());
+			
+			//attManager 작성을 위한 parameter값
+			attmHmap.put("bno", boardCurrval);
+			attmHmap.put("attnoList", attnoList);
+			
+			//attManager 입력
+			int attmResult = jbd.insertJobNoticeAttMng(sqlSession,attmHmap);
+			
+			//리턴값이 size와 동일하지 않을시 예외처리
+			if(attmResult != attList.size() ||
+			   attResult != attList.size()) {
+				throw new AttachmentInsertException("첨부파일 입력 에러");
+			}
+		}
+		
+		
+		
 		return result;
 	}
 
@@ -329,6 +359,16 @@ public class JobBoardServiceImpl implements JobBoardService{
 	@Override
 	public ArrayList<Attachment> selectListBoardAtt(int bno) {
 		return jbd.selectListBoardAtt(sqlSession,bno);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 8.
+	 * @comment : 첨부파일 조회
+	 */
+	@Override
+	public Attachment selectOneJobAtt(int attno) {
+		return jbd.selectOneJobAtt(sqlSession, attno);
 	}
 
 

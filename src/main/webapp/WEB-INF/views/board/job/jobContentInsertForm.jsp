@@ -14,6 +14,9 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/12.2.0/classic/ckeditor.js"></script>
+
 <style>
 
 	.outer {
@@ -45,7 +48,7 @@
 	<div class="outer">
 		<div class="">
 			<h2>구인구직</h2>
-			<form action=insertJobBoard.jbo method="post" id="insertBoardFrm" >
+			<form action=insertJobBoard.jbo method="post" id="insertBoardFrm" enctype="multipart/form-data">
 				<!-- 제목영역 -->
 				<div>
 					<!-- 구인구직 유형 -->
@@ -85,21 +88,20 @@
 				<!-- 계약내용 -->
 				<div class="ContractContentArea">
 					<h3>계약내용</h3>
-					<textarea class="form-control col-lg-12 col-md-12 col-sm-8" name="contContent" rows="5" required placeholder="ex)10분 영상 편집 기준 건당 0000포인트"></textarea>
+					<textarea class="form-control col-lg-12 col-md-12 col-sm-8" id="contContent" name="contContent" rows="5" required placeholder="ex)10분 영상 편집 기준 건당 0000포인트"></textarea>
+					<p>* 계약 내용은 상세히 작성해 주시기 바랍니다.</p>
 				</div>
 				
 				<!-- 내용영역 -->
-				<jsp:include page="contentInsertForm.jsp"/>
-					<div class="contentArea">
-						<h3>내용</h3>
-						<textarea name="bContent" id="editor" required placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 400px;"></textarea>
-					</div>
+				<div class="contentArea">
+					<h3>내용</h3>
+					<textarea name="bContent" id="editor" required placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 400px;"></textarea>
+				</div>
 				<br>
 				<!-- 첨부파일 영역 -->
 				<div>
 					<h3>첨부파일</h3>
-					<input type="file">
-					<input type="file">
+					<jsp:include page="attachmentForm.jsp"/>
 				</div>
 				<br>
 				<!-- 하단 버튼영역 -->
@@ -113,4 +115,36 @@
 	
 	
 </body>
+<script type="text/javascript">
+	    $(function(){
+	        var obj = [];              
+	        nhn.husky.EZCreator.createInIFrame({
+	            oAppRef: obj,
+	            elPlaceHolder: "editor",
+	            sSkinURI: "./resources/editor/SmartEditor2Skin.html",
+	            htParams : {
+	                bUseToolbar : true,            
+	                bUseVerticalResizer : true,    
+	                bUseModeChanger : true,
+	            }
+	        });
+	        $("#save").click(function(){ 
+				var bTitle = $("#bTitle").val();
+				var contContent = $("#contContent").prop("textLength");
+				if(bTitle==""){
+					alert("제목을 입력해주세요");
+					return;
+				}
+				console.log(contContent);
+				if(contContent=="" || contContent<=10){
+					alert("계약내용을 10자 이상 입력해주세요");
+					return;
+				}
+				
+				
+				/* obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []); 
+				$("#insertBoardFrm").submit(); */
+			})
+	    });
+	</script>
 </html>

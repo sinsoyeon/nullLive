@@ -460,6 +460,10 @@
 		WHERE ATT_STATUS='Y'
 		AND BNO= #{bno}
 	</select>
+	<!-- 첨부파일 1개 조회용 -->
+	<select id="selectOneJobAtt" parameterType="_int" resultMap="AttachmentResultSet">
+		SELECT * FROM attachment WHERE ATTNO = #{attno}
+	</select>
 	
 	
 </mapper>

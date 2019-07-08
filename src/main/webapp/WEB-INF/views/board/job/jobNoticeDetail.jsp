@@ -65,9 +65,12 @@
 		<div>
 			<label>첨부파일</label>
 			<br>
-			<c:forEach var="row" items="${attList}">
-				<input type="hidden" id="attno" value="${row.attno }">
-				<a href="#this" name="file">${row.originName }</a><br>
+
+			<c:forEach var="row" items="${attList}" >
+				<div>
+					<input type="hidden" class="attno" name="attno" value="${row.attno }">
+					<a href="#this" name="file">${row.originName }</a><br>
+				</div>
 			</c:forEach>
 		</div>
 
@@ -90,10 +93,11 @@
 		});
 
 		function fn_downloadFile(obj){
-			var attno = obj.parent().find("#attno").val();
+			var attno = obj.parent().find(".attno").val();
 			console.log(attno);
 			location.href="jobBoardDownloadFile.jbo?attno="+attno;
 		}
+		
 
 	</script>
 	

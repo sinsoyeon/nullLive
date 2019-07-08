@@ -166,7 +166,15 @@
 		</div>
 		<!-- 첨부파일 영역 -->
 		<div class="attArea">
-			첨부파일
+			<label>첨부파일</label>
+			<br>
+
+			<c:forEach var="row" items="${attList}" >
+				<div>
+					<input type="hidden" class="attno" name="attno" value="${row.attno }">
+					<a href="#this" name="file">${row.originName }</a><br>
+				</div>
+			</c:forEach>
 		</div>
 		<!-- 지원하기 버튼 -->
 		<div class="btnArea col-lg-12" align="center">
@@ -211,5 +219,20 @@
 		</c:if>
 		<br><br><br><br>
 	</div>
+	
+	<script>
+		//첨부파일
+		$("a[name='file']").on("click", function(e){
+			//파일 이름
+			e.preventDefault(); 
+			fn_downloadFile($(this));
+		});
+
+		function fn_downloadFile(obj){
+			var attno = obj.parent().find(".attno").val();
+			console.log(attno);
+			location.href="jobBoardDownloadFile.jbo?attno="+attno;
+		}
+	</script>
 </body>
 </html>
