@@ -124,7 +124,6 @@
 			</div>
       
 				<input id="bcno" value="${broadInfo.BCNO}" hidden/>
-				<button class="ui green button" id="updateBtn">방송 시작하기</button>
 				<button class="ui green button" type="button" id="startBtn" onclick="startStreaming();">방송시작</button>
 
 		</div>
@@ -132,7 +131,7 @@
 	
 	
 <script>
-$("#updateBtn").click(function(){
+$("#startBtn").click(function(){
 	/* var obj = new Object();
 	obj.bTitle = $("#bTitle").val();
 	obj.bCategory = $("#bCategory").val();
