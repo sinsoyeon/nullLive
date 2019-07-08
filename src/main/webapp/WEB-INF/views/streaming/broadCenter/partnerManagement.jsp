@@ -26,108 +26,178 @@
 				<hr>
 				<div class="partnerArea">
 					<label>현재 매니저 목록</label><br>
-						<table>
-							<c:forEach var="manager" items="${partnerList}">
-								<c:if test="${manager.PTYPE eq '매니저' }">
-									<label><c:out value="${manager.NICK_NAME}" /></label><br>
-								</c:if>
-							</c:forEach>
-						</table>
-					<br> <br> <label>현재 편집자 목록</label><br>
-					<div class="ui input">
+					<div class="partnerBox">
+					<table>
+						<c:forEach var="manager" items="${partnerList}">
+							<tr>
+								<td><c:if test="${manager.PTYPE eq '매니저' }">
+										<c:out value="${manager.NICK_NAME}" />
+									</c:if></td>
+							</tr>
+						</c:forEach>
+					</table>
+					</div>
+					<br> 
+					 <label>현재 편집자 목록</label>
+					 <div class="partnerBox">
 						<table>
 							<c:forEach var="editor" items="${partnerList}">
 								<tr>
-								<td><c:if test="${editor.PTYPE eq '편집자' }">
-											<c:out value="${editor.NICK_NAME}"/>
-									</c:if>
-								</td>	
-							</tr>
+									<td><c:if test="${editor.PTYPE eq '편집자' }">
+											<c:out value="${editor.NICK_NAME}" />
+										</c:if></td>
+								</tr>
 							</c:forEach>
 						</table>
 					</div>
 				</div>
-				<br> <br> 
-				<input type="radio" /> <span>매니저</span> 
-				<input type="radio" /> <span>편집자</span><br>
+				<br> <br>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="exampleRadios"
+						id="exampleRadios1" value="option1" checked> <label
+						class="form-check-label" for="exampleRadios1">매니저 </label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="exampleRadios"
+						id="exampleRadios2" value="option2"> <label
+						class="form-check-label" for="exampleRadios2">편집자</label>
+				</div>
+				
 				<div class="ui category search">
 					<div class="ui icon input">
 						<input class="prompt" type="text" style="width: 600px;"> <i
 							class="search icon"></i>
 					</div>
 				</div>
+				<br>
 				<br> <label>매니저 상세 조회</label>
-				<table class="managerDetail">
-					<tr>
-						<th></th>
-						<th>아이디</th>
-						<th>닉네임</th>
-						<th>날짜</th>
-					</tr>
-					<tr>
-						<td><input type="checkbox" /></td>
-						<td>bashongMon</td>
-						<td>빠숑맘</td>
-						<td>2019/06/21</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" /></td>
-						<td>bashongMon</td>
-						<td>빠숑맘</td>
-						<td>2019/06/21</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" /></td>
-						<td>bashongMon</td>
-						<td>빠숑맘</td>
-						<td>2019/06/21</td>
-					</tr>
+				<div class="partnerTable">
+				<table class="table">
+					<thead class="thead-light">
+						<tr class="table-success"
+							style="background: #446600 !important; color: white;">
+							<th scope="col"></th>
+							<th scope="col">아이디</th>
+							<th scope="col">닉네임</th>
+							<th scope="col">시작 날짜</th>
+						</tr>
+					</thead>
+					<tbody>
+					<c:forEach var="manager" items="${partnerList}">
+						<c:if test="${manager.PTYPE eq '매니저' }">
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td><c:out value="${manager.MID}" /></td>
+							<td><c:out value="${manager.NICK_NAME}" /></td>
+							<td><c:out value="${manager.C_SDATE}" /></td>
+							<td><input type="text" class="tableMno" hidden/>${manager.MNO}</td>
+						</tr>
+						</c:if>
+					</c:forEach>	
+					</tbody>
 				</table>
+				</div>
+
 				<br>
 				<button class="ui green button">삭제</button>
 				<br>
 				<br> <label>편집자 상세 조회</label>
-				<table class="managerDetail">
-					<tr>
-						<th></th>
-						<th>아이디</th>
-						<th>닉네임</th>
-						<th>날짜</th>
-					</tr>
-					<tr>
-						<td><input type="checkbox" /></td>
-						<td>bashongMon</td>
-						<td>빠숑맘</td>
-						<td>2019/06/21</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" /></td>
-						<td>bashongMon</td>
-						<td>빠숑맘</td>
-						<td>2019/06/21</td>
-					</tr>
-					<tr>
-						<td><input type="checkbox" /></td>
-						<td>bashongMon</td>
-						<td>빠숑맘</td>
-						<td>2019/06/21</td>
-					</tr>
+				<div class="partnerTable">
+				<table class="table">
+					<thead class="thead-light">
+						<tr class="table-success"
+							style="background: #446600 !important; color: white;">
+							<th scope="col"></th>
+							<th scope="col">아이디</th>
+							<th scope="col">닉네임</th>
+							<th scope="col">시작 날짜</th>
+						</tr>
+					</thead>
+					<tbody>
+					<c:forEach var="editor" items="${partnerList}">
+						<c:if test="${editor.PTYPE eq '편집자' }">
+						<tr>
+							<td><input type="checkbox" /></td>
+							<td><c:out value="${editor.MID}" /></td>
+							<td><c:out value="${editor.NICK_NAME}" /></td>
+							<td><c:out value="${editor.C_SDATE}" /></td>
+							<td><input type="text" class="tableMno" hidden/>${editor.MNO}</td>
+						</tr>
+						</c:if>
+					</c:forEach>	
+					</tbody>
 				</table>
+				</div>
 				<br>
 				<button class="ui green button">삭제</button>
 				<br>
 				<br>
 				<br>
-				<button class="ui green button" id="update">업데이트</button>
-
+				<!-- <button class="ui green button" id="update">업데이트</button> -->
+				
+				<label class="subtitle">회원 상세정보 조회</label>
+						<br>
+						<div>
+							<br>
+								<table class="memberDetailInfo">
+									<tr>
+										<td class="partnerDetailInfoTd">아이디</td>
+										<td class="partnerId"></td>
+										<td class="partnerDetailInfoTd">닉네임</td>
+										<td class="partnerNickName"></td>
+									</tr>
+									<tr>
+										<td class="partnerDetailInfoTd">시작 일자</td>
+										<td class="partnerSdate"></td>
+										<td class="partnerDetailInfoTd">유형</td>
+										<td class="partnerType"></td>
+									</tr>
+									<tr>
+										<td class="partnerDetailInfoTd">계약금</td>
+										<td class="partnerPrice"></td>
+										<td class="partnerDetailInfoTd">연락처</td>
+										<td class="partnerPhone"></td>
+									</tr>
+								</table>
+								<br> <br> <br>
+								
+							</div>
+				
 			</div>
 		</div>
-
 
 
 	</div>
 
 
+
+<script>
+	$(".table tbody td").click(function(){
+		var mno = $(this).parent().children().eq(4).text();
+		
+		console.log("m:" + mno); 
+		
+		 $.ajax({
+			url:"partnerDetail.st",
+			data:{mno:mno},
+			dataType: "json",
+			contentType:"application/json;charset=UTF-8",
+			type:"get",
+			success:function(data){
+				console.log(data);
+				$(".partnerId").text(data.MID);
+				$(".partnerNickName").text(data.NICK_NAME);
+				$(".partnerSdate").text(data.C_SDATE);
+				$(".partnerType").text(data.PTYPE);
+				$(".partnerPrice").text(data.PERPRICE);
+				$(".partnerPhone").text(data.PHONE);
+			},
+			error:function(){
+				console.log("상세조회 실패!");
+			}
+		}); 
+	});
+</script>
 
 
 </body>
