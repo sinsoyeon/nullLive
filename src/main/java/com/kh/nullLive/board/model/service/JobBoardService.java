@@ -9,6 +9,7 @@ import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.board.model.vo.PageInfo;
+import com.kh.nullLive.common.attachment.model.exception.AttachmentInsertException;
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.vo.Member;
@@ -19,7 +20,7 @@ public interface JobBoardService {
 
 	Board selectOneJobNotice(int bno) throws SelectOneBoardException;
 
-	void insertJobNotice(Board board, Attachment att);
+	void insertJobNotice(Board board, ArrayList<Attachment> attList) throws AttachmentInsertException, JobBoardInsertException;
 
 	void updateJobNotice();
 
@@ -60,6 +61,8 @@ public interface JobBoardService {
 	int getJobNoticeListCount();
 
 	int getJobMyJobBoardCount(HashMap<String, Object> hmap);
+
+	ArrayList<Attachment> selectListBoardAtt(int bno);
 
 
 }

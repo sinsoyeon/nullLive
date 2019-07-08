@@ -15,6 +15,7 @@ import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.board.model.vo.PageInfo;
+import com.kh.nullLive.common.attachment.model.exception.AttachmentInsertException;
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.dao.MemberDao;
@@ -72,14 +73,49 @@ public class JobBoardServiceImpl implements JobBoardService{
 
 	/**
 	 * @author : uukk
+	 * @throws AttachmentInsertException 
+	 * @throws JobBoardInsertException 
 	 * @date : 2019. 7. 6.
 	 * @comment : 구인구직 공지사항 작성
 	 */
 	@Override
-	public void insertJobNotice(Board board,Attachment att) {
+	public void insertJobNotice(Board board,ArrayList<Attachment> attList) throws AttachmentInsertException, JobBoardInsertException {
 		int result = 0;
+		HashMap<String,Object> attHmap = new HashMap<>();
+		int boardResult = jbd.insertJobNotice(sqlSession, board);
+		if(boardResult<=0) {
+			throw new JobBoardInsertException("구인구직 공지사항 작성 실패");
+		}
 		
-		//return jbd.insertJobNotice(sqlSession,board);
+		attHmap.put("board", board);
+		//첨부파일이 있는 경우
+		if(attList.size() != 0) {
+			
+			attHmap.put("attList", attList);
+			
+			//Attachment 입력
+			int attResult = jbd.insertJobNoticeAttList(sqlSession,attHmap);
+			//작성 bno currval조회
+			int bno = jbd.selectCurrval(sqlSession); 
+			
+			HashMap<String,Object> attmHmap = new HashMap<>();
+			
+			//작성 attachment currval조회
+			ArrayList<Integer> attnoList = jbd.getAttnoList(sqlSession,attList.size());
+			
+			//attManager 작성을 위한 parameter값
+			attmHmap.put("bno", bno);
+			attmHmap.put("attnoList", attnoList);
+			
+			//attManager 입력
+			int attmResult = jbd.insertJobNoticeAttMng(sqlSession,attmHmap);
+			
+			//리턴값이 size와 동일하지 않을시 예외처리
+			if(attmResult != attList.size() ||
+			   attResult != attList.size()) {
+				throw new AttachmentInsertException("첨부파일 입력 에러");
+			}
+		}
 	}
 
 	@Override
@@ -283,6 +319,16 @@ public class JobBoardServiceImpl implements JobBoardService{
 	@Override
 	public int getJobMyJobBoardCount(HashMap<String, Object> hmap) {
 		return jbd.getJobMyJobBoardCount(sqlSession,hmap);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 8.
+	 * @comment : 게시판 첨부파일 조회
+	 */
+	@Override
+	public ArrayList<Attachment> selectListBoardAtt(int bno) {
+		return jbd.selectListBoardAtt(sqlSession,bno);
 	}
 
 
