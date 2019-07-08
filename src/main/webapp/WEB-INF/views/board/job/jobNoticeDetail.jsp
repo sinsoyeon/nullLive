@@ -64,17 +64,38 @@
 		
 		<div>
 			<label>첨부파일</label>
+			<br>
+			<c:forEach var="row" items="${attList}">
+				<input type="hidden" id="attno" value="${row.attno }">
+				<a href="#this" name="file">${row.originName }</a><br>
+			</c:forEach>
 		</div>
-		
+
+
+
 		
 		<!-- 하단 버튼영역 -->
 		<div align="center">
 			<c:if test="${ loginUser.isAdmin eq 'Y' }">
 				<button onclick="location.href='#'">수정하기</button>
 			</c:if>
-			<button onclick="location.href='paging.pg'">목록으로</button>
+			<button onclick="location.href='jobNoticeList.jbo'">목록으로</button>
 		</div>
 	</div>
+	<script>
+		$("a[name='file']").on("click", function(e){
+			//파일 이름
+			e.preventDefault(); 
+			fn_downloadFile($(this));
+		});
+
+		function fn_downloadFile(obj){
+			var attno = obj.parent().find("#attno").val();
+			console.log(attno);
+			location.href="jobBoardDownloadFile.jbo?attno="+attno;
+		}
+
+	</script>
 	
 	
 </body>

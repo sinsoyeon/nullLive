@@ -45,12 +45,28 @@ public class AttchmentUtil {
             	originFileName = multipartFile.getOriginalFilename();
                
                 ext = originFileName.substring(originFileName.lastIndexOf("."));
+                
+
+                
+                
+                
                 changeFileName = FileUtil.getSaveFileNm(originFileName);
                
                 file = new File(filePath + "\\" +changeFileName+ext);
                 multipartFile.transferTo(file);
                  
                 att = new Attachment();
+                
+                //이미지 확장자에 따라 attDiv 구분
+                switch(ext.toLowerCase()){
+	            	//확장자가 이미지 인경우
+	            	case ".jpg" : case ".png" : case ".gif" : case  "jpeg" : case ".bmp" :
+	            		att.setAttDiv("이미지"); break;
+	            	//동영상인 경우
+	            	case ".avi" : case ".mp4" : case ".mov" : 
+	            		att.setAttDiv("동영상"); break;
+	            	default : att.setAttDiv("기타");
+                }
                 
                 att.setOriginName(originFileName);
                 att.setChangeName(changeFileName+ext);
