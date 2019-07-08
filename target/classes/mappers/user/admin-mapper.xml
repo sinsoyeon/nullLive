@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="Admin">
+ <!-- 환전 resultMap -->
+	<resultMap type="Exchange" id="ExchangeResultSet">
+		<id property="excno" column="EXCNO"/>
+		<result property="nickName" column="NICK_NAME"/>
+		<result property="name" column="NAME"/>
+		<result property="excAmount" column="EXC_AMOUNT"/>
+		<result property="applicationDate" column="APPLICATION_DATE"/>
+		<result property="excStatus" column="EXC_STATUS"/>
+		<result property="approvalDate" column="APPROVAL_DATE"/>
+	</resultMap>
+	
+	<!-- 1:1문의 resultMap  -->
+	<resultMap type="Question" id="QuestionResultSet">
+		<id property="bno" column="BNO"/>
+		<result property="questionType" column="QUESTION_TYPE"/>
+		<result property="name" column="NAME"/>
+		<result property="bTitle" column="BTITLE"/>
+		<result property="bContent" column="BCONTENT"/>
+		<result property="wDate" column="WRITTEN_DATE"/>
+		<result property="bStatus" column="B_STATUS"/>
+		<result property="answer" column="ANSWER"/>
+	</resultMap>
+	
+	<!-- 회원정보 상세 resultMap -->
+	<resultMap type="UserDetail" id="UserDetailResultSet">
+		<id property="mno" column="MNO"/>
+		<result property="mid" column="MID"/>
+		<result property="name" column="NAME"/>
+		<result property="nickName" column="NICK_NAME"/>
+		<result property="enrollDate" column="ENROLL_DATE"/>
+		<result property="memStatus" column="M_STATUS"/>
+		<result property="broadAddress" column="broad_address"/>
+		<result property="report" column="REPORT"/>
+		<result property="broCount" column="BROCOUNT"/>
+		<result property="endDay" column="END_DAY"/>
+		<result property="banDay" column="BAN_DAY"/>
+	</resultMap>
+	
+	<!-- 신고 관련 관리자 resultSet  -->
+	<resultMap type="Report" id="ReportResultSet">
+		<id property="bno" column="BNO"/>
+		<result property="bTitle" column="BTITLE"/>
+		<result property="bContent" column="BCONTENT"/>
+		<result property="writtenDate" column="WRITTEN_DATE"/>
+		<result property="reportType" column="REPORT_TYPE"/>
+		<result property="status" column="B_STATUS"/>
+		<result property="writer" column="WRITER"/>
+		<result property="target" column="TARGET"/>
+		<result property="banNum" column="BCOUNT"/>
+	</resultMap>
+	
+	<resultMap type="Ban" id="BanResultSet">
+		<id property="bano" column="BANO"/>
+		<result property="banDate" column="BAN_DATE"/>
+		<result property="endDate" column="BAN_END"/>
+		<result property="baStatus" column="BA_STATUS"/>
+		<result property="mno" column="MNO"/>
+	</resultMap>
+	
+	
+	<!-- 환전 내역 조회 -->
+	<select id="selectExchange" resultMap="ExchangeResultSet">
+		SELECT e.excno ,m.nick_name, m.name, TO_CHAR(e.EXC_AMOUNT, '9,999,999') EXC_AMOUNT, e.application_date, e.exc_status, e.approval_date
+		FROM EXCHANGE E
+		JOIN MEMBER M USING(MNO)
+		ORDER BY 1 DESC
+	</select>
+	
+	<!-- 문의 내역 조회 -->
+	<select id="selectQuestion" resultMap="QuestionResultSet">
+		SELECT 	B.BNO, B.QUESTION_TYPE, M.NAME, B.BTITLE, B.WRITTEN_DATE, B.B_STATUS
+		FROM BOARD B
+		JOIN MEMBER M ON(B.BWRITER = M.MNO)
+		WHERE BTYPE LIKE 'QUESTION'
+		AND B.REF_BNO IS NULL
+		ORDER BY 6 DESC ,1 DESC
+	</select>
+	
+	<!-- 문의 상세보기  -->
+	<select id="selectQuestionDetail" parameterType="_int" resultMap="QuestionResultSet">
+		<if test="BStatus == 3">
+		SELECT 	B.BNO, B.QUESTION_TYPE,B.BCONTENT, M.NAME, B.BTITLE, B.WRITTEN_DATE, B.B_STATUS ,BB.BCONTENT ANSWER
+		FROM BOARD B
+		JOIN MEMBER M ON(B.BWRITER = M.MNO)
+		JOIN BOARD BB ON(B.BNO = BB.REF_BNO)
+		WHERE B.BTYPE LIKE 'QUESTION'
+		AND B.BNO = #{bno}
+		</if>
+		<if test="BStatus == 4">
+		SELECT 	B.BNO, B.QUESTION_TYPE,B.BCONTENT, M.NAME, B.BTITLE, B.WRITTEN_DATE, B.B_STATUS
+		FROM BOARD B
+		JOIN MEMBER M ON(B.BWRITER = M.MNO)
+		WHERE B.BTYPE LIKE 'QUESTION'
+		AND B.BNO = #{bno}
+		</if>
+	</select>
+	
+	<!-- 1:1문의 답변  -->
+	<update id="updateBStatus" parameterType="Question">
+		UPDATE BOARD
+		SET B_STATUS = 3
+		WHERE BNO = #{bno}
+	</update>
+	<insert id="insetAnswer" parameterType="Question">
+		INSERT INTO BOARD(BNO, BTITLE, BCONTENT, WRITTEN_DATE, BCOUNT, BTYPE, QUESTION_TYPE, REF_BNO, BWRITER, B_STATUS)
+		VALUES(SEQ_BNO.NEXTVAL, #{BTitle}, #{BContent}, SYSDATE, DEFAULT, 'QUESTION', #{questionType}, #{bno}, 999, 7 )
+	</insert>
+	
+	<!-- 회원 상세보기 -->
+	<select id="selectUserDetail" resultMap="UserDetailResultSet" parameterType="com.kh.nullLive.admin.model.vo.UserDetail">
+	<if test='memStatus == "Y"'>
+	SELECT M.MNO, M.MID,M.NAME, M.NICK_NAME, TO_CHAR(M.ENROLL_DATE, 'YYYY/MM/DD') ENROLL_DATE, M.M_STATUS, 
+			bc.broad_address, RCOU.REPORT, BCOU.BROCOUNT
+	</if>
+	<if test='memStatus != "Y"'>
+	SELECT M.MNO, M.MID,M.NAME, M.NICK_NAME, TO_CHAR(M.ENROLL_DATE, 'YYYY/MM/DD') ENROLL_DATE, M.M_STATUS, 
+			bc.broad_address, RCOU.REPORT, BCOU.BROCOUNT, TO_NUMBER(BA.BAN_END-BA.BAN_DATE) BAN_DAY, ROUND(TO_NUMBER(BA.BAN_END-SYSDATE)) END_DAY
+	</if>
+	FROM MEMBER M
+	JOIN BROAD_CENTER BC ON(M.MNO = BC.MNO)
+	LEFT JOIN (SELECT MM.MNO ,COUNT(*) REPORT
+	        FROM MEMBER MM
+	        JOIN BOARD B ON(MM.MNO = B.REPORT_MNO)
+	        GROUP BY MM.MNO) RCOU ON(M.MNO = RCOU.MNO)
+	LEFT JOIN (SELECT MMM.MID , COUNT(*) BROCOUNT
+	            FROM BROAD_CENTER BRC
+	            JOIN BROAD_HIS BH ON(BRC.BCNO = BH.BCNO)
+	            JOIN MEMBER MMM ON(MMM.MNO = BRC.MNO)
+	            GROUP BY MMM.MID) BCOU ON(M.MID = BCOU.MID)
+	<if test='memStatus != "Y"'>
+	LEFT JOIN BAN BA ON(M.MNO = BA.MNO)
+	</if>
+	WHERE M.MID LIKE #{mid}
+	<if test='memStatus != "Y"'>
+	AND BA.BA_STATUS LIKE 'Y'
+	</if>
+	</select>
+	
+	<!-- 회원 상태 변경 -->
+	<update id="userStatusUpdate" parameterType="com.kh.nullLive.member.model.vo.Member">
+		UPDATE MEMBER
+		<choose>
+			<when test='mstatus eq "N".toString()'>
+				SET M_STATUS = 'N'
+			</when>
+			<when test='mstatus eq "Y".toString()'>
+				SET M_STATUS = 'Y'
+			</when>
+			<otherwise>
+				SET M_STATUS = 'B'
+			</otherwise>
+		</choose>
+		WHERE MNO LIKE #{mno}
+	</update>
+
+<!-- BAN 내역 수정 -->
+<update id="updateBan" parameterType="com.kh.nullLive.member.model.vo.Member">
+	UPDATE BAN
+	SET BA_STATUS = 'N'
+	WHERE MNO = #{mno}
+</update>
+
+<!-- BAN 내역 추가 -->
+<insert id="insertBan" parameterType="com.kh.nullLive.member.model.vo.Member">
+	INSERT INTO BAN 
+	<choose>
+			<when test='mstatus eq "B3".toString()'>
+				VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  SYSDATE + (INTERVAL '30' DAY), DEFAULT, #{mno})
+			</when>
+			<when test='mstatus eq "B6".toString()'>
+				VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  SYSDATE + (INTERVAL '60' DAY), DEFAULT, #{mno})
+			</when>
+			<when test='mstatus eq "B9".toString()'>
+				VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  SYSDATE + (INTERVAL '90' DAY), DEFAULT, #{mno})
+			</when>
+			<otherwise>
+				VALUES(SEQ_BANO.NEXTVAL, DEFAULT,  null, DEFAULT, #{mno})
+			</otherwise>
+		</choose>
+</insert>
+	
+	<!-- 관리자 스트리머 신고 조회용 -->
+    <select id="selectStreamerReportList" resultMap="ReportResultSet">
+    	SELECT B.BNO, B.BTITLE, B.REPORT_TYPE , M.MID WRITER  ,MM.MID TARGET  ,C.COU, B.WRITTEN_DATE, B.B_STATUS
+		FROM BOARD B
+		JOIN MEMBER M ON(B.BWRITER = M.MNO)
+		JOIN MEMBER MM ON(B.REPORT_MNO = MM.MNO)
+		JOIN (SELECT REPORT_MNO, COUNT(*)COU
+		        FROM BOARD
+		        GROUP BY REPORT_MNO) C ON(C.REPORT_MNO = B.REPORT_MNO)
+		WHERE BTYPE LIKE 'SREPORT'
+		ORDER BY 8,7 DESC
+    </select>
+    
+    <!-- 관리자 일반히원 신고 조회용 -->
+    <select id="selectMemberReportList" resultMap="ReportResultSet">
+    	SELECT B.BNO, B.BTITLE, B.REPORT_TYPE , M.MID WRITER  ,MM.MID TARGET  ,C.COU, B.WRITTEN_DATE, B.B_STATUS
+		FROM BOARD B
+		JOIN MEMBER M ON(B.BWRITER = M.MNO)
+		JOIN MEMBER MM ON(B.REPORT_MNO = MM.MNO)
+		JOIN (SELECT REPORT_MNO, COUNT(*)COU
+		        FROM BOARD
+		        GROUP BY REPORT_MNO) C ON(C.REPORT_MNO = B.REPORT_MNO)
+		WHERE BTYPE LIKE 'MREPORT'
+		ORDER BY 8,7 DESC
+    </select>
+    
+    <!-- 상세조회에 필요한 쿼리 -->
+    <select id="selectBan" parameterType="_int" resultType="java.lang.String">
+    	SELECT TO_NUMBER(BA.BAN_END-BA.BAN_DATE) BAN_DAY
+        FROM BAN BA
+        JOIN BOARD BO ON(BO.BCOUNT = BA.BANO)
+        WHERE BO.BNO = #{bno}
+    </select>
+    
+    <!-- 관리자 신고 상세 조회 -->
+    <select id="selectReportDetail" parameterType="_int" resultMap="ReportResultSet">
+    	SELECT B.BNO, B.BTITLE , B.BCONTENT , B.WRITTEN_DATE , B.REPORT_TYPE, B.B_STATUS,  M.MID WRITER  ,MM.MID TARGET ,B.BCOUNT, MM.MNO
+		FROM BOARD B
+		JOIN MEMBER M ON(B.BWRITER = M.MNO)
+		JOIN MEMBER MM ON(B.REPORT_MNO = MM.MNO)
+		WHERE B.BNO = #{bno}
+    </select>
+    
+    <!-- 신고 프로세스 -->
+    <select id="selectBano" parameterType="_int" resultType="_int">
+    	SELECT BANO
+    	FROM BAN
+    	WHERE MNO = #{mno}
+    	AND BA_STATUS LIKE 'Y'
+    </select>
+    
+    <update id="updateReport" parameterType="com.kh.nullLive.admin.model.vo.Report">
+    	UPDATE BOARD
+    	SET BCOUNT = #{cou},
+    	B_STATUS = 6
+    	WHERE BNO = #{bno}
+    </update>
+    
+    <!-- 환전 처리 (소연) -->
+    <update id="exchangeProcess" parameterType="_int">
+    	UPDATE EXCHANGE
+    	SET EXC_STATUS = 'Y'
+    	WHERE EXCNO = #{excno}
+    </update>
+    
+    <!-- 다중 환전 처리 -->
+    <update id="allExchangeProcess" parameterType="_int">
+    	UPDATE EXCHANGE
+    	SET EXC_STATUS = 'Y'
+    	WHERE EXCNO = #{excno}    	
+    </update>
+	
+</mapper>

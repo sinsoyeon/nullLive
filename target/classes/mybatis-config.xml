@@ -16,6 +16,7 @@
 		<typeAlias alias="Exchange" type="com.kh.nullLive.admin.model.vo.Exchange" />
 		<typeAlias alias="Question" type="com.kh.nullLive.admin.model.vo.Question" />
 		<typeAlias alias="UserDetail" type="com.kh.nullLive.admin.model.vo.UserDetail" />
+		<typeAlias alias="Ban" type="com.kh.nullLive.admin.model.vo.Ban" />
     
 		<!-- 페이징 모듈화 테스트중 -->
 		<typeAlias alias="PagingVo" type="com.kh.nullLive.common.paging.model.vo.PagingVo" />
@@ -27,6 +28,9 @@
 		
 		<!-- 방송국 -->
 		<typeAlias alias="BroadCenter" type="com.kh.nullLive.broadCenter.model.vo.BroadCenter"/>
+		
+		<!-- 스트리밍 -->
+		<typeAlias alias="BroadHis" type="com.kh.nullLive.streaming.model.vo.BroadHis"/>
 	
 	</typeAliases>
 	

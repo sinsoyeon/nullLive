@@ -35,8 +35,8 @@ var connection = new RTCMultiConnection();
 // by default, socket.io server is assumed to be deployed on your own URL
 
 // comment-out below line if you do not have your own socket.io server
-// connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
-connection.socketURL = 'http://localhost:9002/';
+connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+//connection.socketURL = 'http://192.168.130.30:9002/';
 
 // type of broadCast
 connection.socketMessageEvent = 'video-broadcast-demo';

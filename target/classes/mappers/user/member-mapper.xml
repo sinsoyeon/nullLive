@@ -29,10 +29,30 @@
 		<result property="adult" column="ADULT"/>
 	</resultMap>
 	
+	<resultMap type="Attachment" id="AttachmentResultSet">
+		<id property="attno" column="ATTNO"/>
+		<result property="uploadDate" column="UPLOAD_DATE"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="modifyDate" column="MODIFY_DATE"/>
+		<result property="download" column="DOWNLOAD"/>
+		<result property="originName" column="ORIGIN_NAME"/>
+		<result property="changeName" column="CHANGE_NAME"/>
+		<result property="attDiv" column="ATT_DIV"/>
+		<result property="attStatus" column="ATT_STATUS"/>
+	</resultMap>
+
+	
 	<select id="selectMember" resultMap="memberResultSet" parameterType="Member">
 		SELECT *
 		FROM MEMBER
 		WHERE MID = #{mid}
+		AND M_STATUS = 'Y'
+	</select>
+	<!-- mno로 맴버 조회 -->
+	<select id="selectMemberMno" resultMap="memberResultSet" parameterType="_int">
+		SELECT *
+		FROM MEMBER
+		WHERE MNO = #{mno}
 		AND M_STATUS = 'Y'
 	</select>
 	
@@ -50,4 +70,133 @@
 		VALUES (SEQ_MNO.NEXTVAL,#{mid},#{mpwd},#{email},DEFAULT,#{phone},#{agency},#{name},#{name},
 		#{gender},SYSDATE,0,DEFAULT,0,0,DEFAULT,SYSDATE,DEFAULT,#{birthday},DEFAULT)
 	</insert>
+	
+	<select id="selectMno" resultType="_int">
+		SELECT SEQ_MNO.CURRVAL FROM DUAL
+	</select>
+	
+	<update id="updateMember" parameterType="Member">
+		UPDATE MEMBER SET
+		EMAIL=#{email},
+		NICK_NAME=#{nickName}
+		WHERE MID=#{mid}
+	</update>
+	
+	<update id="updatePwd" parameterType="Member">
+		UPDATE MEMBER SET
+		MPWD=#{mpwd},
+		PWD_MODIFY_DATE=SYSDATE
+		WHERE MID=#{mid}
+	</update>
+	
+	<insert id="insertProImageDefault" parameterType="Attachment">
+		INSERT INTO ATTACHMENT(ATTNO,UPLOAD_DATE,FILE_PATH,MODIFY_DATE,DOWNLOAD,
+							ORIGIN_NAME,CHANGE_NAME,ATT_DIV,ATT_STATUS)
+		VALUES (SEQ_ATTNO.NEXTVAL,SYSDATE,#{filePath},SYSDATE,DEFAULT,
+				#{originName},#{changeName},'이미지',DEFAULT)
+	</insert>
+	
+	<select id="selectAttno" resultType="_int">
+		SELECT SEQ_ATTNO.CURRVAL FROM DUAL
+	</select>
+	
+	<insert id="insertProImageManage" parameterType="java.util.HashMap">
+		INSERT INTO ATT_MANAGE(USAGE,AMNO,ATTNO,MNO)
+		VALUES ('프로필이미지',SEQ_AMNO.NEXTVAL,#{attno},#{mno})
+	</insert>
+	
+	<select id="selectProfile" parameterType="_int" resultMap="AttachmentResultSet">
+		SELECT *
+		FROM ATTACHMENT A
+		JOIN ATT_MANAGE M USING(ATTNO)
+		WHERE ATT_STATUS='Y'
+		AND MNO=#{mno}
+	</select>
+	
+	<select id="selectProfileNo" parameterType="Member" resultType="_int">
+		SELECT ATTNO
+		FROM ATTACHMENT
+		JOIN ATT_MANAGE M USING(ATTNO)
+		WHERE ATT_STATUS='Y'
+		AND MNO=#{mno}
+	</select>
+	
+	<update id="updatePreProImage" parameterType="_int">
+		UPDATE ATTACHMENT SET
+		ATT_STATUS='N'
+		WHERE ATTNO=#{attno}
+	</update>
+	
+	<insert id="insertProImage" parameterType="Attachment">
+		INSERT INTO ATTACHMENT(ATTNO,UPLOAD_DATE,FILE_PATH,MODIFY_DATE,DOWNLOAD,
+							ORIGIN_NAME,CHANGE_NAME,ATT_DIV,ATT_STATUS)
+		VALUES (SEQ_ATTNO.NEXTVAL,SYSDATE,#{filePath},SYSDATE,DEFAULT,
+				#{originName},#{changeName},'이미지',DEFAULT)
+	</insert>
+	
+	<update id="updateProImageManage" parameterType="java.util.HashMap">
+		UPDATE ATT_MANAGE SET
+		ATTNO=#{attno}
+		WHERE MNO=#{mno}
+	</update>
+	
+	<select id="duplicateTest" parameterType="java.lang.String" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MID=#{mid}
+		AND M_STATUS='Y'
+	</select>
+	
+	<!-- 관리자 조회용  -->
+	<select id="memberSelect"  resultMap="memberResultSet">
+		SELECT *
+ 		FROM(SELECT ROWNUM RNUM, P.*
+	        	FROM(SELECT *
+					FROM MEMBER
+					WHERE MID != 'admin'
+					ORDER BY 1 DESC) P)
+  		WHERE RNUM BETWEEN #{start} AND #{last}
+	</select>
+	
+	<select id="totalMemberSelect"  resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MID != 'admin'
+	</select>
+	
+	
+	<select id="firstLoginCheck" parameterType="java.lang.String" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MID=#{id}
+		AND M_STATUS='Y'
+	</select>
+	
+	<select id="selectKakaoPwd" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT MPWD
+		FROM MEMBER
+		WHERE MID = #{userId}
+		AND M_STATUS = 'Y'
+	</select>
+	
+	<select id="selectKakaoMember" parameterType="java.lang.String" resultMap="memberResultSet">
+		SELECT *
+		FROM MEMBER
+		WHERE MID = #{userId}
+		AND M_STATUS = 'Y'
+	</select>
+   
+	<!-- 회원가입 방송국 개설 -->
+	<insert id="insertBroadCenter" parameterType="Member">
+		INSERT INTO BROAD_CENTER(BCNO,BROAD_ADDRESS,MNO)
+		VALUES(SEQ_BCNO.NEXTVAL,#{mid},#{mno})
+	</insert>
+	
+	<select id="existBankAccount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM BANK_ACCOUNT
+		WHERE MNO=#{mno}
+		AND BANK_STATUS='Y'
+	</select>
+		
 </mapper>
