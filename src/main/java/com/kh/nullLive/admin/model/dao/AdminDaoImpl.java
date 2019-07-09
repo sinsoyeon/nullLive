@@ -76,8 +76,17 @@ public class AdminDaoImpl implements AdminDao{
 	 * @comment :스트리머 신고 리스트
 	 */
 	@Override
-	public ArrayList<Report> streamerReportList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("Admin.selectStreamerReportList");
+	public ArrayList<Report> streamerReportList(SqlSessionTemplate sqlSession, PagingVo paging) {
+		return (ArrayList)sqlSession.selectList("Admin.selectStreamerReportList",paging);
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 9.
+	 * @comment :스트리머 신고글 총 수
+	 */
+	@Override
+	public int totalStreamerReport(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Admin.totalStreamerReport");
 	}
 	
 	/**
@@ -86,8 +95,18 @@ public class AdminDaoImpl implements AdminDao{
 	 * @comment :스트리머 신고 리스트
 	 */
 	@Override
-	public ArrayList<Report> memberReportList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("Admin.selectMemberReportList");
+	public ArrayList<Report> memberReportList(SqlSessionTemplate sqlSession, PagingVo paging) {
+		return (ArrayList)sqlSession.selectList("Admin.selectMemberReportList",paging);
+	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 9.
+	 * @comment :일반회원 신고글 총 수
+	 */
+	@Override
+	public int totalMemberReport(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Admin.totalMemberReport");
 	}
 	
 	/**
@@ -105,8 +124,8 @@ public class AdminDaoImpl implements AdminDao{
 	 * @comment :문의 리스트
 	 */
 	@Override
-	public ArrayList<Question> questionList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("Admin.selectQuestion");
+	public ArrayList<Question> questionList(SqlSessionTemplate sqlSession,PagingVo paging) {
+		return (ArrayList)sqlSession.selectList("Admin.selectQuestion",paging);
 	}
 	
 	/**
@@ -166,8 +185,8 @@ public class AdminDaoImpl implements AdminDao{
 	 * @comment :FAQ 목록 조회
 	 */
 	@Override
-	public ArrayList<Board> FAQList(SqlSessionTemplate sqlSession) {
-		return  (ArrayList)sqlSession.selectList("Board.selectFAQList");
+	public ArrayList<Board> FAQList(SqlSessionTemplate sqlSession,PagingVo paging) {
+		return  (ArrayList)sqlSession.selectList("Board.selectFAQList",paging);
 	}
 	/**
 	 * @author INHYO
@@ -212,8 +231,8 @@ public class AdminDaoImpl implements AdminDao{
 	 * @comment :공지사항 목록 조회
 	 */
 	@Override
-	public ArrayList<Board> noticeList(SqlSessionTemplate sqlSession) {
-		return  (ArrayList)sqlSession.selectList("Board.selectNoticeList");
+	public ArrayList<Board> noticeList(SqlSessionTemplate sqlSession, PagingVo paging) {
+		return  (ArrayList)sqlSession.selectList("Board.selectNoticeList", paging);
 	}
 	
 	/**
@@ -253,5 +272,18 @@ public class AdminDaoImpl implements AdminDao{
 	public int insertReportBan(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.insert("Admin.insertReportBan", m);
 	}
+	@Override
+	public int totalQuestionSelect(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Admin.totalQuestionSelect");
+	}
+	@Override
+	public int totalFAQSelect(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Board.totalFAQSelect");
+	}
+	@Override
+	public int totalNoticeSelect(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Board.totalNoticeSelect");
+	}
+	
 	
 }

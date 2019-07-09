@@ -21,16 +21,25 @@ public interface AdminService {
 	int totalMemberSelect();
 
 	// 스트리머 신고목록
-	ArrayList<Report> streamerReportList();
+	ArrayList<Report> streamerReportList(PagingVo paging);
+
+	// 스트리머 글 수 조회(페이징)
+	int totalStreamerReport();
 
 	// 일반회원 신고목록
-	ArrayList<Report> memberReportList();
+	ArrayList<Report> memberReportList(PagingVo paging);
+
+	// 일반회원 신고 수 조회
+	int totalMemberReport();
 
 	// 환전 신청 목록
 	ArrayList<Exchange> exchangeList();
 
 	// 1:1문의 목록
-	ArrayList<Question> questionList();
+	ArrayList<Question> questionList(PagingVo paging);
+
+	// 문의게시판 총 글 수
+	int totalQuestionSelect();
 
 	// 회원 상세보기
 	UserDetail userDetail(UserDetail userDetail);
@@ -54,10 +63,16 @@ public interface AdminService {
 	int allExchange(List<String> allExcList);
 
 	// FAQ 목록
-	ArrayList<Board> FAQList();
+	ArrayList<Board> FAQList(PagingVo paging);
+
+	// FAQ 총 글 수
+	int totalFAQSelect();
 
 	// 공지사항 목록
-	ArrayList<Board> noticeList();
+	ArrayList<Board> noticeList(PagingVo paging);
+
+	// 공지사항 총 글 수
+	int totalNoticeSelect();
 
 	// FAQ/공지사항 상세보기
 	Board detail(int bno);

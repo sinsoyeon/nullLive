@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script type="text/javascript" src="resources/js/paging/paging.js"></script>
 <title>NullLive</title>
 <style>
 tr>th {
@@ -38,6 +39,11 @@ tr>th {
 	background: white;
 	color: black;
 }
+.btn.btn-success{
+	padding-top: 2px;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
 </style>
 </head>
 <body>
@@ -48,7 +54,19 @@ tr>th {
 	<div class="col-sm-1"></div>
 	<div class="col-sm-10">
 		<div align="right" style="margin-bottom: 5px;">
-			<input type="text"> <button>검색</button>
+			<div class="listSelectArea" style="display: inline-block;">
+					<select id="listChange" class="form-controll" onchange='listChange();'>
+						<option contenteditable="true">목록갯수</option>
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+					</select>
+				</div>
+				<div style="display: inline-block;">
+					<input type="text">
+					<button class="btn btn-success">검색</button>
+				</div>
 		</div>
 		<div>
 			<table class="table table-hover table-hover"  style="text-align: center; ">
@@ -77,14 +95,33 @@ tr>th {
 	<div class="col-sm-1"></div>
 	</div>
 	<div align="center">
-		<button><</button>
-		<button>1</button>
-		<button>2</button>
-		<button>3</button>
-		<button>4</button>
-		<button>5</button>
-		<button>></button>
+		<ul class="pagination">
+
+			<!--맨 첫페이지 이동 -->
+			<li><a onclick='pagePre(${pi.pageCnt+1},${pi.pageCnt});'>«</a></li>
+			<!--이전 페이지 이동 -->
+			<li><a onclick='pagePre(${pi.pageStartNum},${pi.pageCnt});'>‹</a></li>
+
+			<!--페이지번호 -->
+			<c:forEach var='i' begin="${pi.pageStartNum}" end="${pi.pageLastNum}" step="1">
+				<li class='pageIndex${i}'><a onclick='pageIndex(${i});'>${i}</a></li>
+			</c:forEach>
+
+			<!--다음 페이지 이동 -->
+			<li><a
+				onclick='pageNext(${pi.pageStartNum},${pi.total},${pi.listCnt},${pi.pageCnt});'>›</a></li>
+			<!--마지막 페이지 이동 -->
+			<li><a
+				onclick='pageLast(${pi.pageStartNum},${pi.total},${pi.listCnt},${pi.pageCnt});'>»</a></li>
+
+		</ul>
 	</div>
+	<form action="noticeList.ad" method="get" id='frmPaging'>
+	      <!--출력할 페이지번호, 출력할 페이지 시작 번호, 출력할 리스트 갯수 -->
+	      <input type='hidden' name='index' id='index' value='${pi.index}'>
+	      <input type='hidden' name='pageStartNum' id='pageStartNum' value='${pi.pageStartNum}'>
+	      <input type='hidden' name='listCnt' id='selected' value='${pi.listCnt}'>    
+	</form>
 	<div id="writeBtn" onclick="location.href='noticeWrite.ad'">
 		<b>글작성</b>
 	</div>

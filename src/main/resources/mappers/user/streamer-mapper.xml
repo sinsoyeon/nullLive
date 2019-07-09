@@ -18,6 +18,15 @@
 		<result property="nickName" column="NICK_NAME" />
 	</resultMap>
 	
+	<!-- Streamer Vo Result Map2(병욱) -->
+   <resultMap type="Streamer" id="streamerResultSet2">
+      <id property="sno" column="SNO" />
+      <result property="mno" column="MNO" />
+      <result property="bstart_date" column="BSTART_DATE" />
+      <result property="cumulative_selection" column="CUMULATIVE_SELECTION" ></result>
+      <result property="is_auth" column="IS_AUTH" />
+   </resultMap>
+	
 
 	<!-- 스트리머 아이디 검색 후 SNO 반환 (소연) -->
 	<select id="selectStreamer" resultType="java.util.HashMap"
@@ -356,6 +365,15 @@
 	<update id="mutipleDeleteBlack" parameterType="java.util.HashMap">
 		UPDATE BLACKLIST SET BL_STATUS = 'N' WHERE SNO = #{mno} AND BLNO = #{blno}
 	</update>
+	
+	   <!-- mno로 스트리머 정보 조회.....병욱.... -->
+   <select id="selectStreamerMno" parameterType="_int" resultMap="streamerResultSet2">
+      
+      SELECT * 
+      FROM 
+      STREAMER WHERE MNO = #{mno}
+      
+   </select>
 	
 
 </mapper>

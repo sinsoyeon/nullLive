@@ -79,7 +79,7 @@ td {
 	padding-left: 7%;
 }
 
-img {
+#profileImg {
 	/* max-width: 100%;
 height: auto; */
 	object-fit: cover;
@@ -96,6 +96,11 @@ height: auto; */
 .row.userContent>div:nth-child(3) {
 	text-align: left;
 }
+.btn.btn-success{
+	padding-top: 2px;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
 </style>
 </head>
 <body>
@@ -107,8 +112,7 @@ height: auto; */
 	<div class="col-sm-10">
 			<div align="right" style="margin-bottom: 5px;">
 				<div class="listSelectArea" style="display: inline-block;">
-					<select id="listChange" class="form-controll"
-						onchange='listChange();'>
+					<select id="listChange" class="form-controll" onchange='listChange();'>
 						<option contenteditable="true">목록갯수</option>
 						<option value="5">5</option>
 						<option value="10">10</option>
@@ -118,7 +122,7 @@ height: auto; */
 				</div>
 				<div style="display: inline-block;">
 					<input type="text">
-					<button>검색</button>
+					<button class="btn btn-success">검색</button>
 				</div>
 				
 			</div>
@@ -133,7 +137,7 @@ height: auto; */
 							style="padding-left: 0px; padding-right: 0px; padding-bottom: 0px; padding-top: 0px;"></span>
 					</div>
 					<div class="row userContent">
-						<div class="col-sm-4"><img src="resources/image/bbashong.png"></div>
+						<div class="col-sm-4"><img src="resources/image/bbashong.png" id='profileImg'></div>
 						<div class="col-sm-3"><br>
 							<p>아이디 :</p>
 							<p>이름 :</p>
@@ -316,7 +320,7 @@ var ban
 				alert("취소되었습니다.");
 			}
 		}
-};
+}
 	
 </script>
 </html>

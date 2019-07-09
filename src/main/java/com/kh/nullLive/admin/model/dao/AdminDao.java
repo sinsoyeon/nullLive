@@ -18,17 +18,26 @@ public interface AdminDao {
 	// 회원 목록
 	ArrayList<Member> memberList(SqlSessionTemplate sqlSession, PagingVo paging);
 
+	// 총 회원수 조회(페이징)
+	int totalMemberSelect(SqlSessionTemplate sqlSession);
+	
 	// 스트리머 신고 목록
-	ArrayList<Report> streamerReportList(SqlSessionTemplate sqlSession);
+	ArrayList<Report> streamerReportList(SqlSessionTemplate sqlSession, PagingVo paging);
+	
+	// 스트리머 신고 글 수 조회
+	int totalStreamerReport(SqlSessionTemplate sqlSession);
 
 	// 일반회원 신고목록
-	ArrayList<Report> memberReportList(SqlSessionTemplate sqlSession);
+	ArrayList<Report> memberReportList(SqlSessionTemplate sqlSession, PagingVo paging);
+	
+	// 일반회원 신고 글 수 조회
+	int totalMemberReport(SqlSessionTemplate sqlSession);
 
 	// 환전신청 목록
 	ArrayList<Exchange> exchangeList(SqlSessionTemplate sqlSession);
 
 	// 문의 목록
-	ArrayList<Question> questionList(SqlSessionTemplate sqlSession);
+	ArrayList<Question> questionList(SqlSessionTemplate sqlSession, PagingVo paging);
 	
 	// 회원 상세보기
 	UserDetail userDetail(SqlSessionTemplate sqlSession, UserDetail ud);
@@ -36,8 +45,6 @@ public interface AdminDao {
 	// 회원 상태 변경
 	int userStatusUpdate(SqlSessionTemplate sqlSession, Member m);
 
-	// 총 회원수 조회(페이징)
-	int totalMemberSelect(SqlSessionTemplate sqlSession);
 
 	// 신고 상세보기
 	Report reportDetail(SqlSessionTemplate sqlSession, int bno);
@@ -64,10 +71,10 @@ public interface AdminDao {
 	int allExchange(SqlSessionTemplate sqlSession, int integer);
 
 	// FAQ 목록
-	ArrayList<Board> FAQList(SqlSessionTemplate sqlSession);
+	ArrayList<Board> FAQList(SqlSessionTemplate sqlSession, PagingVo paging);
 
 	// 공지사항 목록
-	ArrayList<Board> noticeList(SqlSessionTemplate sqlSession);
+	ArrayList<Board> noticeList(SqlSessionTemplate sqlSession, PagingVo paging);
 
 	// FAQ/공지사항 상세보기
 	Board detail(SqlSessionTemplate sqlSession, int bno);
@@ -92,5 +99,17 @@ public interface AdminDao {
 
 	// 신고관련 BAN 내역 추가
 	int insertReportBan(SqlSessionTemplate sqlSession, Member m);
+
+	// 문의 글 수 카운트
+	int totalQuestionSelect(SqlSessionTemplate sqlSession);
+
+	//FAQ 글 수 카운트
+	int totalFAQSelect(SqlSessionTemplate sqlSession);
+
+	// 공지 글 수 카운트
+	int totalNoticeSelect(SqlSessionTemplate sqlSession);
+
+	
+
 
 }

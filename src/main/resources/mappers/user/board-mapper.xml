@@ -368,10 +368,18 @@
 	
 	<!-- 관리자 FAQ 조회 -->
 	<select id="selectFAQList" resultMap="boardResultSet" >
-		SELECT BNO, QUESTION_TYPE, BTITLE, BCONTENT, WRITTEN_DATE, MODIFY_DATE, BCOUNT
-	    FROM BOARD
-	    WHERE BTYPE = 'FAQ'
-	    ORDER BY BNO DESC
+	SELECT *
+	FROM(SELECT ROWNUM RNUM, P.*
+       	FROM(SELECT BNO, QUESTION_TYPE, BTITLE, BCONTENT, WRITTEN_DATE, MODIFY_DATE, BCOUNT
+		    FROM BOARD
+		    WHERE BTYPE = 'FAQ'
+		    ORDER BY BNO DESC) P)
+	WHERE RNUM BETWEEN #{start} AND #{last}
+	</select>
+	<select id="totalFAQSelect" resultType="_int">
+	SELECT COUNT(*)
+		FROM BOARD
+		WHERE BTYPE LIKE 'FAQ'
 	</select>
 	
 	<!-- 관리자 FAQ/공지사항 상세보기 -->
@@ -404,10 +412,18 @@
 	
 	<!-- 관리자 공지사항 조회 -->
 	<select id="selectNoticeList" resultMap="boardResultSet" >
-		SELECT BNO, BTITLE, BCONTENT, WRITTEN_DATE, MODIFY_DATE, BCOUNT
+	SELECT *
+	FROM(SELECT ROWNUM RNUM, P.*
+      	FROM(SELECT BNO, BTITLE, BCONTENT, WRITTEN_DATE, MODIFY_DATE, BCOUNT
 	    FROM BOARD
 	    WHERE BTYPE = 'SNOTICE'
-	    ORDER BY BNO DESC
+	    ORDER BY BNO DESC) P)
+	WHERE RNUM BETWEEN #{start} AND #{last}
+	</select>
+	<select id="totalNoticeSelect" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD
+		WHERE BTYPE LIKE 'SNOTICE'
 	</select>
 	
 	<!-- 관리자 공지사항 작성 -->
