@@ -40,6 +40,8 @@ import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.service.MemberService;
 import com.kh.nullLive.member.model.vo.Member;
 
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpRequest;
+
 @SessionAttributes("loginUser")
 @Controller
 public class JobBoardController {
@@ -311,11 +313,37 @@ public class JobBoardController {
 	/**
 	 * @author : uukk
 	 * @date : 2019. 6. 19.
-	 * @comment : 구인구직 게시판 승낙하기(계약)
+	 * @comment : 구인구직 매니저 게시판 승낙하기(계약)
 	 */
-	public String insertContract() {
+	@RequestMapping("insertMngContract.jbo")
+	public String insertMngContract(HttpServletRequest request,Board board,JobBoard jBoard,Model model) {
+		ArrayList<Attachment> attList = null;
+		HashMap<String,Object> conBoardMap = new HashMap<>();
+		
+				
+		try {
+			attList = (ArrayList)AttchmentUtil.getAttList(request);
+			//참조하는 bno
+			int refBno = Integer.parseInt(request.getParameter("refBno"));
+			Member member = (Member)request.getSession().getAttribute("loginUser");
+			conBoardMap.put("member", member);
+			conBoardMap.put("job", jBoard.getJob());
+			conBoardMap.put("refBno", refBno);
+			
+			System.out.println(member);
+			System.out.println(board);
+			System.out.println(jBoard);
+			System.out.println(attList);
+			
+		} catch (Exception e) {
+			model.addAttribute("msg",e.getMessage());
+			return "common/errorPage";
+		}
+		
+
 		jbs.insertContract();
 		return null;
+		
 	}
 	
 	

@@ -56,6 +56,16 @@
 	.writerInfoArea{
 		height:96px;
 	}
+	.contractArea {
+		width: 100%;
+		height: 700px;
+		border: solid 1px lightgray;
+		margin-top : 20px;
+		margin-bottom: 50px;
+	}
+	#conToggle{
+		display: none;
+	}
 	
 </style>
 
@@ -66,12 +76,14 @@
 	<c:set var="jBoard" value="${ boardMap.jBoard }"/>
 	<c:set var="member" value="${ boardMap.member }"/>
 	<c:set var="streamer" value="${ boardMap.streamer }"/>
-	<h1 align="center">매니저 구인구직 게시판</h1>
-	<hr>
+	
+
 	
 	<!-- 구인구직 상세 보기 -->
 	<div class="outer">
 		<!-- 프로필 영역 -->
+		<jsp:include page="jobHeader.jsp"/>
+		<hr>
 		<div class="profileArea col-lg-3 " align="center">
 			<div class="profileImg" align="center">
 				<img alt="" src="${contextPath}/resources/uploadFiles/profile_image/${hmap.imgSource}" width="100%" height="170px">
@@ -151,7 +163,7 @@
 			<br><br>
 			<%-- 로그인된 유저이거나 작성자가 아닌경우 지원하기 버튼을 보여줌 --%>
 			<c:if test="${ !empty loginUser && loginUser.mno ne member.mno }">
-				<button class="btn btn-success btn-sm">지원하기</button>
+				<button class="btn btn-success btn-sm" onclick="fn_showContract()">지원하기</button>
 			</c:if>
 			<%-- 작성자인 경우 수정하기 버튼 활성화 --%>
 			<c:if test="${ loginUser.mno eq member.mno  }">
@@ -160,6 +172,13 @@
 			<button class="btn btn-primary btn-sm"  onclick="location.href='jobBoardList.jbo?bType=JOBMNG&url=board/job/jobMngList'">목록으로</button>
 			<br><br>
 		</div>
+			
+			
+			
+			
+			
+			
+			
 		<!-- 게시글  -->
 		<div class="contentArea col-lg-12">
 			<c:out value="${ board.BContent }" escapeXml="false"/>
@@ -173,17 +192,34 @@
 				<div>
 					<input type="hidden" class="attno" name="attno" value="${row.attno }">
 					<a href="#this" name="file">${row.originName }</a><br>
+					<gr>
 				</div>
 			</c:forEach>
 		</div>
+		
+		<!-- 지원서 폼 -->
+			<div class="contractArea col-lg-12" id="conToggle" align="center">
+				<h2>지원서 작성</h2>
+				<form action="insertMngContract.jbo" method="post" id="contractFrm" enctype="multipart/form-data">
+					<textarea name="bContent" class="col-lg-12" id="editor" required placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 400px;"></textarea>
+					<input type="hidden" value="${ board.bno }" name="refBno">
+					<input type="hidden" value="${ jBoard.job }" name="job">
+					<input type="hidden" value="${ member.mno }" name="mno">
+					<input type="hidden" value="${ streamer.sno }" name="sno">
+					
+					<h3>첨부파일</h3>
+					<jsp:include page="attachmentForm.jsp"/>
+				</form>
+				<button class="btn btn-success btn-sm" onclick="fn_Contract()">제출하기</button>
+				<!-- 첨부파일 영역 -->
+			</div>
+			
 		<!-- 지원하기 버튼 -->
 		<div class="btnArea col-lg-12" align="center">
-		<br><br>
-		
-		<%-- 로그인된 유저이거나 작성자가 아닌경우 지원하기 버튼을 보여줌 --%>
-		<c:if test="${ !empty loginUser && loginUser.mno ne member.mno}">
-			<button class="btn btn-success btn-lg">지원하기</button>
-		</c:if>
+			<%-- 로그인된 유저이거나 작성자가 아닌경우 지원하기 버튼을 보여줌 --%>
+			<c:if test="${ !empty loginUser && loginUser.mno ne member.mno}">
+				<button class="btn btn-success btn-lg" onclick="fn_showContract()">지원하기</button>
+			</c:if>
 		</div>
 		
 		<br><br><br><br><br><br>
@@ -219,6 +255,9 @@
 		</c:if>
 		<br><br><br><br>
 	</div>
+
+	
+
 	
 	<script>
 		//첨부파일
@@ -232,6 +271,15 @@
 			var attno = obj.parent().find(".attno").val();
 			console.log(attno);
 			location.href="jobBoardDownloadFile.jbo?attno="+attno;
+		}
+		
+		//계약하기
+		function fn_Contract(){
+			$("#contractFrm").submit();
+		}
+		//지원서 폼 보여주기
+		function fn_showContract(){
+			$("#conToggle").toggle('slow');
 		}
 	</script>
 </body>
