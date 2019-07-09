@@ -65,11 +65,11 @@
 	<c:set var="jBoard" value="${ boardMap.jBoard }"/>
 	<c:set var="member" value="${ boardMap.member }"/>
 	<c:set var="streamer" value="${ boardMap.streamer }"/>
-	<h1 align="center">콘텐츠제작자 구인구직 게시판</h1>
-	<hr>
 	
 	<!-- 구인구직 상세 보기 -->
 	<div class="outer">
+		<jsp:include page="jobHeader.jsp"/>
+		<hr>
 		<!-- 프로필 영역 -->
 		<div class="profileArea col-lg-3 " align="center">
 			<div class="profileImg" align="center">
@@ -154,7 +154,7 @@
 			<br><br>
 			<%-- 로그인된 유저이거나 작성자가 아닌경우 지원하기 버튼을 보여줌 --%>
 			<c:if test="${ !empty loginUser && loginUser.mno ne member.mno }">
-				<button class="btn btn-success btn-sm">지원하기</button>
+				<button class="btn btn-success btn-sm" onclick="insertMngContract.jbo">지원하기</button>
 			</c:if>
 			<%-- 작성자인 경우 수정하기 버튼 활성화 --%>
 			<c:if test="${ loginUser.mno eq member.mno  }">

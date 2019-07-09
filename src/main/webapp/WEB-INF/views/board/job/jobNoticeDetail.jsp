@@ -39,11 +39,10 @@
 </head>
 <body>
 	<jsp:include page="jobMenubar.jsp"/>
-	<h1 align="center">공지사항</h1>
-	<hr>
-	
 	<!-- 공지 상세 보기 -->
 	<div class="outer">
+		<jsp:include page="jobHeader.jsp"/>
+		<hr>
 		<!-- 제목영역 -->
 		<div>
 			<!-- 제목 -->
@@ -65,11 +64,13 @@
 		<div>
 			<label>첨부파일</label>
 			<br>
+			<br>
 
 			<c:forEach var="row" items="${attList}" >
 				<div>
 					<input type="hidden" class="attno" name="attno" value="${row.attno }">
 					<a href="#this" name="file">${row.originName }</a><br>
+					<hr>
 				</div>
 			</c:forEach>
 		</div>
