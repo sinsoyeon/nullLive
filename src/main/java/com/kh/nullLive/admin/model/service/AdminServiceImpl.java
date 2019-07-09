@@ -97,9 +97,19 @@ public class AdminServiceImpl implements AdminService {
 	 * @comment :스트리머 신고 리스트
 	 */
 	@Override
-	public ArrayList<Report> streamerReportList() {
-		ArrayList<Report> streamerReportList = ad.streamerReportList(sqlSession);
+	public ArrayList<Report> streamerReportList(PagingVo paging) {
+		ArrayList<Report> streamerReportList = ad.streamerReportList(sqlSession,paging);
 		return streamerReportList;
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 9.
+	 * @comment :스트리머 신고글  수 카운트
+	 */
+	@Override
+	public int totalStreamerReport() {
+		int totalStreamerReport = ad.totalStreamerReport(sqlSession);
+		return totalStreamerReport;
 	}
 	
 	/**
@@ -108,9 +118,19 @@ public class AdminServiceImpl implements AdminService {
 	 * @comment :일반회원 신고 리스트
 	 */
 	@Override
-	public ArrayList<Report> memberReportList() {
-		ArrayList<Report> memberReportList = ad.memberReportList(sqlSession);
+	public ArrayList<Report> memberReportList(PagingVo paging) {
+		ArrayList<Report> memberReportList = ad.memberReportList(sqlSession,paging);
 		return memberReportList;
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 9.
+	 * @comment :일반회원 신고글  수 카운트
+	 */
+	@Override
+	public int totalMemberReport() {
+		int totalMemberReport = ad.totalMemberReport(sqlSession);
+		return totalMemberReport;
 	}
 	
 	/**
@@ -130,8 +150,8 @@ public class AdminServiceImpl implements AdminService {
 	 * @comment :문의 리스트
 	 */
 	@Override
-	public ArrayList<Question> questionList() {
-		ArrayList<Question> QuestionList = ad.questionList(sqlSession);
+	public ArrayList<Question> questionList(PagingVo paging) {
+		ArrayList<Question> QuestionList = ad.questionList(sqlSession,paging);
 		return QuestionList;
 	}
 
@@ -217,8 +237,8 @@ public class AdminServiceImpl implements AdminService {
 	 * @comment :관리 목록 조회
 	 */
 	@Override
-	public ArrayList<Board> FAQList() {
-		ArrayList<Board> FAQList = ad.FAQList(sqlSession);
+	public ArrayList<Board> FAQList(PagingVo paging) {
+		ArrayList<Board> FAQList = ad.FAQList(sqlSession, paging);
 		return FAQList;
 	}
 	
@@ -270,8 +290,8 @@ public class AdminServiceImpl implements AdminService {
 	 * @comment :공지사항 목록 조회
 	 */
 	@Override
-	public ArrayList<Board> noticeList() {
-		ArrayList<Board> noticeList = ad.noticeList(sqlSession);
+	public ArrayList<Board> noticeList(PagingVo paging) {
+		ArrayList<Board> noticeList = ad.noticeList(sqlSession, paging);
 		return noticeList;
 	}
 
@@ -312,20 +332,35 @@ public class AdminServiceImpl implements AdminService {
 		
 		return result;
 	}
-
-	
-
-	
-
-
-	
-
-	
-	
-
-	
-
-
-
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 9.
+	 * @comment :문의 신고글  수 카운트
+	 */
+	@Override
+	public int totalQuestionSelect() {
+		int totalQuestionSelect = ad.totalQuestionSelect(sqlSession);
+		return totalQuestionSelect;
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 9.
+	 * @comment :FAQ 신고글  수 카운트
+	 */
+	@Override
+	public int totalFAQSelect() {
+		int totalFAQSelect = ad.totalFAQSelect(sqlSession);
+		return totalFAQSelect;
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 9.
+	 * @comment :공지사항 신고글  수 카운트
+	 */
+	@Override
+	public int totalNoticeSelect() {
+		int totalNoticeSelect = ad.totalNoticeSelect(sqlSession);
+		return totalNoticeSelect;
+	}
 
 }

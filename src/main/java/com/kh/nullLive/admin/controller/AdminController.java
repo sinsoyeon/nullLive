@@ -34,11 +34,13 @@ public class AdminController {
 	 * @comment :관리자 메인페이지 뷰 이동(정보가져오기)
 	 */
 	@RequestMapping("main.ad")
-	public String adminMain(Model model) {
+	public String adminMain(Model model ,PagingVo paging) {
+		paging.setIndex(0);
+		paging.setListCnt(5);
 		
 		ArrayList<Exchange> ExchangeList = as.exchangeList();
-		ArrayList<Report> streamerReportList = as.streamerReportList();
-		ArrayList<Question> QuestionList = as.questionList();
+		ArrayList<Report> streamerReportList = as.streamerReportList(paging);
+		ArrayList<Question> QuestionList = as.questionList(paging);
 
 		model.addAttribute("ExchangeList", ExchangeList);
 		model.addAttribute("streamerReportList", streamerReportList);
@@ -58,7 +60,6 @@ public class AdminController {
 		
 		ArrayList<Member> userList = as.memberList(paging); // 페이징된 갯수
 	    paging.setTotal(as.totalMemberSelect()); // 전부 갯수
-	    System.out.println(paging.getTotal());
 	    model.addAttribute("userList", userList);
 	    model.addAttribute("pi", paging);
 		
@@ -115,11 +116,13 @@ public class AdminController {
 	 * @comment :스트리머 신고 페이지 이동(페이징)
 	 */
 	@RequestMapping("streamerReportList.ad")
-	public String adminStreamerReportList(Model model) {
+	public String adminStreamerReportList(Model model,PagingVo paging) {
 		
-		ArrayList<Report> streamerReportList = as.streamerReportList();
+		ArrayList<Report> streamerReportList = as.streamerReportList(paging);
+		paging.setTotal(as.totalStreamerReport());
 		
 		model.addAttribute("streamerReportList", streamerReportList);
+		model.addAttribute("pi",paging);
 		
 		return "admin/streamerReport";
 	}
@@ -169,11 +172,12 @@ public class AdminController {
 	 * @comment :일반회원 신고 페이지 이동(페이징)
 	 */
 	@RequestMapping("memberReportList.ad")
-	public String adminMemberReportList(Model model) {
+	public String adminMemberReportList(Model model, PagingVo paging) {
 		
-		ArrayList<Report> memberReportList = as.memberReportList();
-		
+		ArrayList<Report> memberReportList = as.memberReportList(paging);
+		paging.setTotal(as.totalMemberReport());
 		model.addAttribute("memberReportList", memberReportList);
+		model.addAttribute("pi",paging);
 		
 		return "admin/memberReport";
 	}
@@ -273,10 +277,11 @@ public class AdminController {
 	 * @comment : 1:1문의 페이지 이동(페이징)
 	 */
 	@RequestMapping("questionList.ad")
-	public String adminQuestionList(Model model) {
+	public String adminQuestionList(Model model,PagingVo paging) {
 		
-		ArrayList<Question> QuestionList = as.questionList();
-
+		ArrayList<Question> QuestionList = as.questionList(paging);
+		paging.setTotal(as.totalQuestionSelect()); // 전부 갯수
+	    model.addAttribute("pi", paging);
 		model.addAttribute("QuestionList", QuestionList);
 		
 		return "admin/question";
@@ -333,10 +338,11 @@ public class AdminController {
 	 * @comment :FAQ 목록 조회
 	 */
 	@RequestMapping("FAQList.ad")
-	public String adminFAQList(Model model) {
+	public String adminFAQList(Model model, PagingVo paging) {
 		
-		ArrayList<Board> FAQList = as.FAQList();
-		
+		ArrayList<Board> FAQList = as.FAQList(paging);
+		paging.setTotal(as.totalFAQSelect()); // 전부 갯수
+	    model.addAttribute("pi", paging);
 		model.addAttribute("FAQList",FAQList);
 		
 		return "admin/FAQ";
@@ -437,9 +443,11 @@ public class AdminController {
 	 * @comment :공지사항 목록 조회
 	 */
 	@RequestMapping("noticeList.ad")
-	public String adminNoticeList(Model model) {
+	public String adminNoticeList(Model model, PagingVo paging) {
 		
-		ArrayList<Board> noticeList = as.noticeList();
+		ArrayList<Board> noticeList = as.noticeList(paging);
+		paging.setTotal(as.totalNoticeSelect()); // 전부 갯수
+	    model.addAttribute("pi", paging);
 		model.addAttribute("noticeList",noticeList);
 		
 		return "admin/notice";
