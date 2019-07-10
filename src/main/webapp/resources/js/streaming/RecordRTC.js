@@ -2009,11 +2009,11 @@ function isMediaRecorderCompatible() {
  * @example
  * var config = {
  *     mimeType: 'video/webm', // vp8, vp9, h264, mkv, opus/vorbis
- *     audioBitsPerSecond : 256 * 8 * 1024,
- *     videoBitsPerSecond : 256 * 8 * 1024,
- *     bitsPerSecond: 256 * 8 * 1024,  // if this is provided, skip above two
+ *     audioBitsPerSecond : 1024 * 8 * 1024,
+ *     videoBitsPerSecond : 1024 * 8 * 1024,
+ *     bitsPerSecond: 1024 * 8 * 1024,  // if this is provided, skip above two
  *     checkForInactiveTracks: true,
- *     timeSlice: 1000, // concatenate intervals based blobs
+ *     timeSlice: 500, // concatenate intervals based blobs
  *     ondataavailable: function() {} // get intervals based blobs
  * }
  * var recorder = new MediaStreamRecorder(mediaStream, config);
@@ -3595,11 +3595,11 @@ function WhammyRecorder(mediaStream, config) {
      */
     this.record = function() {
         if (!config.width) {
-            config.width = 320;
+            config.width = 1024;
         }
 
         if (!config.height) {
-            config.height = 240;
+            config.height = 768;
         }
 
         if (!config.video) {
@@ -3616,8 +3616,8 @@ function WhammyRecorder(mediaStream, config) {
             };
         }
 
-        canvas.width = config.canvas.width || 320;
-        canvas.height = config.canvas.height || 240;
+        canvas.width = config.canvas.width || 1024;
+        canvas.height = config.canvas.height || 768;
 
         context = canvas.getContext('2d');
 
@@ -4961,8 +4961,8 @@ function MultiStreamsMixer(arrayOfMediaStreams, elementClass) {
     this.disableLogs = false;
     this.frameInterval = 10;
 
-    this.width = 360;
-    this.height = 240;
+    this.width = 1024;
+    this.height = 768;
 
     // use gain node to prevent echo
     this.useGainNode = true;
@@ -5088,8 +5088,8 @@ function MultiStreamsMixer(arrayOfMediaStreams, elementClass) {
             }
             canvas.height = remaining[0].height * height;
         } else {
-            canvas.width = self.width || 360;
-            canvas.height = self.height || 240;
+            canvas.width = self.width || 1024;
+            canvas.height = self.height || 768;
         }
 
         if (fullcanvas && fullcanvas instanceof HTMLVideoElement) {
@@ -5278,8 +5278,8 @@ function MultiStreamsMixer(arrayOfMediaStreams, elementClass) {
         video.muted = true;
         video.volume = 0;
 
-        video.width = stream.width || self.width || 360;
-        video.height = stream.height || self.height || 240;
+        video.width = stream.width || self.width || 1024;
+        video.height = stream.height || self.height || 768;
 
         video.play();
 
@@ -5451,8 +5451,8 @@ function MultiStreamRecorder(arrayOfMediaStreams, options) {
         elementClass: 'multi-streams-mixer',
         mimeType: 'video/webm',
         video: {
-            width: 360,
-            height: 240
+            width: 1024,
+            height: 768
         }
     };
 
@@ -5465,11 +5465,11 @@ function MultiStreamRecorder(arrayOfMediaStreams, options) {
     }
 
     if (!options.video.width) {
-        options.video.width = 360;
+        options.video.width = 1024;
     }
 
     if (!options.video.height) {
-        options.video.height = 240;
+        options.video.height = 768;
     }
 
     /**
@@ -5485,8 +5485,8 @@ function MultiStreamRecorder(arrayOfMediaStreams, options) {
 
         if (getAllVideoTracks().length) {
             mixer.frameInterval = options.frameInterval || 10;
-            mixer.width = options.video.width || 360;
-            mixer.height = options.video.height || 240;
+            mixer.width = options.video.width || 1024;
+            mixer.height = options.video.height || 768;
             mixer.startDrawingFrames();
         }
 
@@ -5964,7 +5964,7 @@ function WebAssemblyRecorder(stream, config) {
     config.width = config.width || 640;
     config.height = config.height || 480;
     config.frameRate = config.frameRate || 30;
-    config.bitrate = config.bitrate || 1200;
+    config.bitrate = config.bitrate || 2400;
 
     function createBufferURL(buffer, type) {
         return URL.createObjectURL(new Blob([buffer], {
@@ -6030,7 +6030,7 @@ function WebAssemblyRecorder(stream, config) {
                 worker.postMessage({
                     width: config.width,
                     height: config.height,
-                    bitrate: config.bitrate || 1200,
+                    bitrate: config.bitrate || 2400,
                     timebaseDen: config.frameRate || 30,
                     realtime: true
                 });

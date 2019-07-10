@@ -50,8 +50,10 @@
 					</div>
 					<br> <br> 
 					<label>방송 속성</label><br> 
-					<input type="radio" id="bAdult" name="bAdult"/> <span>연령 제한 방송</span><br> 
-					<input type="radio" id="bPwdCheck" name="bPwdCheck"/> <span>패스워드 설정</span>
+					<input type="radio" name="broadMethod" id="broadMethod" value="cam" checked/>캠 방송
+					<input type="radio" name="broadMethod" id="broadMethod" value="screen"/>스크린 방송<br/>
+					<input type="checkbox" id="bAdult" name="bAdult"/> <span>연령 제한 방송</span><br> 
+					<input type="checkbox" id="bPwdCheck" name="bPwdCheck"/> <span>패스워드 설정</span>
 					<div class="ui input" style="width: 250px;">
 						<c:if test="${broadInfo.BROAD_PWD == null}">
 							<input type="text" id="bPwd" placeholder="비밀번호가 설정되지 않았습니다"/>
@@ -198,6 +200,8 @@ $("#btn").click(function(){
 function startStreaming(){
 	var strWin = window.open('','newWin','width=1024,height=768,menubar=no, status=no, toolbar=no');
 	
+	var broadMethodval = $('input[name="broadMethod"]:checked').val();
+	console.log(broadMethod);
 	var bTitle = $("#bTitle").val();
 	var bCategory = $("#bCategory").val();
 	var bAdult = $('input:radio[name=bAdult]').is(':checked');
@@ -210,6 +214,11 @@ function startStreaming(){
 	form.setAttribute('target','newWin');
 	document.body.appendChild(form);
 	
+	var broadMethod = document.createElement('input');
+	broadMethod.setAttribute('type','hidden');
+	broadMethod.setAttribute('name','broadMethod');
+	broadMethod.setAttribute('value',broadMethodval);
+	form.appendChild(broadMethod);
 	var btitle = document.createElement('input');
 	btitle.setAttribute('type','hidden');
 	btitle.setAttribute('name','btitle');

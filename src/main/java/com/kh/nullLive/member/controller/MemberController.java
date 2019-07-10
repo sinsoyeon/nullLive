@@ -263,9 +263,9 @@ public class MemberController {
 	@RequestMapping("modifyProImage.me")
 	public String modifyProImage(Model model, Member m, HttpServletRequest request,
 			@RequestParam(name="proImgFile",required=false)MultipartFile file) {
-		String root = request.getSession().getServletContext().getContextPath();
+		String root = request.getSession().getServletContext().getRealPath("resources");
 		System.out.println("root : "+root);
-		String filePath = "resources\\uploadFiles\\profile_image";
+		String filePath = root+"\\uploadFiles\\profile_image";
 		System.out.println("filePath : "+filePath);
 		
 		String originName = file.getOriginalFilename();
@@ -276,7 +276,7 @@ public class MemberController {
 		att.setChangeName(changeName+ext);
 		att.setFilePath(filePath);
 		try {
-			file.transferTo(new File(filePath+"\\"+changeName+ext));
+			file.transferTo(new File(root+"\\uploadFiles\\profile_image\\"+changeName+ext));
 			ms.updateProImage(m,att);
 		} catch (IllegalStateException | IOException | UpdateMemberException e) {
 			new File(filePath+"\\"+changeName+ext).delete();
