@@ -84,10 +84,10 @@
 </section>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script src="${contextPath}/resources/js/streaming/main.js"></script>
-<script src="http://127.0.0.1:9011/socket.io/socket.io.js"></script>
+<script src="http://192.168.30.30:9001/socket.io/socket.io.js"></script>
 <script>
    $(document).ready(function(){
-      var socket = io("http://127.0.0.1:9011");
+      var socket = io("http://192.168.30.30:9001");
       
       //엔터키 입력시
       $("#inputMsg").keydown(function(key){

@@ -45,6 +45,9 @@
 							<option value="pet">펫방</option>
 							<option value="music">음악</option>
 							<option value="hobby">취미</option>
+							<option value="game">게임</option>
+							<option value="sport">스포츠</option>
+							<option value="outdoor">야방</option>
 							<option value="other">기타</option>
 						</select>
 					</div>

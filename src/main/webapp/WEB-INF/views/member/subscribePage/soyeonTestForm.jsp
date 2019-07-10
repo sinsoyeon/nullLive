@@ -114,7 +114,6 @@
 			}
 	     }
 		
-		
 		///여기서부터 추가
 		function insertNP(amount,requestMsg){
 			var mno = ${loginUser.mno};
@@ -158,9 +157,9 @@
 		
 		
 		
-		function importService(amount){		
+		function importService(amount,requestMsg){		
 			IMP.request_pay({
-				
+				 
 			    pg : 'inicis', // version 1.1.0부터 지원.
 			    pay_method : 'card',
 			    merchant_uid : 'merchant_' + new Date().getTime(),

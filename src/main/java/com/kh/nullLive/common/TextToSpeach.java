@@ -30,14 +30,15 @@ public class TextToSpeach {
 		          //.setSsmlGender(SsmlVoiceGender.MALE)
 		          .build();
 
-		      AudioConfig audioConfig = AudioConfig.newBuilder()
-		          .setAudioEncoding(AudioEncoding.MP3)
-		          .build();
-		      
-		      SynthesizeSpeechResponse response = textToSpeechClient.synthesizeSpeech(input, voice,
-		          audioConfig);
 
-		      ByteString audioContents = response.getAudioContent();
+            AudioConfig audioConfig = AudioConfig.newBuilder()
+                .setAudioEncoding(AudioEncoding.MP3)
+                .build();
+            
+            SynthesizeSpeechResponse response = textToSpeechClient.synthesizeSpeech(input, voice,
+                audioConfig);
+
+            ByteString audioContents = response.getAudioContent();
 
 		      String fileName = nickName + "/" + "01.mp3";
 		      
@@ -51,6 +52,5 @@ public class TextToSpeach {
 			e.printStackTrace();
 			return "";
 		}
-		  
 	}
 }

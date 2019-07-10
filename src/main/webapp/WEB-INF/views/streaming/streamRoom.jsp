@@ -200,7 +200,7 @@ $(window).on('beforeunload', function() {
 
 //채팅
 $(document).ready(function(){
-  var socket = io("http://127.0.0.1:9011");
+  var socket = io("http://192.168.30.30:9011");
     
   //엔터키 입력시
   $("#inputMsg").keydown(function(key){
@@ -244,6 +244,20 @@ $(document).ready(function(){
   });
 
 });
+
+
+
+window.onload = function(){
+	var xhr = new XMLHttpRequest();
+	 xhr.onload = function(){
+	  console.log(xhr.response);  
+	 }; 
+	 xhr.open("GET", "http://192.168.30.30:3002/");
+	 xhr.send();
+
+}
+
+
 </script>
 </body>
 </html>
