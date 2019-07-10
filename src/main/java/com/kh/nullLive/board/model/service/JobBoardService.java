@@ -66,5 +66,7 @@ public interface JobBoardService {
 
 	Attachment selectOneJobAtt(int attno);
 
+	void insertMngContractBoard(HashMap<String, Object> conBoardMap) throws AttachmentInsertException;
+
 
 }

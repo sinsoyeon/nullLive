@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.ProcessBuilder.Redirect;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -259,6 +260,7 @@ public class JobBoardController {
 		HashMap<String, Object> boardMap;
 		try {
 			boardMap = jbs.selectOneJobBoard(bno);
+			//첨부파일
 			ArrayList<Attachment> attList = jbs.selectListBoardAtt(bno);
 			model.addAttribute("attList", attList);
 			model.addAttribute("boardMap",boardMap);
@@ -324,25 +326,24 @@ public class JobBoardController {
 		try {
 			attList = (ArrayList)AttchmentUtil.getAttList(request);
 			//참조하는 bno
+			
 			int refBno = Integer.parseInt(request.getParameter("refBno"));
 			Member member = (Member)request.getSession().getAttribute("loginUser");
 			conBoardMap.put("member", member);
-			conBoardMap.put("job", jBoard.getJob());
+			conBoardMap.put("jBoard", jBoard);
 			conBoardMap.put("refBno", refBno);
+			conBoardMap.put("board",board);
+			conBoardMap.put("attList",attList);
 			
-			System.out.println(member);
-			System.out.println(board);
-			System.out.println(jBoard);
-			System.out.println(attList);
+			jbs.insertMngContractBoard(conBoardMap);
+			
+			return "redirect:selectOneJobBoard.jbo?bno="+refBno;
 			
 		} catch (Exception e) {
 			model.addAttribute("msg",e.getMessage());
 			return "common/errorPage";
 		}
 		
-
-		jbs.insertContract();
-		return null;
 		
 	}
 	

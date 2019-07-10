@@ -13,6 +13,7 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
@@ -58,12 +59,15 @@
 	}
 	.contractArea {
 		width: 100%;
-		height: 700px;
+		height: 550px;
 		border: solid 1px lightgray;
 		margin-top : 20px;
 		margin-bottom: 50px;
 	}
 	#conToggle{
+		display: none;
+	}
+	#contractTable{
 		display: none;
 	}
 	
@@ -76,6 +80,7 @@
 	<c:set var="jBoard" value="${ boardMap.jBoard }"/>
 	<c:set var="member" value="${ boardMap.member }"/>
 	<c:set var="streamer" value="${ boardMap.streamer }"/>
+	<c:set var="contBoardList" value="${ boardMap.contBoardList }"/>
 	
 
 	
@@ -201,16 +206,21 @@
 			<div class="contractArea col-lg-12" id="conToggle" align="center">
 				<h2>지원서 작성</h2>
 				<form action="insertMngContract.jbo" method="post" id="contractFrm" enctype="multipart/form-data">
-					<textarea name="bContent" class="col-lg-12" id="editor" required placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 400px;"></textarea>
+					<h3>제목</h3>
+					<input class="form-control col-lg-12 col-md-12 col-sm-8" type="text" name="bTitle" id="bTitle" placeholder="제목을 입력하세요">
+					<h3>내용</h3>
+					<textarea name="bContent" class="col-lg-12" id="editor" required placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 200px;"></textarea>
 					<input type="hidden" value="${ board.bno }" name="refBno">
+					<input type="hidden" value="JOBMNGCONT" name="bType">
 					<input type="hidden" value="${ jBoard.job }" name="job">
+					<input type="hidden" value="${ jBoard.jbno }" name="job">
 					<input type="hidden" value="${ member.mno }" name="mno">
 					<input type="hidden" value="${ streamer.sno }" name="sno">
 					
 					<h3>첨부파일</h3>
 					<jsp:include page="attachmentForm.jsp"/>
 				</form>
-				<button class="btn btn-success btn-sm" onclick="fn_Contract()">제출하기</button>
+				<button class="btn btn-success btn-sm" onclick="fn_ContractSumit()">제출하기</button>
 				<!-- 첨부파일 영역 -->
 			</div>
 			
@@ -231,29 +241,49 @@
 		<c:if test="${ loginUser.mno eq member.mno }">
 			<div>
 				<div>
-					<h4><b>지원현황</b></h4>
+					<h4><b>지원현황(<c:out value="${ contBoardList.size() }"/>건)</b></h4>
+					<button class="btn btn-info btn-xs" onclick="fn_showContractList()">지원현황 보기</button>
 					<hr>
 				</div>
 				
 				<!-- 지원 현황 테이블 -->
-				
-				<table align="center" class="col-lg-12">
-					<tr>
-						<th>ID</th>
-						<th>일자</th>
-						<th>지원서보기</th>
-						<th>승낙하기</th>
-					</tr>
-					<tr>
-						<td>bj인효</td>
-						<td>2019-06-04</td>
-						<td>지원서</td>
-						<td>승낙하기</td>
-					</tr>
-				</table>
+				<div id="contractTable">
+					<table align="center" class="col-lg-12 table">
+						<tr>
+							<th>ID</th>
+							<th>일자</th>
+							<th>지원서보기</th>
+							<th>승낙하기</th>
+						</tr>
+						<c:forEach var="list" items="${ contBoardList }">
+							<tr>
+								<input type="hidden" value="${ list.mno }" id="mno"/>
+								<td><c:out value="${ list.nickName }"/></td>
+								<td>
+									<c:set var="writtenDate" value="${ list.writtenDate }" />
+									<c:set var="nowDate" value="<%= new java.util.Date() %>"/>
+									
+									<fmt:formatDate value="${writtenDate}" pattern="yyyy-MM-dd" var="wd"/>
+									<fmt:formatDate value="${nowDate}" pattern="yyyy-MM-dd" var="nd"/>
+									
+									<!-- 등록일시 일수가 넘어간경우 날짜를 보여줌 -->
+									<c:if test="${ wd < nd }">
+										<fmt:formatDate value="${writtenDate}" pattern="yyyy-MM-dd" />
+									</c:if>
+									<!-- 등록일시가 현재일인 경우 시간을 보여줌 -->
+									<c:if test="${ wd >= nd }">
+										<fmt:formatDate type="TIME" timeStyle="short" value="${writtenDate}"/>
+									</c:if>
+								</td>
+								<td>지원서</td>
+								<td><button class="btn btn-success btn-xs" onclick="fn_contApply(${list.mno})">승낙하기</button></td>
+							</tr>
+						</c:forEach>
+					</table>
+				</div>
 			</div>
 		</c:if>
-		<br><br><br><br>
+		<br><br><br><br><br><br><br><br><br><br><br><br>
 	</div>
 
 	
@@ -274,12 +304,41 @@
 		}
 		
 		//계약하기
-		function fn_Contract(){
+		function fn_ContractSumit(){
+			
+			//해당 글에 지원 이력이 있는경우 안됨
+			<c:forEach var="list" items="${ contBoardList }">
+				if(${list.mno eq loginUser.mno}){
+					alert("해당글에 이미 지원하셨습니다");
+					fn_showContract();
+					return;
+				}
+			</c:forEach>
+			var bTitle = $("#bTitle").val();
+			var bContent = $("#editor").prop("textLength");
+			console.log(bTitle);
+			if(bTitle==""){
+				alert("제목을  입력해주세요");
+				$("#bTitle").focus();
+				return;
+			}
+			if(bContent<10){
+				alert("내용을 10자 이상 입력해주세요");
+				$("#editor").focus();
+				return;
+			}
+			
+			alert("성공적으로 지원되셨습니다.");
 			$("#contractFrm").submit();
 		}
 		//지원서 폼 보여주기
 		function fn_showContract(){
 			$("#conToggle").toggle('slow');
+			$("#bTitle").focus();
+		}
+		//지원현황 보여주기
+		function fn_showContractList(){
+			$("#contractTable").toggle('slow');
 		}
 	</script>
 </body>
