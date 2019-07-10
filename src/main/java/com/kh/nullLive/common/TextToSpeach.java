@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class TextToSpeach {	
 	@RequestMapping("tts.me")
-	public void textToSpeach(@RequestParam("requestMsg")String requestMsg) {
+	public String textToSpeach(@RequestParam("requestMsg")String requestMsg,@RequestParam("nickName")String nickName) {
 		  try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create()) {
 		      SynthesisInput input = SynthesisInput.newBuilder()
-		            .setText(requestMsg)
+		            .setText(nickName+"님의 후원 메세지 : " + requestMsg)
 		            .build();
 		      VoiceSelectionParams voice = VoiceSelectionParams.newBuilder()
 		          .setLanguageCode("ko-KR")
@@ -39,13 +39,18 @@ public class TextToSpeach {
 
 		      ByteString audioContents = response.getAudioContent();
 
-		      try (OutputStream out = new FileOutputStream("output.mp3")) {
+		      String fileName = nickName + "/" + "01.mp3";
+		      
+		      try (OutputStream out = new FileOutputStream(fileName)) {
 		        out.write(audioContents.toByteArray());
-		        new SoundPlayer("output.mp3",false).start();
+				/* new SoundPlayer("output.mp3",false).start(); */
 		        System.out.println("성공했습니다.");		       
+		        return fileName;
 		      }
 		  } catch (IOException e) {
 			e.printStackTrace();
+			return "";
 		}
+		  
 	}
 }
