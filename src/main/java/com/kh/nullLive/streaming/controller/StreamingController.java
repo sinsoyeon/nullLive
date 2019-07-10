@@ -102,11 +102,13 @@ public class StreamingController {
 	 * Comment : 스트리밍 시작
 	 */
 	@RequestMapping("startStreaming.st")
-	public String startStreaming(Model model,HttpSession session,BroadHis broadHis) {
+	public String startStreaming(Model model,HttpSession session,BroadHis broadHis,@RequestParam(name="broadMethod")String broadMethod) {
+		System.out.println("broadMethod : "+broadMethod);
 		broadHis.setStreamerId(((Member)session.getAttribute("loginUser")).getMid());
 		ss.startStreaming(broadHis);
 		model.addAttribute("title", broadHis.getBtitle());
 		model.addAttribute("streamerAddress",broadHis.getStreamerId());
+		model.addAttribute("broadMethod",broadMethod);
 		return "streaming/streamRoom";
 	}
 	

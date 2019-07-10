@@ -41,17 +41,21 @@ connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
 // type of broadCast
 connection.socketMessageEvent = 'video-broadcast-demo';
 
-//web-cam braodcast
-connection.session = {
-    audio: true,
-    video: true,
-    oneway: true
-};
-//screen-sharing
-// connection.session = {
-//     screen: true,
-//     oneway: true
-// };
+var braodMethod = $("#broadMethod").val();
+if(braodMethod == 'cam'){
+    //web-cam braodcast
+    connection.session = {
+        audio: true,
+        video: true,
+        oneway: true
+    };
+}else{
+    //screen-sharing
+    connection.session = {
+        screen: true,
+        oneway: true
+    };
+}
 
 connection.sdpConstraints.mandatory = {
     OfferToReceiveAudio: false,
