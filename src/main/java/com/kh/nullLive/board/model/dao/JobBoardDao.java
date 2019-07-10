@@ -96,6 +96,10 @@ public interface JobBoardDao {
 
 	Attachment selectOneJobAtt(SqlSessionTemplate sqlSession, int attno);
 
+	int insertMngContractBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> conBoardMap);
+
+	ArrayList<HashMap<String, Object>> selectListContBoard(SqlSessionTemplate sqlSession, int bno);
+
 
 
 }

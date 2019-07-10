@@ -47,8 +47,7 @@
 									style="color: #fff;"></i></a></li>
 						</c:if>
 						<c:if test="${!empty sessionScope.loginUser}">
-							<li><a href="myQuestion.bo">MY문의내역</a></li>
-							<li><a href="logout.bo"><i
+							<li><a href="logout.me"><i
 									class="fas fa-sign-out-alt fa-lg" style="color: #fff;"></i></a></li>
 						</c:if>
 					</ul>

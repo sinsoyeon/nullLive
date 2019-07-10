@@ -84,6 +84,17 @@
 		<result property="attStatus" column="ATT_STATUS"/>
 	</resultMap>
 
+	<!-- 구인구직 지원서 resultSet -->
+	<resultMap type="java.util.HashMap" id="contBoardResultSet">
+		<id property="bno" column="BNO"/>
+		<result property="bTitle" column="BTITLE"/>
+		<result property="bContent" column="BCONTENT"/>
+		<result property="writtenDate" column="WRITTEN_DATE"/>
+		<result property="bType" column="BTYPE"/>
+		<result property="refBno" column="REF_BNO"/>
+		<result property="mno" column="MNO"/>
+		<result property="nickName" column="NICK_NAME"/>
+	</resultMap>
 	
 	<!-- 고객센터 FAQ 전체 게시글 수 조회용 쿼리문 -->
 	<select id="selectFListCount" resultType="_int">
@@ -480,6 +491,35 @@
 	<select id="selectOneJobAtt" parameterType="_int" resultMap="AttachmentResultSet">
 		SELECT * FROM attachment WHERE ATTNO = #{attno}
 	</select>
+	
+	<!-- 구인구직 매니저 지원서 작성 600=지원중-->
+	<insert id="insertMngContractBoard" parameterType="java.util.HashMap">
+		INSERT INTO 
+		BOARD(BNO,		 BTITLE,   BCONTENT,   WRITTEN_DATE,MODIFY_DATE,BCOUNT,REF_BNO,   BTYPE,   BWRITER,B_STATUS) VALUES
+		(SEQ_BNO.NEXTVAL,
+		#{board.bTitle},
+		#{board.bContent},
+		SYSDATE,		
+		SYSDATE,	
+		DEFAULT,
+		#{refBno},  
+		#{board.bType},
+		#{member.mno},
+		600)
+	</insert>
+	
+	<!-- 구인구직 지원서 조회 -->
+	<select id="selectListContBoard" parameterType="_int" resultMap="contBoardResultSet">
+		SELECT B.BNO,B.BTITLE,B.BCONTENT,B.WRITTEN_DATE,B.BTYPE,B.REF_BNO,M.MNO, M.NICK_NAME 
+		FROM BOARD B 
+		JOIN MEMBER M ON(B.BWRITER = M.MNO)
+		WHERE REF_BNO = #{bno}
+		ORDER BY BNO DESC
+	</select>
+	
+	
+	
+	
 	
 	
 </mapper>

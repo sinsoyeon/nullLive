@@ -223,8 +223,12 @@ public class JobBoardServiceImpl implements JobBoardService{
 		//글작성자 조회
 		int mno = Integer.parseInt((String)(board.getBWriter()+""));
 		Member member = md.selectMemberMno(sqlSession, mno);
-		
 		System.out.println(member);
+
+		//해당 글의 지원서 / 유저정보 가져오기
+		ArrayList<HashMap<String,Object>> contBoardList = jbd.selectListContBoard(sqlSession,bno);
+		System.out.println(contBoardList);
+		
 		if(jBoard.getJBtype().equals("구인")) {
 			//구인구직게시판 타입이 구인인경우 스트리머정보를 가져옴
 			Streamer streamer = sd.selectStreamerMno(sqlSession,mno);
@@ -241,7 +245,7 @@ public class JobBoardServiceImpl implements JobBoardService{
 		boardMap.put("board", board);
 		boardMap.put("jBoard", jBoard);
 		boardMap.put("member", member);
-		
+		boardMap.put("contBoardList", contBoardList);
 		return boardMap;
 	}
 
@@ -369,6 +373,52 @@ public class JobBoardServiceImpl implements JobBoardService{
 	@Override
 	public Attachment selectOneJobAtt(int attno) {
 		return jbd.selectOneJobAtt(sqlSession, attno);
+	}
+
+	/**
+	 * @author : uukk
+	 * @throws AttachmentInsertException 
+	 * @date : 2019. 7. 10.
+	 * @comment : 구인구직 매니저 지원서 입력 
+	 */
+	@Override
+	public void insertMngContractBoard(HashMap<String, Object> conBoardMap) throws AttachmentInsertException {
+		
+		//지원서 board 입력
+		int resultBoard = jbd.insertMngContractBoard(sqlSession,conBoardMap);
+		ArrayList<Attachment> attList = (ArrayList) conBoardMap.get("attList");
+		
+		int boardCurrval = jbd.selectCurrval(sqlSession);
+		
+		//attachment 입력을 위한 hashMap
+		HashMap<String,Object> attHmap = new HashMap<>();
+		if(attList.size() != 0) {
+			
+			attHmap.put("attList", attList);
+			
+			//Attachment 입력
+			int attResult = jbd.insertJobNoticeAttList(sqlSession,attHmap);
+			
+			HashMap<String,Object> attmHmap = new HashMap<>();
+			
+			//작성 attachment currval조회
+			ArrayList<Integer> attnoList = jbd.getAttnoList(sqlSession,attList.size());
+			
+			//attManager 작성을 위한 parameter값
+			attmHmap.put("bno", boardCurrval);
+			attmHmap.put("attnoList", attnoList);
+			
+			//attManager 입력
+			int attmResult = jbd.insertJobNoticeAttMng(sqlSession,attmHmap);
+			
+			//리턴값이 size와 동일하지 않을시 예외처리
+			if(attmResult != attList.size() ||
+			   attResult != attList.size()) {
+				throw new AttachmentInsertException("첨부파일 입력 에러");
+			}
+		}
+		
+		
 	}
 
 
