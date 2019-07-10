@@ -112,12 +112,6 @@ public class JobBoardDaoImpl implements JobBoardDao {
 	}
 
 	@Override
-	public void insertContract() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void insertJobBoardReport() {
 		// TODO Auto-generated method stub
 		
@@ -350,6 +344,66 @@ public class JobBoardDaoImpl implements JobBoardDao {
 	@Override
 	public ArrayList<HashMap<String, Object>> selectListContBoard(SqlSessionTemplate sqlSession, int bno) {
 		return (ArrayList)sqlSession.selectList("Board.selectListContBoard",bno);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 10.
+	 * @comment : 구인구직 매니저 계약 입력
+	 */
+	@Override
+	public int insertMngContract(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.insert("Board.insertMngContract",hmap);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 10.
+	 * @comment : 구인구직 지원서 상태 계약완료로 변경
+	 */
+	@Override
+	public int updateMngContBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.update("Board.updateMngContBoard",hmap);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 10.
+	 * @comment : 구인구직 매니저 파트너 테이블 insert
+	 */
+	@Override
+	public int insertMngPartner(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.insert("Board.insertMngPartner",hmap);
+	}
+	
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 10.
+	 * @comment : 계약 테이블 currval 조회
+	 */
+	@Override
+	public int selectContCurrval(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Board.selectContCurrval");
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 10.
+	 * @comment : 구인구직 매니저게시판 모집완료처리
+	 */
+	@Override
+	public int updateJobMngBoardComplt(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.update("Board.updateJobMngBoardComplt",hmap);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 10.
+	 * @comment : 구인구직게시판 작성자 파트너 테이블 가져오기
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> selectListPartner(SqlSessionTemplate sqlSession, int mno) {
+		return (ArrayList)sqlSession.selectList("Board.selectListPartner",mno);
 	}
 
 

@@ -24,12 +24,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.nullLive.board.model.exception.BoardSelectListException;
+import com.kh.nullLive.board.model.exception.ContConsentExcption;
 import com.kh.nullLive.board.model.exception.JobBoardInsertException;
 import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.service.JobBoardService;
@@ -40,6 +42,7 @@ import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.service.MemberService;
 import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.streamer.model.vo.Streamer;
 
 import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpRequest;
 
@@ -305,16 +308,6 @@ public class JobBoardController {
 	/**
 	 * @author : uukk
 	 * @date : 2019. 6. 19.
-	 * @comment : 구인구직 게시판 지원하기 메소드
-	 */
-	public String insertApply() {
-		jbs.insertApply();
-		return null;
-	}
-	
-	/**
-	 * @author : uukk
-	 * @date : 2019. 6. 19.
 	 * @comment : 구인구직 매니저 게시판 승낙하기(계약)
 	 */
 	@RequestMapping("insertMngContract.jbo")
@@ -473,6 +466,39 @@ public class JobBoardController {
 		
 		downOut.close();
 		buf.close();
+		
+		return null;
+	}
+	
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 10.
+	 * @comment : 매니저 게시판 지원서 승낙
+	 */
+	@RequestMapping("insertMngContConsent.jbo")
+	public String insertMngContConsent(HttpServletRequest request,Model model,JobBoard jBoard,Streamer streamer,Board board) {
+		//지원자 mno
+		//지원서 상태를 변경해주기 위한 지원서 bno
+		System.out.println(request.getParameter("contMno"));
+		System.out.println(request.getParameter("contBno"));
+		int contMno = Integer.parseInt(request.getParameter("contMno"));
+		int contBno = Integer.parseInt(request.getParameter("contBno"));
+		HashMap<String,Object> hmap = new HashMap<>();
+		hmap.put("contMno",contMno);
+		//지원서 bno
+		hmap.put("contBno",contBno);
+		hmap.put("jBoard",jBoard);
+		hmap.put("streamer",streamer);
+		//구인구직 게시글 bno
+		hmap.put("bno",board.getBno());
+		try {
+			jbs.insertMngContConsent(hmap);
+			model.addAttribute("");
+			return "redirect:jobBoardList.jbo?bType=JOBMNG&url=board/job/jobMngList";
+		} catch (ContConsentExcption e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return null;
 	}

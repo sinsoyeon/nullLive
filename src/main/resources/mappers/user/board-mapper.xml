@@ -517,9 +517,40 @@
 		ORDER BY BNO DESC
 	</select>
 	
+	<!-- 계약 테이블 insert -->
+	<insert id="insertMngContract" parameterType="java.util.HashMap">
+		INSERT INTO CONTRACT(CNO, C_STATUS,JBNO,C_SDATE,PERPRICE)
+        VALUES(SEQ_CNO.NEXTVAL,'Y',#{jBoard.jbno},SYSDATE,#{jBoard.perprice})
+	</insert>
 	
+	<!-- 지원서 계약 승낙시 계약완료로 상태변경 -->
+	<update id="updateMngContBoard" parameterType="java.util.HashMap">
+		UPDATE BOARD
+		SET B_STATUS = '601'
+		WHERE BNO = #{contBno}
+	</update>
 	
+	<!--  -->
+	<insert id="insertMngPartner" parameterType="java.util.HashMap">
+		INSERT INTO PARTNER(PNO,SNO,MNO,CNO,PTYPE,P_STATUS) 
+		VALUES(SEQ_PNO.NEXTVAL,#{streamer.sno},#{contMno},#{contCurrval},#{jBoard.job},'Y')
+	</insert>
+	<!-- 계약 테이블 currval조회 -->
+	<select id="selectContCurrval" resultType="_int">
+		SELECT SEQ_CNO.CURRVAL FROM DUAL
+	</select>
 	
+		<!-- 게시판 계약 승낙시 모집완료로 상태변경 -->
+	<update id="updateJobMngBoardComplt" parameterType="java.util.HashMap">
+		UPDATE BOARD
+		SET B_STATUS = '501'
+		WHERE BNO = #{bno}
+	</update> 
+	
+	<!-- 매니저/콘텐츠제작자 파트너 스트리머 list 조회 -->
+<!-- 	<select id="selectListPartner" parameterType="_int" resultType="java.uitl.HashMap">
+		SELECT
+	</select> -->
 	
 	
 </mapper>

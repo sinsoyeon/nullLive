@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.kh.nullLive.board.model.exception.BoardSelectListException;
+import com.kh.nullLive.board.model.exception.ContConsentExcption;
 import com.kh.nullLive.board.model.exception.JobBoardInsertException;
 import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.vo.Board;
@@ -42,7 +43,6 @@ public interface JobBoardService {
 
 	void insertApply();
 
-	void insertContract();
 
 	void insertJobBoardReport();
 
@@ -67,6 +67,8 @@ public interface JobBoardService {
 	Attachment selectOneJobAtt(int attno);
 
 	void insertMngContractBoard(HashMap<String, Object> conBoardMap) throws AttachmentInsertException;
+
+	void insertMngContConsent(HashMap<String, Object> hmap) throws ContConsentExcption;
 
 
 }

@@ -155,14 +155,19 @@
 		<hr>
 		<!-- 게시자 정보 영역 -->
 		<div class="writerInfoArea col-lg-9">
-			<div>게시자 정보</div>
+			
 			<c:if test="${ jBoard.JBtype eq '구인' }">
+				<div>게시자 정보(스트리머)</div>
 				<div><b>방송시작일 :<c:out value="${ streamer.bstart_date }"/></b></div>
 				<div><b>구독자수 :<c:out value="${ boardMap.suCount }"/></b></div>
 				<div><b>누적추천수 :<c:out value="${ streamer.cumulative_selection }"/></b></div>
 			</c:if>
+			<c:if test="${ jBoard.JBtype eq '구직' }">
+				<div>게시자 정보(매니저)</div>
+				<div><b>가입일 : <c:out value="${ member.enrollDate }"></c:out></b></div>
+			</c:if>
 		</div>
-		<button class="btn btn-info btn-xs">상세정보</button>
+		<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#detailModal">상세정보</button>
 		<!-- 버튼영역  -->
 		<div class="btnArea col-lg-12 col-md-12 col-xs-12" align="center">
 			<br><br>
@@ -257,7 +262,6 @@
 						</tr>
 						<c:forEach var="list" items="${ contBoardList }">
 							<tr>
-								<input type="hidden" value="${ list.mno }" id="mno"/>
 								<td><c:out value="${ list.nickName }"/></td>
 								<td>
 									<c:set var="writtenDate" value="${ list.writtenDate }" />
@@ -275,17 +279,64 @@
 										<fmt:formatDate type="TIME" timeStyle="short" value="${writtenDate}"/>
 									</c:if>
 								</td>
-								<td>지원서</td>
-								<td><button class="btn btn-success btn-xs" onclick="fn_contApply(${list.mno})">승낙하기</button></td>
+								<td><span data-toggle="modal" data-target="#contDetailModal">지원서</span></td>
+								<td><button class="btn btn-success btn-xs" onclick="fn_contConsent(${list.mno},${ list.bno })">승낙하기</button></td>
+								
+							
 							</tr>
+							
 						</c:forEach>
 					</table>
 				</div>
 			</div>
+			<!-- 승낙하기 form -->
+			<form action="insertMngContConsent.jbo" method="post" id="contConsentFrm">
+				<input type="hidden" value="${ jBoard.jbno }" name="jbno">
+				<input type="hidden" value="${ jBoard.job }" name="job">
+				<input type="hidden" value="${ board.bno }" name="bno">
+				<input type="hidden" value="${ jBoard.contContent }" name="contContent">
+				<input type="hidden" value="${ streamer.sno }" name="sno">
+			</form>
 		</c:if>
 		<br><br><br><br><br><br><br><br><br><br><br><br>
 	</div>
-
+	
+	
+	<!-- 게시자 정보 상세보기 MODAL-->
+	  <div class="modal fade" id="detailModal" role="dialog">
+	    <div class="modal-dialog modal-lg">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">게시자 정보 상세보기</h4>
+	        </div>
+	        <div class="modal-body">
+	          <p>This is a large modal.</p>
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <!-- 지원자 정보 상세보기 MODAL-->
+	  <div class="modal fade" id="contDetailModal" role="dialog">
+	    <div class="modal-dialog modal-lg">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">게시자 정보 상세보기</h4>
+	        </div>
+	        <div class="modal-body">
+	          <p>This is a large modal.</p>
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
 	
 
 	
@@ -316,7 +367,7 @@
 			</c:forEach>
 			var bTitle = $("#bTitle").val();
 			var bContent = $("#editor").prop("textLength");
-			console.log(bTitle);
+
 			if(bTitle==""){
 				alert("제목을  입력해주세요");
 				$("#bTitle").focus();
@@ -328,8 +379,9 @@
 				return;
 			}
 			
-			alert("성공적으로 지원되셨습니다.");
+			
 			$("#contractFrm").submit();
+			alert("성공적으로 지원되셨습니다.");
 		}
 		//지원서 폼 보여주기
 		function fn_showContract(){
@@ -340,6 +392,27 @@
 		function fn_showContractList(){
 			$("#contractTable").toggle('slow');
 		}
+		//지원서 승낙 submit
+		function fn_contConsent(contMno,contBno){
+			confirm
+			if(confirm("승낙하시겠습니까?")){
+				$("#contConsentFrm").append('<input type="hidden" value='+contMno+' name="contMno">');
+				$("#contConsentFrm").append('<input type="hidden" value='+contBno+' name="contBno">');
+				
+				$("#contConsentFrm").submit();
+				alert("성공적으로 처리되었습니다.");
+			}
+		}
+		
+		//지원서 보기
+		function fn_showContractDetail(contBno){
+			
+		}
+		
+		
+		
+		
+		
 	</script>
 </body>
 </html>
