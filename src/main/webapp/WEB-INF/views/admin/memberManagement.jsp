@@ -118,10 +118,11 @@ height: auto; */
 						<option value="10">10</option>
 						<option value="20">20</option>
 						<option value="50">50</option>
+						<option value="999999999">ALL</option>
 					</select>
 				</div>
 				<div style="display: inline-block;">
-					<input type="text">
+					<input type="text" id="search">
 					<button class="btn btn-success">검색</button>
 				</div>
 				
@@ -320,7 +321,16 @@ var ban
 				alert("취소되었습니다.");
 			}
 		}
-}
+};
+
+$(document).ready(function(){
+	  $("#search").on("keyup", function() {
+	    var value = $(this).val().toLowerCase();
+	    $("tbody tr").filter(function() {
+	      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+	    });
+	  });
+	});
 	
 </script>
 </html>
