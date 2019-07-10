@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.nullLive.board.model.dao.JobBoardDao;
 import com.kh.nullLive.board.model.exception.BoardSelectListException;
+import com.kh.nullLive.board.model.exception.ContConsentExcption;
 import com.kh.nullLive.board.model.exception.JobBoardInsertException;
 import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.vo.Board;
@@ -229,6 +230,9 @@ public class JobBoardServiceImpl implements JobBoardService{
 		ArrayList<HashMap<String,Object>> contBoardList = jbd.selectListContBoard(sqlSession,bno);
 		System.out.println(contBoardList);
 		
+		//해당 작성자의 파트너 리스트 가져오기
+		//ArrayList<HashMap<String,Object>> partnerList = jbd.selectListPartner(sqlSession,mno);
+		
 		if(jBoard.getJBtype().equals("구인")) {
 			//구인구직게시판 타입이 구인인경우 스트리머정보를 가져옴
 			Streamer streamer = sd.selectStreamerMno(sqlSession,mno);
@@ -246,6 +250,7 @@ public class JobBoardServiceImpl implements JobBoardService{
 		boardMap.put("jBoard", jBoard);
 		boardMap.put("member", member);
 		boardMap.put("contBoardList", contBoardList);
+		//boardMap.put("partnerList", partnerList);
 		return boardMap;
 	}
 
@@ -264,10 +269,6 @@ public class JobBoardServiceImpl implements JobBoardService{
 		jbd.insertApply();
 	}
 
-	@Override
-	public void insertContract() {
-		jbd.insertContract();
-	}
 
 	@Override
 	public void insertJobBoardReport() {
@@ -418,6 +419,51 @@ public class JobBoardServiceImpl implements JobBoardService{
 			}
 		}
 		
+		
+	}
+
+	/**
+	 * @author : uukk
+	 * @throws ContConsentExcption 
+	 * @date : 2019. 7. 10.
+	 * @comment : 매니저게시판 지원서 승낙하기
+	 */
+	@Override
+	public void insertMngContConsent(HashMap<String, Object> hmap) throws ContConsentExcption {
+		//계약테이블 입력
+		int contResult = jbd.insertMngContract(sqlSession,hmap);
+		
+		if(contResult <=0) {
+			throw new ContConsentExcption("에러  code:jb0001");
+		}
+		
+		//지원서 상태 변경
+		int contUpdateResult = jbd.updateMngContBoard(sqlSession,hmap);
+		
+		if(contUpdateResult <=0) {
+			throw new ContConsentExcption("에러  code:jb0002");
+		}
+		
+		//계약currval조회
+		int contCurrval = jbd.selectContCurrval(sqlSession);
+		if(contCurrval <=0) {
+			throw new ContConsentExcption("에러  code:jb0003");
+		}
+		
+		//파트너 테이블 입력을 위한 계약테이블 pk
+		hmap.put("contCurrval", contCurrval);
+		
+		//파트너 테이블 입력
+		int partnerResult = jbd.insertMngPartner(sqlSession,hmap);
+		if(partnerResult <=0) {
+			throw new ContConsentExcption("에러  code:jb0004");
+		}
+		
+		//구인구직 게시글 board 상태 변경
+		int boardResult = jbd.updateJobMngBoardComplt(sqlSession,hmap);
+		if(boardResult <= 0) {
+			throw new ContConsentExcption("에러  code:jb0005");
+		}
 		
 	}
 

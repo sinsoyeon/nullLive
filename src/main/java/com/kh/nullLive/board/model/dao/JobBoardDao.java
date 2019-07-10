@@ -40,7 +40,7 @@ public interface JobBoardDao {
 
 	void insertApply();
 
-	void insertContract();
+
 
 	void insertJobBoardReport();
 
@@ -100,6 +100,17 @@ public interface JobBoardDao {
 
 	ArrayList<HashMap<String, Object>> selectListContBoard(SqlSessionTemplate sqlSession, int bno);
 
+	int insertMngContract(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+	int updateMngContBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+	int insertMngPartner(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+	int selectContCurrval(SqlSessionTemplate sqlSession);
+
+	int updateJobMngBoardComplt(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+	ArrayList<HashMap<String, Object>> selectListPartner(SqlSessionTemplate sqlSession, int mno);
 
 
 }
