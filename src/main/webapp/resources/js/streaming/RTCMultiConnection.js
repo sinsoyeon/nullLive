@@ -122,6 +122,33 @@ var RTCMultiConnection = function(roomid, forceOptions) {
         that.window = global;
     })(typeof global !== 'undefined' ? global : null);
 
+    
+    
+    /////////////////////////////////////////////////////////////////////////////////
+  
+	function loadTTS(nickName,requestMsg){
+		if(requestMsg!=null){
+			connection.onMessageEvent				
+		}	
+		
+		$.ajax({
+			url:"tts.me",
+			type:"post",
+			data:{nickName:nickName,requestMsg:requestMsg},
+			success:function(data){
+				console.log('tts 연동중');
+			},
+			error:function(data){
+				console.log(data);
+			}	
+		})
+		
+    }
+   
+    
+    
+    /////////////////////////////////////////////////////////////////////////////////
+    
     function SocketConnection(connection, connectCallback) {
         function isData(session) {
             return !session.audio && !session.video && !session.screen && session.data;
@@ -5899,6 +5926,8 @@ var RTCMultiConnection = function(roomid, forceOptions) {
 
 };
 
+
+
 if (typeof module !== 'undefined' /* && !!module.exports*/ ) {
     module.exports = exports = RTCMultiConnection;
 }
@@ -5908,3 +5937,6 @@ if (typeof define === 'function' && define.amd) {
         return RTCMultiConnection;
     });
 }
+
+
+
