@@ -59,6 +59,9 @@
   	<div id="chat-box"></div>
     <input type="text" id="inputMsg"/>
     <button id="msg_send">전송</button>
+    <button data-toggle="modal" data-target="#logModal"  style="background: pink; color: white;">결제테스트</button>
+    
+
     <input id="nickName" value="빠숑" type="text" hidden>
   	<!-- <div style="display:none;" id="otherClients"></div> -->
   </nav>
@@ -77,7 +80,73 @@
   <input type="hidden" id="mid" value="${loginUser.mid}"/>
   <input type="hidden" id="room-id" value="${streamerAddress}">
   <input type="hidden" id="bhno" value="${bhno}"/>
-</section>
+  <input type="hidden" id="mno" value="${loginUser.mno}" />
+  <input type="hidden" id="point" value="${loginUser.point}" />
+  <input type="hidden" id="nickName" value="${loginUser.nickName}" />
+  
+  
+  	<div id="logModal" class="modal fade" role="dialog" style="z-index:99999; important">
+		<div class="modal-dialog" role="document" style="z-index:99999;">
+
+			<div class="modal-content" style="z-index:99999;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Login</h4>
+				</div>
+				<div class="modal-body">
+					<form action="">
+					<div id="infoArea">
+					
+						<p align="center"><i class="fa fa-heart" style="font-size:48px;color:#ed7679"></i>빠숑님에게 별풍선 선물하기</p>
+					</div>
+				
+					<p id="selectNull">보유 중인 NULL POINT : ${loginUser.point }</p>
+					<table id="nullArea">
+						<tr>
+							<td><input type="radio" name="money" value="1000" id="moneyRadio1">
+								<label>1000 NULL</label>
+							</td>
+							<td><input type="radio" name="money" value="5000" id="moneyRadio2">
+								<label>5000 NULL</label>
+							</td>	
+							<td><input type="radio" name="money" value="10000" id="moneyRadio3">
+								<label>10000 NULL</label>
+							</td>											
+						</tr>
+						<tr>
+							<td><input type="radio" name="money" value="20000" id="moneyRadio4">
+								<label>20000 NULL</label>
+							</td>	
+							<td><input type="radio" name="money" value="30000" id="moneyRadio5">
+								<label>30000 NULL</label>
+							</td>		
+							<td><input type="radio" name="money" value="50000" id="moneyRadio6">
+								<label>50000 NULL</label>
+							</td>																								
+						</tr>
+						<tr>
+							<td>
+							<label>금액 입력</label>
+							</td>	
+							<td colspan="2"><input type="number" placeholder="NULL" name="money" id="inputMoney"><label for="">  NULL</label></td>
+						</tr>
+						<tr>
+							<td><label for="">전송할 메시지 : </label></td>
+							<td><textarea name="requestMsg" id="requestMsg" cols="30" rows="10"></textarea></td>
+						</tr>
+					</table>
+					
+					<p id="butn" onclick="payment();">후원하기</p>
+				</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+  
+  </section>
 
 <!-- rtc script -->
 <script src="${contextPath}/resources/js/streaming/RTCMultiConnection.js"></script>
@@ -85,6 +154,7 @@
 <script src="https://rtcmulticonnection.herokuapp.com:443/socket.io/socket.io.js"> </script>	<!-- rtc signaling server on socket.io // port:9002 -->
 <script src="${contextPath}/resources/js/streaming/streamingOpenJoin.js"></script>
 <script src="${contextPath}/resources/js/streaming/RecordRTC.js"></script>
+<script src="${contextPath}/resources/js/streaming/TTSjs.js"></script>
 <!-- custom layout for HTML5 audio/video elements -->
 <link rel="stylesheet" href="${contextPath}/resources/css/streaming/getHTMLMediaElement.css">
 <script src="${contextPath}/resources/css/streaming/getHTMLMediaElement.js"></script>

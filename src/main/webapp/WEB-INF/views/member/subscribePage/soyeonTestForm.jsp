@@ -87,6 +87,8 @@
 
 
 	<script>
+	
+			
 		$(function(){
 			var IMP = window.IMP; // 생략가능
 			IMP.init('imp08034800'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
@@ -112,43 +114,48 @@
 			}
 	     }
 		
-	    function insertNP(amount,requestMsg){
-	         var mno = ${loginUser.mno};
-	         $.ajax({
-	            url:"insertNP.sm",
-	            type:"post",
-	            data:{
-	               mno:mno,
-	               sno:4,
-	               amount:amount
-	            },
-	            success:function(data){
-	               alert('후원 완료!');
-	               $('#logModal').modal('hide');
-	               
-	               var nickName = '${loginUser.nickName}';
-	               console.log('${loginUser.nickName}');
-	           
-	            }
-	            
-	         })
-	      };
-	      
-	      function loadTTS(nickName,requestMsg){
-	         $.ajax({
-	            url:"tts.me",
-	            type:"post",
-	            data:{nickName:nickName,requestMsg:requestMsg},
-	            success:function(data){
-	               console.log('tts 연동중');
-	            },
-	            error:function(data){
-	               console.log(data);
-	            }
-	            
-	            
-	         })
-	      };
+		///여기서부터 추가
+		function insertNP(amount,requestMsg){
+			var mno = ${loginUser.mno};
+			$.ajax({
+				url:"insertNP.sm",
+				type:"post",
+				data:{
+					mno:mno,
+					sno:4,
+					amount:amount
+				},
+				success:function(data){
+					alert('후원 완료!');
+					$('#logModal').modal('hide');
+					
+					var nickName = '${loginUser.nickName}';
+					console.log('${loginUser.nickName}');
+					loadTTS(nickName,requestMsg);
+				}
+				
+			});
+		};
+		
+		function loadTTS(nickName,requestMsg){
+			$.ajax({
+				url:"tts.me",
+				type:"post",
+				data:{nickName:nickName,requestMsg:requestMsg},
+				success:function(data){
+					console.log('tts 연동중');
+				},
+				error:function(data){
+					console.log(data);
+				}
+				
+				
+			})
+		};
+		
+		///여기까지
+		
+		
 		
 		function importService(amount,requestMsg){		
 			IMP.request_pay({

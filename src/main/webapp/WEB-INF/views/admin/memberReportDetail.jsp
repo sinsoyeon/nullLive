@@ -38,6 +38,13 @@
 	text-align: left;
 	padding-left: 3%;
 }
+#result{
+	 color: #dc0000; 
+	 border: 2px solid #dc0000;
+	 width: 20%;
+	 padding: 6px;
+	 font-family: '궁서'
+}
 </style>
 </head>
 <body>
@@ -76,36 +83,39 @@
 							<button style="float: left;" onclick="history.back();">뒤로가기</button>
 							<button style="float: right;" onclick="reportProcess()">처리</button>
 							<select style="float: right;" id="choiceStatus">
-									<option value="N">영구 정지</option>
-									<option value="B9">90일 정지</option>
-									<option value="B6">60일 정지</option>
-									<option value="B3">30일 정지</option>
 									<option value="Y">부적합</option>
+									<option value="B3">30일 정지</option>
+									<option value="B6">60일 정지</option>
+									<option value="B9">90일 정지</option>
+									<option value="N">영구 정지</option>
 							</select> 
 						</div>
-						<p  id="bno">${reportContent.bno }</p>
-						<p  id="mno">${reportContent.mno }</p>
+						<p style="visibility: hidden;" id="bno">${reportContent.bno }</p>
+						<p style="visibility: hidden;" id="mno">${reportContent.mno }</p>
 						</c:if>
 						<c:if test="${reportContent.status == 6}">
 						<div style="padding: 3%;">
 								<button style="float: left;" onclick="history.back();">뒤로가기</button>
+								<div><h3 id="result">
 								<c:choose>
 									<c:when test="${ban eq 90 }">
-										<div>${ ban } 일 정지</div>
+										${ ban }일 정지
 									</c:when>
 									<c:when test="${ban eq 60 }">
-										<div>${ ban } 일 정지</div>
+										${ ban }일 정지
 									</c:when>
 									<c:when test="${ban eq 30 }">
-										<div>${ ban } 일 정지</div>
+										${ ban }일 정지
 									</c:when>
 									<c:when test="${reportContent.banNo eq 0 }">
-										<div>부적합</div>
+										부적합
 									</c:when>
 									<c:otherwise>
-										<div>영구정지 </div>
+										영구정지
 									</c:otherwise>
 								</c:choose>
+								</h3>
+								</div>
 							</div>
 						</c:if>
 					</div>
