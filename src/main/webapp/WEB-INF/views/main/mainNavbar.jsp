@@ -26,18 +26,13 @@ body::-webkit-scrollbar {
 	left: 0;
 	bottom: 0;
 	background: #fcf8e3d1;
-	color: #6f8e30;
-	width: 50px;
 	font-family: 'Montserrat', sans-serif;
 	font-weight: lighter;
 }
 
 .sidebar ul {
-	display: block;
-	width: 50px;
 	list-style-type: none;
 	padding: 0;
-	margin: 0;
 }
 
 .sidebar ul li {
@@ -45,99 +40,30 @@ body::-webkit-scrollbar {
 	height: 65px;
 }
 
-.sidebar
-
-
- 
-
-
-ul
-
-
- 
-
-
-li
-
-
-
-
-:not
-
-
- 
-
-
-(
-:last-child
-
-
- 
-
-
-){
-border-bottom
-
-
-
-
-:
-
-
- 
-
-
-none
-
-
-
-
-;
-}
-.sidebar ul li.active a {
-	background: #4c515d;
-	color: #fff;
-}
-
 .sidebar ul li a {
-	position: relative;
-	display: block;
-	white-space: nowrap;
 	text-decoration: none;
 	color: #333;
-	height: 50px;
-	width: 100%;
 }
 
 .sidebar ul li a:hover {
 	color: #6f8e30;
 }
 
-.sidebar ul li a * {
-	height: 100%;
-	display: inline-block;
-}
-
 .sidebar ul li a i {
 	text-align: center;
-	width: 50px;
-	z-index: 999999;
-}
-
-.sidebar ul li a i.fas {
-	line-height: 50px;
+	width: 70px;
 }
 
 .sidebar ul li a span {
 	font-size: 16px;
-	padding-left: 25px;
+	padding-left: 17px;
 	line-height: 50px;
 }
 </style>
 </head>
 <body>
 	<!-- sidebar -->
-	<nav class="sidebar" style="margin-top: 50px;width: 210px;">
+	<nav class="sidebar" style="margin-top: 50px; width: 210px;">
 		<ul style="margin-top: 15px;">
 			<li><a href="#"> <i class="fas fa-star fa-lg"></i> <span>즐겨찾기</span>
 			</a></li>
