@@ -43,6 +43,8 @@ public class KakaoLoginController {
 		//가입한 회원인지 아닌지 확인하는 용
 		int firstLoginCheck = kakao.firstLoginCheck(userInfo); 
 		
+		
+		
 		if(firstLoginCheck <= 0) {
 			model.addAttribute("userInfo", userInfo);
 			

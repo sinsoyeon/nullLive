@@ -105,33 +105,54 @@
 			var amount = $("#inputMoney").val();
 			
 	
-			if(${loginUser.point} > amount){		
-				insertNP(amount);
+			if('${loginUser.point}' > amount){		
+				insertNP(amount,requestMsg);
 			}else{
-				importService(amount);
+				importService(amount,requestMsg);
 			}
 	     }
 		
-		function insertNP(amount){
-			$.ajax({
-				url:"insertNP.sm",
-				type:"post",
-				data:{
-					mno:${loginUser.mno},
-					sno:4,
-					amount:amount
-				},
-				success:function(data){
-					alert('후원 완료!');
-					$('#logModal').modal('hide');
-				}
-				
-			});
-		}
+	    function insertNP(amount,requestMsg){
+	         var mno = ${loginUser.mno};
+	         $.ajax({
+	            url:"insertNP.sm",
+	            type:"post",
+	            data:{
+	               mno:mno,
+	               sno:4,
+	               amount:amount
+	            },
+	            success:function(data){
+	               alert('후원 완료!');
+	               $('#logModal').modal('hide');
+	               
+	               var nickName = '${loginUser.nickName}';
+	               console.log('${loginUser.nickName}');
+	           
+	            }
+	            
+	         })
+	      };
+	      
+	      function loadTTS(nickName,requestMsg){
+	         $.ajax({
+	            url:"tts.me",
+	            type:"post",
+	            data:{nickName:nickName,requestMsg:requestMsg},
+	            success:function(data){
+	               console.log('tts 연동중');
+	            },
+	            error:function(data){
+	               console.log(data);
+	            }
+	            
+	            
+	         })
+	      };
 		
-		function importService(amount){		
+		function importService(amount,requestMsg){		
 			IMP.request_pay({
-				
+				 
 			    pg : 'inicis', // version 1.1.0부터 지원.
 			    pay_method : 'card',
 			    merchant_uid : 'merchant_' + new Date().getTime(),

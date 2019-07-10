@@ -19,33 +19,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class TextToSpeach {	
 	@RequestMapping("tts.me")
-	public void textToSpeach(@RequestParam("requestMsg")String requestMsg) {
-		  try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create()) {
-		      SynthesisInput input = SynthesisInput.newBuilder()
-		            .setText(requestMsg)
-		            .build();
-		      VoiceSelectionParams voice = VoiceSelectionParams.newBuilder()
-		          .setLanguageCode("ko-KR")
-		          .setSsmlGender(SsmlVoiceGender.NEUTRAL)
-		          //.setSsmlGender(SsmlVoiceGender.MALE)
-		          .build();
+	   public void textToSpeach(@RequestParam("requestMsg")String requestMsg,@RequestParam("nickName")String nickName) {
+        try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create()) {
+            SynthesisInput input = SynthesisInput.newBuilder()
+                  .setText(nickName+"님의 후원 메세지 : " + requestMsg)
+                  .build();
+            VoiceSelectionParams voice = VoiceSelectionParams.newBuilder()
+                .setLanguageCode("ko-KR")
+                .setSsmlGender(SsmlVoiceGender.NEUTRAL)
+                //.setSsmlGender(SsmlVoiceGender.MALE)
+                .build();
 
-		      AudioConfig audioConfig = AudioConfig.newBuilder()
-		          .setAudioEncoding(AudioEncoding.MP3)
-		          .build();
-		      
-		      SynthesizeSpeechResponse response = textToSpeechClient.synthesizeSpeech(input, voice,
-		          audioConfig);
+            AudioConfig audioConfig = AudioConfig.newBuilder()
+                .setAudioEncoding(AudioEncoding.MP3)
+                .build();
+            
+            SynthesizeSpeechResponse response = textToSpeechClient.synthesizeSpeech(input, voice,
+                audioConfig);
 
-		      ByteString audioContents = response.getAudioContent();
+            ByteString audioContents = response.getAudioContent();
 
-		      try (OutputStream out = new FileOutputStream("output.mp3")) {
-		        out.write(audioContents.toByteArray());
-		        new SoundPlayer("output.mp3",false).start();
-		        System.out.println("성공했습니다.");		       
-		      }
-		  } catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+            try (OutputStream out = new FileOutputStream("output.mp3")) {
+              out.write(audioContents.toByteArray());
+              new SoundPlayer("output.mp3",false).start();
+              System.out.println("성공했습니다.");             
+            }
+        } catch (IOException e) {
+         e.printStackTrace();
+      }
+   }
 }
