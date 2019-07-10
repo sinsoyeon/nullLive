@@ -17,7 +17,7 @@
 			<div class="col-md-2">
 				<jsp:include page="mainNavbar.jsp" />
 			</div>
-			<div class="col-md-10">
+			<div class="col-md-10" style=" padding-left: 55px; padding-top: 28px; ">
 				<div class="col-md-12">
 					<div class="row">
 						<div class="col-md-12">
@@ -31,35 +31,35 @@
 							<div class="row" style="height: 200px; margin-top: 1%;">
 								<div class="col-md-12">
 									<div class="row" id="hotDiv">
-										<div>
+										
 											<div class="col-md-4">
 												<div class="thumbnail">
-													<img src="/nullLive/resources/image/broad.jpg">
+													<img src="/nullLive/resources/image/broad.PNG">
 													<p>
-														<strong>Paris</strong>
+														<strong>[생] 배그★ 랜덤듀오에서 배린이</strong>
 													</p>
-													<p>Yes, we built Paris</p>
+													<p style="font-size:12px; color:#3498db;">스트리머01</p>
 												</div>
 											</div>
 											<div class="col-md-4">
 												<div class="thumbnail">
-													<img src="/nullLive/resources/image/broad.jpg" alt="Paris">
+													<img src="/nullLive/resources/image/broad.PNG">
 													<p>
-														<strong>Paris</strong>
+														<strong>[생] 대왕연어초밥1개 + 신라면 10</strong>
 													</p>
-													<p>Yes, we built Paris</p>
+													<p style="font-size:12px; color:#3498db;">스트리머02</p>
 												</div>
 											</div>
 											<div class="col-md-4">
 												<div class="thumbnail">
-													<img src="/nullLive/resources/image/broad.jpg" alt="Paris">
+													<img src="/nullLive/resources/image/broad.PNG">
 													<p>
-														<strong>Paris</strong>
+														<strong>[생] 멜론음악▶최신노래/인기가</strong>
 													</p>
-													<p>Yes, we built Paris</p>
+													<p style="font-size:12px; color:#3498db;">스트리머03</p>
 												</div>
 											</div>
-										</div>
+										
 									</div>
 								</div>
 							</div>
@@ -75,10 +75,67 @@
 								<div class="col-md-4"></div>
 								<div class="col-md-3"></div>
 							</div>
-							<div class="row">
+							<div class="row" style="margin-top: 1%;">
 								<div class="col-md-12">
-									<div class="row" id="allDiv">
-										<div></div>
+									<div class="row" id="allDiv1">
+										<div class="col-md-4">
+												<div class="thumbnail">
+													<img src="/nullLive/resources/image/broad.PNG">
+													<p>
+														<strong>[생] 배그★ 랜덤듀오에서 배린이</strong>
+													</p>
+													<p style="font-size:12px; color:#3498db;">스트리머01</p>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="thumbnail">
+													<img src="/nullLive/resources/image/broad.PNG">
+													<p>
+														<strong>[생] 대왕연어초밥1개 + 신라면 10</strong>
+													</p>
+													<p style="font-size:12px; color:#3498db;">스트리머02</p>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="thumbnail">
+													<img src="/nullLive/resources/image/broad.PNG">
+													<p>
+														<strong>[생] 멜론음악▶최신노래/인기가</strong>
+													</p>
+													<p style="font-size:12px; color:#3498db;">스트리머03</p>
+												</div>
+											</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="row" id="allDiv1">
+										<div class="col-md-4">
+												<div class="thumbnail">
+													<img src="/nullLive/resources/image/broad.PNG">
+													<p>
+														<strong>[생] 배그★ 랜덤듀오에서 배린이</strong>
+													</p>
+													<p style="font-size:12px; color:#3498db;">스트리머01</p>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="thumbnail">
+													<img src="/nullLive/resources/image/broad.PNG">
+													<p>
+														<strong>[생] 대왕연어초밥1개 + 신라면 10</strong>
+													</p>
+													<p style="font-size:12px; color:#3498db;">스트리머02</p>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="thumbnail">
+													<img src="/nullLive/resources/image/broad.PNG">
+													<p>
+														<strong>[생] 멜론음악▶최신노래/인기가</strong>
+													</p>
+													<p style="font-size:12px; color:#3498db;">스트리머03</p>
+												</div>
+											</div>
 									</div>
 								</div>
 							</div>
