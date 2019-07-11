@@ -1,7 +1,9 @@
 package com.kh.nullLive.streaming.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -70,6 +72,20 @@ public class StreamingDaoImpl implements StreamingDao {
 	public int checkBlackList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("Streaming.checkBlackList",infoMap);
+	}
+
+	//메인페이지 Hot Live 방송 목록 개수
+	@Override
+	public int getHotLiveListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Streaming.hotLiveListCount");
+	}
+
+	//메인페이지 Hot Live 방송 목록 조회
+	@Override
+	public ArrayList<HashMap<String, Object>> selectHotLiveList(SqlSessionTemplate sqlSession) {
+		ArrayList<HashMap<String, Object>>hmap = (ArrayList) sqlSession.selectList("Streaming.selectHotLiveList");
+		
+		return hmap;
 	}
 
 }

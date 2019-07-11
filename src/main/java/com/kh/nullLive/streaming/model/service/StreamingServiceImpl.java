@@ -1,5 +1,6 @@
 package com.kh.nullLive.streaming.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -69,6 +70,18 @@ public class StreamingServiceImpl implements StreamingService {
 		infoMap.put("streamerAddress", streamerAddress);
 			
 		return sd.checkBlackList(sqlSession,infoMap);
+	}
+	
+	//메인페이지 Hot Live 방송 목록 개수
+	@Override
+	public int getHotLiveListCount() {
+		return sd.getHotLiveListCount(sqlSession);
+	}
+
+	//메인페이지 Hot Live 방송 목록 조회
+	@Override
+	public ArrayList<HashMap<String, Object>> selectHotLiveList() {
+		return sd.selectHotLiveList(sqlSession);
 	}
 
 	

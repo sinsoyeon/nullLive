@@ -1,5 +1,6 @@
 package com.kh.nullLive.streaming.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -66,6 +67,11 @@ public interface StreamingDao {
 	int updateViewerCount(SqlSessionTemplate sqlSession, String streamerAddress);
 
 	int checkBlackList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
+	//메인페이지 Hot Live 방송 목록 개수
+	int getHotLiveListCount(SqlSessionTemplate sqlSession);
+	//메인페이지 Hot Live 방송 목록 조회
+	ArrayList<HashMap<String, Object>> selectHotLiveList(SqlSessionTemplate sqlSession);
 
 
 
