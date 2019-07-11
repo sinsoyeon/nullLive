@@ -9,9 +9,10 @@
 </head>
 <body>
 	<script>
+		var referer = '${referer}';
 		$(function(){
 			alert("로그인이 필요합니다.");
-			location.href="loginPage.me";
+			location.href="loginPage.me?referer="+referer;
 		})
 	</script>
 </body>

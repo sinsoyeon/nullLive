@@ -1,7 +1,13 @@
 package com.kh.nullLive.member.model.service;
 
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+
+import javax.mail.MessagingException;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +19,10 @@ import com.kh.nullLive.member.model.exception.LoginException;
 import com.kh.nullLive.member.model.exception.ProfileException;
 import com.kh.nullLive.member.model.exception.UpdateMemberException;
 import com.kh.nullLive.member.model.vo.BankAccount;
+import com.kh.nullLive.member.model.vo.MailUtils;
 import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.member.model.vo.TempKey;
 import com.kh.nullLive.streamer.model.exception.SelectStreamerException;
-import com.kh.nullLive.streamer.model.vo.Streamer;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -26,6 +33,8 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDao md;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	@Autowired
+	private JavaMailSender mailSender;
 
 	//로그인
 	@Override
@@ -37,6 +46,17 @@ public class MemberServiceImpl implements MemberService {
 			throw new LoginException("아이디 또는 비밀번호를 확인하세요");
 		}else {
 			loginMember = md.selectMember(sqlSession,m);
+			if(loginMember.getEmailC().equals("N")) {
+				throw new LoginException("이메일 인증이 되지 않았습니다");
+			}
+			if(loginMember.getMstatus().equals("N")) {
+				throw new LoginException("정지 또는 정지된 회원입니다.");
+			}
+			if(loginMember.getMstatus().equals("B")){
+				HashMap<String, Object> hmap = md.getBanDate(sqlSession,loginMember);
+				System.out.println("hmap : "+hmap);
+				throw new LoginException("해당 계정은 까지 정지 상태입니다.");
+			}
 		}
 		return loginMember;
 	}
@@ -192,6 +212,50 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int existBankAccount(int mno) {
 		return md.existBankAccount(sqlSession,mno);
+	}
+
+	//이메일 인증 완료
+	@Override
+	public void joinConfirm(String mid) throws InsertMemberException {
+		int result = 0;
+		result = md.joinConfirm(sqlSession,mid);
+		if(result <= 0) {
+			throw new InsertMemberException("이메일 인증 실패");
+		}
+	}
+
+	//회원 탈퇴
+	@Override
+	public void secession(Member m) throws UpdateMemberException {
+		int result = 0;
+		result = md.secession(sqlSession,m);
+		if(result <= 0) {
+			throw new UpdateMemberException("탈퇴 실패!");
+		}
+	}
+
+	//이메일 발송
+	@Override
+	public void emailConfirm(Member m) throws MessagingException, UnsupportedEncodingException {
+		//mail 전송
+		String authkey = new TempKey().getKey(50,false);
+		
+		MailUtils sendMail = new MailUtils(mailSender);
+		
+		sendMail.setSubject("[NULLLIVE] / 회원가입 이메일 인증");
+		sendMail.setText(new StringBuffer().append("<h1>[NULL LIVE에 어서오세요!]</h1>")
+				.append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
+				.append("<a href='http://localhost:9001/nullLive/joinConfirm.me?mid=")
+				.append(m.getMid())
+				.append("&email=")
+				.append(m.getEmail())
+				.append("&authkey=")
+				.append(authkey)
+				.append("' target='_blenk'>이메일 인증 확인</a>")
+				.toString());
+		sendMail.setFrom("rekin7244@gmail.com ", "NullLive");
+		sendMail.setTo(m.getEmail());
+		sendMail.send();
 	}
 
 }

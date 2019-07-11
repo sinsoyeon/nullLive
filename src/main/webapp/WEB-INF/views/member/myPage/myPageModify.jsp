@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+<%-- <script
+	src="${contextPath}/resources/css/mypage/bootstrap.min.css"></script> --%>
 <style>
 #contentArea {
 	padding-left: 100px;
@@ -71,6 +71,9 @@
 							<div style="margin-top:10px;">
 								<button onclick="modify()" align="center" class="form-control btn btn-primary">변경</button>
 							</div>
+							<div style="margin-top:15px;">
+								<button type="button" onclick="secession()" class="form-control btn btn-danger">탈퇴</button>
+							</div>
 						</form>
 					</div>
 				</div>
@@ -78,9 +81,6 @@
 		</div>
 	</div>
 	<script>
-		$(function(){
-			console.log('${loginUser.isStreamer}');
-		})
 		function modify(){
 			if($("#email").val() != ""){
 				if($("#nickName").val() != ""){
@@ -106,6 +106,23 @@
 		}
 		function pwdModify(){
 			window.open('pwdInput.me','new','width=420,height=200,menubar=no, status=no, toolbar=no');
+		}
+		function secession(){
+			var conf = confirm('정말로 탈퇴하시겠습니까? (주의 : 금전적 손실이 발생할 수 있습니다!)');
+			if(conf){
+				var form = document.createElement('form');
+				form.setAttribute('method','post');
+				form.setAttribute('action',"secession.me");
+				document.body.appendChild(form);
+				
+				var mid = document.createElement('input');
+				mid.setAttribute('type','hidden');
+				mid.setAttribute('name','mid');
+				mid.setAttribute('value',$("input[name=mid]").val());
+				form.appendChild(mid);
+				
+				form.submit();
+			}
 		}
 	</script>
 </body>

@@ -2,7 +2,9 @@ package com.kh.nullLive.member.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -57,12 +59,18 @@ public class MemberController {
 	 */
 	@RequestMapping("loginPage.me")
 	public String loginPage(HttpSession session,HttpServletRequest request) {
-		String referer = request.getHeader("referer");
-		referer = referer.substring(referer.lastIndexOf('/')+1);
-		if(referer.equals("") || referer.equals("join.me")) {
-			referer = "index.jsp";
+		String referer = "";
+		if(request.getParameter("referer") != null) {
+			referer = request.getParameter("referer");
+		}else {
+			referer = request.getHeader("referer");
+			referer = referer.substring(referer.lastIndexOf('/')+1);
 		}
-		System.out.println(referer);
+		if(referer.equals("") || referer.equals("join.me") || referer.equals("insert.me")) {
+			referer = "index.jsp";
+		}else if(referer.equals("login.me")){
+			referer = "loginPage.me";
+		}
 		session.setAttribute("redirectUrl", referer);
 		return "member/memberLoginForm";
 	}
@@ -82,6 +90,7 @@ public class MemberController {
 			return "redirect:"+session.getAttribute("redirectUrl");
 		} catch (LoginException e) {
 			model.addAttribute("msg", e.getMessage());
+			model.addAttribute("referer",session.getAttribute("redirectUrl"));
 			return "main/mainError";
 		}
 	}
@@ -123,7 +132,8 @@ public class MemberController {
 			m.setMno(ms.getMno());
 			ms.insertProImage(m);
 			ms.createBroadCenter(m);
-			return "redirect:index.jsp";
+			model.addAttribute("joinMember",m);
+			return "member/insertEndEmailConfirm";
 		} catch (InsertMemberException e) {
 			model.addAttribute("msg", e.getMessage());
 			return "common/errorPage";
@@ -157,7 +167,10 @@ public class MemberController {
 	 * @Comment : 잘못된 접근시 로그인으로 이동
 	 */
 	@RequestMapping("needLogin.me")
-	public String needLogin() {
+	public String needLogin(Model model, HttpServletRequest request) {
+		String referer = request.getHeader("referer");
+		referer = referer.substring(referer.lastIndexOf('/')+1);
+		model.addAttribute("referer",referer);
 		return "member/needLogin";
 	}
 	
@@ -313,5 +326,57 @@ public class MemberController {
 	@RequestMapping("partner.me")
 	public String partner(Member m,Model model) {
 			return "member/myPage/myPagePartner";
+	}
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 11.
+	 * Comment : 이메일 인증 완료
+	 */
+	@RequestMapping("joinConfirm.me")
+	public String joinConfirm(Model model,HttpServletRequest request) {
+		String mid = request.getParameter("mid");
+		try {
+			ms.joinConfirm(mid);
+			return "member/joinConfirm";
+		} catch (InsertMemberException e) {
+			model.addAttribute("msg", e.getMessage());
+			return "common/errorPage";
+		}
+	}
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 11.
+	 * Comment : 회원 탈퇴
+	 */
+	@RequestMapping("secession.me")
+	public String secession(Model model,Member m) {
+		try {
+			ms.secession(m);
+			return "redirect:logout.me";
+		} catch (UpdateMemberException e) {
+			model.addAttribute("msg", e.getMessage());
+			return "common/errorPage";
+		}
+	}
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 11.
+	 * Comment : 이메일 발송
+	 */
+	@RequestMapping("emailConfirm.me")
+	public String emailConfirm(Model model,@RequestParam("mid")String mid, @RequestParam("email")String email) {
+		Member m = new Member();
+		m.setMid(mid);
+		m.setEmail(email);
+		try {
+			ms.emailConfirm(m);
+		} catch (UnsupportedEncodingException | MessagingException e) {
+			model.addAttribute("msg", e.getMessage());
+			return "common/errorPage";
+		}
+		return "success";
 	}
 }

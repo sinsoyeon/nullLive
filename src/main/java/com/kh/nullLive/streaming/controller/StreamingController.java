@@ -91,7 +91,6 @@ public class StreamingController {
 			model.addAttribute("msg",e.getMessage());
 			return "streaming/errorPage";
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			return "streaming/errorPage";
 		}
 	}

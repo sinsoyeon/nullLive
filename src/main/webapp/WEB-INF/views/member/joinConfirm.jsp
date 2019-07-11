@@ -6,13 +6,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<script>
-	var referer = '${referer}';
-	window.onload = function(){
-		alert('${msg}');
-		location.href="loginPage.me?referer="+referer;
-	}
-</script>
 <body>
+	<jsp:include page="../main/main.jsp" />
+	<script>
+		alert('이메일 인증이 완료되었습니다!\n 회원가입한 아이디로 로그인 해주세요');
+		location.href="logout.me";
+	</script>
 </body>
 </html>

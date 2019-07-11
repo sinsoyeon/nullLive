@@ -74,7 +74,7 @@
 			<ul class="sidebar-nav">
 				<li class="sidebar-brand"><a href="myPage.me">마이페이지 홈</a></li>
 				<li><hr/></li>
-				<li><a href="">방송하기</a></li>
+				<li><a href="start.st">방송하기</a></li>
 				<li><a href="">쪽지</a></li>
 				<li><hr /></li>
 				<li><a href="">클립영상</a></li>
