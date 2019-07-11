@@ -238,6 +238,27 @@ public class AdminController {
 	public String adminSitesStatisticsList(Model model) {
 		return "admin/sitesStatistics";
 	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 11.
+	 * @comment : 통계 ajax
+	 */
+	@RequestMapping("memberMonthStatistics.ad")
+	public ResponseEntity memberMonthStatistics(String userId, String statusType) {
+		
+		
+		UserDetail userDetail = new UserDetail();
+		
+		userDetail.setMid(userId);
+		userDetail.setMemStatus(statusType);
+		
+		userDetail = as.userDetail(userDetail);
+		
+		return new ResponseEntity<UserDetail>(userDetail, HttpStatus.OK);
+	}
+	
+	
 
 	// ----------------------------------- 정산
 

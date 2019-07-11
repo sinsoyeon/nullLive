@@ -4,7 +4,22 @@
 <html>
 <head>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
+<meta charset="UTF-8">
+<title>NullLive</title>
+</head>
+<body>
+	<%@ include file="adminMenubar.jsp" %>
+		
+
+		<div align="center">
+			<br>
+			<div id="donutchart" style="width: 900px; height: 500px;"></div>
+			<br>
+			<div id="curve_chart" style="width: 900px; height: 500px;"></div>
+		</div>
+	
+</body>
+<script>
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
 google.charts.setOnLoadCallback(drawVisualization);
@@ -33,7 +48,7 @@ function drawVisualization() {
       ['03시~',  1170,	460  ],
       ['06시~',  660,	1120  ],
       ['09시~',  1030,	540   ],
-      ['12시~',  300,		1010   ],
+      ['12시~',  300,	1010   ],
       ['15시~',  1500,	900  ],
       ['18시~',  200,	1000   ],
       ['21시~',  1050,	300   ]
@@ -50,23 +65,6 @@ function drawVisualization() {
     chart.draw(data, options);
   }
 
-</script>
-<meta charset="UTF-8">
-<title>NullLive</title>
-</head>
-<body>
-	<%@ include file="adminMenubar.jsp" %>
-		
-
-		<div align="center">
-			<br>
-			<div id="donutchart" style="width: 900px; height: 500px;"></div>
-			<br>
-			<div id="curve_chart" style="width: 900px; height: 500px;"></div>
-		</div>
-	
-</body>
-<script>
 	$(function() {
 			$('li:eq(2)').addClass('active');
 			$('#menu2').addClass('active in');

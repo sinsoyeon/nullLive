@@ -3,9 +3,12 @@ package com.kh.nullLive.streamer.model.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.nullLive.board.model.vo.PageInfo;
+import com.kh.nullLive.common.Pagination;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
 @Repository
@@ -102,9 +105,14 @@ public class StreamerDaoImpl implements StreamerDao {
 
 	//환전 신청 내역 조회 (소연)
 	@Override
-	public ArrayList<HashMap<String,Object>> selectExcList(SqlSessionTemplate sqlSession, int mno) {
-		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("Streamer.selectExcList", mno);
+	public ArrayList<HashMap<String,Object>> selectExcList(SqlSessionTemplate sqlSession,HashMap<String, Object> infoMap) {
+		int mno = (int)infoMap.get("mno");
+		PageInfo pi = (PageInfo)infoMap.get("pi");
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi.getLimit());
+		
+		return (ArrayList)sqlSession.selectList("Streamer.selectExcList", mno,rowBounds);
 	}
 
 
@@ -207,6 +215,39 @@ public class StreamerDaoImpl implements StreamerDao {
 	public int mutipleDeleteBlack(SqlSessionTemplate sqlSession, HashMap<String, Object> temp) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("Streamer.mutipleDeleteBlack",temp);
+	}
+
+	@Override
+	public int getCulCount(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Streamer.getCulCount",mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectClcList(SqlSessionTemplate sqlSession,
+			HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		int mno = (int)infoMap.get("mno");
+		PageInfo pi = (PageInfo)infoMap.get("pi");
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi.getLimit());
+		
+		
+		
+		return (ArrayList)sqlSession.selectList("Streamer.clcList",mno,rowBounds);
+	}
+
+	@Override
+	public int getExcCount(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Streamer.getExcCount",mno);
+	}
+
+	@Override
+	public HashMap<String, Object> selectOneClc(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Streamer.selecOneClc",infoMap);
 	}
 
 

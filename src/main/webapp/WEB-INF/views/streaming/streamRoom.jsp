@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <style>
 #page {
   display: grid;
@@ -59,11 +61,13 @@
   	<div id="chat-box"></div>
     <input type="text" id="inputMsg"/>
     <button id="msg_send">전송</button>
-    <button data-toggle="modal" data-target="#logModal"  style="background: pink; color: white;">결제테스트</button>
+    <button data-toggle="modal" data-target="#sponModal" id="sponBtn"  style="width:30px;background: pink; color: white;">결제테스트</button>
     
 
     <input id="nickName" value="빠숑" type="text" hidden>
   	<!-- <div style="display:none;" id="otherClients"></div> -->
+  	
+
   </nav>
   <footer>
     <div class="card border-secondary mb-3" style="max-width: 18rem;">
@@ -85,10 +89,11 @@
   <input type="hidden" id="point" value="${loginUser.point}" />
   <input type="hidden" id="nickName" value="${loginUser.nickName}" />
   
-<!--   
-  	<div id="logModal" class="modal fade" role="dialog" style="z-index:99999; important">
-		<div class="modal-dialog" role="document" style="z-index=99999;">
+  </section>
+  
 
+  	<div id="sponModal" class="modal fade" role="dialog" style="z-index:99999; important">
+		<div class="modal-dialog" role="document" style="z-index:99999;">
 			<div class="modal-content" style="z-index=99999;">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -145,9 +150,9 @@
 				</div>
 			</div>
 		</div>
-	</div> -->
+	</div>
   
-  </section>
+
 
 <!-- rtc script -->
 <script src="${contextPath}/resources/js/streaming/RTCMultiConnection.js"></script>
@@ -197,7 +202,6 @@ $(window).on('beforeunload', function() {
 	      	}
     	}
 });
-
 
 //채팅
 // $(document).ready(function(){
@@ -255,6 +259,15 @@ $(window).on('beforeunload', function() {
 // 	 }; 
 // 	 xhr.open("GET", "http://192.168.30.30:3002/");
 // 	 xhr.send();
+
+window.onload = function(){
+	 $("#logModal").modal('hide');
+	var xhr = new XMLHttpRequest();
+	 xhr.onload = function(){
+	  console.log(xhr.response);  
+	 }; 
+	 xhr.open("GET", "http://192.168.30.30:3002/");
+	 xhr.send();
 
 // }
 

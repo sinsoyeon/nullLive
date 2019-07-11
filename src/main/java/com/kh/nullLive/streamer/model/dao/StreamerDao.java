@@ -32,7 +32,7 @@ public interface StreamerDao {
 
 	int updatePoint(SqlSessionTemplate sqlSession, HashMap<String, Object> excMap);
 
-	ArrayList<HashMap<String,Object>> selectExcList(SqlSessionTemplate sqlSession, int mno);
+	ArrayList<HashMap<String,Object>> selectExcList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
 
 	HashMap<String, Object> selectOneExc(SqlSessionTemplate sqlSession, HashMap<String, Object> userInfoMap);
 
@@ -65,6 +65,14 @@ public interface StreamerDao {
 	ArrayList<HashMap<String, Object>> searchBlackList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
 
 	int mutipleDeleteBlack(SqlSessionTemplate sqlSession, HashMap<String, Object> temp);
+
+	int getCulCount(SqlSessionTemplate sqlSession, int mno);
+
+	ArrayList<HashMap<String, Object>> selectClcList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
+	int getExcCount(SqlSessionTemplate sqlSession, int mno);
+
+	HashMap<String, Object> selectOneClc(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
 
 
 

@@ -92,9 +92,9 @@ public class StreamerServiceImpl implements StreamerService{
 	}
 
 	@Override
-	public ArrayList<HashMap<String,Object>> selectExcList(int mno) {
+	public ArrayList<HashMap<String,Object>> selectExcList(HashMap<String, Object> infoMap) {
 		// TODO Auto-generated method stub
-		return(ArrayList) smDao.selectExcList(sqlSession,mno);
+		return(ArrayList) smDao.selectExcList(sqlSession,infoMap);
 	}
 
 	@Override
@@ -191,5 +191,29 @@ public class StreamerServiceImpl implements StreamerService{
 		  
 		 return result; 
 	 }
+
+	@Override
+	public int getCulCount(int mno) {
+		// TODO Auto-generated method stub
+		return smDao.getCulCount(sqlSession,mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectClcList(HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return smDao.selectClcList(sqlSession,infoMap);
+	}
+
+	@Override
+	public int getExcCount(int mno) {
+		// TODO Auto-generated method stub
+		return smDao.getExcCount(sqlSession,mno);
+	}
+
+	@Override
+	public HashMap<String, Object> selectOneClc(HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return smDao.selectOneClc(sqlSession,infoMap);
+	}
 	
 }
