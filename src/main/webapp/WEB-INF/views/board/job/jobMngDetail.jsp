@@ -70,7 +70,9 @@
 	#contractTable{
 		display: none;
 	}
-	
+	th{
+		background: #e2f0d8;
+	}
 </style>
 
 </head>
@@ -279,7 +281,7 @@
 										<fmt:formatDate type="TIME" timeStyle="short" value="${writtenDate}"/>
 									</c:if>
 								</td>
-								<td><span data-toggle="modal" data-target="#contDetailModal">지원서</span></td>
+								<td><span data-toggle="modal" data-target="#contDetailModal" onclick="return fn_showContractDetail(${list.mno},${ list.bno })">지원서</span></td>
 								<td><button class="btn btn-success btn-xs" onclick="fn_contConsent(${list.mno},${ list.bno })">승낙하기</button></td>
 								
 							
@@ -320,23 +322,37 @@
 	    </div>
 	  </div>
 	  
-	  <!-- 지원자 정보 상세보기 MODAL-->
-	  <div class="modal fade" id="contDetailModal" role="dialog">
-	    <div class="modal-dialog modal-lg">
-	      <div class="modal-content">
-	        <div class="modal-header">
-	          <button type="button" class="close" data-dismiss="modal">&times;</button>
-	          <h4 class="modal-title">게시자 정보 상세보기</h4>
-	        </div>
-	        <div class="modal-body">
-	          <p>This is a large modal.</p>
-	        </div>
-	        <div class="modal-footer">
-	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
+		<!-- 지원자 정보 상세보기 MODAL-->
+		<div class="modal fade" id="contDetailModal" role="dialog">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">게시자 정보 상세보기</h4>
+					</div>
+					<div class="modal-body">
+						<table class="table">
+							<tr>
+								<th>제목</th>
+								<td id="contBTitle"></td>
+								<th scope="row">지원자</th>
+								<td id="contBWriter"></td>
+							</tr>
+							<tr>
+								<th>지원일시</th>
+								<td id="contWrrittenDate"></td>
+							</tr>
+							<tr>
+								<td>내용</td>
+							</tr>
+						</table>
+					</div>
+						<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	
 
 	
@@ -405,8 +421,20 @@
 		}
 		
 		//지원서 보기
-		function fn_showContractDetail(contBno){
-			
+		function fn_showContractDetail(mno,bno){
+			$.ajax({
+				url: "showContractDeatil.jbo",
+				type: "get",
+				data: {bno:bno, mno:mno},
+				success: function(data){
+					console.log(data);
+					
+				},
+				error:function(status){
+					alert("에러");
+				}
+			});
+			return false; 
 		}
 		
 		

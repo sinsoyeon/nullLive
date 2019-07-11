@@ -1,4 +1,5 @@
 
+
 package com.kh.nullLive.board.model.dao;
 
 import java.util.ArrayList;
@@ -404,6 +405,16 @@ public class JobBoardDaoImpl implements JobBoardDao {
 	@Override
 	public ArrayList<HashMap<String, Object>> selectListPartner(SqlSessionTemplate sqlSession, int mno) {
 		return (ArrayList)sqlSession.selectList("Board.selectListPartner",mno);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 11.
+	 * @comment : 구인구직 지원서 상세보기
+	 */
+	@Override
+	public Board selectOneContBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.selectOne("Board.selectOneContBoard",hmap);
 	}
 
 

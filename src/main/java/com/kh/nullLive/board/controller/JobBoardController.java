@@ -19,9 +19,12 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.tribes.group.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -496,11 +499,57 @@ public class JobBoardController {
 			model.addAttribute("");
 			return "redirect:jobBoardList.jbo?bType=JOBMNG&url=board/job/jobMngList";
 		} catch (ContConsentExcption e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			model.addAttribute("msg",e.getMessage());
+			return "common/errorPage";
 		}
+	}
+	
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 11.
+	 * @comment : 지원서 상세보기(ajax)
+	 */
+	@RequestMapping("showContractDeatil.jbo")
+	public ResponseEntity<HashMap<String, Object>> showContractDeatil(HttpServletRequest request, Model model, Board board,Member member) {
+		//정보를 담아 리턴하기 위한 hashMap
+		HashMap<String,Object> contDeatilMap = new HashMap<>();
+		//정보 조회를 위한 HashMap
+		HashMap<String,Object> hmap = new HashMap<>();
 		
-		return null;
+		hmap.put("board",board);
+		hmap.put("member",member);
+		
+		ArrayList<Attachment> attList = jbs.selectListBoardAtt(board.getBno());
+		
+		System.out.println(board);
+		System.out.println(member);
+		Board contBoard = jbs.selectoneContBoard(hmap);
+		contDeatilMap.put("attList",attList);
+		contDeatilMap.put("board",contBoard);
+		
+		System.out.println(contDeatilMap);
+		return new ResponseEntity<HashMap<String,Object>>(contDeatilMap,HttpStatus.OK);
 	}
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

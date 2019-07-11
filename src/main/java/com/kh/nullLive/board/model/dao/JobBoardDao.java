@@ -112,5 +112,7 @@ public interface JobBoardDao {
 
 	ArrayList<HashMap<String, Object>> selectListPartner(SqlSessionTemplate sqlSession, int mno);
 
+	Board selectOneContBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
 
 }

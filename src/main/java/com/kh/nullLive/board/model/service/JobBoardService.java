@@ -70,5 +70,7 @@ public interface JobBoardService {
 
 	void insertMngContConsent(HashMap<String, Object> hmap) throws ContConsentExcption;
 
+	Board selectoneContBoard(HashMap<String, Object> hmap);
+
 
 }
