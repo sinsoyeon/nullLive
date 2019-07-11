@@ -202,8 +202,8 @@
 					console.log(data);
 					
 					if(data=='success'){
-						alert('블랙리스트 해제 처리가 완료되었습니다.')
-						location.href=''
+						alert('블랙리스트 해제 처리가 완료되었습니다.');
+						location.href='';
 					}
 				}
 				

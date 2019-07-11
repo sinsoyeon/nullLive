@@ -28,7 +28,7 @@ public interface StreamerService {
 
 	int insertExchange(HashMap<String, Object> excMap);
 
-	ArrayList<HashMap<String,Object>> selectExcList(int mno);
+	ArrayList<HashMap<String,Object>> selectExcList(HashMap<String, Object> infoMap);
 
 	HashMap<String, Object> selectOneExc(HashMap<String, Object> userInfoMap);
 
@@ -55,6 +55,14 @@ public interface StreamerService {
 	ArrayList<HashMap<String, Object>> searchBlackList(HashMap<String, Object> infoMap);
 
 	int mutipleDeleteBlack(HashMap<String, Object> infoMap);
+
+	int getCulCount(int mno);
+
+	ArrayList<HashMap<String, Object>> selectClcList(HashMap<String, Object> infoMap);
+
+	int getExcCount(int mno);
+
+	HashMap<String, Object> selectOneClc(HashMap<String, Object> infoMap);
 
 
 }

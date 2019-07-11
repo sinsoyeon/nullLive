@@ -199,8 +199,8 @@
 	</div>
 	<script>
 		//게시판 상세보기
-		$(function(){
-			
+	 	$(function(){
+		
 			
 			$("#listArea td").mouseenter(function(){
 				$(this).parent().css({"background":"#e2f0d8","cursor":"pointer"});
@@ -213,7 +213,6 @@
 			//마감 여부에 따른 리스트 변경
 			$("#listArea td").each(function(){
 				var staDetail = $(this).text().trim();
-
 				//모집완료 , 등록만료글 이벤트 제거
 				if( staDetail == "모집완료" || staDetail == "등록만료"){
 					$(this).parent().css({"background":"darkgray"});
@@ -245,6 +244,7 @@
 			var sub = "bType=JOBCON&url=board/job/jobContentList";
 			location.href="jobMyboard.jbo?"+sub ;
 		}
+		
 	</script>
 	
 	

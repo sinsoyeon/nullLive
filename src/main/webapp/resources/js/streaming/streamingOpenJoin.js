@@ -4,12 +4,27 @@
 $(function(){
 	var IMP = window.IMP; // 생략가능
 	IMP.init('imp08034800'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+	 $("#sponModal").hide();
     openJoinStreaming();
-    $("#logModal").modal("hide");
-})
+    /*console.log(io.sockets.manager.rooms(document.getElemnetById('room-id').value));*/
+});
+
+
+/*document.getElementById('sponBtn').onclick = function(){
+	 $("#sponModal").show();
+}
+*/
+$('#sponBtn').click(function(){
+	console.log('열림');
+	 $("#sponModal").modal();
+});
+
+
 function openStreaming() {
     connection.open(document.getElementById('room-id').value, function() {
         showRoomURL(connection.sessionid);
+ 
+    	console.log()
     });
 };
 

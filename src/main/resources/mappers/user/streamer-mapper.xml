@@ -121,6 +121,19 @@
 		ORDER BY SPON_DATE DESC
 	</select>	
 	
+	<select id="getExcCount" resultType="_int" parameterType="_int">
+		SELECT COUNT(*)
+		FROM
+		(SELECT EXC_STATUS,EXC_FEE,EXCNO,EXC_AMOUNT,TO_CHAR(APPLICATION_DATE,'YYYY/MM/DD') AS APPLICATION_DATE,NICK_NAME
+		FROM MEMBER,EXCHANGE
+		WHERE MEMBER.MNO =
+		EXCHANGE.MNO
+		AND MEMBER.MNO = #{mno}
+	 	ORDER BY APPLICATION_DATE DESC)
+	</select>
+	
+	
+	
 	
 	<!-- 환전 신청 내용 조회(소연) -->
 	 <select id="selectExcList" resultType="java.util.HashMap" parameterType="_int">
@@ -365,6 +378,49 @@
 	<update id="mutipleDeleteBlack" parameterType="java.util.HashMap">
 		UPDATE BLACKLIST SET BL_STATUS = 'N' WHERE SNO = #{mno} AND BLNO = #{blno}
 	</update>
+	
+	<!-- 스트리머 정산 내역 count 조회 -->
+	<select id="getCulCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) AS CLC_COUNT
+		FROM (SELECT M.NICK_NAME,R.C_SDATE,R.C_EDATE,CLC_DATE,CLC_AMOUNT
+		FROM MEMBER M,MEMBER ST,PARTNER P,CALCULATE C,CONTRACT R
+		WHERE M.MNO = P.MNO
+		AND ST.MNO = P.SNO
+		AND C.SNO = ST.MNO
+		AND R.CNO = P.CNO
+		AND P.PNO = C.CLCNO
+		AND ST.MNO = #{mno})
+		
+	</select>
+	
+	<!-- 내가 정산해준  내역 조회(소연) -->
+	<select id="clcList" parameterType="_int" resultType="java.util.HashMap">
+		SELECT C.CLCNO,M.NICK_NAME,TO_CHAR(R.C_SDATE,'YYYY/MM/DD') AS SDATE,TO_CHAR(R.C_EDATE,'YYYY/MM/DD') AS EDATE
+		            ,TO_CHAR(CLC_DATE,'YYYY/MM/DD') AS CLC_DATE,CLC_AMOUNT,CLC_STATUS,DEC_STATUS
+		FROM MEMBER M,MEMBER ST,PARTNER P,CALCULATE C,CONTRACT R,DECLINE D
+		WHERE M.MNO = P.MNO
+		AND ST.MNO = P.SNO
+		AND C.SNO = ST.MNO
+		AND R.CNO = P.CNO
+		AND P.PNO = C.CLCNO
+		AND D.CLCNO(+) = C.CLCNO
+		AND ST.MNO = #{mno}
+		order by dec_status desc
+	</select>
+	
+	<select id="selecOneClc" resultType="java.util.HashMap" parameterType="java.util.HashMap">	
+		SELECT DECNO,M.NICK_NAME,ST.NICK_NAME AS ST_NICK_NAME,ST.MID,TO_CHAR(R.C_SDATE,'YYYY/MM/DD') AS SDATE,TO_CHAR(R.C_EDATE,'YYYY/MM/DD') AS EDATE,
+		            CLC_AMOUNT,DEC_DATE,CLC_AMOUNT,DEC_REASON
+		FROM MEMBER M,MEMBER ST,PARTNER P,CALCULATE C,CONTRACT R,DECLINE D
+		WHERE M.MNO = P.MNO
+		AND ST.MNO = P.SNO
+		AND C.SNO = ST.MNO
+		AND R.CNO = P.CNO
+		AND P.PNO = C.CLCNO
+		AND D.CLCNO = C.CLCNO
+		AND ST.MNO = #{mno}
+		AND C.CLCNO = #{clcno}
+	</select>
 	
 	   <!-- mno로 스트리머 정보 조회.....병욱.... -->
    <select id="selectStreamerMno" parameterType="_int" resultMap="streamerResultSet2">
