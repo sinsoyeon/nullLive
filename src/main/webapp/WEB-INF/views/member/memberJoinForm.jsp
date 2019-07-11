@@ -11,6 +11,8 @@
 <link
 	href="//maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css"
 	rel="stylesheet">
+<%-- <script
+	src="${contextPath}/resources/css/mypage/bootstrap.min.css"></script> --%>
 <style>
 body {
 	background: #f8f8f8;

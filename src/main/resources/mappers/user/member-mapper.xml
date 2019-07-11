@@ -41,12 +41,11 @@
 		<result property="attStatus" column="ATT_STATUS"/>
 	</resultMap>
 
-	
+	<!-- 로그인 정보 가져오기 -->
 	<select id="selectMember" resultMap="memberResultSet" parameterType="Member">
 		SELECT *
 		FROM MEMBER
 		WHERE MID = #{mid}
-		AND M_STATUS = 'Y'
 	</select>
 	<!-- mno로 맴버 조회 -->
 	<select id="selectMemberMno" resultMap="memberResultSet" parameterType="_int">
@@ -60,7 +59,6 @@
 		SELECT MPWD
 		FROM MEMBER
 		WHERE MID = #{mid}
-		AND M_STATUS = 'Y'
 	</select>
 	
 	<insert id="insertMember" parameterType="Member">
@@ -144,7 +142,6 @@
 		SELECT COUNT(*)
 		FROM MEMBER
 		WHERE MID=#{mid}
-		AND M_STATUS='Y'
 	</select>
 	
 	<!-- 관리자 조회용  -->
@@ -197,6 +194,27 @@
 		FROM BANK_ACCOUNT
 		WHERE MNO=#{mno}
 		AND BANK_STATUS='Y'
+	</select>
+	
+	<!-- 이메일 인증 완료 -->
+	<update id="joinConfirm" parameterType="java.lang.String">
+		UPDATE MEMBER
+		SET EMAIL_CHECK='Y'
+		WHERE MID=#{mid}
+	</update>
+	
+	<!-- 회원 탈퇴 -->
+	<update id="secession" parameterType="Member">
+		UPDATE MEMBER
+		SET M_STATUS='N'
+		WHERE MID=#{mid}
+	</update>
+	
+	<!-- 정지 기간 가져오기 -->
+	<select id="getBanDate" parameterType="Member" resultType="java.util.HashMap">
+		SELECT BAN_DATE,BAN_END
+		FROM BAN
+		WHERE MNO=#{mno}
 	</select>
 		
 </mapper>

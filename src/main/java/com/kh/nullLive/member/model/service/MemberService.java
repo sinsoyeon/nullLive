@@ -1,5 +1,9 @@
 package com.kh.nullLive.member.model.service;
 
+import java.io.UnsupportedEncodingException;
+
+import javax.mail.MessagingException;
+
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.exception.CheckException;
 import com.kh.nullLive.member.model.exception.InsertMemberException;
@@ -21,6 +25,8 @@ public interface MemberService {
 
 	/**
 	 * @throws InsertMemberException 
+	 * @throws MessagingException 
+	 * @throws UnsupportedEncodingException 
 	 * @Author : ryan
 	 * @Date : 2019. 6. 18.
 	 * @Comment : 회원가입
@@ -116,6 +122,31 @@ public interface MemberService {
 	 * Comment : 계좌 있는지
 	 */
 	int existBankAccount(int mno);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 11.
+	 * Comment : 이메일 인증 완료
+	 * @throws InsertMemberException 
+	 */
+	void joinConfirm(String mid) throws InsertMemberException;
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 11.
+	 * Comment : 회원 탈퇴
+	 * @throws UpdateMemberException 
+	 */
+	void secession(Member m) throws UpdateMemberException;
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 11.
+	 * Comment : 이메일 발송
+	 * @throws UnsupportedEncodingException 
+	 * @throws MessagingException 
+	 */
+	void emailConfirm(Member m) throws MessagingException, UnsupportedEncodingException;
 
 	
 }

@@ -163,6 +163,29 @@ public interface MemberDao {
 	 */
 	int existBankAccount(SqlSessionTemplate sqlSession, int mno);
 
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 11.
+	 * Comment : 이메일 인증 완료
+	 */
+	int joinConfirm(SqlSessionTemplate sqlSession, String mid);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 11.
+	 * Comment : 회원 탈퇴
+	 */
+	int secession(SqlSessionTemplate sqlSession, Member m);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 11.
+	 * Comment : 정지 기간 가져오기
+	 * @param sqlSession 
+	 * @return 
+	 */
+	HashMap<String, Object> getBanDate(SqlSessionTemplate sqlSession, Member loginMember);
+
 
 
 }

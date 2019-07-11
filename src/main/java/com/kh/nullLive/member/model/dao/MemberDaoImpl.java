@@ -142,6 +142,22 @@ public class MemberDaoImpl implements MemberDao {
 	public int existBankAccount(SqlSessionTemplate sqlSession, int mno) {
 		return sqlSession.selectOne("Member.existBankAccount",mno);
 	}
+	//이메일 인증 완료
+	@Override
+	public int joinConfirm(SqlSessionTemplate sqlSession, String mid) {
+		return sqlSession.update("Member.joinConfirm",mid);
+	}
+	//회원 탈퇴
+	@Override
+	public int secession(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("Member.secession",m);
+	}
+	//정지 기간 가져오기
+	@Override
+	public HashMap<String,Object> getBanDate(SqlSessionTemplate sqlSession, Member loginMember) {
+		return sqlSession.selectOne("Member.getBanDate",loginMember);
+		
+	}
 
 
 }

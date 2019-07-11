@@ -77,6 +77,7 @@
         <h5 class="card-title"></h5>
         <p class="card-text"></p>
       </div>
+      <button onclick="testMsg()">testMsg</button>
       <button onclick="endRecordAndService()">downtest</button>
     </div>
   </footer>
@@ -88,14 +89,12 @@
   <input type="hidden" id="point" value="${loginUser.point}" />
   <input type="hidden" id="nickName" value="${loginUser.nickName}" />
   
-
   </section>
   
 
   	<div id="sponModal" class="modal fade" role="dialog" style="z-index:99999; important">
 		<div class="modal-dialog" role="document" style="z-index:99999;">
-
-			<div class="modal-content" style="z-index:99999;">
+			<div class="modal-content" style="z-index=99999;">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">Login</h4>
@@ -151,7 +150,7 @@
 				</div>
 			</div>
 		</div>
-	</div>  
+	</div>
   
 
 
@@ -205,54 +204,61 @@ $(window).on('beforeunload', function() {
 });
 
 //채팅
-$(document).ready(function(){
- 
-  var socket = io("http://192.168.30.30:9011");
+// $(document).ready(function(){
+//   var socket = io("http://192.168.30.30:9011");
     
-  //엔터키 입력시
-  $("#inputMsg").keydown(function(key){
-    if(key.keyCode == 13){
-      //msg_send 클릭
-      msg_send.click();
-    }
-  });
+//   //엔터키 입력시
+//   $("#inputMsg").keydown(function(key){
+//     if(key.keyCode == 13){
+//       //msg_send 클릭
+//       msg_send.click();
+//     }
+//   });
     
-  //msg_send 클릭시
-  $("#msg_send").click(function(){
-    /* var output ='';
-    output += $("#nickName").val();
-    output += ' : ';
-    output += $("#inputMsg").val(); */
+//   //msg_send 클릭시
+//   $("#msg_send").click(function(){
+//     /* var output ='';
+//     output += $("#nickName").val();
+//     output += ' : ';
+//     output += $("#inputMsg").val(); */
       
-    //소켓에 send_msg 이벤트로 msg 전달
-    socket.emit('send_msg',{
-      name: $('#nickName').val(),
-      message : $("#inputMsg").val()
+//     //소켓에 send_msg 이벤트로 msg 전달
+//     socket.emit('send_msg',{
+//       name: $('#nickName').val(),
+//       message : $("#inputMsg").val()
     
-    });
+//     });
     
       
-    /* socket.emit("send_msg", output); */
+//     /* socket.emit("send_msg", output); */
     
     
-    //#inputMsg 비움
-    $("#inputMsg").val("");
-  });
+//     //#inputMsg 비움
+//     $("#inputMsg").val("");
+//   });
     
-  //소켓 서버로 부터 send_msg를 통해 이벤트를 받을 경우 
-    socket.on('send_msg', function(msg) {
-        //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
-        $('<div></div>').text(msg.name + " : " + msg.message).appendTo("#chat-box");
-    });
+//   //소켓 서버로 부터 send_msg를 통해 이벤트를 받을 경우 
+//     socket.on('send_msg', function(msg) {
+//         //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
+//         $('<div></div>').text(msg.name + " : " + msg.message).appendTo("#chat-box");
+//     });
   
-  //DB에 저장되어 있는 내용을 가져올 경우
-  socket.on('preload', function(data){
-    $('<div></div>').text(data.name + " : " + data.message).appendTo("#chat-box");
-  });
+//   //DB에 저장되어 있는 내용을 가져올 경우
+//   socket.on('preload', function(data){
+//     $('<div></div>').text(data.name + " : " + data.message).appendTo("#chat-box");
+//   });
 
-});
+// });
 
 
+
+// window.onload = function(){
+// 	var xhr = new XMLHttpRequest();
+// 	 xhr.onload = function(){
+// 	  console.log(xhr.response);  
+// 	 }; 
+// 	 xhr.open("GET", "http://192.168.30.30:3002/");
+// 	 xhr.send();
 
 window.onload = function(){
 	 $("#logModal").modal('hide');
@@ -263,7 +269,7 @@ window.onload = function(){
 	 xhr.open("GET", "http://192.168.30.30:3002/");
 	 xhr.send();
 
-}
+// }
 
 
 </script>

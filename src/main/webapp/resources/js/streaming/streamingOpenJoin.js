@@ -1,19 +1,25 @@
 // ......................................................
 // .......................UI Code........................
 // ......................................................
+const mid = document.getElementById('mid').value;
 $(function(){
-	var IMP = window.IMP; // 생략가능
-	IMP.init('imp08034800'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+	//var IMP = window.IMP; // 생략가능
+	//IMP.init('imp08034800'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+    console.log(mid+'==?'+document.getElementById('room-id').value);
+    if(mid == document.getElementById('room-id').value){
+        openStreaming();
+    }else{
+        joinStreaming();
+    }
+    //$("#logModal").modal("hide");
+})
+function openStreaming() {
+    connection.open(document.getElementById('room-id').value);
 	 $("#sponModal").hide();
     openJoinStreaming();
     /*console.log(io.sockets.manager.rooms(document.getElemnetById('room-id').value));*/
 });
 
-
-/*document.getElementById('sponBtn').onclick = function(){
-	 $("#sponModal").show();
-}
-*/
 $('#sponBtn').click(function(){
 	console.log('열림');
 	 $("#sponModal").modal();
@@ -28,21 +34,14 @@ function openStreaming() {
     });
 };
 
-function openJoinStreaming() {
-    connection.openOrJoin(document.getElementById('room-id').value, function(isRoomExist, roomid) {
-        if (isRoomExist === false && connection.isInitiator === true) {
-            // if room doesn't exist, it means that current user will create the room
-            showRoomURL(roomid);
-        }
+function joinStreaming(){
+    connection.sdpConstraints.mandatory = {
+        OfferToReceiveAudio: false,
+        OfferToReceiveVideo: false
+    };
+    connection.join(document.getElementById('room-id').value);
+}
 
-        if(isRoomExist) {
-          connection.sdpConstraints.mandatory = {
-              OfferToReceiveAudio: true,
-              OfferToReceiveVideo: true
-          };
-        }
-    });
-};
 
 // ......................................................
 // ..................RTCMultiConnection Code.............
@@ -59,26 +58,62 @@ connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
 // type of broadCast
 connection.socketMessageEvent = 'video-broadcast-demo';
 
-var braodMethod = $("#broadMethod").val();
-if(braodMethod == 'cam'){
+var broadMethod = document.getElementById("broadMethod").value;
+if(broadMethod == 'cam'){
     //web-cam braodcast
     connection.session = {
         audio: true,
         video: true,
+        data:true,
         oneway: true
     };
-}else{
+}else if(broadMethod == 'screen'){
     //screen-sharing
     connection.session = {
         screen: true,
+        data:true,
         oneway: true
     };
+}else{
+    connection.session = {
+        audio:true,
+        video:true,
+        data:true,
+        oneway: true
+    }
 }
-
+console.log('braodMethod : '+broadMethod+" - "+connection.session);
 connection.sdpConstraints.mandatory = {
     OfferToReceiveAudio: false,
     OfferToReceiveVideo: false
 };
+
+//...............CustomMessage..................
+
+function testMsg(){
+    console.log("testMsg()호출");
+    //remote user will recieve this request
+    connection.send('testMsg()보냄');
+}
+
+connection.onmessage  = function(event){
+    console.log(event.data);
+    console.log(event);
+}
+
+// 금칙어 같은거 할 때 쓸만한 코드
+// document.getElementById('input-text-chat').onkeyup = function(e) {
+//     if (e.keyCode != 13) return;
+//     // removing trailing/leading whitespace
+//     this.value = this.value.replace(/^\s+|\s+$/g, '');
+//     if (!this.value.length) return;
+//     connection.send(this.value);
+//     appendDIV(this.value);
+//     this.value = '';
+//   };
+
+//..............CustomMessageEnd................
+
 //...............resolution change..............
 // function applyConstraints(stream) {
 //     var width = 1280;
@@ -97,6 +132,7 @@ connection.sdpConstraints.mandatory = {
 
 // applyConstraints(connection.attachStreams[0]);
 // ...............................resoultion change end
+
 
 // https://www.rtcmulticonnection.org/docs/iceServers/
 // use your own TURN-server here!
@@ -231,10 +267,10 @@ function showRoomURL(roomid) {
     html += '<br>';
     html += 'QueryString URL: <a href="' + roomQueryStringURL + '" target="_blank">' + roomQueryStringURL + '</a>';
 
-    var roomURLsDiv = document.getElementById('room-urls');
-    roomURLsDiv.innerHTML = html;
+    // var roomURLsDiv = document.getElementById('room-urls');
+    // roomURLsDiv.innerHTML = html;
 
-    roomURLsDiv.style.display = 'block';
+    // roomURLsDiv.style.display = 'block';
 }
 
 (function() {
