@@ -304,11 +304,36 @@
 	</div>
 	<script>
 	$(function(){
+		HotLiveLoad();
 	});
 	
 	/* HOT 방송 목록 */
 	//HOT 실시간 방송 조회
-	
+	function HotLiveLoad(){
+		
+		$.ajax({
+		url:"hotLiveList.st",
+		type:"get",
+		success:function(data){
+			$hotDivL = $("#hotDivL");
+			$hotDivL.html('');
+			
+			console(data.list);
+			
+			$.each(data.list, function(index, value){
+				$div = $("<div class='col-md-4'> <div class='thumbnail'> <img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;'> <p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong id='hbTitle' style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'><span>[생] </span></strong> </p> <p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' id="hbUser"></p> <p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'> <i class='fas fa-user-friends'></i><span id='hbViewer'></span>명 시청 </p> </div> </div>");
+				
+				console.log();
+				
+				
+				
+				$hotDivL.append($div);
+			});
+			
+			
+		}
+	});
+ 	}
 	</script>
 </body>
 </html>

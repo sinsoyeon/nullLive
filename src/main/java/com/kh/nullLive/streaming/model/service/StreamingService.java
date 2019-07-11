@@ -1,5 +1,8 @@
 package com.kh.nullLive.streaming.model.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streaming.model.exception.EnterStreamingException;
 import com.kh.nullLive.streaming.model.vo.BroadHis;
@@ -43,6 +46,11 @@ public interface StreamingService {
 	void exitStreaming(String mid, String bhno);
 
 	int checkBlackList(Member loginUser, String streamerAddress);
+
+	//메인페이지 Hot Live 방송 목록 개수
+	int getHotLiveListCount();
+	//메인페이지 Hot Live 방송 목록 조회
+	ArrayList<HashMap<String, Object>> selectHotLiveList();
 
 	
 	

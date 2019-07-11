@@ -2,16 +2,24 @@ package com.kh.nullLive.streaming.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kh.nullLive.board.model.vo.Board;
+import com.kh.nullLive.board.model.vo.PageInfo;
+import com.kh.nullLive.common.Pagination;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streaming.model.exception.EnterStreamingException;
 import com.kh.nullLive.streaming.model.service.StreamingService;
@@ -131,5 +139,25 @@ public class StreamingController {
 	public String exitStreaming(@RequestParam(name="mid")String mid,@RequestParam(name="bhno")String bhno) {
 		ss.exitStreaming(mid,bhno);
 		return null;
+	}
+	
+	/**
+	 * @author : eon
+	 * @date : 2019. 7. 11.
+	 * @comment : 메인페이지 Hot Live 방송 리스트 조회용 메소드
+	 */
+	@RequestMapping("hotLiveList.st")
+	public ResponseEntity<HashMap<String, Object>> selectNList(HttpServletRequest request) {
+		//오늘의 Hot Live 방송 갯수 가져옴
+		int listCount = ss.getHotLiveListCount();
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+
+		ArrayList<HashMap<String, Object>> hmap;
+		hmap = ss.selectHotLiveList();
+
+		map.put("hmap", hmap);
+
+		return new ResponseEntity<HashMap<String, Object>>(map, HttpStatus.OK);
 	}
 }
