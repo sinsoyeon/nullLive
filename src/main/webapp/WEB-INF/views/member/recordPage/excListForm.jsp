@@ -19,7 +19,7 @@
 			<div class="col-md-8">
 				<input type="hidden" value="${loginUser.mno}" id="mno" />	
 				<div id="myExcTableArea">
-		
+					
 					<h4 style="color: #333333 !important;" id="textLine1">포인트 환전 신청 내역</h4>
 					<table class="table" id="myExcTable">
 						<thead class="thead-dark"
@@ -37,6 +37,13 @@
 						</tbody>
 					</table>
 					
+					<div id="excPaingArea" align="center">
+						<ul class="pagination">
+						
+						</ul>
+					</div>
+				</div>
+				<div id="chargeArea">
 					<h4 style="color: #333333 !important;" id="textLine1">NULL 충전 내역</h4>
 					<table class="table" id="chargeTable">
 						<thead class="thead-dark"
@@ -53,25 +60,33 @@
 							
 						</tbody>
 					</table>					
-					
+				</div>
+				<div id="calArea" align="center">
 					<h4 style="color: #333333 !important;" id="textLine1">정산 신청 내역</h4>
-					<table class="table" id="">
+					<table class="table" id="calTable">
 						<thead class="thead-dark"
 							style="color: #fff; ! important; background: #333 !important;">
 							<tr>
-								<th scope="col">정산 헤더 1</th>
-								<th scope="col">정산 헤더 2</th>
-								<th scope="col">정산 헤더 3</th>
-								<th scope="col">정산 헤더 4</th>
-								<th scope="col">정산 헤더 5</th>
+								<th scope="col">요청 파트너</th>
+								<th scope="col">계약 시작일</th>
+								<th scope="col">계약 종료일</th>
+								<th scope="col">정산 날짜</th>
+								<th scope="col">정산 금액</th>
+								<th scope="col">정산 상태</th>
 							</tr>
 						</thead>
 						<tbody>
 							
 						</tbody>
-					</table>	
-														
-				</div>
+					</table>
+					<div id="clcPaging">
+						<ul>
+						
+						
+						</ul>
+					</div>	
+				</div>										
+				
 						
 			</div>
 			
@@ -100,7 +115,7 @@
 								<tbody>
 								
 								</tbody>
-							</table>
+							</table>							
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -109,14 +124,45 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- 정산 거절 이력 상세 정보 조회용 모달 -->
+		<div id="decModal" class="modal fade" role="dialog"
+			style="z-index: 99999;">
+			<div class="modal-dialog" role="document" style="z-index: 99999;">
+
+				<div class="modal-content" style="z-index: 99999;">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title" style="text-align: center;"
+							id="searchHeader">정산 거절이력</h4>
+					</div>
+					<div class="modal-body">
+						<div id="bodyArea" align="center">
+							<h4>상세보기</h4>
+						<input type="hidden" id="excno" />
+						<input type="hidden" id="mno" value="${loginUser.mno }" />	
+							<table id="decTable">
+								<tbody>
+								
+								</tbody>
+							</table>							
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>		
 	</c:if>
 	
 	<script>
 		$(function(){
 			// tableName : myExcTable
 			var mno = ${loginUser.mno};
-			excList(mno);
+			excList(mno,1);
 			chargeList(mno);
+			calList(mno,1);
 		
 		});
 

@@ -63,18 +63,111 @@ function chargeList(mno){
 	});
 }
 
-function excList(mno){		
-	$("#myExcTable > body").html('');
+function calList(mno,currentPage){
+	$("#calTable > body").html('');
+	console.log('mno : ' + mno)
+	$.ajax({
+		url:"selectCulList.sm",
+		type:"post",
+		data:{mno:mno,currentPage:currentPage},
+		success:function(data){
+			console.log(data.infoMap);
+			$("#clcPaging > ul").html('');
+			
+			var clcList = data.infoMap.clcList;
+			var pi = data.pi;
+			console.log(clcList);
+			$.each(clcList,function(index,value){
+	
+			var status ='';
+			
+			if(value["CLC_STATUS"] == 'Y'){
+				status = '정산 완료';
+			}else if(value["CLC_STATUS"]=='N' && value["DEC_STATUS"]==null){
+				status = '정산 접수 완료';
+			}else{
+				status = '<button id="decBtn" class="btn btn-primary">거절 이력 보기</button>'
+			}
+			console.log(value["CLCNO"]);
+			$("#calTable > tbody").append('<tr id="myTr"><td><input type="text" id="clcno" name="clcno" value="'
+					+value["CLCNO"] + 
+					'"' + '/></td><td>' +value["NICK_NAME"] + '</td><td>'
+					+ value["SDATE"] + '</td><td>' 
+					+ value["EDATE"] + '</td><td>'
+					+ value["CLC_DATE"] + '</td><td>'
+					+ value["CLC_AMOUNT"] + '</td><td>'
+					+ status +'</td></tr>')
+					
+			/*	$("#clcno").attr('value',value["CLCNO"]);*/
+				console.log($('#clcno').val());
+			});
+			
+			
+			//excPaingArea			
+			
+			var $firstButton = $('<li class="pagination" onclick="calList(0,1);"> << </li>');
+			
+			
+			$("#clcPaging > ul").append($firstButton);
+			
+			console.log(data.infoMap.pi.maxPage);
+			for(var i = 0; i <data.infoMap.pi.maxPage;i++){
+				$("#clcPaging >ul ").append('<li class="pagination" onclick="calList('+ mno + ',' + (i+1) +')">' + (i+1) + '</li>');
+				
+				
+			};
+			
+			var $endButton = $('<li class="pagination" onclick="calList('+ mno + ',' + data.infoMap.pi.maxPage  +');"> >> </li>');
+			$("#clcPaging > ul").append($endButton);
+		}
+	})
+}
+
+
+$(document).on('click', '#decBtn', function(){
+	console.log('호출됨');
+	//decTable
+	
+	/*var clcno = $(this).parent('td').find('#clcno').val();*/
+	var mno = $('#mno').val();
+	
+	console.log($(this).parent('#myTr').find('#clcno').val());
+	
+	$('#decModal').html('');
+	
+	$.ajax({
+		url:"selecOneClc.sm",
+		type:"post",
+		data:{mno:mno,clcno:clcno},
+		success:function(data){
+			console.log(data.clcMap);
+		}
+	});
+	
+});
+
+function excList(mno,currentPage){		
+	$("#myExcTable > tbody").html('');
+	
+	
+	var currentPage = currentPage;
+	
+	console.log(currentPage);
 	
 	$.ajax({
 		url:"selectExcList.sm",
 		type:"post",
-		data:{mno:mno},
+		data:{mno:mno,currentPage:currentPage},
 		success:function(data){
-			var excList = data.excList;
+			$("#excPaingArea > ul").html('');
+			
+			var excList = data.infoMap.excList;
+			var pi = data.pi;
+			
 			var totalAmount = 0 ;
 			var status = '';
 			var nickName = '';
+			
 			$.each(excList,function(index,value){
 			console.log(excList);
 										
@@ -96,12 +189,29 @@ function excList(mno){
 													  
 			});
 			
-			$("#myExcTable > tbody > #myTr").click(function(){						
-				
+			
+			//excPaingArea			
+			$("#myExcTable > tbody > #myTr").click(function(){									
 				if($(this).children("td").eq(4).text()=='환전 접수'){
 					selectOneExc(mno,$(this).children("td").eq(0).text());
 				}
 			});
+			
+			var $firstButton = $('<li class="pagination" onclick="excList(0,1);"> << </li>');
+			
+			
+			$("#excPaingArea > ul").append($firstButton);
+			
+			console.log(data.infoMap.pi.maxPage);
+			for(var i = 0; i <data.infoMap.pi.maxPage;i++){
+				$("#excPaingArea >ul ").append('<li class="pagination" onclick="excList('+ mno + ',' + (i+1) +')">' + (i+1) + '</li>');
+				
+				
+			};
+			
+			var $endButton = $('<li class="pagination" onclick="excList('+ mno + ',' + data.infoMap.pi.maxPage  +');"> >> </li>');
+			$("#excPaingArea > ul").append($endButton);
+			
 			
 			if(totalAmount==0){
 				$("#myExcTable > tbody").append('<tr><td colspan="5"><div class="alert alert-danger" role="alert">진행중인 환전 내역이 없습니다.</div></td></tr>');

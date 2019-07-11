@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.kh.nullLive.board.model.vo.PageInfo;
 import com.kh.nullLive.broadCenter.model.exception.StreamerUpdateException;
 import com.kh.nullLive.broadCenter.model.service.BroadCenterService;
+import com.kh.nullLive.common.Pagination;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.service.StreamerService;
 import com.kh.nullLive.streamer.model.vo.Streamer;
@@ -198,20 +201,7 @@ public class StreamerController {
 		return "member/recordPage/excListForm";
 	}
 
-	@RequestMapping("selectExcList.sm")
-	public ModelAndView selectExcList(int mno, ModelAndView modelAndView) {
 
-		ArrayList<HashMap<String, Object>> excList = smService.selectExcList(mno);
-
-		for (int i = 0; i < excList.size(); i++) {
-			excList.get(i).put("APPLICATION_DATE", excList.get(i).get("APPLICATION_DATE").toString());
-		}
-
-		modelAndView.setViewName("jsonView");
-		modelAndView.addObject("excList", excList);
-
-		return modelAndView;
-	}
 
 	@RequestMapping("selectOneExc.sm")
 	public ModelAndView selectOneExc(int mno, int excno, ModelAndView modelAndView) {
@@ -460,5 +450,100 @@ public class StreamerController {
 
 		return modelAndView; 
 		}
+	
+	
+	@RequestMapping("selectCulList.sm")
+	public ModelAndView selectCulList(int mno,ModelAndView modelAndView,@RequestParam("currentPage")String reqCurrentPage) {
+		System.out.println("mno : " + mno);
+		int currentPage = 1;
+		
+		if(reqCurrentPage != null) {
+			currentPage = Integer.parseInt(reqCurrentPage);
+		}
+		
+		int culCount = smService.getCulCount(mno);
+		
+		PageInfo pi = Pagination.getSPageInfo(currentPage, culCount);
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("pi", pi);
+		infoMap.put("mno", mno);
+		
+		ArrayList<HashMap<String, Object>> clcList;
+		clcList = smService.selectClcList(infoMap);
+		
+		
+		infoMap = new HashMap<String, Object>();
+		
+		infoMap.put("pi", pi);
+		infoMap.put("clcList", clcList);
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("infoMap",infoMap);
+		
+		System.out.println(clcList);
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping("selectExcList.sm")
+	public ModelAndView selectExcList(int mno, ModelAndView modelAndView,@RequestParam("currentPage")String reqCurrentPage) {
+		int currentPage = 1;
+		
+		if(reqCurrentPage != null) {
+			currentPage = Integer.parseInt(reqCurrentPage);
+		}
+		
+		int excCount = smService.getExcCount(mno);
+		
+		PageInfo pi = Pagination.getSPageInfo(currentPage, excCount);
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("pi", pi);
+		infoMap.put("mno", mno);		
+				
+		ArrayList<HashMap<String, Object>> excList = smService.selectExcList(infoMap);
 
+		for (int i = 0; i < excList.size(); i++) {
+			excList.get(i).put("APPLICATION_DATE", excList.get(i).get("APPLICATION_DATE").toString());
+		}
+
+		
+		System.out.println("size : " + excList.size());
+		
+		
+		infoMap = new HashMap<String, Object>();
+		infoMap.put("excList", excList);
+		infoMap.put("pi", pi);
+		System.out.println("pi : " + pi);
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("infoMap", infoMap);
+		
+
+		return modelAndView;
+	}
+	
+	@RequestMapping("selecOneClc.sm")
+	public ModelAndView selectOneClc(int mno,int clcno,ModelAndView modelAndView) {
+
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("mno", mno);
+		infoMap.put("clcno", clcno);
+		
+		HashMap<String, Object> clcMap = smService.selectOneClc(infoMap);
+		
+		
+		System.out.println("clcMap : " + clcMap);
+		
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("clcMap", clcMap);
+		
+		
+		
+		return modelAndView;
+	}
+
+	
 }
