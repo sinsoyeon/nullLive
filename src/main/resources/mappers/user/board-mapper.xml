@@ -530,7 +530,7 @@
 		WHERE BNO = #{contBno}
 	</update>
 	
-	<!--  -->
+	<!--   -->
 	<insert id="insertMngPartner" parameterType="java.util.HashMap">
 		INSERT INTO PARTNER(PNO,SNO,MNO,CNO,PTYPE,P_STATUS) 
 		VALUES(SEQ_PNO.NEXTVAL,#{streamer.sno},#{contMno},#{contCurrval},#{jBoard.job},'Y')
@@ -552,5 +552,13 @@
 		SELECT
 	</select> -->
 	
+	<!-- 지원서 상사제회 -->
+	<select id="selectOneContBoard" parameterType="java.util.HashMap" resultType="Board">
+		SELECT * 
+		FROM BOARD 
+		WHERE BTYPE IN ('JOBMNGCONT','JOBCONCONT') 
+		AND B_STATUS = 600
+		AND BNO = #{board.bno}
+	</select>
 	
 </mapper>

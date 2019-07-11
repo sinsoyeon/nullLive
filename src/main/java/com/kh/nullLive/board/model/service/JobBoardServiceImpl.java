@@ -467,6 +467,47 @@ public class JobBoardServiceImpl implements JobBoardService{
 		
 	}
 
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 11.
+	 * @comment : 구인구직 지원서 상세보기용 메소드
+	 */
+	@Override
+	public Board selectoneContBoard(HashMap<String, Object> hmap) {
+		return jbd.selectOneContBoard(sqlSession,hmap);
+	}
+
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
