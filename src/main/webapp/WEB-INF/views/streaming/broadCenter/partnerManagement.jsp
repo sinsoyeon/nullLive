@@ -9,7 +9,7 @@
 <link rel="stylesheet"
 	href="${ contextPath }/resources/css/streamer/partnerManagement.css">
 <link rel="stylesheet"
-	href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+	href="https://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
 <body>
 	<div class="container-fluid">

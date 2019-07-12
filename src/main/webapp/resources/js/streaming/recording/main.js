@@ -123,7 +123,7 @@ function handleSuccess(stream) {
   const gumVideo = document.querySelector('video#gum');
   gumVideo.srcObject = stream;
 };
-
+/*
 async function init(constraints) {
 	try {
 		const stream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -146,4 +146,4 @@ document.querySelector('button#start').addEventListener('click', async () => {
   };
   console.log('Using media constraints:', constraints);
   await init(constraints);
-});
+});*/

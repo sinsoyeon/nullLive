@@ -40,6 +40,19 @@
 		<result property="attDiv" column="ATT_DIV"/>
 		<result property="attStatus" column="ATT_STATUS"/>
 	</resultMap>
+	
+	<resultMap type="MySub" id="SubscriptionResultSet">
+		<id property="suno" column="SUNO"/>
+		<result property="mno" column="MNO"/>
+		<result property="mid" column="MID"/>
+		<result property="sno" column="SNO"/>
+		<result property="sid" column="SID"/>
+		<result property="nickName" column="NICK_NAME"/>
+		<result property="su_start_date" column="시작일"/>
+		<result property="su_period_date" column="종료일"/>
+		<result property="su_status" column="SU_STATUS"/>
+		<result property="byn" column="방송여부"/>
+	</resultMap>
 
 	<!-- 로그인 정보 가져오기 -->
 	<select id="selectMember" resultMap="memberResultSet" parameterType="Member">
@@ -234,9 +247,10 @@
 	</update>
 	
 	<!-- 구독 리스트 가져오기 -->
-	<select id="getSubList" parameterType="Member" resultType="java.util.HashMap">
-		SELECT M.MID ID,TO_CHAR(SU_START_DATE,'YYYY/MM/DD') 시작일,TO_CHAR(SU_PERIOD_DATE,'YYYY/MM/DD') 종료일,S.MID SID,S.NICK_NAME NICK_NAME
-		FROM MEMBER M
+	<select id="getSubList" parameterType="Member" resultMap="SubscriptionResultSet">
+		SELECT SUNO, M.MID MID,SU_START_DATE 시작일,SU_PERIOD_DATE 종료일,S.MID SID,S.NICK_NAME NICK_NAME,
+			DECODE((SELECT COUNT(*) FROM BROAD_HIS B JOIN BROAD_CENTER C ON(C.BCNO=B.BCNO) WHERE C.MNO=S.MNO AND B.BH_STATUS='Y'),0,'N','Y') 방송여부
+        FROM MEMBER M
 		JOIN SUBSCRIPTION_HIS H ON (M.MNO = H.MNO)
 		JOIN MEMBER S ON (H.SNO = S.MNO)
 		WHERE M.MNO = #{mno}

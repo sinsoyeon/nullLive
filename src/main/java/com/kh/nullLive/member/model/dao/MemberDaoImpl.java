@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.BankAccount;
 import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.member.model.vo.Subscription;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
 @Repository
@@ -170,7 +171,7 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.update("Member.pwdReload",m);
 	}
 	@Override
-	public ArrayList<HashMap<String, Object>> getSubList(SqlSessionTemplate sqlSession, Member loginUser) {
+	public ArrayList<Subscription> getSubList(SqlSessionTemplate sqlSession, Member loginUser) {
 		return (ArrayList)sqlSession.selectList("Member.getSubList",loginUser);
 	}
 }
