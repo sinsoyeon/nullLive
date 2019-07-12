@@ -89,9 +89,9 @@ function calList(mno,currentPage){
 				status = '<button id="decBtn" class="btn btn-primary">거절 이력 보기</button>'
 			}
 			console.log(value["CLCNO"]);
-			$("#calTable > tbody").append('<tr id="myTr"><td><input type="text" id="clcno" name="clcno" value="'
+			$("#calTable > tbody").append('<tr id="myTr"><td><input type="hidden" id="clcno" name="clcno" value="'
 					+value["CLCNO"] + 
-					'"' + '/></td><td>' +value["NICK_NAME"] + '</td><td>'
+					'"' + '/>' +value["NICK_NAME"] + '</td><td>'
 					+ value["SDATE"] + '</td><td>' 
 					+ value["EDATE"] + '</td><td>'
 					+ value["CLC_DATE"] + '</td><td>'
@@ -124,6 +124,10 @@ function calList(mno,currentPage){
 }
 
 
+$(document).on('click','#reqClcBtn',function(){
+	console.log('호출됨');
+})
+
 $(document).on('click', '#decBtn', function(){
 	console.log('호출됨');
 	//decTable
@@ -131,20 +135,60 @@ $(document).on('click', '#decBtn', function(){
 	/*var clcno = $(this).parent('td').find('#clcno').val();*/
 	var mno = $('#mno').val();
 	
-	console.log($(this).parent('#myTr').find('#clcno').val());
+	var clcno = $(this).parent('td').parent('tr').find('#clcno').val();
 	
-	$('#decModal').html('');
 	
 	$.ajax({
 		url:"selecOneClc.sm",
 		type:"post",
 		data:{mno:mno,clcno:clcno},
 		success:function(data){
-			console.log(data.clcMap);
+			$('#decTable > tbody').html('');
+			var status = '';
+			
+			$("#decTable > tbody").append(
+											'<tr><td><label>신청자 : </label>'
+											+'<label>'+ data.clcMap.NICK_NAME +'</label></td></tr>'
+											+ '<tr><td><label>스트리머 :' + '</label>'
+											+ '<label>' + data.clcMap.NICK_NAME + '('+  data.clcMap.ST_NICK_NAME  +')</label></td></tr>'
+											+ '<tr><td><label>신청일 : </label>' 
+											+ '<label>' + data.clcMap.CLC_REQ_DATE + '</label></td></tr>'
+											+ '<tr><td><label>계약 시작일 : ' + '</label>'
+											+ '<label>' + data.clcMap.SDATE + '</label></td></tr>'
+											+ '<tr><td><label>계약 종료일 :' + '</label>'
+											+ '<label>' + data.clcMap.EDATE + '</label></td></tr>'
+											+ '<tr><td><label>정산 요청 금액 :' + '</label>'
+											+ '<label>' + data.clcMap.CLC_AMOUNT + '</label></td></tr>'
+											+ '<tr><td><label>정산 거부 일자 :' + '</label>'
+											+ '<label>' + data.clcMap.DEC_DATE + '</label></td></tr>'
+											+ '<tr><td><label>정산 거부 사유 :' + '</label>'
+											+ '<label>' + data.clcMap.DEC_REASON + '</label></td></tr>'		
+											+ '<tr><td> <button id="reqClcBtn" onclick="reqClc('+mno+','+data.clcMap.DECNO+')"> 정산 요청 </button>'
+											+ '<button id="cancelBtn">확인</button></td></tr>'
+										)
+										$("#decno").val(data.clcMap.DECNO);			
+										$("#decModal").modal('show');
+										
+										
+				
+			}
+		})
+});
+
+function reqClc(mno,decno){
+	console.log('reqClc 호출됨');
+	
+	$.ajax({
+		url:"reClc.sm",
+		type:"post",
+		data:{mno:mno,decno:decno},
+		success:function(data){
+			console.log('ajax 수행 중');
 		}
 	});
 	
-});
+	
+}
 
 function excList(mno,currentPage){		
 	$("#myExcTable > tbody").html('');

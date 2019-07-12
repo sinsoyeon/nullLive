@@ -74,6 +74,12 @@ public interface StreamerDao {
 
 	HashMap<String, Object> selectOneClc(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
 
+	int reClc(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
+	int reInsertClc(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
+	HashMap<String, Object> getInsertData(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
 
 
 
