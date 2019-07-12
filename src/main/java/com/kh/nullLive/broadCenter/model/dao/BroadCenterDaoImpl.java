@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.nullLive.broadCenter.model.vo.BroadCenter;
+import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
@@ -73,7 +74,6 @@ public class BroadCenterDaoImpl implements BroadCenterDao {
 	public HashMap<String, Object> selectOneBlackList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("BroadCenter.selectOneBlackList",infoMap);
-
 	}
 
 	//파트너 상세 조회(정연)
@@ -81,5 +81,25 @@ public class BroadCenterDaoImpl implements BroadCenterDao {
 	public HashMap<String, Object> partnerDetail(SqlSessionTemplate sqlSession, int mno) {
 		return sqlSession.selectOne("BroadCenter.partnerDetail", mno);
 	}
+
+	//프로필 조회(정연)
+	@Override
+	public Attachment getProfile(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("Member.selectProfile", mno);
+	}
+
+	// 방송 공지 게시판 페이지로 이동(정연)
+	@Override
+	public HashMap<String, Object> selectNoticeBoard(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("BroadCenter.selectNoticeBoard", mno);
+	}
+
+	//방송 공지 수정 체크(정연)
+	@Override
+	public int updateNoticeCheck(SqlSessionTemplate sqlSession, HashMap<String, Object> updateInfo) {
+		return sqlSession.update("BroadCenter.updateNoticeCheck", updateInfo);
+	}
+
+	
 
 }
