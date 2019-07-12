@@ -216,5 +216,30 @@
 		FROM BAN
 		WHERE MNO=#{mno}
 	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="getSearchId" parameterType="Member" resultType="java.lang.String">
+		SELECT MID
+		FROM MEMBER
+		WHERE NAME=#{name}
+		AND PHONE=#{phone}
+		AND M_STATUS='Y'
+	</select>
+	
+	<!-- 비밀번호 재발급 -->
+	<update id="pwdReload" parameterType="Member">
+		UPDATE MEMBER
+		SET MPWD=#{mpwd}
+		WHERE MID=#{mid}
+	</update>
+	
+	<!-- 구독 리스트 가져오기 -->
+	<select id="getSubList" parameterType="Member" resultType="java.util.HashMap">
+		SELECT M.MID ID,TO_CHAR(SU_START_DATE,'YYYY/MM/DD') 시작일,TO_CHAR(SU_PERIOD_DATE,'YYYY/MM/DD') 종료일,S.MID SID,S.NICK_NAME NICK_NAME
+		FROM MEMBER M
+		JOIN SUBSCRIPTION_HIS H ON (M.MNO = H.MNO)
+		JOIN MEMBER S ON (H.SNO = S.MNO)
+		WHERE M.MNO = #{mno}
+	</select>
 		
 </mapper>

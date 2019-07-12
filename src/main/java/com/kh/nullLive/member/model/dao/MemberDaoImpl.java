@@ -1,5 +1,6 @@
 package com.kh.nullLive.member.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -158,6 +159,18 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.selectOne("Member.getBanDate",loginMember);
 		
 	}
-
-
+	//아이디 찾기
+	@Override
+	public String getSearchId(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.selectOne("Member.getSearchId",m);
+	}
+	//비밀전호 재발급
+	@Override
+	public int pwdReload(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("Member.pwdReload",m);
+	}
+	@Override
+	public ArrayList<HashMap<String, Object>> getSubList(SqlSessionTemplate sqlSession, Member loginUser) {
+		return (ArrayList)sqlSession.selectList("Member.getSubList",loginUser);
+	}
 }

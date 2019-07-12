@@ -164,6 +164,8 @@
 <!-- custom layout for HTML5 audio/video elements -->
 <link rel="stylesheet" href="${contextPath}/resources/css/streaming/getHTMLMediaElement.css">
 <script src="${contextPath}/resources/css/streaming/getHTMLMediaElement.js"></script>
+<!-- chat script -->
+<script src="http://192.168.0.61:3002/socket.io/socket.io.js">
 <script>
 //방송 종료 처리
 $(window).on('beforeunload', function() {
@@ -202,6 +204,19 @@ $(window).on('beforeunload', function() {
 	      	}
     	}
 });
+
+$(document).ready(function(){
+	var connectionOptions =  {
+            "force new connection" : true,
+            "reconnectionAttempts": "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
+            "timeout" : 10000, //before connect_error and connect_timeout are emitted.
+            "transports" : ["websocket"]
+        };
+	console.log(connectionOptions);
+
+	 var socket = io("192.168.0.61:3002", {secure:true});
+	 console.log(socket);
+})
 
 //채팅
 // $(document).ready(function(){
@@ -268,8 +283,7 @@ window.onload = function(){
 	 }; 
 	 xhr.open("GET", "http://192.168.30.30:3002/");
 	 xhr.send();
-
-// }
+}
 
 
 </script>

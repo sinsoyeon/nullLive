@@ -84,6 +84,17 @@
 		<result property="attStatus" column="ATT_STATUS"/>
 	</resultMap>
 
+	<!-- 구인구직 지원서 resultSet -->
+	<resultMap type="java.util.HashMap" id="contBoardResultSet">
+		<id property="bno" column="BNO"/>
+		<result property="bTitle" column="BTITLE"/>
+		<result property="bContent" column="BCONTENT"/>
+		<result property="writtenDate" column="WRITTEN_DATE"/>
+		<result property="bType" column="BTYPE"/>
+		<result property="refBno" column="REF_BNO"/>
+		<result property="mno" column="MNO"/>
+		<result property="nickName" column="NICK_NAME"/>
+	</resultMap>
 	
 	<!-- 고객센터 FAQ 전체 게시글 수 조회용 쿼리문 -->
 	<select id="selectFListCount" resultType="_int">
@@ -368,10 +379,18 @@
 	
 	<!-- 관리자 FAQ 조회 -->
 	<select id="selectFAQList" resultMap="boardResultSet" >
-		SELECT BNO, QUESTION_TYPE, BTITLE, BCONTENT, WRITTEN_DATE, MODIFY_DATE, BCOUNT
-	    FROM BOARD
-	    WHERE BTYPE = 'FAQ'
-	    ORDER BY BNO DESC
+	SELECT *
+	FROM(SELECT ROWNUM RNUM, P.*
+       	FROM(SELECT BNO, QUESTION_TYPE, BTITLE, BCONTENT, WRITTEN_DATE, MODIFY_DATE, BCOUNT
+		    FROM BOARD
+		    WHERE BTYPE = 'FAQ'
+		    ORDER BY BNO DESC) P)
+	WHERE RNUM BETWEEN #{start} AND #{last}
+	</select>
+	<select id="totalFAQSelect" resultType="_int">
+	SELECT COUNT(*)
+		FROM BOARD
+		WHERE BTYPE LIKE 'FAQ'
 	</select>
 	
 	<!-- 관리자 FAQ/공지사항 상세보기 -->
@@ -404,10 +423,18 @@
 	
 	<!-- 관리자 공지사항 조회 -->
 	<select id="selectNoticeList" resultMap="boardResultSet" >
-		SELECT BNO, BTITLE, BCONTENT, WRITTEN_DATE, MODIFY_DATE, BCOUNT
+	SELECT *
+	FROM(SELECT ROWNUM RNUM, P.*
+      	FROM(SELECT BNO, BTITLE, BCONTENT, WRITTEN_DATE, MODIFY_DATE, BCOUNT
 	    FROM BOARD
 	    WHERE BTYPE = 'SNOTICE'
-	    ORDER BY BNO DESC
+	    ORDER BY BNO DESC) P)
+	WHERE RNUM BETWEEN #{start} AND #{last}
+	</select>
+	<select id="totalNoticeSelect" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD
+		WHERE BTYPE LIKE 'SNOTICE'
 	</select>
 	
 	<!-- 관리자 공지사항 작성 -->
@@ -460,6 +487,78 @@
 		WHERE ATT_STATUS='Y'
 		AND BNO= #{bno}
 	</select>
+	<!-- 첨부파일 1개 조회용 -->
+	<select id="selectOneJobAtt" parameterType="_int" resultMap="AttachmentResultSet">
+		SELECT * FROM attachment WHERE ATTNO = #{attno}
+	</select>
 	
+	<!-- 구인구직 매니저 지원서 작성 600=지원중-->
+	<insert id="insertMngContractBoard" parameterType="java.util.HashMap">
+		INSERT INTO 
+		BOARD(BNO,		 BTITLE,   BCONTENT,   WRITTEN_DATE,MODIFY_DATE,BCOUNT,REF_BNO,   BTYPE,   BWRITER,B_STATUS) VALUES
+		(SEQ_BNO.NEXTVAL,
+		#{board.bTitle},
+		#{board.bContent},
+		SYSDATE,		
+		SYSDATE,	
+		DEFAULT,
+		#{refBno},  
+		#{board.bType},
+		#{member.mno},
+		600)
+	</insert>
+	
+	<!-- 구인구직 지원서 조회 -->
+	<select id="selectListContBoard" parameterType="_int" resultMap="contBoardResultSet">
+		SELECT B.BNO,B.BTITLE,B.BCONTENT,B.WRITTEN_DATE,B.BTYPE,B.REF_BNO,M.MNO, M.NICK_NAME 
+		FROM BOARD B 
+		JOIN MEMBER M ON(B.BWRITER = M.MNO)
+		WHERE REF_BNO = #{bno}
+		ORDER BY BNO DESC
+	</select>
+	
+	<!-- 계약 테이블 insert -->
+	<insert id="insertMngContract" parameterType="java.util.HashMap">
+		INSERT INTO CONTRACT(CNO, C_STATUS,JBNO,C_SDATE,PERPRICE)
+        VALUES(SEQ_CNO.NEXTVAL,'Y',#{jBoard.jbno},SYSDATE,#{jBoard.perprice})
+	</insert>
+	
+	<!-- 지원서 계약 승낙시 계약완료로 상태변경 -->
+	<update id="updateMngContBoard" parameterType="java.util.HashMap">
+		UPDATE BOARD
+		SET B_STATUS = '601'
+		WHERE BNO = #{contBno}
+	</update>
+	
+	<!--   -->
+	<insert id="insertMngPartner" parameterType="java.util.HashMap">
+		INSERT INTO PARTNER(PNO,SNO,MNO,CNO,PTYPE,P_STATUS) 
+		VALUES(SEQ_PNO.NEXTVAL,#{streamer.sno},#{contMno},#{contCurrval},#{jBoard.job},'Y')
+	</insert>
+	<!-- 계약 테이블 currval조회 -->
+	<select id="selectContCurrval" resultType="_int">
+		SELECT SEQ_CNO.CURRVAL FROM DUAL
+	</select>
+	
+		<!-- 게시판 계약 승낙시 모집완료로 상태변경 -->
+	<update id="updateJobMngBoardComplt" parameterType="java.util.HashMap">
+		UPDATE BOARD
+		SET B_STATUS = '501'
+		WHERE BNO = #{bno}
+	</update> 
+	
+	<!-- 매니저/콘텐츠제작자 파트너 스트리머 list 조회 -->
+<!-- 	<select id="selectListPartner" parameterType="_int" resultType="java.uitl.HashMap">
+		SELECT
+	</select> -->
+	
+	<!-- 지원서 상사제회 -->
+	<select id="selectOneContBoard" parameterType="java.util.HashMap" resultType="Board">
+		SELECT * 
+		FROM BOARD 
+		WHERE BTYPE IN ('JOBMNGCONT','JOBCONCONT') 
+		AND B_STATUS = 600
+		AND BNO = #{board.bno}
+	</select>
 	
 </mapper>
