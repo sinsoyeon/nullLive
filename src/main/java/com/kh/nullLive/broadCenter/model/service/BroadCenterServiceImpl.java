@@ -11,6 +11,7 @@ import com.kh.nullLive.broadCenter.model.dao.BroadCenterDao;
 import com.kh.nullLive.broadCenter.model.exception.StreamerInsertException;
 import com.kh.nullLive.broadCenter.model.exception.StreamerUpdateException;
 import com.kh.nullLive.broadCenter.model.vo.BroadCenter;
+import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
@@ -107,6 +108,34 @@ public class BroadCenterServiceImpl implements BroadCenterService {
 		
 		
 	}
+
+	
+	//프로필(정연)
+	@Override
+	public Attachment getProfile(int mno) throws StreamerUpdateException{
+		Attachment att = null;
+		
+		att = bcd.getProfile(sqlSession, mno);
+		
+		if(att == null) {
+			throw new StreamerUpdateException("프로필 조회 실패!");
+		}
+		return att;
+	}
+
+	// 방송 공지 게시판 페이지로 이동(정연)
+	@Override
+	public HashMap<String, Object> selectNoticeBoard(int mno) throws StreamerUpdateException{
+		return bcd.selectNoticeBoard(sqlSession, mno);
+	}
+
+	//방송 공지 수정(정연)
+	@Override
+	public int updateNoticeCheck(HashMap<String, Object> updateInfo) {
+		return bcd.updateNoticeCheck(sqlSession, updateInfo);
+	}
+
+	
 
 	
 }

@@ -13,6 +13,7 @@
 	<script type="text/javascript" src="${ contextPath }/resources/css/semantic/semantic.min.js"></script>
 <link rel="stylesheet"
 	href="${ contextPath }/resources/css/streamer/streamerMenu.css">
+<script src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
 <style>
 </style>
 </head>
@@ -22,8 +23,7 @@
 		
 			<div class="sidebar">
 				<div class="profile">
-					<img src="${ contextPath }/resources/image/bbashong.png"
-						class="img-circle" alt="Cinque Terre" id="profileImg" onclick="location.href='main.st'">
+					<img class="img-circle" alt="Cinque Terre" id="profileImg" onclick="location.href='main.st'">
 					<h3 style="color: white">${loginUser.nickName}</h3>
 					<h5 style="color: white">@${loginUser.mid}</h5>
 				</div>
@@ -56,6 +56,23 @@
 		
 	</div>
 
+
+<script>
+	window.onload=function(){
+		$.ajax({
+			url: "profile.sm",
+			type:"get",
+			success:function(data){
+				//console.log(data.data);
+				$("#profileImg").attr('src', "${contextPath}/resources/uploadFiles/profile_image/" + data.data);
+			},
+			error:function(){
+				console.log("프로필 조회 실패!");
+			}
+		});
+	}
+
+</script>
 	
 
 </body>

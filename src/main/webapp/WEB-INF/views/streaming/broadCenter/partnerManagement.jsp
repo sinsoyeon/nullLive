@@ -26,7 +26,7 @@
 				<hr>
 				<div class="partnerArea">
 					<label>현재 매니저 목록</label><br>
-					<div class="partnerBox">
+					<div class="partnerBox" style="overflow:scroll; width:230px; height:130px;" >
 					<table>
 						<c:forEach var="manager" items="${partnerList}">
 							<tr>
@@ -39,7 +39,7 @@
 					</div>
 					<br> 
 					 <label>현재 편집자 목록</label>
-					 <div class="partnerBox">
+					 <div class="partnerBox" style="overflow:scroll; width:230px; height:130px;">
 						<table>
 							<c:forEach var="editor" items="${partnerList}">
 								<tr>

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.nullLive.broadCenter.model.vo.BroadCenter;
+import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
@@ -55,5 +56,14 @@ public interface BroadCenterDao {
 
 	//파트너 상세 조회(정연)
 	HashMap<String, Object> partnerDetail(SqlSessionTemplate sqlSession, int mno);
+
+	//프로필 조회(정연)
+	Attachment getProfile(SqlSessionTemplate sqlSession, int mno);
+
+	// 방송 공지 게시판 페이지로 이동(정연)
+	HashMap<String, Object> selectNoticeBoard(SqlSessionTemplate sqlSession, int mno);
+
+	//방송 공지 수정 체크(정연)
+	int updateNoticeCheck(SqlSessionTemplate sqlSession, HashMap<String, Object> updateInfo);
 
 }
