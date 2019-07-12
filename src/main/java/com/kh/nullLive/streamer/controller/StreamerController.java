@@ -544,6 +544,22 @@ public class StreamerController {
 		
 		return modelAndView;
 	}
+	
+	
+	@RequestMapping("reClc.sm")
+	public ModelAndView reClc(int mno,int decno,ModelAndView modelAndView) {
+		
+		System.out.println("mno : " + mno + " decno : " + decno);
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		
+		infoMap.put("mno", mno);
+		infoMap.put("decno", decno);
+		
+		int result = smService.reClc(infoMap);
+		
+		return modelAndView;
+	}
 
 	
 }

@@ -64,5 +64,7 @@ public interface StreamerService {
 
 	HashMap<String, Object> selectOneClc(HashMap<String, Object> infoMap);
 
+	int reClc(HashMap<String, Object> infoMap);
+
 
 }

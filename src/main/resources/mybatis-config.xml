@@ -14,7 +14,7 @@
 		
 		<!-- 관리자 -->
 		<typeAlias alias="Exchange" type="com.kh.nullLive.admin.model.vo.Exchange" />
-		<typeAlias alias="Question" type="com.kh.nullLive.admin.model.vo.Question" />
+		<typeAlias alias="Question" type="com.kh.nullLive.admin.model.vo.Question" /> 
 		<typeAlias alias="UserDetail" type="com.kh.nullLive.admin.model.vo.UserDetail" />
 		<typeAlias alias="Ban" type="com.kh.nullLive.admin.model.vo.Ban" />
     

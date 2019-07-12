@@ -215,5 +215,22 @@ public class StreamerServiceImpl implements StreamerService{
 		// TODO Auto-generated method stub
 		return smDao.selectOneClc(sqlSession,infoMap);
 	}
+
+	@Override
+	public int reClc(HashMap<String, Object> infoMap) {
+		int updateResult = smDao.reClc(sqlSession,infoMap);
+		
+		
+		HashMap<String, Object> hmap = new HashMap<String, Object>();
+		
+		hmap = smDao.getInsertData(sqlSession,infoMap);
+		
+		hmap.put("mno", infoMap.get("mno"));
+		hmap.put("decno", infoMap.get("decno"));
+		
+		int insertResult = smDao.reInsertClc(sqlSession,hmap);
+		
+		return updateResult;
+	}
 	
 }

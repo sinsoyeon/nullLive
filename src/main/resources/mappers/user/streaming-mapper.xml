@@ -146,25 +146,5 @@
                AND BROAD_ADDRESS = #{streamerAddress})	
     AND BL_STATUS ='Y'
 	</select>
-	
-	<!-- 메인페이지 Hot Live 방송 수 조회용 쿼리문 (정언) -->
-	<select id="hotLiveListCount" resultType="_int">
-		SELECT COUNT(*)
-		FROM (SELECT * FROM BROAD_HIS ORDER BY COUNT_VIEWERS DESC)
-		WHERE ROWNUM <= 10
-		AND BH_START_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
-	</select>
-	
-	
-	<!-- 메인페이지 Hot Live 방송 목록 조회용 쿼리문 (정언) -->
-	<select id="selectHotLiveList" resultType="java.util.HashMap">
-		SELECT ROWNUM, BHNO, MNO, NICK_NAME, BH_START_DATE, BH_END_DATE, BH_STATUS, COUNT_VIEWERS, BCNO, COUNT_RECOMMENDATION, BROAD_TITLE, BROAD_PWD, BROAD_CATEGORY, ADULT
-		FROM (SELECT BH.BHNO, M.MNO, M.NICK_NAME, BH.BH_START_DATE, BH.BH_END_DATE, BH.BH_STATUS, BH.COUNT_VIEWERS, BH.BCNO, BH.COUNT_RECOMMENDATION, BH.BROAD_TITLE, BH.BROAD_PWD, BH.BROAD_CATEGORY , BH.ADULT
-		      FROM BROAD_HIS BH 
-		      JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO)
-		      JOIN MEMBER M ON(BC.MNO = M.MNO)
-		      ORDER BY COUNT_VIEWERS DESC)
-		WHERE ROWNUM <= 10
-		AND BH_START_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
-	</select>
+
 </mapper>

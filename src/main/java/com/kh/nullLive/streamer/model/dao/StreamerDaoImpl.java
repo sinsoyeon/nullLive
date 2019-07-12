@@ -250,6 +250,24 @@ public class StreamerDaoImpl implements StreamerDao {
 		return sqlSession.selectOne("Streamer.selecOneClc",infoMap);
 	}
 
+	@Override
+	public int reClc(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("Streamer.reClc", infoMap);
+	}
+
+	@Override
+	public int reInsertClc(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("Streamer.reInsertClc");
+	}
+
+	@Override
+	public HashMap<String, Object> getInsertData(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Streamer.getInsertData", infoMap);
+	}
+
 
 	
 }

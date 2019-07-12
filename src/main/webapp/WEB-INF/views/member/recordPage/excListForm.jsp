@@ -129,7 +129,6 @@
 		<div id="decModal" class="modal fade" role="dialog"
 			style="z-index: 99999;">
 			<div class="modal-dialog" role="document" style="z-index: 99999;">
-
 				<div class="modal-content" style="z-index: 99999;">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -138,8 +137,7 @@
 					</div>
 					<div class="modal-body">
 						<div id="bodyArea" align="center">
-							<h4>상세보기</h4>
-						<input type="hidden" id="excno" />
+						<input type="hidden" id="decno" />
 						<input type="hidden" id="mno" value="${loginUser.mno }" />	
 							<table id="decTable">
 								<tbody>
