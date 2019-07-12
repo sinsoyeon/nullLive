@@ -59,6 +59,7 @@ public class JobBoardController {
 	private JobBoardService jbs;
 	@Autowired
 	private MemberService ms;
+	@Autowired
 
     /**
      * @author : uukk
@@ -486,17 +487,26 @@ public class JobBoardController {
 		System.out.println(request.getParameter("contBno"));
 		int contMno = Integer.parseInt(request.getParameter("contMno"));
 		int contBno = Integer.parseInt(request.getParameter("contBno"));
+		//글 작성자 mno
+		int mno = Integer.parseInt(request.getParameter("mno"));
 		HashMap<String,Object> hmap = new HashMap<>();
 		hmap.put("contMno",contMno);
 		//지원서 bno
 		hmap.put("contBno",contBno);
 		hmap.put("jBoard",jBoard);
 		hmap.put("streamer",streamer);
+		hmap.put("mno",mno);
 		//구인구직 게시글 bno
 		hmap.put("bno",board.getBno());
+		System.out.println(hmap);
 		try {
-			jbs.insertMngContConsent(hmap);
-			model.addAttribute("");
+			if(jBoard.getJBtype().equals("구인")) {
+				//구인인 경우 
+				jbs.insertMngContConsent(hmap);
+			}else {
+				//구직인경우
+				jbs.insertMngContConsent2(hmap);
+			}
 			return "redirect:jobBoardList.jbo?bType=JOBMNG&url=board/job/jobMngList";
 		} catch (ContConsentExcption e) {
 			model.addAttribute("msg",e.getMessage());
@@ -512,7 +522,7 @@ public class JobBoardController {
 	@RequestMapping("showContractDeatil.jbo")
 	public ResponseEntity<HashMap<String, Object>> showContractDeatil(HttpServletRequest request, Model model, Board board,Member member) {
 		//정보를 담아 리턴하기 위한 hashMap
-		HashMap<String,Object> contDeatilMap = new HashMap<>();
+		HashMap<String,Object> contDeatailMap = new HashMap<>();
 		//정보 조회를 위한 HashMap
 		HashMap<String,Object> hmap = new HashMap<>();
 		
@@ -523,13 +533,73 @@ public class JobBoardController {
 		
 		System.out.println(board);
 		System.out.println(member);
-		Board contBoard = jbs.selectoneContBoard(hmap);
-		contDeatilMap.put("attList",attList);
-		contDeatilMap.put("board",contBoard);
+		Board contBoard = jbs.selectOneContBoard(hmap);
+		Member contMember = jbs.selectOneContMember(member.getMno());
+		contDeatailMap.put("attList",attList);
+		contDeatailMap.put("board",contBoard);
+		contDeatailMap.put("member",contMember);
 		
-		System.out.println(contDeatilMap);
-		return new ResponseEntity<HashMap<String,Object>>(contDeatilMap,HttpStatus.OK);
+		System.out.println(contDeatailMap);
+		return new ResponseEntity<HashMap<String,Object>>(contDeatailMap,HttpStatus.OK);
 	}
+	
+	/**
+	 * @author : uukk
+	 * @throws BoardSelectListException 
+	 * @date : 2019. 7. 11.
+	 * @comment : 지원자 상세정보
+	 */
+	@RequestMapping("selectWritterDeatil.jbo")
+	public ResponseEntity<ArrayList<HashMap<String, Object>>> selectWritterDeatil(HttpServletRequest request) throws BoardSelectListException{
+		int mno = Integer.parseInt(request.getParameter("mno"));
+		System.out.println(mno);
+		String jBType = request.getParameter("jBtype");
+		
+		HashMap<String,Object> returnHmap = null;
+		ArrayList<HashMap<String,Object>> mngPartnerList = null;
+		//구인인 경우
+		if(jBType.equals("구인")) {
+			//구인 => 매니저 파트너 이력 조회
+			mngPartnerList = jbs.selectJobMngDetail(mno);
+			
+		}else {
+			//구직인 경우
+			//구직 => 스트리머  상세 조회
+			mngPartnerList = jbs.selectJobStreamerDetail(mno);
+			
+		}
+		
+		System.out.println(mngPartnerList);
+		return new ResponseEntity<ArrayList<HashMap<String, Object>>>(mngPartnerList,HttpStatus.OK);
+	}
+	
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 12.
+	 * @comment : 
+	 */
+	@RequestMapping("selectStreamerCheck.jbo")
+	public  ResponseEntity<HashMap<String,Object>> selectStreamerCheck(HttpServletRequest request){
+		int mno = Integer.parseInt(request.getParameter("mno"));
+		Streamer streamer = jbs.selectStreamerCheck(mno);
+		HashMap<String, Object> hmap = new HashMap<>();
+		hmap.put("Streamer", streamer);
+		return new ResponseEntity<HashMap<String,Object>>(hmap,HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
 

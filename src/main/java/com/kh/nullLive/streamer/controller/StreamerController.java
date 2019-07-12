@@ -23,6 +23,7 @@ import com.kh.nullLive.board.model.vo.PageInfo;
 import com.kh.nullLive.broadCenter.model.exception.StreamerUpdateException;
 import com.kh.nullLive.broadCenter.model.service.BroadCenterService;
 import com.kh.nullLive.common.Pagination;
+import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.service.StreamerService;
 import com.kh.nullLive.streamer.model.vo.Streamer;
@@ -561,5 +562,46 @@ public class StreamerController {
 		return modelAndView;
 	}
 
+	
+	//프로필 (정연)
+	@RequestMapping("profile.sm")
+	@ResponseBody
+	public ModelAndView selectProfile(HttpSession session, ModelAndView modelAndView) throws StreamerUpdateException{
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int mno = loginUser.getMno();
+
+		Attachment att = bcs.getProfile(mno);
+
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("data",  att.getChangeName());
+
+		return modelAndView;
+	}
+	
+	
+	/*
+	 * //공지 수정 (정연)
+	 * 
+	 * @RequestMapping("updateNotice.sm")
+	 * 
+	 * @ResponseBody public ModelAndView updateNotice(@RequestParam(name="mno") int
+	 * mno, @RequestParam(name="content") String content, ModelAndView modelAndView)
+	 * { HashMap<String, Object> updateInfo = new HashMap<String, Object>();
+	 * updateInfo.put("mno", mno); updateInfo.put("content", content);
+	 * 
+	 * int updateNoticeCheck = bcs.updateNoticeCheck(updateInfo);
+	 * 
+	 * 
+	 * if(updateNoticeCheck>0) { String updateContent = bcs.updateNotice(mno);
+	 * 
+	 * modelAndView.setViewName("jsonView"); modelAndView.addObject("data",
+	 * updateContent);
+	 * 
+	 * }else { String msg = "업데이트 실패!"; modelAndView.addObject("data", msg); return
+	 * modelAndView; }
+	 * 
+	 * return modelAndView; }
+	 */
+	
 	
 }

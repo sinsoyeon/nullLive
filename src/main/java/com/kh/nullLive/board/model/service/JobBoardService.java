@@ -14,6 +14,7 @@ import com.kh.nullLive.common.attachment.model.exception.AttachmentInsertExcepti
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.streamer.model.vo.Streamer;
 
 public interface JobBoardService {
 
@@ -70,7 +71,17 @@ public interface JobBoardService {
 
 	void insertMngContConsent(HashMap<String, Object> hmap) throws ContConsentExcption;
 
-	Board selectoneContBoard(HashMap<String, Object> hmap);
+	Board selectOneContBoard(HashMap<String, Object> hmap);
+
+	Member selectOneContMember(int mno);
+
+	 ArrayList<HashMap<String, Object>> selectJobMngDetail(int mno);
+
+	ArrayList<HashMap<String, Object>> selectJobStreamerDetail(int mno) throws BoardSelectListException;
+
+	void insertMngContConsent2(HashMap<String, Object> hmap) throws ContConsentExcption;
+
+	Streamer selectStreamerCheck(int mno);
 
 
 }

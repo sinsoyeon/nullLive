@@ -96,6 +96,16 @@
 		<result property="nickName" column="NICK_NAME"/>
 	</resultMap>
 	
+	<!-- 구인 매니저 파트너  -->
+	<resultMap type="java.util.HashMap" id="contMngDetailResultSet">
+		<id property="pno" column="PNO"/>
+		<result property="pStatus" column="P_STATUS"/>
+		<result property="pType" column="PTYPE"/>
+		<result property="cSDate" column="C_SDATE"/>
+		<result property="cEDate" column="C_EDATE"/>
+		<result property="nickName" column="NICK_NAME"/>
+	</resultMap>
+	
 	<!-- 고객센터 FAQ 전체 게시글 수 조회용 쿼리문 -->
 	<select id="selectFListCount" resultType="_int">
 		SELECT COUNT(*)
@@ -552,13 +562,22 @@
 		SELECT
 	</select> -->
 	
-	<!-- 지원서 상사제회 -->
+	<!-- 지원서 상세조회 -->
 	<select id="selectOneContBoard" parameterType="java.util.HashMap" resultType="Board">
 		SELECT * 
 		FROM BOARD 
 		WHERE BTYPE IN ('JOBMNGCONT','JOBCONCONT') 
 		AND B_STATUS = 600
 		AND BNO = #{board.bno}
+	</select>
+	
+	<!-- 매니저  파트너 상세보기-->
+	<select id="selectListMngDetail" parameterType="_int" resultMap="contMngDetailResultSet">
+		SELECT P.P_STATUS,P.PTYPE,C.C_SDATE,C.C_EDATE,M.NICK_NAME FROM PARTNER P
+		JOIN CONTRACT C ON(P.CNO = C.CNO)
+		JOIN STREAMER S ON(S.SNO = P.SNO)
+		JOIN MEMBER M ON(S.SNO = M.MNO)
+		WHERE P.MNO = #{mno}
 	</select>
 	
 </mapper>

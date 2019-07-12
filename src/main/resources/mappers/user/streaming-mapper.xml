@@ -146,5 +146,4 @@
                AND BROAD_ADDRESS = #{streamerAddress})	
     AND BL_STATUS ='Y'
 	</select>
-
 </mapper>

@@ -417,6 +417,16 @@ public class JobBoardDaoImpl implements JobBoardDao {
 		return sqlSession.selectOne("Board.selectOneContBoard",hmap);
 	}
 
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 11.
+	 * @comment : 구인구직 매니저 지원자 상세보기
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> selectMngDetail(SqlSessionTemplate sqlSession, int mno) {
+		return (ArrayList) sqlSession.selectList("Board.selectListMngDetail",mno);
+	}
+
 
 
 

@@ -1,6 +1,7 @@
 package com.kh.nullLive.admin.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -361,6 +362,27 @@ public class AdminServiceImpl implements AdminService {
 	public int totalNoticeSelect() {
 		int totalNoticeSelect = ad.totalNoticeSelect(sqlSession);
 		return totalNoticeSelect;
+	}
+
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 11.
+	 * @comment : 월별 회원 유입 통계
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> memberMonthStatistics(int year) {
+		ArrayList<HashMap<String, Object>> monthChart = ad.memberMonthStatistics(sqlSession,year);
+		return monthChart;
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 11.
+	 * @comment : 시간대별 시청 통계
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> hourlyViewingTimeStatistics() {
+		ArrayList<HashMap<String, Object>> HVTChart = ad.hourlyViewingTimeStatistics(sqlSession);
+		return HVTChart;
 	}
 
 }

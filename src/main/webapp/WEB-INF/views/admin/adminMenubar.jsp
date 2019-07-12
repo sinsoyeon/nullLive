@@ -100,8 +100,9 @@
     <div id="menu2" class="tab-pane fade">
       <div class="btn-group btn-group-justified">
     		<a class="btn btn-link" style="cursor: default"></a>
-		    <a href="memberStatisticsList.ad" class="btn btn-link">회원 통합 통계</a>
-		    <a href="sitesStatisticsList.ad" class="btn btn-link">사이트 통계</a>
+		    <a href="memberStatisticsList.ad" class="btn btn-link">회원 통계</a>
+		    <a href="streamingStatisticsList.ad" class="btn btn-link">방송 통계</a>
+		    <a href="revenueStatisticsList.ad"class="btn btn-link">수익 통계</a>
 		    <a class="btn btn-link" style="cursor: default"></a>
   		</div>
     </div>

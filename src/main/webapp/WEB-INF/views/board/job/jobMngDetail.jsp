@@ -31,7 +31,7 @@
 		padding-bottom : 50px;
 		margin-left: auto;
 		margin-right: auto;
-		border: solid 1px black;
+		border: solid 1px lightgray;
 	}
 	.dateArea {
 		float: right;
@@ -84,8 +84,10 @@
 	<c:set var="streamer" value="${ boardMap.streamer }"/>
 	<c:set var="contBoardList" value="${ boardMap.contBoardList }"/>
 	
-
-	
+	<c:set var="jBtype" value="${ boardMap.jBoard.JBtype }"/>
+	<c:if test="${ boardMap.boardStatus ne '모집중' }">
+		<jsp:forward page="../../common/errorPage.jsp"/>
+	</c:if>
 	<!-- 구인구직 상세 보기 -->
 	<div class="outer">
 		<!-- 프로필 영역 -->
@@ -167,9 +169,9 @@
 			<c:if test="${ jBoard.JBtype eq '구직' }">
 				<div>게시자 정보(매니저)</div>
 				<div><b>가입일 : <c:out value="${ member.enrollDate }"></c:out></b></div>
+				<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#detailModal" onclick="fn_showWritterDetail2(${ member.mno })">상세정보</button>
 			</c:if>
 		</div>
-		<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#detailModal">상세정보</button>
 		<!-- 버튼영역  -->
 		<div class="btnArea col-lg-12 col-md-12 col-xs-12" align="center">
 			<br><br>
@@ -192,7 +194,7 @@
 			
 			
 		<!-- 게시글  -->
-		<div class="contentArea col-lg-12">
+		<div class="contentArea col-lg-12" style="overflow: scroll;">
 			<c:out value="${ board.BContent }" escapeXml="false"/>
 		</div>
 		<!-- 첨부파일 영역 -->
@@ -204,7 +206,7 @@
 				<div>
 					<input type="hidden" class="attno" name="attno" value="${row.attno }">
 					<a href="#this" name="file">${row.originName }</a><br>
-					<gr>
+					<br>
 				</div>
 			</c:forEach>
 		</div>
@@ -216,7 +218,7 @@
 					<h3>제목</h3>
 					<input class="form-control col-lg-12 col-md-12 col-sm-8" type="text" name="bTitle" id="bTitle" placeholder="제목을 입력하세요">
 					<h3>내용</h3>
-					<textarea name="bContent" class="col-lg-12" id="editor" required placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 200px;"></textarea>
+					<textarea name="bContent" class="col-lg-12" id="editor" required  wrap="hard" placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 200px;"></textarea>
 					<input type="hidden" value="${ board.bno }" name="refBno">
 					<input type="hidden" value="JOBMNGCONT" name="bType">
 					<input type="hidden" value="${ jBoard.job }" name="job">
@@ -264,8 +266,9 @@
 						</tr>
 						<c:forEach var="list" items="${ contBoardList }">
 							<tr>
-								<td><c:out value="${ list.nickName }"/></td>
+								<td><a onclick="fn_showWritterDetail(${ list.mno })"  data-toggle='modal' data-target='#detailModal'><c:out value="${ list.nickName }"/></a></td>
 								<td>
+
 									<c:set var="writtenDate" value="${ list.writtenDate }" />
 									<c:set var="nowDate" value="<%= new java.util.Date() %>"/>
 									
@@ -281,8 +284,14 @@
 										<fmt:formatDate type="TIME" timeStyle="short" value="${writtenDate}"/>
 									</c:if>
 								</td>
-								<td><span data-toggle="modal" data-target="#contDetailModal" onclick="return fn_showContractDetail(${list.mno},${ list.bno })">지원서</span></td>
+								<td>
+									<span data-toggle="modal" data-target="#contDetailModal" onclick="return fn_showContractDetail(${list.mno},${ list.bno })">
+										<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="far fa-envelope"></i></label>
+									</span>
+								</td>
+								
 								<td><button class="btn btn-success btn-xs" onclick="fn_contConsent(${list.mno},${ list.bno })">승낙하기</button></td>
+								
 								
 							
 							</tr>
@@ -294,26 +303,36 @@
 			<!-- 승낙하기 form -->
 			<form action="insertMngContConsent.jbo" method="post" id="contConsentFrm">
 				<input type="hidden" value="${ jBoard.jbno }" name="jbno">
+				<input type="hidden" value="${ jBtype }" name="jBtype">
 				<input type="hidden" value="${ jBoard.job }" name="job">
 				<input type="hidden" value="${ board.bno }" name="bno">
 				<input type="hidden" value="${ jBoard.contContent }" name="contContent">
-				<input type="hidden" value="${ streamer.sno }" name="sno">
+				<input type="hidden" value='${ member.mno }' name="mno">
+				<c:if test="${ jBtype eq '구인' }">
+					<input type="hidden" value="${ streamer }" name="sno">
+				</c:if>
+				
 			</form>
 		</c:if>
 		<br><br><br><br><br><br><br><br><br><br><br><br>
 	</div>
 	
 	
-	<!-- 게시자 정보 상세보기 MODAL-->
+	<!-- 지원자 정보 상세보기 MODAL-->
 	  <div class="modal fade" id="detailModal" role="dialog">
 	    <div class="modal-dialog modal-lg">
 	      <div class="modal-content">
 	        <div class="modal-header">
 	          <button type="button" class="close" data-dismiss="modal">&times;</button>
-	          <h4 class="modal-title">게시자 정보 상세보기</h4>
+	          <h4 class="modal-title" id="partnerListTitle">정보 상세보기</h4>
 	        </div>
 	        <div class="modal-body">
-	          <p>This is a large modal.</p>
+	        	<table class="table">
+	        		<tbody id="partnerList">
+		        		
+	        		</tbody>
+	        	</table>
+	        	
 	        </div>
 	        <div class="modal-footer">
 	          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -328,23 +347,35 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">게시자 정보 상세보기</h4>
+						<h4 class="modal-title">지원서 보기</h4>
 					</div>
 					<div class="modal-body">
 						<table class="table">
+						<colgroup> <col width="15%"/> <col width="35%"/> <col width="15%"/> <col width="35%"/> </colgroup>
+
 							<tr>
-								<th>제목</th>
-								<td id="contBTitle"></td>
+								<th scope="row">제목</th>
+								<td colspan="3" id="contBTitle"></td>
+							</tr>
+							<tr>
 								<th scope="row">지원자</th>
 								<td id="contBWriter"></td>
+								<th scope="row">지원일시</th>
+								<td id="contWrittenDate"></td>
 							</tr>
 							<tr>
-								<th>지원일시</th>
-								<td id="contWrrittenDate"></td>
+								<td colspan="4" class="view_text">
+									<div id="contBContent" style="overflow: scroll;"></div>
+								</td>
 							</tr>
+							<tr></tr>
 							<tr>
-								<td>내용</td>
+								<th scope="row">첨부파일</th>
+								<td colspan="3" id="attArea">
+									
+								</td>
 							</tr>
+							
 						</table>
 					</div>
 						<div class="modal-footer">
@@ -353,7 +384,7 @@
 				</div>
 			</div>
 		</div>
-	
+
 
 	
 	<script>
@@ -363,10 +394,12 @@
 			e.preventDefault(); 
 			fn_downloadFile($(this));
 		});
-
 		function fn_downloadFile(obj){
 			var attno = obj.parent().find(".attno").val();
-			console.log(attno);
+			location.href="jobBoardDownloadFile.jbo?attno="+attno;
+		}
+		//attno을 받아 파일 다운로드
+		function fn_downloadFile2(attno){
 			location.href="jobBoardDownloadFile.jbo?attno="+attno;
 		}
 		
@@ -410,10 +443,15 @@
 		}
 		//지원서 승낙 submit
 		function fn_contConsent(contMno,contBno){
-			confirm
 			if(confirm("승낙하시겠습니까?")){
 				$("#contConsentFrm").append('<input type="hidden" value='+contMno+' name="contMno">');
 				$("#contConsentFrm").append('<input type="hidden" value='+contBno+' name="contBno">');
+				if("${ jBtype eq '구인'}"){
+					
+				}else {
+					
+				}
+				
 				
 				$("#contConsentFrm").submit();
 				alert("성공적으로 처리되었습니다.");
@@ -427,18 +465,182 @@
 				type: "get",
 				data: {bno:bno, mno:mno},
 				success: function(data){
-					console.log(data);
+					var bTitle = data.board.btitle;
+					var bContent = data.board.bcontent;
+					var writtenDate = new Date(data.board.writtendate).format('yyyy/MM/dd');
+					var contBWriter = data.member.nickName;
+					var attList = data.attList;
+					console.log(writtenDate);
+					$("#contBContent");
+					$("#contBTitle").prop("textContent",bTitle);
+					$("#contBContent").prop("textContent","");
+					$("#contBContent").append(bContent);
+					$("#contWrittenDate").prop("textContent",writtenDate);
+					
+					$("#contBWriter").prop("textContent","");
+					$("#contBWriter").append("<a onclick='fn_showWritterDetail("+ data.member.mno +")' data-dismiss='modal' data-toggle='modal' data-target='#detailModal' id='contBWriter' name='mno'>"+ contBWriter +"</a><br>");
+					$("#attArea").prop("textContent","");
+					$.each(attList , function(i){
+						console.log($("#attName"));
+						$("#attArea").append("<input type='hidden' class='attno' name='attno' value="+ attList[i].attno +">");
+						$("#attArea").append("<a onclick='fn_downloadFile2("+ attList[i].attno +")' id='attName' name='file'>"+ attList[i].originName +"</a><br>")
+		           });
 					
 				},
 				error:function(status){
-					alert("에러");
 				}
 			});
 			return false; 
 		}
+		//지원자 상세보기
+		function fn_showWritterDetail(mno){
+			var jBtype = "${jBtype}";
+			$.ajax({
+				url: "selectWritterDeatil.jbo",
+				type: "get",
+				data: {mno:mno,jBtype:jBtype},
+				success: function(data){
+					//구인인 경우 매니저 이력을 보여줌
+					$("#partnerList").prop("textContent","");
+					$("#partnerListTitle").prop("textContent","지원자 상세정보 보기(최근 매니저 이력 5건)");
+					console.log($("#partnerListTitle"));
+        			if(jBtype == "구인"){
+	        			$("#partnerList").append("<tr><th>파트너닉네임</th><th>시작일</th><th>종료일</th><th>상태</th></tr>");
+						$.each(data , function(i){
+							var $tr = $("<tr>");
+							var cSDate = new Date(data[i].cSDate).format('yyyy/MM/dd');
+							var cEDate = new Date(data[i].cEDate).format('yyyy/MM/dd');
+							
+							$tr.append("<td>"+ data[i].nickName +"</td>");
+							$tr.append("<td>"+ cSDate +"</td>");
+							
+							if(data[i].cEDate == null || data[i].cEDate == 0){
+								$tr.append("<td> ~ </td>");
+							}else {
+								$tr.append("<td>"+ cEDate +"</td>");
+							}
+							if(data[i].pStatus == 'Y'){
+								$tr.append("<td> 계약중 </td>");
+							}else {
+								$tr.append("<td> 계약완료 </td>");
+							}
+							
+							$("#partnerList").append($tr);
+						});
+        			}else {
+        				var streamer = data[0].streamer;
+        				var member = data[0].member;
+        				var suCount = data[0].suCount;
+        				var bstart_date =  new Date(streamer.bstart_date).format('yyyy/MM/dd');
+        				$("#partnerListTitle").prop("textContent","지원자 상세정보 보기(스트리머)");
+        				$("#partnerList").prop("textContent","");
+        				$("#partnerList").append('<colgroup> <col width="15%"/> <col width="35%"/> <col width="15%"/> <col width="35%"/> </colgroup>');
+        				
+        				$("#partnerList").append("<tr><th>닉네임</th><td>"+ member.nickName +"</td></tr>");
+        				$("#partnerList").append("<tr><th>구독자수</th><td>"+ suCount +"</td></tr>");
+        				$("#partnerList").append("<tr><th>방송시작일</th><td>"+ bstart_date +"</td></tr>");
+        				
+        			}	
+				}
+			});
+		}
 		
 		
+		//작성자 상세보기
+		function fn_showWritterDetail2(mno){
+			var jBtype = "구인";
+			$.ajax({
+				url: "selectWritterDeatil.jbo",
+				type: "get",
+				data: {mno:mno,jBtype:jBtype},
+				success: function(data){
+					console.log(data);
+					//구인인 경우 매니저 이력을 보여줌
+					$("#partnerListTitle").prop("textContent","작성자 상세정보 보기(최근 매니저 이력 5건)");
+					$("#partnerList").prop("textContent","");
+        			$("#partnerList").append("<tr><th>파트너닉네임</th><th>시작일</th><th>종료일</th><th>상태</th></tr>");
+					$.each(data , function(i){
+						var $tr = $("<tr>");
+						var cSDate = new Date(data[i].cSDate).format('yyyy/MM/dd');
+						var cEDate = new Date(data[i].cEDate).format('yyyy/MM/dd');
+						
+						$tr.append("<td>"+ data[i].nickName +"</td>");
+						$tr.append("<td>"+ cSDate +"</td>");
+					
+						if(data[i].cEDate == null || data[i].cEDate == 0){
+							$tr.append("<td> ~ </td>");
+						}else {
+							$tr.append("<td>"+ cEDate +"</td>");
+						}
+						if(data[i].pStatus == 'Y'){
+							$tr.append("<td> 계약중 </td>");
+						}else {
+							$tr.append("<td> 계약완료 </td>");
+						}
+						
+						$("#partnerList").append($tr);
+					});
+				}
+			});
+		}
 		
+		Date.prototype.format = function(f) {    
+		    if (!this.valueOf()) return " ";     
+		    
+		    var weekName = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];    
+		    var d = this;         
+		    
+		    return f.replace(/(yyyy|yy|MM|dd|E|hh|mm|ss|a\/p)/gi, function($1) {        
+		        switch ($1) {            
+		           case "yyyy": return d.getFullYear();            
+		           case "yy": return (d.getFullYear() % 1000).zf(2);            
+		           case "MM": return (d.getMonth() + 1).zf(2);            
+		           case "dd": return d.getDate().zf(2);            
+		           case "E": return weekName[d.getDay()];            
+		           case "HH": return d.getHours().zf(2);            
+		           case "hh": return ((h = d.getHours() % 12) ? h : 12).zf(2);            
+		           case "mm": return d.getMinutes().zf(2);            
+		           case "ss": return d.getSeconds().zf(2);            
+		           case "a/p": return d.getHours() < 12 ? "오전" : "오후";            
+		           default: return $1;        
+		         }    
+		    });
+		}; 
+		
+		
+		Date.prototype.format = function(f) {    
+		    if (!this.valueOf()) return " ";     
+		    
+		    var weekName = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];    
+		    var d = this;         
+		    
+		    return f.replace(/(yyyy|yy|MM|dd|E|hh|mm|ss|a\/p)/gi, function($1) {        
+		        switch ($1) {            
+		           case "yyyy": return d.getFullYear();            
+		           case "yy": return (d.getFullYear() % 1000).zf(2);            
+		           case "MM": return (d.getMonth() + 1).zf(2);            
+		           case "dd": return d.getDate().zf(2);            
+		           case "E": return weekName[d.getDay()];            
+		           case "HH": return d.getHours().zf(2);            
+		           case "hh": return ((h = d.getHours() % 12) ? h : 12).zf(2);            
+		           case "mm": return d.getMinutes().zf(2);            
+		           case "ss": return d.getSeconds().zf(2);            
+		           case "a/p": return d.getHours() < 12 ? "오전" : "오후";            
+		           default: return $1;        
+		         }    
+		    });
+		}; 
+
+
+		//한자리일경우 앞에 0을 붙여준다.
+		String.prototype.string = function(len){
+		    var s = '', i = 0; 
+		    while (i++ < len) { s += this; } 
+		    return s;
+		}; 
+		String.prototype.zf = function(len){return "0".string(len - this.length) + this;};
+		Number.prototype.zf = function(len){return this.toString().zf(len);};
+		//->여기까지 Date Format함수!
 		
 		
 	</script>
