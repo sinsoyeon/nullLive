@@ -22,6 +22,7 @@ import com.kh.nullLive.member.model.exception.UpdateMemberException;
 import com.kh.nullLive.member.model.vo.BankAccount;
 import com.kh.nullLive.member.model.vo.MailUtils;
 import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.member.model.vo.Subscription;
 import com.kh.nullLive.member.model.vo.TempKey;
 import com.kh.nullLive.streamer.model.exception.SelectStreamerException;
 
@@ -290,7 +291,7 @@ public class MemberServiceImpl implements MemberService {
 
 	//마이페이지 구독 리스트
 	@Override
-	public ArrayList<HashMap<String, Object>> getSubList(Member loginUser) {
+	public ArrayList<Subscription> getSubList(Member loginUser) {
 		return md.getSubList(sqlSession,loginUser);
 	}
 

@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.BankAccount;
 import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.member.model.vo.Subscription;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
 public interface MemberDao {
@@ -206,7 +207,7 @@ public interface MemberDao {
 	 * @Date : 2019. 7. 12.
 	 * @Comment : 마이페이지 구독 리스트
 	 */
-	ArrayList<HashMap<String, Object>> getSubList(SqlSessionTemplate sqlSession, Member loginUser);
+	ArrayList<Subscription> getSubList(SqlSessionTemplate sqlSession, Member loginUser);
 
 
 

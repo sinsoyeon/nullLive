@@ -61,7 +61,7 @@ video {
 <a id="downloadLink" type="video/webm" style="display: none"></a>
 </div>`;
   }
-
+/*
   static _startScreenCapture() {
     if (navigator.getDisplayMedia) {
       return navigator.getDisplayMedia({video: true,audio:true});
@@ -99,7 +99,7 @@ video {
     });
     this.mediaRecorder.start(10);
   }
-
+*/
   _stopCapturing(e) {
     console.log('Stop capturing.');
     this.status = 'Screen recorded completed.';

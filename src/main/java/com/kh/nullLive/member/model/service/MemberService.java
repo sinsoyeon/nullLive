@@ -14,6 +14,7 @@ import com.kh.nullLive.member.model.exception.ProfileException;
 import com.kh.nullLive.member.model.exception.UpdateMemberException;
 import com.kh.nullLive.member.model.vo.BankAccount;
 import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.member.model.vo.Subscription;
 import com.kh.nullLive.streamer.model.exception.SelectStreamerException;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
@@ -174,7 +175,7 @@ public interface MemberService {
 	 * @Date : 2019. 7. 12.
 	 * @Comment : 마이페이지 구독 리스트
 	 */
-	ArrayList<HashMap<String, Object>> getSubList(Member loginUser);
+	ArrayList<Subscription> getSubList(Member loginUser);
 
 	
 }
