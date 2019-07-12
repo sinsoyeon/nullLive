@@ -114,5 +114,7 @@ public interface JobBoardDao {
 
 	Board selectOneContBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
 
+	ArrayList<HashMap<String, Object>> selectMngDetail(SqlSessionTemplate sqlSession, int mno);
+
 
 }

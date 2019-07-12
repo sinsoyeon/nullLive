@@ -426,7 +426,7 @@ public class JobBoardServiceImpl implements JobBoardService{
 	 * @author : uukk
 	 * @throws ContConsentExcption 
 	 * @date : 2019. 7. 10.
-	 * @comment : 매니저게시판 지원서 승낙하기
+	 * @comment : 매니저게시판 지원서 승낙하기(구인)
 	 */
 	@Override
 	public void insertMngContConsent(HashMap<String, Object> hmap) throws ContConsentExcption {
@@ -469,13 +469,120 @@ public class JobBoardServiceImpl implements JobBoardService{
 
 	/**
 	 * @author : uukk
+	 * @throws ContConsentExcption 
+	 * @date : 2019. 7. 12.
+	 * @comment : 매니저게시판 지원서 승낙하기(구직)
+	 */
+	@Override
+	public void insertMngContConsent2(HashMap<String, Object> hmap) throws ContConsentExcption {
+		//계약테이블 입력
+		int contResult = jbd.insertMngContract(sqlSession,hmap);
+		
+		if(contResult <=0) {
+			throw new ContConsentExcption("에러  code:jb0001");
+		}
+		
+		//지원서 상태 변경
+		int contUpdateResult = jbd.updateMngContBoard(sqlSession,hmap);
+		
+		if(contUpdateResult <=0) {
+			throw new ContConsentExcption("에러  code:jb0002");
+		}
+		
+		//계약currval조회
+		int contCurrval = jbd.selectContCurrval(sqlSession);
+		if(contCurrval <=0) {
+			throw new ContConsentExcption("에러  code:jb0003");
+		}
+		
+		//파트너 테이블 입력을 위한 계약테이블 pk
+		hmap.put("contCurrval", contCurrval);
+		
+		//지원자 스트리머 정보 조회
+		Streamer streamer = sd.selectStreamerMno(sqlSession, (int) hmap.get("mno"));
+		
+		hmap.put("streamer", streamer);
+		
+		
+		//파트너 테이블 입력
+		int partnerResult = jbd.insertMngPartner(sqlSession,hmap);
+		if(partnerResult <=0) {
+			throw new ContConsentExcption("에러  code:jb0004");
+		}
+		
+		//구인구직 게시글 board 상태 변경
+		int boardResult = jbd.updateJobMngBoardComplt(sqlSession,hmap);
+		if(boardResult <= 0) {
+			throw new ContConsentExcption("에러  code:jb0005");
+		}
+	}
+
+	/**
+	 * @author : uukk
 	 * @date : 2019. 7. 11.
 	 * @comment : 구인구직 지원서 상세보기용 메소드
 	 */
 	@Override
-	public Board selectoneContBoard(HashMap<String, Object> hmap) {
+	public Board selectOneContBoard(HashMap<String, Object> hmap) {
 		return jbd.selectOneContBoard(sqlSession,hmap);
 	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 11.
+	 * @comment : mno로 member 조회
+	 */
+	@Override
+	public Member selectOneContMember(int mno) {
+		return md.selectMemberMno(sqlSession, mno);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 11.
+	 * @comment : 매니저 구인 상세정보 조회
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> selectJobMngDetail(int mno) {
+		ArrayList<HashMap<String, Object>> mngPartnerList = jbd.selectMngDetail(sqlSession,mno);
+		return mngPartnerList;
+	}
+
+	/**
+	 * @author : uukk
+	 * @throws BoardSelectListException 
+	 * @date : 2019. 7. 12.
+	 * @comment : 매니저게시판 구직 스트리머 상세정보 조회
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> selectJobStreamerDetail(int mno) throws BoardSelectListException {
+		ArrayList<HashMap<String,Object>> list = new ArrayList<>();
+		HashMap<String,Object> hmap = new HashMap<>();
+		Streamer streamer = sd.selectStreamerMno(sqlSession,mno);
+		Member member = md.selectMemberMno(sqlSession, mno);
+		if(streamer == null) {
+			throw new BoardSelectListException("스트리머 정보 불러오기 실패");
+		}
+		hmap.put("streamer", streamer);
+		//구독자수 조회
+		int suCount = sud.getSubscriptionCount(sqlSession,streamer.getSno());
+		hmap.put("suCount",suCount);
+		hmap.put("member",member);
+		list.add(hmap);
+		
+		return list;
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 12.
+	 * @comment : 
+	 */
+	@Override
+	public Streamer selectStreamerCheck(int mno) {
+		return sd.selectStreamerMno(sqlSession, mno);
+	}
+
 
 
 
