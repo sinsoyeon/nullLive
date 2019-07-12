@@ -54,7 +54,7 @@
 				<div>
 					<!-- 구인구직 유형 -->
 					<div>
-						<select class="form-control" name="jBtype">
+						<select class="form-control" name="jBtype" id="jBtype">
 							<option value="구인">구인</option>
 							<option value="구직">구직</option>
 						</select>
@@ -62,9 +62,9 @@
 					<!-- 제목 -->
 					<div>
 						<h3>제목 </h3>
-						<input class="form-control col-lg-12 col-md-12 col-sm-8" type="text" name="bTitle" placeholder="제목을 입력하세요">
+						<input class="form-control col-lg-12 col-md-12 col-sm-8" type="text" name="bTitle" id="bTitle" placeholder="제목을 입력하세요">
 						<!-- 글쓴이 -->
-						<input type="hidden" name="bWriter" value="${ loginUser.mno }">
+						<input type="hidden" name="bWriter" value="${ loginUser.mno }" id="mno">
 						<!-- 구인구직타입 -->
 						<input type="hidden" name="bType" value="JOBMNG">
 						<!-- 직종 -->
@@ -83,7 +83,7 @@
 				<h3>내용 </h3>
 				<!-- 내용영역 -->
 				<div class="contentArea">
-					<textarea name="bContent" id="editor" required placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 400px;"></textarea>
+					<textarea name="bContent" id="editor" required placeholder="내용을입력하세요(4자이상)" wrap="hard" style="width: 880px; height: 400px;"></textarea>
 				</div>
 				<br>
 				<!-- 첨부파일 영역 -->
@@ -120,6 +120,23 @@
 				if(bTitle==""){
 					alert("제목을 입력해주세요");
 					return;
+				}
+				var jBtype = $("#jBtype").val();
+				console.log(jBtype);
+				
+				if(jBtype =="구인"){
+					var mno = $("#mno").val();
+					$.ajax({
+						url: "selectStreamerCheck.jbo",
+						type: "get",
+						data: {mno:mno},
+						success: function(data){
+							if(data.Streamer == "" || data.Streamer == null){
+								alert("스트리머만 구인글을 등록할 수 있습니다");
+								return;
+							}
+						}
+					})
 				}
 				
 				
