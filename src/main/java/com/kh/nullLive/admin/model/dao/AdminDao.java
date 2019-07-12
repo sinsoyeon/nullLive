@@ -1,6 +1,7 @@
 package com.kh.nullLive.admin.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -108,6 +109,12 @@ public interface AdminDao {
 
 	// 공지 글 수 카운트
 	int totalNoticeSelect(SqlSessionTemplate sqlSession);
+
+	//월별 회원 유입 통계
+	ArrayList<HashMap<String, Object>> memberMonthStatistics(SqlSessionTemplate sqlSession, int year);
+
+	//시간대별 시청인원 통계
+	ArrayList<HashMap<String, Object>> hourlyViewingTimeStatistics(SqlSessionTemplate sqlSession);
 
 	
 
