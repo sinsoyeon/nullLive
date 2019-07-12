@@ -294,5 +294,22 @@
     	SET EXC_STATUS = 'Y'
     	WHERE EXCNO = #{excno}    	
     </update>
+    
+    <!-- 월별 회원 유입 통계 -->
+    <select id="memberMonthStatistics" resultType="java.util.HashMap">
+    	SELECT EXTRACT(MONTH FROM ENROLL_DATE) MONTH, COUNT(DECODE(GENDER,'M',1)) M, COUNT(DECODE(GENDER,'F',1)) F
+		FROM MEMBER 
+		WHERE EXTRACT(YEAR FROM ENROLL_DATE) = #{year}
+		GROUP BY EXTRACT(MONTH FROM ENROLL_DATE)
+		ORDER BY 1
+    </select>
+    
+    <select id="hourlyViewingTimeStatistics" resultType="java.util.HashMap">
+    	SELECT TO_CHAR(view_start_date,'HH24') TIME, count(*) COU
+		FROM VIEW_HIS
+		group by TO_CHAR(view_start_date,'HH24')
+		order by 1
+    </select>
+    
 	
 </mapper>
