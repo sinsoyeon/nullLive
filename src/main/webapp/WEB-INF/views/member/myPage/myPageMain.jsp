@@ -51,6 +51,7 @@
 		<div class="row" style="margin-left: 20px;margin-top:20px;">
 			<div class="col-md-6" style="height: 450px !important;">
 				<h3>구독하는 방송</h3>
+				<div id="subListArea"></div>
 			</div>
 			<div class="col-md-6" style="height: 450px !important;">
 				<div class="col-md-2" style="display: block; float: left; width:100px;">
@@ -83,6 +84,14 @@
 			var streamerAddress = prompt('streamerAddress를 입력하세요','kakao111687');
 			window.open('enterStreaming.st?streamerAddress='+streamerAddress,'new','width=1024,height=768,menubar=no, status=no, toolbar=no');
 		}
+		$.ajax({
+			url:"subList.me",
+			type:"post",
+			success:function(data){
+				var listArea = $("#subListArea");
+				
+			}
+		});
 	</script>
 </body>
 </html>

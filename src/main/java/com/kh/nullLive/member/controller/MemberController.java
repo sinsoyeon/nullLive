@@ -3,6 +3,9 @@ package com.kh.nullLive.member.controller;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +22,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.nullLive.common.CommonUtils;
-import com.kh.nullLive.common.attachment.model.vo.AttManage;
+import com.kh.nullLive.common.RandomConstructor;
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.exception.CheckException;
 import com.kh.nullLive.member.model.exception.InsertMemberException;
@@ -32,6 +36,9 @@ import com.kh.nullLive.member.model.service.MemberService;
 import com.kh.nullLive.member.model.vo.BankAccount;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.exception.SelectStreamerException;
+
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -378,5 +385,113 @@ public class MemberController {
 			return "common/errorPage";
 		}
 		return "success";
+	}
+
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 11.
+	 * @Comment : 아이디 비밀번호 찾기 페이지 이동
+	 */
+	@RequestMapping("checkIdPwd.me")
+	public String checkIdPwd() {
+		return "member/checkIdPwd";
+	}
+	
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 11.
+	 * @Comment : 아이디 찾기 (sms)
+	 */
+	@RequestMapping("searchId.me")
+	public ModelAndView searchId(HttpServletRequest request,@RequestParam(name="smsCode")String smsCode,
+			@RequestParam(name="phone")String phone) throws Exception {
+		String api_key = "NCSSRYW4RE9CHRST";
+		String api_secret = "AN9CEBFOMESJNPQQYRO14IZTDMV8PXCE";
+		Message coolsms = new Message(api_key, api_secret);
+		
+		HashMap<String, String> hmap = new HashMap<String,String>();
+		hmap.put("to",phone);	//수신 번호
+		hmap.put("from", "01072446532"); // 발신번호
+		hmap.put("text", "[NullLive] 서비스 발송입니다. 인증번호 ["+smsCode+"]를 입력해주세요"); // 문자내용
+		hmap.put("type", "sms"); // 문자 타입
+		hmap.put("app_version", "test app 1.2");
+		System.out.println("hmap : "+hmap);
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("jsonView");
+		mv.addObject("result",true);
+		
+		//메세지 전송 부분(유료)
+		/*
+		 * try { JSONObject obj = (JSONObject) coolsms.send(hmap); //보내기 & 전송 결과
+		 * System.out.println("obj : "+obj.toString()); } catch (CoolsmsException e) {
+		 * System.out.println(e.getMessage()); System.out.println(e.getCode()); }
+		 */
+		 
+		return mv;
+	}
+	
+	@RequestMapping("getSearchId.me")
+	public ModelAndView getSearchId(@RequestParam(name="name")String name,
+			@RequestParam(name="phone")String phone) {
+		String id = "";
+		
+		ModelAndView mv = new ModelAndView();
+		Member m = new Member();
+		m.setName(name);
+		m.setPhone(phone);
+		try {
+			id = ms.getSearchId(m);
+			mv.setViewName("jsonView");
+			mv.addObject("getId", id);
+			return mv;
+		} catch (CheckException e) {
+			mv.addObject("error",e.getMessage());
+			mv.setViewName("jsonView");
+			return mv;
+		}
+	}
+	
+	@RequestMapping("pwdReload.me")
+	public ModelAndView pwdReload(@RequestParam(name="mid")String mid,
+			@RequestParam(name="email")String email) {
+		ModelAndView mv = new ModelAndView();
+		Member m = new Member();
+		m.setMid(mid);
+		m.setEmail(email);
+		RandomConstructor rc = new RandomConstructor();
+		String newPwd = rc.getRandomPassword(10);
+		System.out.println("newPwd : "+newPwd);
+		m.setMpwd(passwordEncoder.encode(newPwd));
+		
+		try {
+			ms.pwdReload(m,newPwd);
+			
+			mv.setViewName("jsonView");
+			mv.addObject("result", "successs");
+			return mv;
+		} catch (UpdateMemberException | UnsupportedEncodingException | MessagingException e) {
+			mv.setViewName("jsonView");
+			mv.addObject("error", e.getMessage());
+			return mv;
+		}
+	}
+	
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 12.
+	 * @Comment : 마이페이지 구독 리스트
+	 */
+	@RequestMapping("subList.me")
+	public ModelAndView getSubList(HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		ModelAndView mv = new ModelAndView();
+		ArrayList<HashMap<String,Object>> list = ms.getSubList(loginUser);
+		Map resultMap = new HashMap();
+		resultMap.put("result", list);
+		mv.setViewName("jsonView");
+		mv.addAllObjects(resultMap);
+		
+		return mv;
 	}
 }
