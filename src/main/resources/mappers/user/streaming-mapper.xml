@@ -147,5 +147,4 @@
     AND BL_STATUS ='Y'
 	</select>
 	
-	
 </mapper>

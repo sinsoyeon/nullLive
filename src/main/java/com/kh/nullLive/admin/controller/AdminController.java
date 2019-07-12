@@ -1,6 +1,7 @@
 package com.kh.nullLive.admin.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -222,41 +223,59 @@ public class AdminController {
 	/**
 	 * @author INHYO
 	 * @date : 2019. 6. 20.
-	 * @comment :회원 통합 통계 페이지 이동
+	 * @comment :회원 통계 페이지 이동
 	 */
 	@RequestMapping("memberStatisticsList.ad")
 	public String adminMemberStatisticsList(Model model) {
 		return "admin/memberStatistics";
 	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 11.
+	 * @comment : 회원 유입 통계 ajax
+	 */
+	@RequestMapping("memberMonthStatistics.ad")
+	public ResponseEntity memberMonthStatistics(int year) {
+		
+		ArrayList<HashMap<String, Object>> monthChart = as.memberMonthStatistics(year);
+		
+		return new ResponseEntity<ArrayList<HashMap<String, Object>>>(monthChart, HttpStatus.OK);
+	}
 
 	/**
 	 * @author INHYO
 	 * @date : 2019. 6. 20.
-	 * @comment : 사이트 통계 페이지 이동
+	 * @comment : 방송 통계 페이지 이동
 	 */
-	@RequestMapping("sitesStatisticsList.ad")
-	public String adminSitesStatisticsList(Model model) {
-		return "admin/sitesStatistics";
+	@RequestMapping("streamingStatisticsList.ad")
+	public String adminStreamingStatisticsList(Model model) {
+		return "admin/streamingStatistics";
 	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 12.
+	 * @comment : 시간대별 시청 수 Ajax
+	 */
+	@RequestMapping("hourlyViewingTime.ad")
+	public ResponseEntity hourlyViewingTimeStatistics() {
+		
+		ArrayList<HashMap<String, Object>> HVTChart = as.hourlyViewingTimeStatistics();
+		
+		return new ResponseEntity<ArrayList<HashMap<String, Object>>>(HVTChart, HttpStatus.OK);
+	}
+	
 	
 	/**
 	 * @author INHYO
 	 * @date : 2019. 7. 11.
-	 * @comment : 통계 ajax
+	 * @comment : 수익 통계 페이지 이동
 	 */
-	@RequestMapping("memberMonthStatistics.ad")
-	public ResponseEntity memberMonthStatistics(String userId, String statusType) {
-		
-		
-		UserDetail userDetail = new UserDetail();
-		
-		userDetail.setMid(userId);
-		userDetail.setMemStatus(statusType);
-		
-		userDetail = as.userDetail(userDetail);
-		
-		return new ResponseEntity<UserDetail>(userDetail, HttpStatus.OK);
+	@RequestMapping("revenueStatisticsList.ad")
+	public String adminRevenueStatisticsList(Model model) {
+		return "admin/revenueStatistics";
 	}
+	
+	
 	
 	
 

@@ -1,6 +1,7 @@
 package com.kh.nullLive.admin.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -283,6 +284,14 @@ public class AdminDaoImpl implements AdminDao{
 	@Override
 	public int totalNoticeSelect(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("Board.totalNoticeSelect");
+	}
+	@Override
+	public ArrayList<HashMap<String, Object>> memberMonthStatistics(SqlSessionTemplate sqlSession, int year) {
+		return (ArrayList)sqlSession.selectList("Admin.memberMonthStatistics",year);
+	}
+	@Override
+	public ArrayList<HashMap<String, Object>> hourlyViewingTimeStatistics(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("Admin.hourlyViewingTimeStatistics");
 	}
 	
 	

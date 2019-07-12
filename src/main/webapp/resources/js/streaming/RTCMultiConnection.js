@@ -4322,9 +4322,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
             connection.sessionid = roomid || connection.sessionid;
 
             connectSocket(function() {
-                console.log('connectSocket호출');
                 if (isData(connection.session)) {
-                    console.log('connectSocket if문');
                     openRoom(callback);
                     return;
                 }

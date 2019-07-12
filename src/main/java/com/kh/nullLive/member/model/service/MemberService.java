@@ -1,6 +1,8 @@
 package com.kh.nullLive.member.model.service;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.mail.MessagingException;
 
@@ -12,6 +14,7 @@ import com.kh.nullLive.member.model.exception.ProfileException;
 import com.kh.nullLive.member.model.exception.UpdateMemberException;
 import com.kh.nullLive.member.model.vo.BankAccount;
 import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.member.model.vo.Subscription;
 import com.kh.nullLive.streamer.model.exception.SelectStreamerException;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
@@ -147,6 +150,32 @@ public interface MemberService {
 	 * @throws MessagingException 
 	 */
 	void emailConfirm(Member m) throws MessagingException, UnsupportedEncodingException;
+
+	/**
+	 * @return 
+	 * @throws CheckException 
+	 * @Author : ryan
+	 * @Date : 2019. 7. 12.
+	 * @Comment : 아이디 찾기
+	 */
+	String getSearchId(Member m) throws CheckException;
+
+	/**
+	 * @throws UpdateMemberException 
+	 * @throws MessagingException 
+	 * @throws UnsupportedEncodingException 
+	 * @Author : ryan
+	 * @Date : 2019. 7. 12.
+	 * @Comment : 비밀번호 재발급
+	 */
+	void pwdReload(Member m,String newPwd) throws UpdateMemberException, MessagingException, UnsupportedEncodingException;
+
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 12.
+	 * @Comment : 마이페이지 구독 리스트
+	 */
+	ArrayList<Subscription> getSubList(Member loginUser);
 
 	
 }

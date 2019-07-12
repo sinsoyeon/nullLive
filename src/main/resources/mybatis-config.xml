@@ -5,7 +5,9 @@
 
 <configuration>
 	<typeAliases>
+		<!-- Member -->
 		<typeAlias alias="Member" type="com.kh.nullLive.member.model.vo.Member" />
+		<typeAlias alias="MySub" type="com.kh.nullLive.member.model.vo.Subscription"/>
 		<typeAlias alias="Board" type="com.kh.nullLive.board.model.vo.Board" />
     
 		<!-- 구인구직게시판 vo -->

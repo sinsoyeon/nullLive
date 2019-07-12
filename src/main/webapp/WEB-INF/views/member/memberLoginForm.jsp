@@ -41,6 +41,9 @@ body {
 								placeholder="Password">
 						</div>
 						<div>
+							<a href="#" id="checkIdPwd">로그인이 안되세요?</a>
+						</div>
+						<div>
 							<button	class="form-control btn btn-primary" style="width:200px; height:48px;" >로그인</button>
 							<a
 							href="https://kauth.kakao.com/oauth/authorize?client_id=490e2b39f13bc80fb8fd7a49b8b27b19&redirect_uri=https://192.168.30.30:8443/nullLive/klogin.me&response_type=code">
@@ -52,14 +55,23 @@ body {
 						<button onclick="location.href='join.me'" align="center"
 							class="form-control btn btn-primary">회원가입</button>
 					</div>
-					
-					<br>
-					<div>
-						
-					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<script>
+		$(function(){
+			$("#checkIdPwd").click(function(){
+				//창 크기 지정
+				var popupWidth = 520;
+				var popupHeight = 500;
+				//위치 지정
+				var popupX = (window.screen.width / 2) - (popupWidth / 2);
+				var popupY = (window.screen.height / 2) - (popupHeight / 2);
+				
+				var wind = window.open('checkIdPwd.me','new','width='+popupWidth+',height='+popupHeight+',left='+popupX+',top='+popupY+',menubar=no, status=no, toolbar=no');
+			});
+		});
+	</script>
 </body>
 </html>

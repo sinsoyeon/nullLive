@@ -1,6 +1,7 @@
 package com.kh.nullLive.member.model.service;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.mail.MessagingException;
@@ -21,6 +22,7 @@ import com.kh.nullLive.member.model.exception.UpdateMemberException;
 import com.kh.nullLive.member.model.vo.BankAccount;
 import com.kh.nullLive.member.model.vo.MailUtils;
 import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.member.model.vo.Subscription;
 import com.kh.nullLive.member.model.vo.TempKey;
 import com.kh.nullLive.streamer.model.exception.SelectStreamerException;
 
@@ -256,6 +258,41 @@ public class MemberServiceImpl implements MemberService {
 		sendMail.setFrom("rekin7244@gmail.com ", "NullLive");
 		sendMail.setTo(m.getEmail());
 		sendMail.send();
+	}
+
+	//아이디 찾기
+	@Override
+	public String getSearchId(Member m) throws CheckException {
+		String mid = md.getSearchId(sqlSession,m);
+		if(mid == null) {
+			throw new CheckException("찾으시는 아이디가 없습니다.");
+		}
+		return mid;
+	}
+
+	//비밀번호 재밝브
+	@Override
+	public void pwdReload(Member m,String newPwd) throws UpdateMemberException, MessagingException, UnsupportedEncodingException {
+		int result = md.pwdReload(sqlSession,m);
+		if(result<=0) {
+			throw new UpdateMemberException("재발급 실패!");
+		}
+		MailUtils sendMail = new MailUtils(mailSender);
+		
+		sendMail.setSubject("[NULLLIVE] / 비밀번호 재발급");
+		sendMail.setText(new StringBuffer().append("<h1>[NULL LIVE에 돌아오셨군요!]</h1>")
+				.append("<p>새로 발급 받으신 비밀번호는 "+newPwd+"입니다.</p>")
+				.append("<p>반드시 로그인 하신 후 비밀번호를 수정해주세요</p>")
+				.toString());
+		sendMail.setFrom("rekin7244@gmail.com ", "NullLive");
+		sendMail.setTo(m.getEmail());
+		sendMail.send();
+	}
+
+	//마이페이지 구독 리스트
+	@Override
+	public ArrayList<Subscription> getSubList(Member loginUser) {
+		return md.getSubList(sqlSession,loginUser);
 	}
 
 }

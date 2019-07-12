@@ -18,7 +18,7 @@ function openStreaming() {
 	 $("#sponModal").hide();
     openJoinStreaming();
     /*console.log(io.sockets.manager.rooms(document.getElemnetById('room-id').value));*/
-});
+};
 
 $('#sponBtn').click(function(){
 	console.log('열림');
