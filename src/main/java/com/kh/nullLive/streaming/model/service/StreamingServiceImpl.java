@@ -84,5 +84,11 @@ public class StreamingServiceImpl implements StreamingService {
 		return sd.selectHotLiveList(sqlSession);
 	}
 
+	//방송 제한 정보 가져오기
+	@Override
+	public BroadHis getStreamingInfo(String streamerAddress) {
+		return sd.getBroadHis(sqlSession, streamerAddress);
+	}
+
 	
 }

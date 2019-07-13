@@ -207,8 +207,8 @@ function startStreaming(){
 	console.log(broadMethod);
 	var bTitle = $("#bTitle").val();
 	var bCategory = $("#bCategory").val();
-	var bAdult = $('input:radio[name=bAdult]').is(':checked');
-	var bPwdCheck = $('input:radio[name=bPwdCheck]').is(':checked');
+	var bAdult = $('input:checkbox[name=bAdult]').is(':checked');
+	var bPwdCheck = $('input:checkbox[name=bPwdCheck]').is(':checked');
 	var bPwd = $("#bPwd").val();
 	
 	var form = document.createElement('form');
@@ -247,7 +247,7 @@ function startStreaming(){
 	pwd.setAttribute('name','bpwd');
 	pwd.setAttribute('value',bPwd);
 	form.appendChild(pwd);
-	
+	console.log(form);
 	form.submit();
 }
 

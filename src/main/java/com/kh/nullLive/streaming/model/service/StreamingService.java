@@ -52,6 +52,13 @@ public interface StreamingService {
 	//메인페이지 Hot Live 방송 목록 조회
 	ArrayList<HashMap<String, Object>> selectHotLiveList();
 
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 13.
+	 * Comment : 방송 정보 가져오기(제한 여부)
+	 */
+	BroadHis getStreamingInfo(String streamerAddress);
+
 	
 	
 }

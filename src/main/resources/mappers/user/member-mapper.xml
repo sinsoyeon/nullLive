@@ -51,6 +51,7 @@
 		<result property="su_start_date" column="시작일"/>
 		<result property="su_period_date" column="종료일"/>
 		<result property="su_status" column="SU_STATUS"/>
+		<result property="broadAddress" column="BROAD_ADDRESS"/>
 		<result property="byn" column="방송여부"/>
 	</resultMap>
 
@@ -248,12 +249,28 @@
 	
 	<!-- 구독 리스트 가져오기 -->
 	<select id="getSubList" parameterType="Member" resultMap="SubscriptionResultSet">
-		SELECT SUNO, M.MID MID,SU_START_DATE 시작일,SU_PERIOD_DATE 종료일,S.MID SID,S.NICK_NAME NICK_NAME,
+		SELECT SUNO, M.MID MID,SU_START_DATE 시작일,SU_PERIOD_DATE 종료일,S.MID SID,S.NICK_NAME NICK_NAME,C.BROAD_ADDRESS BROAD_ADDRESS,
 			DECODE((SELECT COUNT(*) FROM BROAD_HIS B JOIN BROAD_CENTER C ON(C.BCNO=B.BCNO) WHERE C.MNO=S.MNO AND B.BH_STATUS='Y'),0,'N','Y') 방송여부
         FROM MEMBER M
 		JOIN SUBSCRIPTION_HIS H ON (M.MNO = H.MNO)
 		JOIN MEMBER S ON (H.SNO = S.MNO)
+        JOIN BROAD_CENTER C ON (S.MNO = C.MNO)
 		WHERE M.MNO = #{mno}
 	</select>
+	
+	<!-- 휴대폰 변경 -->
+	<update id="phoneChange" parameterType="Member">
+		UPDATE MEMBER
+		SET AGENCY=#{agency},
+		PHONE=#{phone}
+		WHERE MID=#{mid}
+	</update>
+	
+	<!-- 성인 인증 -->
+	<update id="confrimAdult" parameterType="Member">
+		UPDATE MEMBER
+		SET ADULT='Y'
+		WHERE MID=#{mid}
+	</update>
 		
 </mapper>

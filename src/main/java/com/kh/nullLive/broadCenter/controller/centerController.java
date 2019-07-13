@@ -213,4 +213,9 @@ public class centerController {
 	 * return gson.toJson(data); }
 	 * 
 	 */
+	
+	@RequestMapping("boardsSetting.st")
+	public String boradsSetting() {
+		return "streaming/broadCenter/boardsSetting";
+	}
 }

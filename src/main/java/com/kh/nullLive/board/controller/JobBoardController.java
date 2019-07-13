@@ -59,7 +59,6 @@ public class JobBoardController {
 	private JobBoardService jbs;
 	@Autowired
 	private MemberService ms;
-	@Autowired
 
     /**
      * @author : uukk

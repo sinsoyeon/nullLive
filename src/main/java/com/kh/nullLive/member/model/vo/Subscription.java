@@ -21,5 +21,6 @@ public class Subscription implements Serializable{
 	private Date su_start_date;
 	private Date su_period_date;
 	private String su_status;
+	private String broadAddress;//STREAMER>MEMBER>BROAD_CENTER.BROAD_ADDRESS
 	private String byn;			//방송여부
 }
