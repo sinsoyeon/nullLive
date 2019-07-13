@@ -11,6 +11,7 @@ import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streaming.model.dao.StreamingDao;
 import com.kh.nullLive.streaming.model.exception.EnterStreamingException;
 import com.kh.nullLive.streaming.model.vo.BroadHis;
+import com.kh.nullLive.streaming.model.vo.BroadList;
 
 @Service
 public class StreamingServiceImpl implements StreamingService {
@@ -72,6 +73,7 @@ public class StreamingServiceImpl implements StreamingService {
 		return sd.checkBlackList(sqlSession,infoMap);
 	}
 	
+	/*정언 메인페이지*/
 	//메인페이지 Hot Live 방송 목록 개수
 	@Override
 	public int getHotLiveListCount() {
@@ -80,9 +82,68 @@ public class StreamingServiceImpl implements StreamingService {
 
 	//메인페이지 Hot Live 방송 목록 조회
 	@Override
-	public ArrayList<HashMap<String, Object>> selectHotLiveList() {
+	public ArrayList<BroadList> selectHotLiveList() {
 		return sd.selectHotLiveList(sqlSession);
 	}
 
+	//메인페이지 Hot Vod 방송 목록 개수
+	@Override
+	public int getHotVodListCount() {
+		return sd.getHotVodListCount(sqlSession);
+	}
 	
+	//메인페이지 Hot Vod 방송 목록 조회
+	@Override
+	public ArrayList<BroadList> selectHotVodList() {
+		return sd.selectHotVodList(sqlSession);
+	}
+
+	//메인페이지 All Live 방송 목록 조회
+	@Override
+	public int getAllLiveListCount() {
+		return sd.getAllLiveListCount(sqlSession);
+	}
+
+	//메인페이지 All Live 방송 목록 조회
+	@Override
+	public ArrayList<BroadList> selectAllLiveList() {
+		return sd.selectAllLiveList(sqlSession);
+	}
+
+	//메인페이지 All Vod 방송 목록 개수
+	@Override
+	public int getAllVodListCount() {
+		return sd.getAllVodListCount(sqlSession);
+	}
+
+	//메인페이지 All Vod 방송 목록 조회
+	@Override
+	public ArrayList<BroadList> selectAllVodList() {
+		return sd.selectAllVodList(sqlSession);
+	}
+
+	//검색한 All Live 방송 목록 개수
+	@Override
+	public int getSearchAllLiveCount(int condition) {
+		return sd.getSearchAllLiveCount(sqlSession, condition);
+	}
+
+	//검색한 All Live 방송 목록 조회
+	@Override
+	public ArrayList<BroadList> searchAllLiveList(int condition) {
+		return sd.searchAllLiveList(sqlSession, condition);
+	}
+
+	//검색한 All Vod 방송 목록 개수
+	@Override
+	public int getSearchAllVodCount(int condition) {
+		return sd.getSearchAllVodCount(sqlSession, condition);
+	}
+
+	//검색한 All Vod 방송 목록 조회
+	@Override
+	public ArrayList<BroadList> searchAllVodList(int condition) {
+		return sd.searchAllVodList(sqlSession, condition);
+	}
+
 }

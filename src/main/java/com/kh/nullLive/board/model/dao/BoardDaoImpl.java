@@ -54,7 +54,7 @@ public class BoardDaoImpl implements BoardDao {
 		return sqlSession.selectOne("Board.searchFListCount", searchCondition);
 	}
 
-	//고객센터 FAQ 검색한 게시글 수 조회
+	//고객센터 FAQ 검색한 게시글  조회
 	@Override
 	public ArrayList<Board> searchFBoardList(SqlSessionTemplate sqlSession, PageInfo pi, int condition) {
 		ArrayList<Board> list = null;

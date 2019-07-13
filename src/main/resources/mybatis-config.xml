@@ -31,7 +31,7 @@
 		
 		<!-- 스트리밍 -->
 		<typeAlias alias="BroadHis" type="com.kh.nullLive.streaming.model.vo.BroadHis"/>
-	
+		<typeAlias alias="BroadList" type="com.kh.nullLive.streaming.model.vo.BroadList"/>
 	</typeAliases>
 	
 	<mappers>
