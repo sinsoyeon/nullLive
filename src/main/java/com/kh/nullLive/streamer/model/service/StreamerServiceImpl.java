@@ -239,12 +239,23 @@ public class StreamerServiceImpl implements StreamerService{
 		
 		hmap = smDao.getInsertData(sqlSession,infoMap);
 		
-		hmap.put("mno", infoMap.get("mno"));
-		hmap.put("decno", infoMap.get("decno"));
+		System.out.println("hmap : " + hmap);
+		
+		System.out.println("infoMap : " + infoMap);
+		
+		int mno = (int)infoMap.get("mno");
+				
+		
+		hmap.put("mno", mno);
+		hmap.put("decno", (int)infoMap.get("decno"));
 		
 		System.out.println("hmap : " + hmap);
 		
 		updateResult += smDao.reInsertClc(sqlSession,hmap);
+		
+		if(updateResult > 0) {
+			smDao.reInsertClc(sqlSession, hmap);
+		}
 		
 		return updateResult;
 	}
@@ -272,6 +283,51 @@ public class StreamerServiceImpl implements StreamerService{
 	public int getChargeCount(int mno) {
 		// TODO Auto-generated method stub
 		return smDao.getChargeCount(sqlSession,mno);
+	}
+
+	@Override
+	public HashMap<String, Object> detailClc(HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return smDao.detailClc(sqlSession,infoMap);
+	}
+
+	@Override
+	public int rejectClc(HashMap<String, Object> rejectMap) {
+		// TODO Auto-generated method stub
+		return smDao.rejectClc(sqlSession,rejectMap);
+	}
+
+	@Override
+	public int getReqClcCount(int mno) {
+		// TODO Auto-generated method stub
+		return smDao.getReqClcCount(sqlSession,mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectReqClcList(HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return smDao.selectReqClcList(sqlSession,infoMap);
+	}
+
+	@Override
+	public int confirmClc(HashMap<String, Object> infoMap) {
+		int updateResult =  smDao.confirmClc(sqlSession,infoMap);
+		
+		System.out.println("updateREsult : " + updateResult);
+		int result = 0;
+		if(updateResult > 0) {
+			System.out.println("update 실행중 : ");
+			result = smDao.updateClcPoint(sqlSession,infoMap);
+			System.out.println("update 실행중 : 결가ㅗ는 ? " + result);
+			
+			if(result > 0 ) {
+				infoMap.put("amount", infoMap.get("clc_amount"));
+				result = smDao.updatePoint(sqlSession, infoMap);
+				System.out.println("찐 결과 : " + result);
+			}
+		}
+		
+		return result;
 	}
 	
 }
