@@ -385,4 +385,25 @@ public class AdminServiceImpl implements AdminService {
 		return HVTChart;
 	}
 
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 13.
+	 * @comment : 방송 인기 카테고리 통계
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> bestCategoryStatistics() {
+		ArrayList<HashMap<String, Object>> bestCategoryChart = ad.bestCategoryStatistics(sqlSession);
+		return bestCategoryChart;
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 13.
+	 * @comment : 충전 금액 통계
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> amountChargeStatistics() {
+		ArrayList<HashMap<String, Object>> amountChargeChart = ad.amountChargeStatistics(sqlSession);
+		return amountChargeChart;
+	}
+
 }

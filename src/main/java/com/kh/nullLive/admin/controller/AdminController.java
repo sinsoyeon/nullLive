@@ -264,6 +264,19 @@ public class AdminController {
 		return new ResponseEntity<ArrayList<HashMap<String, Object>>>(HVTChart, HttpStatus.OK);
 	}
 	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 13.
+	 * @comment : 방송 인기 카테고리 Ajax
+	 */
+	@RequestMapping("bestCategory.ad")
+	public ResponseEntity bestCategoryStatistics() {
+		
+		ArrayList<HashMap<String, Object>> bestCategoryChart = as.bestCategoryStatistics();
+		
+		return new ResponseEntity<ArrayList<HashMap<String, Object>>>(bestCategoryChart, HttpStatus.OK);
+	}
+	
 	
 	/**
 	 * @author INHYO
@@ -273,6 +286,19 @@ public class AdminController {
 	@RequestMapping("revenueStatisticsList.ad")
 	public String adminRevenueStatisticsList(Model model) {
 		return "admin/revenueStatistics";
+	}
+	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 13.
+	 * @comment : 충전 금액 Ajax
+	 */
+	@RequestMapping("amountCharge.ad")
+	public ResponseEntity amountChargeStatistics() {
+		
+		ArrayList<HashMap<String, Object>> amountChargeChart = as.amountChargeStatistics();
+		
+		return new ResponseEntity<ArrayList<HashMap<String, Object>>>(amountChargeChart, HttpStatus.OK);
 	}
 	
 	
