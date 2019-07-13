@@ -10,12 +10,15 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <style>
+body{
+background-color:black;
+}
 #page {
   display: grid;
   width: 100%;
   height: 768px;
   grid-template-columns: 2.2fr 0.8fr;
-  grid-template-rows: 0.3fr 2fr 0.8fr;
+  grid-template-rows: 0.3fr 2.25fr 0.52fr;
   grid-template-areas: "head head" "video chat" "foot foot";
 }
 #page > header {
@@ -54,11 +57,11 @@
   </header>
   <div id="VideoArea">
       <section class="make-center">
-          <div id="videos-container" style="margin: 20px 0;"></div>
+          <div id="videos-container" style="margin: 5px 0;"></div>
     </section>
   </div>
   <nav id="chatArea">
-  	<div id="chat-box"></div>
+<!--   	<div id="chat-box"></div> -->
     <input type="text" id="inputMsg"/>
     <button id="msg_send">전송</button>
     <button data-toggle="modal" data-target="#sponModal" id="sponBtn"  style="width:30px;background: pink; color: white;">결제테스트</button>

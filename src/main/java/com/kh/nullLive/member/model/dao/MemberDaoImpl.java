@@ -170,8 +170,19 @@ public class MemberDaoImpl implements MemberDao {
 	public int pwdReload(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.update("Member.pwdReload",m);
 	}
+	//구독 리스트 가져오기
 	@Override
 	public ArrayList<Subscription> getSubList(SqlSessionTemplate sqlSession, Member loginUser) {
 		return (ArrayList)sqlSession.selectList("Member.getSubList",loginUser);
+	}
+	//휴대폰 재설정
+	@Override
+	public int phoneChange(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("Member.phoneChange",m);
+	}
+	//성인 인증
+	@Override
+	public int confirmAdult(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("Member.confrimAdult",m);
 	}
 }

@@ -4,91 +4,100 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="BroadCenter">
-	<!-- 방송국 resultMap (정연) -->
-	<resultMap type="BroadCenter" id="BroadCenterResultMap">
-		<id property="bcno" column="BCNO" />
-		<result property="braodAddress" column="BROAD_ADDRESS" />
-		<result property="broadTitle" column="BROAD_TITLE" />
-		<result property="bcIntro" column="BCINTRO" />
-		<result property="broadPwd" column="BROAD_PWD" />
-		<result property="mno" column="MNO" />
-		<result property="broadCategory" column="BROAD_CATEGORY" />
-		<result property="endingComment" column="ENDING_COMMENT" />
-		<result property="adult" column="ADULT" />
-	</resultMap>
+   <!-- 방송국 resultMap (정연) -->
+   <resultMap type="BroadCenter" id="BroadCenterResultMap">
+      <id property="bcno" column="BCNO" />
+      <result property="braodAddress" column="BROAD_ADDRESS" />
+      <result property="broadTitle" column="BROAD_TITLE" />
+      <result property="bcIntro" column="BCINTRO" />
+      <result property="broadPwd" column="BROAD_PWD" />
+      <result property="mno" column="MNO" />
+      <result property="broadCategory" column="BROAD_CATEGORY" />
+      <result property="endingComment" column="ENDING_COMMENT" />
+      <result property="adult" column="ADULT" />
+   </resultMap>
 
-	<!-- 방송국 기능 설정 조회(정연) -->
-	<select id="selectBroadSetting" parameterType="_int" resultType="java.util.HashMap">
-		SELECT *
-		FROM (SELECT BH.BHNO, BH.COUNT_VIEWERS, BH.BCNO, BH.COUNT_RECOMMENDATION,
-		BH.BROAD_TITLE, BH.BROAD_PWD, BH.BROAD_CATEGORY, BH.ADULT, BH.BH_STATUS,
-		BC.BROAD_ADDRESS, BC.BCINTRO, BC.MNO, BC.ENDING_COMMENT
-		FROM BROAD_HIS BH, BROAD_CENTER BC
-		WHERE BH.BCNO = BC.BCNO
-		AND BH.BCNO = #{mno}
-		ORDER BY BH.BHNO DESC)
-		WHERE ROWNUM = 1
-	</select>
-	
-	<!-- 방송기능 broad_his 삽입 (정연) -->
-	<insert id="updateBroadSetting" parameterType="java.util.HashMap">
-		INSERT INTO BROAD_HIS 
-		VALUES(SEQ_BHNO.NEXTVAL, SYSDATE, NULL, 'Y', NULL, #{bcno}, NULL, #{title}, #{pwd}, #{category}, #{adult})
-	</insert>
-	
-	<!-- 파트너 리스트 조회(정연) -->
-	<select id="selectpartnerList" parameterType="_int" resultType="java.util.HashMap">
-		SELECT P.PNO, P.SNO, P.MNO, P.CNO, P.PTYPE, C.JBNO, TO_CHAR(C.C_SDATE, 'YYYY/MM/DD') AS C_SDATE,
-		C.C_EDATE, C.PERPRICE, M.MID, M.NICK_NAME
-		FROM MEMBER M, PARTNER P, CONTRACT C, STREAMER S
-		WHERE P.MNO = M.MNO
-		AND P.SNO = S.SNO
-		AND P.CNO = C.CNO
-		AND P.SNO = #{mno}
-		AND M.M_STATUS = 'Y'
-	</select>
-	
-	<!-- blackList 조회(소연) -->
-	<select id="selectBlackList" resultType="java.util.HashMap">
-		SELECT BLNO,M.MID,M.NICK_NAME,TO_CHAR(BL_DATE,'YYYY/MM/DD') AS BL_DATE
-		FROM MEMBER M,MEMBER ST,BLACKLIST B
-		WHERE M.MNO = B.MNO
-		AND ST.MNO = B.SNO
-		AND ST.MNO =  #{mno}
-		AND BL_STATUS = 'Y'	
-	</select>
-	
-	<!-- blackList Count 조회 (소연) -->
-	<select id="selectBlackListCount" resultType="_int">
-		SELECT count(*) as 인원수
-	FROM MEMBER M,MEMBER ST,BLACKLIST B
-	WHERE M.MNO = B.MNO
-	AND ST.MNO = B.SNO
-	AND ST.MNO = #{mno}
-	AND BL_STATUS = 'Y'
-	</select>
-	
-	<select id="selectOneBlackList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-		SELECT BLNO,M.MID,M.NICK_NAME,TO_CHAR(BL_DATE,'YYYY/MM/DD')AS BL_DATE
-		FROM MEMBER M,MEMBER ST,BLACKLIST B
-		WHERE M.MNO = B.MNO
-		AND ST.MNO = B.SNO
-		AND ST.MNO = #{mno}
-		AND BLNO = #{blno}
-		AND BL_STATUS = 'Y'	
-	</select>
-	
-	<!--  -->
-	<select id="partnerDetail" parameterType="_int" resultType="java.util.HashMap">
-		SELECT P.PNO, P.SNO, P.MNO, P.CNO, P.PTYPE, C.JBNO, TO_CHAR(C.C_SDATE, 'YYYY/MM/DD') AS C_SDATE,
-		C.C_EDATE, C.PERPRICE, M.MID, M.NICK_NAME, M.PHONE
-		FROM MEMBER M, PARTNER P, CONTRACT C, STREAMER S
-		WHERE P.MNO = M.MNO
-		AND P.SNO = S.SNO
-		AND P.CNO = C.CNO
-		AND M.MNO = #{mno}
-		AND M.M_STATUS = 'Y'
-	</select>
+   <!-- 방송국 기능 설정 조회(정연) -->
+   <select id="selectBroadSetting" parameterType="_int" resultType="java.util.HashMap">
+      SELECT *
+      FROM (SELECT BH.BHNO, BH.COUNT_VIEWERS, BH.BCNO, BH.COUNT_RECOMMENDATION,
+      BH.BROAD_TITLE, BH.BROAD_PWD, BH.BROAD_CATEGORY, BH.ADULT, BH.BH_STATUS,
+      BC.BROAD_ADDRESS, BC.BCINTRO, BC.MNO, BC.ENDING_COMMENT
+      FROM BROAD_HIS BH, BROAD_CENTER BC
+      WHERE BH.BCNO = BC.BCNO
+      AND BH.BCNO = #{mno}
+      ORDER BY BH.BHNO DESC)
+      WHERE ROWNUM = 1
+   </select>
+   
+   <!-- 방송기능 broad_his 삽입 (정연) -->
+   <insert id="updateBroadSetting" parameterType="java.util.HashMap">
+      INSERT INTO BROAD_HIS 
+      VALUES(SEQ_BHNO.NEXTVAL, SYSDATE, NULL, 'Y', NULL, #{bcno}, NULL, #{title}, #{pwd}, #{category}, #{adult})
+   </insert>
+   
+   <!-- 파트너 리스트 조회(정연) -->
+   <select id="selectpartnerList" parameterType="_int" resultType="java.util.HashMap">
+      SELECT P.PNO, P.SNO, P.MNO, P.CNO, P.PTYPE, C.JBNO, TO_CHAR(C.C_SDATE, 'YYYY/MM/DD') AS C_SDATE,
+      C.C_EDATE, C.PERPRICE, M.MID, M.NICK_NAME
+      FROM MEMBER M, PARTNER P, CONTRACT C, STREAMER S
+      WHERE P.MNO = M.MNO
+      AND P.SNO = S.SNO
+      AND P.CNO = C.CNO
+      AND P.SNO = #{mno}
+      AND M.M_STATUS = 'Y'
+   </select>
+   
+   <!-- blackList 조회(소연) -->
+   <select id="selectBlackList" resultType="java.util.HashMap">
+      SELECT BLNO,M.MID,M.NICK_NAME,TO_CHAR(BL_DATE,'YYYY/MM/DD') AS BL_DATE
+      FROM MEMBER M,MEMBER ST,BLACKLIST B
+      WHERE M.MNO = B.MNO
+      AND ST.MNO = B.SNO
+      AND ST.MNO =  #{mno}
+      AND BL_STATUS = 'Y'   
+   </select>
+   
+   <!-- blackList Count 조회 (소연) -->
+   <select id="selectBlackListCount" resultType="_int">
+      SELECT count(*) as 인원수
+   FROM MEMBER M,MEMBER ST,BLACKLIST B
+   WHERE M.MNO = B.MNO
+   AND ST.MNO = B.SNO
+   AND ST.MNO = #{mno}
+   AND BL_STATUS = 'Y'
+   </select>
+   
+   <select id="selectOneBlackList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+      SELECT BLNO,M.MID,M.NICK_NAME,TO_CHAR(BL_DATE,'YYYY/MM/DD')AS BL_DATE
+      FROM MEMBER M,MEMBER ST,BLACKLIST B
+      WHERE M.MNO = B.MNO
+      AND ST.MNO = B.SNO
+      AND ST.MNO = #{mno}
+      AND BLNO = #{blno}
+      AND BL_STATUS = 'Y'   
+   </select>
+   
+   <!--  -->
+   <select id="partnerDetail" parameterType="_int" resultType="java.util.HashMap">
+      SELECT P.PNO, P.SNO, P.MNO, P.CNO, P.PTYPE, C.JBNO, TO_CHAR(C.C_SDATE, 'YYYY/MM/DD') AS C_SDATE,
+      C.C_EDATE, C.PERPRICE, M.MID, M.NICK_NAME, M.PHONE
+      FROM MEMBER M, PARTNER P, CONTRACT C, STREAMER S
+      WHERE P.MNO = M.MNO
+      AND P.SNO = S.SNO
+      AND P.CNO = C.CNO
+      AND M.MNO = #{mno}
+      AND M.M_STATUS = 'Y'
+   </select>
+
+   
+   <!--  방송 공지 수정 (정연) 
+   <update id="updateNoticeCheck" parameterType="java.util.HashMap">
+      UPDATE BROAD_CENTER
+      SET NOTICE_CONTENT = #{content}
+      WHERE MNO = #{mno}
+   </update> -->
+ 
 
 	<!-- 공지게시판 정보 조회(정연) -->
 	<select id="selectNoticeBoard" parameterType="_int" resultType="java.util.HashMap">
@@ -98,7 +107,5 @@
 		AND M.MNO = #{mno}
 		AND M.M_STATUS = 'Y'
 	</select>
-	
 
-	
 </mapper>

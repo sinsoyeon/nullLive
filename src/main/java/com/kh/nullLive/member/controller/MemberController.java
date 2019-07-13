@@ -7,14 +7,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -172,6 +171,7 @@ public class MemberController {
 					hmap.put("nickName", sub.getNickName());
 					hmap.put("startDate", df.format(new java.util.Date(sub.getSu_start_date().getTime())));
 					hmap.put("periodDate", df.format(new java.util.Date(sub.getSu_period_date().getTime())));
+					hmap.put("broadAddress",sub.getBroadAddress());
 					hmap.put("byn", sub.getByn());
 					resultList.add(hmap);
 				}
@@ -201,8 +201,9 @@ public class MemberController {
 	}
 
 	/**
-	 * Author : ryan Date : 2019. 6. 21. / 7. 2. Comment : 개인정보수정 페이지 이동 / 계좌 정보 있는
-	 * 경우 추가
+	 * @Author : ryan 
+	 * @Date : 2019. 6. 21. / 7. 2. 
+	 * @Comment : 개인정보수정 페이지 이동 / 계좌 정보 있는 경우 추가
 	 */
 	@RequestMapping("updatePage.me")
 	public String updatePage(HttpSession session, Model model) {
@@ -243,6 +244,16 @@ public class MemberController {
 	@RequestMapping("pwdInput.me")
 	public String pwdInput() {
 		return "member/myPage/pwdInput";
+	}
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 13.
+	 * Comment : 휴대폰 변경 창 이동
+	 */
+	@RequestMapping("phoneInput.me")
+	public String phoneInput() {
+		return "member/myPage/phoneInput";
 	}
 
 	/**
@@ -396,7 +407,7 @@ public class MemberController {
 	/**
 	 * @Author : ryan
 	 * @Date : 2019. 7. 11.
-	 * @Comment : 아이디 찾기 (sms)
+	 * @Comment : 아이디 찾기 part1(sms 보내기)
 	 */
 	@RequestMapping("searchId.me")
 	public ModelAndView searchId(HttpServletRequest request, @RequestParam(name = "smsCode") String smsCode,
@@ -427,6 +438,42 @@ public class MemberController {
 		return mv;
 	}
 
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 12.
+	 * Comment : 휴대폰 인증 ajax
+	 */
+	@ResponseBody
+	@RequestMapping(value="conPhone.me")
+	public String confirmPhone(@RequestParam(name = "smsCode") String smsCode,
+			@RequestParam(name = "phone") String phone) throws Exception {
+		String api_key = "NCSSRYW4RE9CHRST";
+		String api_secret = "AN9CEBFOMESJNPQQYRO14IZTDMV8PXCE";
+		Message coolsms = new Message(api_key, api_secret);
+
+		HashMap<String, String> hmap = new HashMap<String, String>();
+		hmap.put("to", phone); // 수신 번호
+		hmap.put("from", "01072446532"); // 발신번호
+		hmap.put("text", "[NullLive] 서비스 발송입니다. 인증번호 [" + smsCode + "]를 입력해주세요"); // 문자내용
+		hmap.put("type", "sms"); // 문자 타입
+		hmap.put("app_version", "test app 1.2");
+		System.out.println("hmap : " + hmap);
+
+		// 메세지 전송 부분(유료)
+		/*
+		 * try { JSONObject obj = (JSONObject) coolsms.send(hmap); //보내기 & 전송 결과
+		 * System.out.println("obj : "+obj.toString()); } catch (CoolsmsException e) {
+		 * System.out.println(e.getMessage()); System.out.println(e.getCode()); }
+		 */
+
+		return "success";
+	}
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 12.
+	 * Comment : 아이디 찾기 part2 (찾은 아이디 가져오기)
+	 */
 	@RequestMapping("getSearchId.me")
 	public ModelAndView getSearchId(@RequestParam(name = "name") String name,
 			@RequestParam(name = "phone") String phone) {
@@ -448,6 +495,11 @@ public class MemberController {
 		}
 	}
 
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 13.
+	 * Comment : 패스워드 재발급 (랜덤)
+	 */
 	@RequestMapping("pwdReload.me")
 	public ModelAndView pwdReload(@RequestParam(name = "mid") String mid, @RequestParam(name = "email") String email) {
 		ModelAndView mv = new ModelAndView();
@@ -473,29 +525,50 @@ public class MemberController {
 	}
 
 	/**
-	 * @Author : ryan
-	 * @Date : 2019. 7. 12.
-	 * @Comment : 마이페이지 구독 리스트
-	 *//*
-		 * @RequestMapping("subList.me") public ModelAndView getSubList(HttpSession
-		 * session) { Member loginUser = (Member)session.getAttribute("loginUser");
-		 * ModelAndView mv = new ModelAndView(); ArrayList<Subscription> list =
-		 * ms.getSubList(loginUser); ArrayList<HashMap<String,Object>> resultList = new
-		 * ArrayList<HashMap<String,Object>>(); String pattern = "yyyy/MM/dd";
-		 * DateFormat df = new SimpleDateFormat(pattern); for (Subscription sub : list)
-		 * { HashMap<String,Object> hmap = new HashMap<String,Object>(); hmap.put("mid",
-		 * sub.getMid()); hmap.put("sid", sub.getSid()); hmap.put("nickName",
-		 * sub.getNickName()); hmap.put("startDate",df.format(new
-		 * java.util.Date(sub.getSu_start_date().getTime())));
-		 * hmap.put("periodDate",df.format(new
-		 * java.util.Date(sub.getSu_period_date().getTime())));
-		 * hmap.put("byn",sub.getByn()); resultList.add(hmap); }
-		 * System.out.println("resultList : "+resultList);
-		 * 
-		 * Map resultMap = new HashMap(); resultMap.put("result", resultList);
-		 * 
-		 * mv.setViewName("jsonView"); mv.addObject("resultList",resultList);
-		 * 
-		 * return mv; }
-		 */
+	 * Author : ryan
+	 * Date : 2019. 7. 13.
+	 * Comment : 휴대폰 변경
+	 */
+	@RequestMapping("phoneChange.me")
+	public String phoneChange(Member m,@RequestParam("phone1") String p1,
+			@RequestParam("phone2") String p2, @RequestParam("phone3") String p3,Model model) {
+		m.setPhone(p1 + p2 + p3);
+
+		try {
+			Member loginUser = ms.phoneChange(m);
+			model.addAttribute("loginUser", loginUser);
+			return "member/myPage/phoneChangeEnd";
+		} catch (UpdateMemberException e) {
+			model.addAttribute("msg",e.getMessage());
+			return "member/myPage/phoneChangeError";
+		}
+	}
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 13.
+	 * Comment : 성인인증 창 이동
+	 */
+	@RequestMapping("conAdult.me")
+	public String conAdult() {
+		return "member/myPage/conAdult";
+	}
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 13.
+	 * Comment : 성인인증
+	 */
+	@ResponseBody
+	@RequestMapping("confrimAdult.me")
+	public String confirmAdult(Model model, HttpSession session) {
+		Member m = (Member)session.getAttribute("loginUser");
+		try {
+			Member loginUser = ms.confirmAdult(m);
+			model.addAttribute("loginUser", loginUser);
+			return "success";
+		} catch (UpdateMemberException e) {
+			return e.getMessage();
+		}
+	}
 }
