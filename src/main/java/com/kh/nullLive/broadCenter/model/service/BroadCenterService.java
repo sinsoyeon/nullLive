@@ -63,6 +63,28 @@ public interface BroadCenterService {
 	//방송 공지 수정 체크(정연)
 	int updateNoticeCheck(HashMap<String, Object> updateInfo);
 
+	//방송 공지 삭제 (정연)
+	int deleteNotice(int mno);
+
+	//시청자 소통 개설 여부 확인(정연)
+	int firstCheckCommunication(HashMap<String, Object> commuInfo);
+
+	//첫 소통 게시판 활성화(정연)
+	int enableCommunityBoard(int mno);
+
+	//소통 게시판 리스트 조회(정연)
+	ArrayList<HashMap<String, Object>> selectCommunityList(int mno);
+
+	//스트리머 검색 (정연)
+	ArrayList<HashMap<String, Object>> searchStreamer();
+
+	//스르티머 이름 검색(정연)
+	ArrayList<HashMap<String, Object>> searchStreamerName(String name);
+
+	
+
+	
+
 	
 	
 	

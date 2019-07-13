@@ -46,7 +46,7 @@ public class KakaoAPI {
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=490e2b39f13bc80fb8fd7a49b8b27b19");
-			sb.append("&redirect_uri=http://localhost:9001/nullLive/klogin.me");
+			sb.append("&redirect_uri=https://192.168.1.130:8443/nullLive/klogin.me");
 			sb.append("&code=" + authorize_code);
 			bw.write(sb.toString());
 			bw.flush();

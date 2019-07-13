@@ -50,18 +50,39 @@
 		var mno = ${loginUser.mno};
 		
 		 $.ajax({
-			url:"updateNotice.sm",
-			type="get",
-			data:{mno:mno, content:content},
+				url:"updateNotice.sm",
+				data:{mno:mno, content:content},
+				type:"get",
+				success:function(data){
+					//console.log(data.data.NOTICE_CONTENT);
+					$(".content").empty();
+					$(".content").text(data.data.NOTICE_CONTENT);
+					alert("공지를 수정하셨습니다.");
+				},
+				error:function(){
+					alert("공지 업데이트 실패!");
+				}
+			}); 
+	});
+	
+	$("#delete").click(function(){
+		var mno = ${loginUser.mno};
+		
+		$.ajax({
+			url:"deleteNotice.sm",
+			data:{mno:mno},
+			type:"get",
 			success:function(data){
 				$(".content").empty();
-				$(".content").text(data.data.NOTICE_CONTENT);
+				console.log("삭제: " + data.data);
+				if(data.data>0){
+					alert("공지를 삭제했습니다.");
+				}
 			},
 			error:function(){
-				alert("공지 업데이트 실패!");
+				alert("공지 삭제에 실패했습니다.");
 			}
-		});  
-		
+		});
 	});
 
 

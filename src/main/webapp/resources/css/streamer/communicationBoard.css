@@ -6,8 +6,9 @@
 }
 .communiTable th{
 	text-align:center;
-	height:30px;
-	background:lightgray;
+	height:40px;
+	background:#446600;
+	color:white;
 }
 th, td{
 	border-bottom: 1px solid gray;
@@ -17,7 +18,7 @@ th, td{
 	float:right;
 }
 tr:hover{
-	background:#79d279;
+	background:#CFEFCF;
 }
 #update{
 	float:right;
