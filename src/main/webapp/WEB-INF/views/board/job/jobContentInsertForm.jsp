@@ -53,7 +53,7 @@
 				<div>
 					<!-- 구인구직 유형 -->
 					<div>
-						<select class="form-control" name="jBtype">
+						<select class="form-control" name="jBtype" id="jBtype">
 							<option value="구인">구인</option>
 							<option value="구직">구직</option>
 						</select>
@@ -69,7 +69,7 @@
 						<h3>제목 </h3>
 						<input class="form-control col-lg-12 col-md-12 col-sm-8" type="text" name="bTitle" placeholder="제목을 입력하세요">
 						<!-- 글쓴이 -->
-						<input type="hidden" name="bWriter" value="${ loginUser.mno }">
+						<input type="hidden" id="mno" name="bWriter" value="${ loginUser.mno }">
 						<!-- 구인구직타입 -->
 						<input type="hidden" name="bType" value="JOBCON">
 					</div>
@@ -88,14 +88,14 @@
 				<!-- 계약내용 -->
 				<div class="ContractContentArea">
 					<h3>계약내용</h3>
-					<textarea class="form-control col-lg-12 col-md-12 col-sm-8" id="contContent" name="contContent" rows="5" required placeholder="ex)10분 영상 편집 기준 건당 0000포인트"></textarea>
+					<textarea class="form-control col-lg-12 col-md-12 col-sm-8" wrap="hard" id="contContent" name="contContent" rows="5" required placeholder="ex)10분 영상 편집 기준 건당 0000포인트"></textarea>
 					<p>* 계약 내용은 상세히 작성해 주시기 바랍니다.</p>
 				</div>
 				
 				<!-- 내용영역 -->
 				<div class="contentArea">
 					<h3>내용</h3>
-					<textarea name="bContent" id="editor" required placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 400px;"></textarea>
+					<textarea name="bContent" id="editor" wrap="hard" required placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 400px;"></textarea>
 				</div>
 				<br>
 				<!-- 첨부파일 영역 -->
@@ -131,6 +131,25 @@
 	        $("#save").click(function(){ 
 				var bTitle = $("#bTitle").val();
 				var contContent = $("#contContent").prop("textLength");
+				
+				var jBtype = $("#jBtype").val();
+				console.log(jBtype);
+				
+				if(jBtype =="구인"){
+					var mno = $("#mno").val();
+					$.ajax({
+						url: "selectStreamerCheck.jbo",
+						type: "get",
+						data: {mno:mno},
+						success: function(data){
+							if(data.Streamer == "" || data.Streamer == null){
+								alert("스트리머만 구인글을 등록할 수 있습니다");
+								return;
+							}
+						}
+					})
+				}
+				
 				if(bTitle==""){
 					alert("제목을 입력해주세요");
 					return;
@@ -142,8 +161,8 @@
 				}
 				
 				
-				/* obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []); 
-				$("#insertBoardFrm").submit(); */
+				obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []); 
+				$("#insertBoardFrm").submit();
 			})
 	    });
 	</script>
