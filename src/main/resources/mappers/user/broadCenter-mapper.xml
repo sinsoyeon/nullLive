@@ -99,7 +99,7 @@
 		AND M.M_STATUS = 'Y'
 	</select>
 	
-	<!-- <!-- 방송 공지 수정 (정연) -->
+	<!--  방송 공지 수정 (정연) 
 	<update id="updateNoticeCheck" parameterType="java.util.HashMap">
 		UPDATE BROAD_CENTER
 		SET NOTICE_CONTENT = #{content}
