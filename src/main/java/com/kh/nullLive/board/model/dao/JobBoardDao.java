@@ -116,5 +116,11 @@ public interface JobBoardDao {
 
 	ArrayList<HashMap<String, Object>> selectMngDetail(SqlSessionTemplate sqlSession, int mno);
 
+	ArrayList<HashMap<String, Object>> selectListPartner(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+	int selectPartnerCurrval(SqlSessionTemplate sqlSession);
+
+	int insertManagerAuth(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
 
 }

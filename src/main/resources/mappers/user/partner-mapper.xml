@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Partner">
+	<!-- 매니저 pno조회 -->
+	<select id="getMngPno" parameterType="java.util.HashMap" resultType="_int">
+		SELECT PNO FROM PARTNER WHERE SNO = #{sno} AND MNO = #{mngMno} AND PTYPE='매니저'
+	</select>
+	
+	<!-- 매니저  게시판 권한조회 -->
+	<select id="selectMngBoardAuth" parameterType="_int" resultType="java.lang.String">
+		SELECT board_auth FROM MANAGER_AUTH where pno = #{pno}
+	</select>
+	
+	<!-- 매니저  채팅방 권한조회 -->
+	<select id="selectMngChatAuth" parameterType="_int" resultType="java.lang.String">
+		SELECT chat_auth FROM MANAGER_AUTH where pno = #{pno}
+	</select>
+	
+</mapper>

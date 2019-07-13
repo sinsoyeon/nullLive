@@ -21,7 +21,6 @@
 			</select>
 			<div id="chart_div" style="width: 900px; height: 500px;"></div>
 			<br>
-			<div id="curve_chart" style="width: 900px; height: 500px;"></div>
 		</div>
 </body>
 <script>
@@ -54,8 +53,10 @@ function incomingMember() {
         	var options = {
         				 title: year+'년도 월별 회원 유입 통계',
         				 vAxis: {title: '가입 인원 수'},
+        				 vAxis: {maxValue: 7},
         					seriesType: 'bars',
-        					series: {2: {type: 'line'}}
+        					series: {2: {type: 'line'}
+        				 }
         		};
         	
         	var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));

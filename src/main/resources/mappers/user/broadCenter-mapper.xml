@@ -90,14 +90,6 @@
       AND M.M_STATUS = 'Y'
    </select>
 
-   <!-- 공지게시판 정보 조회(정연) -->
-   <select id="selectNoticeBoard" parameterType="_int" resultType="java.util.HashMap">
-      SELECT *
-      FROM BROAD_CENTER BC, MEMBER M
-      WHERE BC.MNO = M.MNO
-      AND M.MNO = #{mno}
-      AND M.M_STATUS = 'Y'
-   </select>
    
    <!--  방송 공지 수정 (정연) 
    <update id="updateNoticeCheck" parameterType="java.util.HashMap">
@@ -105,5 +97,15 @@
       SET NOTICE_CONTENT = #{content}
       WHERE MNO = #{mno}
    </update> -->
-   
+ 
+
+	<!-- 공지게시판 정보 조회(정연) -->
+	<select id="selectNoticeBoard" parameterType="_int" resultType="java.util.HashMap">
+		SELECT *
+		FROM BROAD_CENTER BC, MEMBER M
+		WHERE BC.MNO = M.MNO
+		AND M.MNO = #{mno}
+		AND M.M_STATUS = 'Y'
+	</select>
+
 </mapper>
