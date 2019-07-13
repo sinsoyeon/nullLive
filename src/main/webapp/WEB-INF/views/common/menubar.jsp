@@ -48,13 +48,13 @@ ul li.unread:after {
 							style="width: 145.72px; padding-left: 15%; text-shadow: 3px 3px 2px #6f8e3085; font-size: 25px; color: #fff;"><b>NullLive</b></a>
 					</div>
 
-					<form class="navbar-form navbar-left" action="/action_page.php"
+					<form class="navbar-form navbar-left" action="searchStreamer.sm"
 						style="margin-left: 2%;">
 						<div class="input-group">
-							<input type="text" class="form-control" placeholder="Search"
+							<input type="text" class="form-control" placeholder="Search" id="search"
 								name="search">
 							<div class="input-group-btn">
-								<button class="btn btn-default" type="submit">
+								<button class="btn btn-default" type="button" id="searchBtn">
 									<i class="glyphicon glyphicon-search"></i>
 								</button>
 							</div>
@@ -83,6 +83,15 @@ ul li.unread:after {
 		function main(){
 			location.href="index.jsp";
 		}
+		
+		
+		$("#searchBtn").click(function(){
+			var name = $("#search").val();
+				location.href = "searchStreamer.sm?name="+name;
+			
+			
+		});
+		
 	</script>
 </body>
 </html>

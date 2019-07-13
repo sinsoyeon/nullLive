@@ -122,14 +122,30 @@ public class centerController {
 
 	// 시청자 소통 게시판 페이지로 이동(정연)
 	@RequestMapping("communicationBoard.st")
-	public String communicationBoard() {
-		return "streaming/streamerBoard/communicationBoard";
+	public String communicationBoard(HttpSession session, Model model) {
+		int mno =  ((Member) session.getAttribute("loginUser")).getMno();
+		
+		HashMap<String, Object> commuInfo = new HashMap<String, Object>();
+		commuInfo.put("mno", mno);
+		commuInfo.put("type", "소통");
+		
+		int firstCheck = bcs.firstCheckCommunication(commuInfo);
+		
+		//System.out.println("체크: " + firstCheck);
+		
+		
+		ArrayList<HashMap<String, Object>> list = bcs.selectCommunityList(mno);
+		
+		model.addAttribute("firstCheck", firstCheck);
+		model.addAttribute("list", list);
+		
+		return "streaming/broadCenter/communicationBoard";
 	}
 
 	// 블랙리스트 제보 게시판 페이지로 이동(정연)
 	@RequestMapping("reportBlackListBoard.st")
 	public String reportBlackListBoard() {
-		return "streaming/streamerBoard/reportBlackListBoard";
+		return "streaming/broadCenter/reportBlackListBoard";
 	}
 
 	// 스트리머 프로필 수정 페이지로 이동(정연)
@@ -193,24 +209,30 @@ public class centerController {
 
 	}
 
-	/*
-	 * //파트너 상세 조회(정연)
-	 * 
-	 * @RequestMapping(value = "partnerDetail.st" , produces =
-	 * "application/text; charset=UTF-8" )
-	 * 
-	 * @ResponseBody public String PartnerDetail(@RequestParam("mno")int mno, Model
-	 * model) throws StreamerUpdateException {
-	 * 
-	 * HashMap<String, Object> data = bcs.partnerDetail(mno);
-	 * 
-	 * System.out.println("디테일: " + data);
-	 * 
-	 * Gson gson = new Gson();
-	 * 
-	 * model.addAttribute("data", data);
-	 * 
-	 * return gson.toJson(data); }
-	 * 
-	 */
+	
+	  //파트너 상세 조회(정연)
+	  @RequestMapping(value = "partnerDetail.st" , produces = "application/text; charset=UTF-8" )
+	  @ResponseBody public String PartnerDetail(@RequestParam("mno")int mno, Model model) throws StreamerUpdateException {
+		  HashMap<String, Object> data = bcs.partnerDetail(mno);
+	  
+		  System.out.println("디테일: " + data);
+	  
+		  Gson gson = new Gson();
+	  
+		  model.addAttribute("data", data);
+	  
+		  return gson.toJson(data);
+	  }
+	  
+	  
+	  //시청자 소통 게시판 생성(정연)
+	  @RequestMapping("enableCommunityBoard.st")
+	  public String enableCommunityBoard(@RequestParam("mno") int mno, Model model){
+		 int enableCheck = bcs.enableCommunityBoard(mno);
+		  
+		 model.addAttribute("firstCheck", enableCheck);
+		  return "streaming/broadCenter/communicationBoard"; 
+	  };
+	  
+	 
 }

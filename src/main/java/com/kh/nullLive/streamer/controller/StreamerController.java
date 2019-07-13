@@ -579,29 +579,57 @@ public class StreamerController {
 	}
 	
 	
-	/*
-	 * //공지 수정 (정연)
-	 * 
-	 * @RequestMapping("updateNotice.sm")
-	 * 
-	 * @ResponseBody public ModelAndView updateNotice(@RequestParam(name="mno") int
-	 * mno, @RequestParam(name="content") String content, ModelAndView modelAndView)
-	 * { HashMap<String, Object> updateInfo = new HashMap<String, Object>();
-	 * updateInfo.put("mno", mno); updateInfo.put("content", content);
-	 * 
-	 * int updateNoticeCheck = bcs.updateNoticeCheck(updateInfo);
-	 * 
-	 * 
-	 * if(updateNoticeCheck>0) { String updateContent = bcs.updateNotice(mno);
-	 * 
-	 * modelAndView.setViewName("jsonView"); modelAndView.addObject("data",
-	 * updateContent);
-	 * 
-	 * }else { String msg = "업데이트 실패!"; modelAndView.addObject("data", msg); return
-	 * modelAndView; }
-	 * 
-	 * return modelAndView; }
-	 */
+	 //공지 수정 (정연)
+	 @RequestMapping("updateNotice.sm")
+	 @ResponseBody 
+	 public ModelAndView updateNotice(@RequestParam(name="mno") int mno, @RequestParam(name="content") String content, ModelAndView modelAndView) throws StreamerUpdateException{ 
+	  HashMap<String, Object> updateInfo = new HashMap<String, Object>();
+	  updateInfo.put("mno", mno); updateInfo.put("content", content);
+	  
+	  int updateNoticeCheck = bcs.updateNoticeCheck(updateInfo);
+	  
+		  if(updateNoticeCheck>0) { 
+			  HashMap<String, Object> noticeInfo = bcs.selectNoticeBoard(mno);
+		  
+			  modelAndView.setViewName("jsonView"); 
+			  modelAndView.addObject("data", noticeInfo);
+		  
+		  }else {
+			String msg = "업데이트 실패!"; modelAndView.addObject("data", msg); 
+			return modelAndView; 
+		  }
+	  return modelAndView; 
+	  }
+	 
+	 
+	 //공지 삭제(정연)
+	 @RequestMapping("deleteNotice.sm")
+	 @ResponseBody 
+	 public ModelAndView deleteNotice(@RequestParam(name="mno") int mno, ModelAndView modelAndView) {
+		 
+		 int data = bcs.deleteNotice(mno);
+		 
+		 modelAndView.setViewName("jsonView"); 
+		 modelAndView.addObject("data", data);
+		 
+		 return modelAndView;
+	 }
+	 
 	
+	 //스트리머 검색(정연)
+	 @RequestMapping("searchStreamer.sm")
+	 public String searchStreamer(Model model, @RequestParam("name") String name) {
+		 ArrayList<HashMap<String, Object>> streamerList = new ArrayList<HashMap<String, Object>>(); 
+
+		 if(name == "") {
+			 streamerList = bcs.searchStreamer();
+		 }else {
+			 streamerList = bcs.searchStreamerName(name);
+		 }
+		 
+		 model.addAttribute("streamerList", streamerList);
+		 
+		 return "member/streamerSearchList";
+	 }
 	
 }
