@@ -83,5 +83,7 @@ public interface JobBoardService {
 
 	Streamer selectStreamerCheck(int mno);
 
+	ArrayList<HashMap<String, Object>> selectListEditorPartner(HashMap<String, Object> hmap);
+
 
 }
