@@ -256,6 +256,7 @@
 		JOIN MEMBER S ON (H.SNO = S.MNO)
         JOIN BROAD_CENTER C ON (S.MNO = C.MNO)
 		WHERE M.MNO = #{mno}
+		AND SU_STATUS='Y'
 	</select>
 	
 	<!-- 휴대폰 변경 -->

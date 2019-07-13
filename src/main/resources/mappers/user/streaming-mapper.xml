@@ -300,5 +300,51 @@
 		ORDER BY BH_START_DATE DESC
 		]]>
 	</select>
+	
+	<!-- 방송 시작 스트리밍 정보 가져오기-->
+	<select id="getStreamingInfo" parameterType="BroadHis" resultType="java.util.HashMap">
+		SELECT CUMULATIVE_SELECTION selects, MID streamerId, NICK_NAME nickName, RECEIVED_LIKES likes,BROAD_ADDRESS streamerAddress,ENDING_COMMENT endingComment FROM STREAMER
+		JOIN MEMBER USING(MNO)
+		JOIN BROAD_CENTER USING(MNO)
+		WHERE MID = #{streamerId}
+	</select>
+	
+	<!-- 방송 입장 스트리밍 정보 가져오기 -->
+	<select id="getBroadInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT CUMULATIVE_SELECTION selects, MID streamerId, NICK_NAME nickName, RECEIVED_LIKES likes,
+		   BROAD_ADDRESS streamerAddress,ENDING_COMMENT endingComment,BROAD_TITLE title
+		   FROM STREAMER
+		JOIN MEMBER USING(MNO)
+		JOIN BROAD_CENTER USING(MNO)
+	   JOIN BROAD_HIS USING(BCNO)
+	   WHERE MID = #{streamerAddress}
+	   AND BH_STATUS='Y'
+	</select>
   
+  	<!-- 방송 추천 -->
+  	<update id="recomStreamer" parameterType="java.lang.String">
+  		UPDATE STREAMER
+  		SET CUMULATIVE_SELECTION=
+            (SELECT CUMULATIVE_SELECTION FROM STREAMER 
+             JOIN BROAD_CENTER USING(MNO) WHERE BROAD_ADDRESS=#{streamerAddress})+1
+  		WHERE MNO=(SELECT MNO FROM MEMBER JOIN BROAD_CENTER USING(MNO) WHERE BROAD_ADDRESS=#{streamerAddress})
+  	</update>
+  	
+  	<!-- 방송 중 추천 -->
+  	<update id="recomBroad" parameterType="java.lang.String">
+  		UPDATE BROAD_HIS
+		SET COUNT_RECOMMENDATION = 
+		    (SELECT COUNT_RECOMMENDATION FROM BROAD_HIS WHERE BHNO=
+		        (SELECT BHNO FROM BROAD_HIS JOIN BROAD_CENTER USING(BCNO) WHERE BROAD_ADDRESS=#{streamerAddress} AND BH_STATUS='Y'))+1
+		WHERE BHNO=(SELECT BHNO FROM BROAD_HIS JOIN BROAD_CENTER USING(BCNO) WHERE BROAD_ADDRESS=#{streamerAddress} AND BH_STATUS='Y')
+  	</update>
+  	
+  	<!-- 현재 추천 수 가져오기 -->
+  	<select id="currRecom" parameterType="java.lang.String" resultType="_int">
+  		SELECT COUNT_RECOMMENDATION
+  		FROM BROAD_HIS
+  		JOIN BROAD_CENTER USING(BCNO)
+  		WHERE BH_STATUS='Y'
+        AND BROAD_ADDRESS=#{roomId}
+  	</select>
 </mapper>

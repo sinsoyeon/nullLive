@@ -15,10 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streaming.model.exception.EnterStreamingException;
+import com.kh.nullLive.streaming.model.exception.StreamingException;
 import com.kh.nullLive.streaming.model.service.StreamingService;
 import com.kh.nullLive.streaming.model.vo.BroadHis;
 import com.kh.nullLive.streaming.model.vo.BroadList;
@@ -85,7 +87,6 @@ public class StreamingController {
 			HttpServletResponse response) {
 		response.setContentType("text/html; charset=utf-8");
 		Member loginUser = (Member)session.getAttribute("loginUser");
-		BroadHis broadHis;
 		try {
 
 			int result = ss.checkBlackList(loginUser,streamerAddress);
@@ -100,11 +101,11 @@ public class StreamingController {
 
 				return "redirect:index.jsp";
 			}else {
-				broadHis = ss.enterStream(loginUser,streamerAddress);
-				model.addAttribute("title", broadHis.getBtitle());
-				model.addAttribute("bhno",broadHis.getBhno());
+				HashMap<String,Object> hmap = ss.enterStream(loginUser,streamerAddress);
+				model.addAttribute("broadInfo",hmap);		//방송 정보 담아가야함
+				model.addAttribute("title", hmap.get("title"));
+				model.addAttribute("bhno",hmap.get("bhno"));
 				model.addAttribute("mid",loginUser.getMid());
-				model.addAttribute("streamerAddress",streamerAddress);	//방송 주소 찾아가기 위함
 
 				return "streaming/streamRoom";
 
@@ -128,12 +129,17 @@ public class StreamingController {
 	public String startStreaming(Model model,HttpSession session,BroadHis broadHis,@RequestParam(name="broadMethod")String broadMethod) {
 		System.out.println("broadMethod : "+broadMethod);
 		broadHis.setStreamerId(((Member)session.getAttribute("loginUser")).getMid());
-		ss.startStreaming(broadHis);
-		model.addAttribute("title", broadHis.getBtitle());
-		model.addAttribute("streamerAddress",broadHis.getStreamerId());
-		model.addAttribute("broadMethod",broadMethod);
-		//
-		return "streaming/streamRoom";
+		try {
+			HashMap<String,Object> hmap = ss.startStreaming(broadHis);
+			model.addAttribute("broadInfo",hmap);
+			model.addAttribute("title", broadHis.getBtitle());
+			model.addAttribute("broadMethod",broadMethod);
+			
+			return "streaming/streamRoom";
+		} catch (StreamingException e) {
+			model.addAttribute("msg",e.getMessage());
+			return "streaming/errorPage";
+		}
 	}
 
 	/**
@@ -447,4 +453,39 @@ public class StreamingController {
 		return mv;
 	}
 	
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 14.
+	 * @Comment : 방송 추천
+	 */
+	@ResponseBody
+	@RequestMapping("recomStreamer.st")
+	public String recomStreamer(Model model,HttpServletRequest request) {
+		String mid = request.getParameter("mid");
+		String streamerAddress = request.getParameter("streamerAddress");
+		
+		try {
+			ss.recomStreamer(mid,streamerAddress);
+			return "success";
+		} catch (StreamingException e) {
+			return "fail";
+		}
+		
+	}
+	
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 14.
+	 * @Comment : 현재 추천 수 가져오기
+	 */
+	@RequestMapping("currRecom.st")
+	public ModelAndView currRecom(String roomId) {
+		int result = ss.currRecom(roomId);
+		ModelAndView mv = new ModelAndView();
+		
+		mv.setViewName("jsonView");
+		mv.addObject("result",result);
+		
+		return mv;
+	}
 }

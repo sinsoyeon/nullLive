@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streaming.model.dao.StreamingDao;
 import com.kh.nullLive.streaming.model.exception.EnterStreamingException;
+import com.kh.nullLive.streaming.model.exception.StreamingException;
 import com.kh.nullLive.streaming.model.vo.BroadHis;
 import com.kh.nullLive.streaming.model.vo.BroadList;
 
@@ -23,8 +24,13 @@ public class StreamingServiceImpl implements StreamingService {
 	
 	//스트리밍 시작
 	@Override
-	public void startStreaming(BroadHis broadHis) {
+	public HashMap<String,Object> startStreaming(BroadHis broadHis) throws StreamingException {
 		int result = sd.startStreaming(sqlSession,broadHis);
+		if(result <= 0) {
+			throw new StreamingException("방송 시작 실패!");
+		}
+		HashMap<String,Object> hmap = sd.getStreamingInfo(sqlSession,broadHis); 
+		return hmap;
 	}
 
 	//스트리밍 종료
@@ -41,7 +47,7 @@ public class StreamingServiceImpl implements StreamingService {
 
 	//스트리밍 시청 시작
 	@Override
-	public BroadHis enterStream(Member loginUser, String streamerAddress) throws EnterStreamingException {
+	public HashMap<String, Object> enterStream(Member loginUser, String streamerAddress) throws EnterStreamingException {
 		//방송 중인지
 		int result = sd.isOnAir(sqlSession,streamerAddress); 
 		if(result <= 0) {
@@ -54,8 +60,8 @@ public class StreamingServiceImpl implements StreamingService {
 			throw new EnterStreamingException("방송 입장 도중에 에러가 발생했습니다!");
 		}
 		//방송 정보 가져오기
-		BroadHis braodHis = sd.getBroadHis(sqlSession,streamerAddress);
-		return braodHis;
+		HashMap<String, Object> hmap = sd.getBroadInfo(sqlSession,streamerAddress);
+		return hmap;
 	}
 
 	//시청 종료
@@ -151,6 +157,22 @@ public class StreamingServiceImpl implements StreamingService {
 	@Override
 	public ArrayList<BroadList> searchAllVodList(int condition) {
 		return sd.searchAllVodList(sqlSession, condition);
+	}
+
+	//방송 추천
+	@Override
+	public void recomStreamer(String mid, String streamerAddress) throws StreamingException {
+		int result1 = sd.recomStreamer(sqlSession,mid,streamerAddress);
+		int result2 = sd.recomBroad(sqlSession,streamerAddress);
+		if(result1+result2 <= 1) {
+			throw new StreamingException("에러 발생");
+		}
+	}
+
+	//현재 추천 수 가져오기
+	@Override
+	public int currRecom(String roomId) {
+		return sd.currRecom(sqlSession,roomId);
 	}
 
 }

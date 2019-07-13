@@ -223,4 +223,36 @@ public class StreamingDaoImpl implements StreamingDao {
 		return list;
 	}
 
+	//방송 시작 스트리머 정보 가져오기
+	@Override
+	public HashMap<String, Object> getStreamingInfo(SqlSessionTemplate sqlSession, BroadHis broadHis) {
+		return sqlSession.selectOne("Streaming.getStreamingInfo",broadHis);
+	}
+
+	//방송 입장 스트리머 정보 가져오기
+	@Override
+	public HashMap<String, Object> getBroadInfo(SqlSessionTemplate sqlSession, String streamerAddress) {
+		return sqlSession.selectOne("Streaming.getBroadInfo",streamerAddress);
+	}
+
+	//방송 추천
+	@Override
+	public int recomStreamer(SqlSessionTemplate sqlSession, String mid, String streamerAddress) {
+		HashMap<String,Object> hmap = new HashMap<String,Object>();
+		hmap.put("mid", mid);
+		hmap.put("streamerAddress", streamerAddress);
+		return sqlSession.update("Streaming.recomStreamer",hmap);
+	}
+
+	//현 방송 내 추천
+	@Override
+	public int recomBroad(SqlSessionTemplate sqlSession, String streamerAddress) {
+		return sqlSession.update("Streaming.recomBroad",streamerAddress);
+	}
+
+	@Override
+	public int currRecom(SqlSessionTemplate sqlSession, String roomId) {
+		return sqlSession.selectOne("Streaming.currRecom",roomId);
+	}
+
 }

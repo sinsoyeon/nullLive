@@ -18,7 +18,7 @@
     width: 200px;
     height: 100%;
     margin-left: -250px;
-    background: #e9e9e9;
+    background-color: #333333;
     overflow-x: hidden;
     overflow-y: auto;
   }  
@@ -42,9 +42,9 @@
 	
   hr {
   	width:170px;
-  	color: #222222;    /* IE */
-    border-color: #222222;  /* 사파리 */
-    background-color: #222222;   /* 크롬, 모질라 등, 기타 브라우저 */
+  	color: white;    /* IE */
+    border-color: white;  /* 사파리 */
+    background-color: white;   /* 크롬, 모질라 등, 기타 브라우저 */
   }
   
   .sidebar-nav li a {
@@ -52,7 +52,7 @@
     font-size:1.5em;
     text-align:center;
     text-decoration: none;
-    color: #000;
+    color: white;
   }
   
   .sidebar-nav li:hover {
@@ -68,12 +68,13 @@
 </style>
 </head>
 
-<body id="myPageNavbar">
+<!-- <body id="myPageNavbar"> -->
 	<div id="page-wrapper">
 	<!-- 사이드바 -->
 		<div id="sidebar-wrapper">
 			<ul class="sidebar-nav">
-				<li class="sidebar-brand"><a href="myPage.me">마이페이지 홈</a></li>
+				<li><br /></li>
+				<li class="sidebar-brand" style="margin-right:8px;"><a href="myPage.me">마이페이지 홈</a></li>
 				<li><hr/></li>
 				<li><a href="start.st">방송하기</a></li>
 				<li><a href="">쪽지</a></li>

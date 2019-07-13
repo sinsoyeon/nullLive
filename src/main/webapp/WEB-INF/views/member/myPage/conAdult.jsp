@@ -52,7 +52,7 @@ $(function(){
 
 function conAdultSms(){
 	var phone = $("#p1").val()+$("#p2").val()+$("#p3").val();
-	if($("#name").val() == $("#userName").val() && phone == "$(loginUser.phone)"){
+	if($("#name").val() == $("#userName").val() && phone == "${loginUser.phone}"){
 		$("#inputArea").hide();
 		$("#confArea").show();
 		//인증번호 로직

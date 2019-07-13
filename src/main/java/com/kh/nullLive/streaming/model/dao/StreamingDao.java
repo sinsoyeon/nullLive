@@ -47,6 +47,13 @@ public interface StreamingDao {
 	int enterStream(SqlSessionTemplate sqlSession, Member loginUser, String streamerAddress);
 
 	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 14.
+	 * @Comment : 입장 방송 정보 가져오기
+	 */
+	HashMap<String, Object> getBroadInfo(SqlSessionTemplate sqlSession, String streamerAddress);
+	
+	/**
 	 * Author : ryan
 	 * Date : 2019. 7. 7.
 	 * Comment : 시청자가 방송 정보 가져오기
@@ -106,5 +113,28 @@ public interface StreamingDao {
 	//검색한 All Vod 방송 목록 조회
 	ArrayList<BroadList> searchAllVodList(SqlSessionTemplate sqlSession, int condition);
 
+	//방송 시작 스트리머 정보 가져오기
+	HashMap<String, Object> getStreamingInfo(SqlSessionTemplate sqlSession, BroadHis broadHis);
+
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 14.
+	 * @Comment : 방송 추천
+	 */
+	int recomStreamer(SqlSessionTemplate sqlSession, String mid, String streamerAddress);
+
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 14.
+	 * @Comment : 현재 방송내 추천
+	 */
+	int recomBroad(SqlSessionTemplate sqlSession, String streamerAddress);
+
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 14.
+	 * @Comment : 현재 추천 수 가져오기
+	 */
+	int currRecom(SqlSessionTemplate sqlSession, String roomId);
 
 }
