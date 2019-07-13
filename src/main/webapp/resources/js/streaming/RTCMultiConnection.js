@@ -4322,9 +4322,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
             connection.sessionid = roomid || connection.sessionid;
 
             connectSocket(function() {
-                console.log('connectSocket호출');
                 if (isData(connection.session)) {
-                    console.log('connectSocket if문');
                     openRoom(callback);
                     return;
                 }
@@ -4765,10 +4763,11 @@ var RTCMultiConnection = function(roomid, forceOptions) {
                 sdp = CodecsHandler.setApplicationSpecificBandwidth(sdp, connection.bandwidth, !!connection.session.screen);
             }
 
+            //bandwidth (밴드width 설정)
             if (connection.bandwidth.video) {
                 sdp = CodecsHandler.setVideoBitrates(sdp, {
-                    min: connection.bandwidth.video * 8 * 1024 * 500,
-                    max: connection.bandwidth.video * 8 * 1024 * 1024 * 10
+                    min: connection.bandwidth.video * 8 * 1024,
+                    max: connection.bandwidth.video * 8 * 1024 * 10
                 });
             }
 

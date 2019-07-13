@@ -91,6 +91,13 @@ public class StreamingServiceImpl implements StreamingService {
 	public int getHotVodListCount() {
 		return sd.getHotVodListCount(sqlSession);
 	}
+  
+	//방송 제한 정보 가져오기
+	@Override
+	public BroadHis getStreamingInfo(String streamerAddress) {
+		return sd.getBroadHis(sqlSession, streamerAddress);
+	}
+
 	
 	//메인페이지 Hot Vod 방송 목록 조회
 	@Override

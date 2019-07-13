@@ -67,6 +67,21 @@
 		AND S.SNO = H.SNO
 		and st.MNO = #{mno}
 	</select>
+	
+	<!-- 내가 후원한 사람 페이징용 count 조회 -->
+	<select  id="getSponCount" parameterType="_int" resultType="_int">
+	SELECT COUNT(*)
+	FROM (SELECT TO_CHAR(SPON_DATE,'YYYY/MM/DD') AS
+		SPON_DATE,ST.MID,ST.NICK_NAME,SPON_AMOUNT
+		FROM MEMBER M,MEMBER
+		ST,STREAMER S, SPON_HIS H
+		WHERE ST.MNO = S.MNO
+		AND ST.MNO = H.SNO
+		AND
+		M.MNO = H.MNO
+		AND M.MNO = #{mno}
+		ORDER BY SPON_DATE DESC)
+	</select>
 
 	<!-- 내가 후원한 사람 조회(소연) -->
 	<select id="selectSponList" parameterType="_int"
@@ -81,6 +96,20 @@
 		M.MNO = H.MNO
 		AND M.MNO = #{mno}
 		ORDER BY SPON_DATE DESC
+	</select>
+
+	<!-- 나를 후원한 사람 페이징용 -->
+	<select id="getSponForMeCount" parameterType="_int"  resultType="_int">
+		SELECT COUNT(*)
+		FROM (SELECT TO_CHAR(SPON_DATE,'YYYY/MM/DD') AS SPON_DATE
+		,M.MID,M.NICK_NAME,SPON_AMOUNT
+		FROM MEMBER M,MEMBER ST,STREAMER S,
+		SPON_HIS H
+		WHERE ST.MNO = S.MNO
+		AND ST.MNO = H.SNO
+		AND M.MNO = H.MNO
+		AND
+		ST.MNO = #{mno})
 	</select>
 
 
@@ -164,6 +193,18 @@
 		MEMBER,CHARGE
 		WHERE MEMBER.MNO = CHARGE.MNO
 		AND MEMBER.MNO=#{mno}
+	</select>
+	
+	<select id="getChargeCount" resultType="_int">
+	SELECT COUNT(*)
+	FROM (
+			SELECT	CHNO,CHAMOUNT,TO_CHAR(CHDATE,'YYYY/MM/DD') AS CHDATE,MEMBER.POINT
+			FROM
+			MEMBER,CHARGE
+			WHERE MEMBER.MNO = CHARGE.MNO
+			AND MEMBER.MNO=#{mno}
+		)
+	
 	</select>
 
 	<!-- 나이별 구독 통계(소연) -->
@@ -300,7 +341,7 @@
 	<!-- 환전 신청 추가 (소연) -->
 	<insert id="insertExchange" parameterType="java.util.HashMap">
 		INSERT INTO EXCHANGE
-		VALUES (SEQ_ENO.NEXTVAL,${amount},SYSDATE,${exc_fee},'N',${mno},null)
+		VALUES (SEQ_ENO.NEXTVAL,#{amount},SYSDATE,#{exc_fee},'N',#{mno},null)
 	</insert>
 
 	<!-- 환전 신청 후 포인트 차감(소연) -->
@@ -308,6 +349,18 @@
 		UPDATE MEMBER
 		SET POINT = (SELECT POINT FROM MEMBER WHERE MNO = #{mno}) - #{amount}
 		WHERE MNO = #{mno}
+	</update>
+	
+	<!-- 스폰 받으면 받은 멤버 포인트 업데이트 -->
+	<update id="updateSponPoint" parameterType="java.util.HashMap">
+	UPDATE MEMBER
+	SET POINT = (SELECT POINT 
+				 FROM MEMBER 
+				 WHERE MNO = (SELECT MEMBER.MNO 
+								FROM MEMBER,STREAMER 
+								WHERE MEMBER.MNO = STREAMER.MNO 
+								AND SNO = #{streamer.sno})) + #{amount}
+	WHERE MNO = (SELECT STREAMER.MNO FROM MEMBER,STREAMER WHERE MEMBER.MNO = STREAMER.MNO AND SNO = #{streamer.sno})
 	</update>
 
 
@@ -382,35 +435,40 @@
 	<!-- 스트리머 정산 내역 count 조회 -->
 	<select id="getCulCount" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) AS CLC_COUNT
-		FROM (SELECT M.NICK_NAME,R.C_SDATE,R.C_EDATE,CLC_DATE,CLC_AMOUNT
-		FROM MEMBER M,MEMBER ST,PARTNER P,CALCULATE C,CONTRACT R
+		FROM (SELECT C.CLCNO,M.NICK_NAME,TO_CHAR(R.C_SDATE,'YYYY/MM/DD') AS SDATE,TO_CHAR(R.C_EDATE,'YYYY/MM/DD') AS EDATE
+		            ,TO_CHAR(CLC_DATE,'YYYY/MM/DD') AS CLC_DATE,CLC_AMOUNT,CLC_STATUS,DEC_STATUS,DEC_DATE
+		FROM MEMBER M,MEMBER ST,STREAMER S,PARTNER P,CONTRACT R,CALCULATE C,DECLINE D
 		WHERE M.MNO = P.MNO
-		AND ST.MNO = P.SNO
-		AND C.SNO = ST.MNO
+		AND ST.MNO = S.MNO
+		AND S.SNO = P.SNO    
 		AND R.CNO = P.CNO
-		AND P.PNO = C.CLCNO
-		AND ST.MNO = #{mno})
-		
+		AND C.PNO = P.PNO
+		AND D.CLCNO(+) = C.CLCNO
+		AND ST.MNO = #{mno}
+		order by dec_status desc)
+		order by clc_status
 	</select>
 	
 	<!-- 내가 정산해준  내역 조회(소연) -->
 	<select id="clcList" parameterType="_int" resultType="java.util.HashMap">
-		SELECT C.CLCNO,M.NICK_NAME,TO_CHAR(R.C_SDATE,'YYYY/MM/DD') AS SDATE,TO_CHAR(R.C_EDATE,'YYYY/MM/DD') AS EDATE
-		            ,TO_CHAR(CLC_DATE,'YYYY/MM/DD') AS CLC_DATE,CLC_AMOUNT,CLC_STATUS,DEC_STATUS
-		FROM MEMBER M,MEMBER ST,PARTNER P,CALCULATE C,CONTRACT R,DECLINE D
+		SELECT CALVIEW.*,( CASE WHEN DEC_DATE IS NOT NULL THEN '재신청 완료' END) AS REAPPLY
+		FROM (SELECT C.CLCNO,M.NICK_NAME,TO_CHAR(R.C_SDATE,'YYYY/MM/DD') AS SDATE,TO_CHAR(R.C_EDATE,'YYYY/MM/DD') AS EDATE
+		            ,TO_CHAR(CLC_DATE,'YYYY/MM/DD') AS CLC_DATE,CLC_AMOUNT,CLC_STATUS,DEC_STATUS,DEC_DATE
+		FROM MEMBER M,MEMBER ST,STREAMER S,PARTNER P,CONTRACT R,CALCULATE C,DECLINE D
 		WHERE M.MNO = P.MNO
-		AND ST.MNO = P.SNO
-		AND C.SNO = ST.MNO
+		AND ST.MNO = S.MNO
+		AND S.SNO = P.SNO    
 		AND R.CNO = P.CNO
-		AND P.PNO = C.CLCNO
+		AND C.PNO = P.PNO
 		AND D.CLCNO(+) = C.CLCNO
 		AND ST.MNO = #{mno}
-		order by dec_status desc
+		order by dec_status desc) CALVIEW
 	</select>
 	
+	<!-- 거절 이력 조회 -->
 	<select id="selecOneClc" resultType="java.util.HashMap" parameterType="java.util.HashMap">	
 		SELECT DECNO,M.NICK_NAME,ST.NICK_NAME AS ST_NICK_NAME,ST.MID,TO_CHAR(R.C_SDATE,'YYYY/MM/DD') AS SDATE,TO_CHAR(R.C_EDATE,'YYYY/MM/DD') AS EDATE,
-		            CLC_AMOUNT,DEC_DATE,CLC_AMOUNT,DEC_REASON
+		            CLC_AMOUNT,TO_CHAR(DEC_DATE,'YYYY/MM/DD')AS DEC_DATE,DEC_REASON,TO_CHAR(CLC_REQ_DATE,'YYYY/MM/DD')AS CLC_REQ_DATE
 		FROM MEMBER M,MEMBER ST,PARTNER P,CALCULATE C,CONTRACT R,DECLINE D
 		WHERE M.MNO = P.MNO
 		AND ST.MNO = P.SNO
@@ -423,13 +481,40 @@
 	</select>
 	
 	   <!-- mno로 스트리머 정보 조회.....병욱.... -->
-   <select id="selectStreamerMno" parameterType="_int" resultMap="streamerResultSet2">
-      
+   <select id="selectStreamerMno" parameterType="_int" resultMap="streamerResultSet2">  
       SELECT * 
       FROM 
-      STREAMER WHERE MNO = #{mno}
-      
+      STREAMER WHERE MNO = #{mno}      
    </select>
 	
 
+
+	<!-- 정산 작업중 (status update) -->
+	<update id="reClc" parameterType="java.util.HashMap">
+		update decline 
+		set DEC_STATUS = 'Y' 
+		where clcno = (select C.clcno 
+						from CALCULATE C,decline D 
+						where c.clcno = d.clcno and decno = #{decno} and C.SNO = (select distinct mno 
+																					from member 
+																					where mno = #{mno}))
+	</update>
+	
+	<insert id="reInsertClc" parameterType="java.util.HashMap">
+		insert into calculate values (SEQ_CLCNO.NEXTVAL,#{mno},#{PNO},sysdate,#{CLC_AMOUNT},'N',sysdate)
+	</insert>
+	
+	<select id="getInsertData" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT S.SNO,P.PNO,CLC_AMOUNT
+		FROM MEMBER M, MEMBER ST,STREAMER S,PARTNER P,DECLINE D,CALCULATE C
+		WHERE ST.MNO = S.MNO
+		AND S.SNO = P.SNO
+		AND S.MNO = M.MNO
+		AND P.SNO = S.SNO
+		AND P.PNO = C.PNO
+		AND D.CLCNO = C.CLCNO		
+		AND D.DECNO = #{decno}
+		AND M.MNO = #{mno}
+			
+	</select>
 </mapper>

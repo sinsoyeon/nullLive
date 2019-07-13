@@ -1,5 +1,6 @@
 package com.kh.nullLive.member.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -7,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.BankAccount;
 import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.member.model.vo.Subscription;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
 public interface MemberDao {
@@ -185,6 +187,41 @@ public interface MemberDao {
 	 * @return 
 	 */
 	HashMap<String, Object> getBanDate(SqlSessionTemplate sqlSession, Member loginMember);
+
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 12.
+	 * @Comment : 아이디 찾기
+	 */
+	String getSearchId(SqlSessionTemplate sqlSession, Member m);
+
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 12.
+	 * @Comment : 비밀번호 재발급
+	 */
+	int pwdReload(SqlSessionTemplate sqlSession, Member m);
+
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 12.
+	 * @Comment : 마이페이지 구독 리스트
+	 */
+	ArrayList<Subscription> getSubList(SqlSessionTemplate sqlSession, Member loginUser);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 13.
+	 * Comment : 휴대폰 변경
+	 */
+	int phoneChange(SqlSessionTemplate sqlSession, Member m);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 13.
+	 * Comment : 성인 인증
+	 */
+	int confirmAdult(SqlSessionTemplate sqlSession, Member m);
 
 
 

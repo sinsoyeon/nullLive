@@ -16,6 +16,7 @@ import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.board.model.vo.PageInfo;
+import com.kh.nullLive.broadCenter.model.dao.BroadCenterDao;
 import com.kh.nullLive.common.attachment.model.exception.AttachmentInsertException;
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
@@ -41,6 +42,8 @@ public class JobBoardServiceImpl implements JobBoardService{
 	private SqlSessionTemplate sqlSession;
 	@Autowired
 	private DataSourceTransactionManager transactionManager;
+	@Autowired
+	private BroadCenterDao bcd;
 	
 	/**
 	 * @author : uukk
@@ -225,7 +228,9 @@ public class JobBoardServiceImpl implements JobBoardService{
 		int mno = Integer.parseInt((String)(board.getBWriter()+""));
 		Member member = md.selectMemberMno(sqlSession, mno);
 		System.out.println(member);
-
+		
+		Attachment profile = bcd.getProfile(sqlSession, mno);
+		
 		//해당 글의 지원서 / 유저정보 가져오기
 		ArrayList<HashMap<String,Object>> contBoardList = jbd.selectListContBoard(sqlSession,bno);
 		System.out.println(contBoardList);
@@ -250,7 +255,7 @@ public class JobBoardServiceImpl implements JobBoardService{
 		boardMap.put("jBoard", jBoard);
 		boardMap.put("member", member);
 		boardMap.put("contBoardList", contBoardList);
-		//boardMap.put("partnerList", partnerList);
+		boardMap.put("profile", profile);
 		return boardMap;
 	}
 
@@ -426,7 +431,7 @@ public class JobBoardServiceImpl implements JobBoardService{
 	 * @author : uukk
 	 * @throws ContConsentExcption 
 	 * @date : 2019. 7. 10.
-	 * @comment : 매니저게시판 지원서 승낙하기
+	 * @comment : 매니저게시판 지원서 승낙하기(구인)
 	 */
 	@Override
 	public void insertMngContConsent(HashMap<String, Object> hmap) throws ContConsentExcption {
@@ -458,12 +463,83 @@ public class JobBoardServiceImpl implements JobBoardService{
 		if(partnerResult <=0) {
 			throw new ContConsentExcption("에러  code:jb0004");
 		}
+		//파트너 테이블 CURRVAL
+		int partnerCurrval = jbd.selectPartnerCurrval(sqlSession);
+		hmap.put("partnerCurrval", partnerCurrval);
+		//구인구직 게시글 board 상태 변경
+		int boardResult = jbd.updateJobMngBoardComplt(sqlSession,hmap);
+		if(boardResult <= 0) {
+			throw new ContConsentExcption("에러  code:jb0005");
+		}
+		JobBoard jBoard = (JobBoard) hmap.get("jBoard");
+		//파트너가 매니저인경우 권한 입력
+		if(jBoard.getJob().equals("매니저")) {
+			
+			int authResult = jbd.insertManagerAuth(sqlSession,hmap);
+		}
+		
+	}
+
+	/**
+	 * @author : uukk
+	 * @throws ContConsentExcption 
+	 * @date : 2019. 7. 12.
+	 * @comment : 매니저게시판 지원서 승낙하기(구직)
+	 */
+	@Override
+	public void insertMngContConsent2(HashMap<String, Object> hmap) throws ContConsentExcption {
+		//계약테이블 입력
+		int contResult = jbd.insertMngContract(sqlSession,hmap);
+		
+		if(contResult <=0) {
+			throw new ContConsentExcption("에러  code:jb0001");
+		}
+		
+		//지원서 상태 변경
+		int contUpdateResult = jbd.updateMngContBoard(sqlSession,hmap);
+		
+		if(contUpdateResult <=0) {
+			throw new ContConsentExcption("에러  code:jb0002");
+		}
+		
+		//계약currval조회
+		int contCurrval = jbd.selectContCurrval(sqlSession);
+		if(contCurrval <=0) {
+			throw new ContConsentExcption("에러  code:jb0003");
+		}
+		
+		//파트너 테이블 입력을 위한 계약테이블 pk
+		hmap.put("contCurrval", contCurrval);
+		
+		//지원자 mno
+		int mno = (int) hmap.get("contMno");
+		//지원자 스트리머 정보 조회
+		Streamer streamer = sd.selectStreamerMno(sqlSession, mno);
+		
+		hmap.put("streamer", streamer);
+		
+		
+		//파트너 테이블 입력
+		int partnerResult = jbd.insertMngPartner(sqlSession,hmap);
+		if(partnerResult <=0) {
+			throw new ContConsentExcption("에러  code:jb0004");
+		}
+		int partnerCurrval = jbd.selectPartnerCurrval(sqlSession);
 		
 		//구인구직 게시글 board 상태 변경
 		int boardResult = jbd.updateJobMngBoardComplt(sqlSession,hmap);
 		if(boardResult <= 0) {
 			throw new ContConsentExcption("에러  code:jb0005");
 		}
+		JobBoard jBoard = (JobBoard) hmap.get("jBoard");
+		
+		//파트너가 매니저인경우 권한 입력
+		if(jBoard.getJob().equals("매니저")) {
+			//파트너 테이블 CURRVAL
+			hmap.put("partnerCurrval", partnerCurrval);
+			int authResult = jbd.insertManagerAuth(sqlSession,hmap);
+		}
+		
 		
 	}
 
@@ -473,9 +549,76 @@ public class JobBoardServiceImpl implements JobBoardService{
 	 * @comment : 구인구직 지원서 상세보기용 메소드
 	 */
 	@Override
-	public Board selectoneContBoard(HashMap<String, Object> hmap) {
+	public Board selectOneContBoard(HashMap<String, Object> hmap) {
 		return jbd.selectOneContBoard(sqlSession,hmap);
 	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 11.
+	 * @comment : mno로 member 조회
+	 */
+	@Override
+	public Member selectOneContMember(int mno) {
+		return md.selectMemberMno(sqlSession, mno);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 11.
+	 * @comment : 매니저 구인 상세정보 조회
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> selectJobMngDetail(int mno) {
+		ArrayList<HashMap<String, Object>> mngPartnerList = jbd.selectMngDetail(sqlSession,mno);
+		return mngPartnerList;
+	}
+
+	/**
+	 * @author : uukk
+	 * @throws BoardSelectListException 
+	 * @date : 2019. 7. 12.
+	 * @comment : 매니저게시판 구직 스트리머 상세정보 조회
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> selectJobStreamerDetail(int mno) throws BoardSelectListException {
+		ArrayList<HashMap<String,Object>> list = new ArrayList<>();
+		HashMap<String,Object> hmap = new HashMap<>();
+		Streamer streamer = sd.selectStreamerMno(sqlSession,mno);
+		Member member = md.selectMemberMno(sqlSession, mno);
+		if(streamer == null) {
+			throw new BoardSelectListException("스트리머 정보 불러오기 실패");
+		}
+		hmap.put("streamer", streamer);
+		//구독자수 조회
+		int suCount = sud.getSubscriptionCount(sqlSession,streamer.getSno());
+		hmap.put("suCount",suCount);
+		hmap.put("member",member);
+		list.add(hmap);
+		
+		return list;
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 12.
+	 * @comment : 
+	 */
+	@Override
+	public Streamer selectStreamerCheck(int mno) {
+		return sd.selectStreamerMno(sqlSession, mno);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 13.
+	 * @comment : 편집자 파트너 리스트 조회
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> selectListEditorPartner(HashMap<String, Object> hmap) {
+		return jbd.selectListPartner(sqlSession,hmap);
+	}
+
 
 
 

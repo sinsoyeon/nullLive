@@ -5,7 +5,9 @@
 
 <configuration>
 	<typeAliases>
+		<!-- Member -->
 		<typeAlias alias="Member" type="com.kh.nullLive.member.model.vo.Member" />
+		<typeAlias alias="MySub" type="com.kh.nullLive.member.model.vo.Subscription"/>
 		<typeAlias alias="Board" type="com.kh.nullLive.board.model.vo.Board" />
     
 		<!-- 구인구직게시판 vo -->
@@ -14,7 +16,7 @@
 		
 		<!-- 관리자 -->
 		<typeAlias alias="Exchange" type="com.kh.nullLive.admin.model.vo.Exchange" />
-		<typeAlias alias="Question" type="com.kh.nullLive.admin.model.vo.Question" />
+		<typeAlias alias="Question" type="com.kh.nullLive.admin.model.vo.Question" /> 
 		<typeAlias alias="UserDetail" type="com.kh.nullLive.admin.model.vo.UserDetail" />
 		<typeAlias alias="Ban" type="com.kh.nullLive.admin.model.vo.Ban" />
     
@@ -31,7 +33,12 @@
 		
 		<!-- 스트리밍 -->
 		<typeAlias alias="BroadHis" type="com.kh.nullLive.streaming.model.vo.BroadHis"/>
+
 		<typeAlias alias="BroadList" type="com.kh.nullLive.streaming.model.vo.BroadList"/>
+
+		<!-- 파트너 -->
+		<typeAlias alias="Partner" type="com.kh.nullLive.partner.model.vo.Partner"/>
+
 	</typeAliases>
 	
 	<mappers>
@@ -42,5 +49,6 @@
 		<mapper resource="mappers/user/streaming-mapper.xml"/>
 		<mapper resource="mappers/user/subscription-mapper.xml"/>
 		<mapper resource="mappers/user/broadCenter-mapper.xml"/>
+		<mapper resource="mappers/user/partner-mapper.xml"/>
 	</mappers>
 </configuration>

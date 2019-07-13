@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ import com.kh.nullLive.broadCenter.model.exception.StreamerInsertException;
 import com.kh.nullLive.broadCenter.model.exception.StreamerUpdateException;
 import com.kh.nullLive.broadCenter.model.service.BroadCenterService;
 import com.kh.nullLive.broadCenter.model.vo.BroadCenter;
+import com.kh.nullLive.common.attachment.model.vo.Attachment;
+import com.kh.nullLive.member.model.exception.ProfileException;
+import com.kh.nullLive.member.model.service.MemberService;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
@@ -33,6 +37,9 @@ public class centerController {
 
 	@Autowired
 	BroadCenterService bcs;
+	@Autowired
+	private MemberService ms;
+	
 
 	// 방송기능설정 페이지로 이동(정연)
 	@RequestMapping("broadSetting.st")
@@ -48,16 +55,18 @@ public class centerController {
 
 	// 스트리머 메인페이지로 이동(정연)
 	@RequestMapping("main.st")
-	public String streamerMain(HttpSession session, Model model) {
+	public String streamerMain(HttpSession session, Model model, HttpServletRequest request) {
+
 		Member loginUser = (Member) session.getAttribute("loginUser");
 		int mno = loginUser.getMno();
-
-		// System.out.println("엠앤오: " + mno);
 
 		HashMap<String, Object> mainInfo = bcs.selectMainInfo(mno);
 
 		model.addAttribute("mainInfo", mainInfo);
+
 		return "streaming/broadCenter/streamerMain";
+
+		// System.out.println("엠앤오: " + mno);
 	}
 
 	// 매니저 설정 페이지로 이동(정연)
@@ -67,11 +76,11 @@ public class centerController {
 		 * Member loginUser = (Member)session.getAttribute("loginUser"); int mno =
 		 * loginUser.getMno();
 		 */
+			ArrayList<HashMap<String, Object>> partnerList = bcs.selectpartnerList(mno);
+			
+			model.addAttribute("partnerList", partnerList);
 
-		ArrayList<HashMap<String, Object>> partnerList = bcs.selectpartnerList(mno);
-
-		model.addAttribute("partnerList", partnerList);
-		return "streaming/broadCenter/partnerManagement";
+			return "streaming/broadCenter/partnerManagement";
 	}
 
 	// 블랙리스트 페이지로 이동(정연) // 블랙리스트 조회 (소연)
@@ -87,6 +96,7 @@ public class centerController {
 
 		model.addAttribute("blackCount", blackCount);
 		model.addAttribute("blackList", blackList);
+		
 
 		return "streaming/broadCenter/blackListManagement";
 	}
@@ -99,20 +109,43 @@ public class centerController {
 
 	// 방송 공지 게시판 페이지로 이동(정연)
 	@RequestMapping("noticeBoard.st")
-	public String noticeboard() {
-		return "streaming/streamerBoard/NoticeBoard";
+	public String noticeboard(HttpSession session, Model model) throws StreamerUpdateException {
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int mno = loginUser.getMno();
+		
+		HashMap<String, Object> noticeInfo = bcs.selectNoticeBoard(mno);
+		
+		model.addAttribute("noticeInfo", noticeInfo);
+		
+		return "streaming/broadCenter/NoticeBoard";
 	}
 
 	// 시청자 소통 게시판 페이지로 이동(정연)
 	@RequestMapping("communicationBoard.st")
-	public String communicationBoard() {
-		return "streaming/streamerBoard/communicationBoard";
+	public String communicationBoard(HttpSession session, Model model) {
+		int mno =  ((Member) session.getAttribute("loginUser")).getMno();
+		
+		HashMap<String, Object> commuInfo = new HashMap<String, Object>();
+		commuInfo.put("mno", mno);
+		commuInfo.put("type", "소통");
+		
+		int firstCheck = bcs.firstCheckCommunication(commuInfo);
+		
+		//System.out.println("체크: " + firstCheck);
+		
+		
+		ArrayList<HashMap<String, Object>> list = bcs.selectCommunityList(mno);
+		
+		model.addAttribute("firstCheck", firstCheck);
+		model.addAttribute("list", list);
+		
+		return "streaming/broadCenter/communicationBoard";
 	}
 
 	// 블랙리스트 제보 게시판 페이지로 이동(정연)
 	@RequestMapping("reportBlackListBoard.st")
 	public String reportBlackListBoard() {
-		return "streaming/streamerBoard/reportBlackListBoard";
+		return "streaming/broadCenter/reportBlackListBoard";
 	}
 
 	// 스트리머 프로필 수정 페이지로 이동(정연)
@@ -176,24 +209,35 @@ public class centerController {
 
 	}
 
-	/*
-	 * //파트너 상세 조회(정연)
-	 * 
-	 * @RequestMapping(value = "partnerDetail.st" , produces =
-	 * "application/text; charset=UTF-8" )
-	 * 
-	 * @ResponseBody public String PartnerDetail(@RequestParam("mno")int mno, Model
-	 * model) throws StreamerUpdateException {
-	 * 
-	 * HashMap<String, Object> data = bcs.partnerDetail(mno);
-	 * 
-	 * System.out.println("디테일: " + data);
-	 * 
-	 * Gson gson = new Gson();
-	 * 
-	 * model.addAttribute("data", data);
-	 * 
-	 * return gson.toJson(data); }
-	 * 
-	 */
+	
+	  //파트너 상세 조회(정연)
+	  @RequestMapping(value = "partnerDetail.st" , produces = "application/text; charset=UTF-8" )
+	  @ResponseBody public String PartnerDetail(@RequestParam("mno")int mno, Model model) throws StreamerUpdateException {
+		  HashMap<String, Object> data = bcs.partnerDetail(mno);
+	  
+		  System.out.println("디테일: " + data);
+	  
+		  Gson gson = new Gson();
+	  
+		  model.addAttribute("data", data);
+	  
+		  return gson.toJson(data);
+	  }
+	  
+	  
+	  //시청자 소통 게시판 생성(정연)
+	  @RequestMapping("enableCommunityBoard.st")
+	  public String enableCommunityBoard(@RequestParam("mno") int mno, Model model){
+		 int enableCheck = bcs.enableCommunityBoard(mno);
+		  
+		 model.addAttribute("firstCheck", enableCheck);
+		  return "streaming/broadCenter/communicationBoard"; 
+	  };
+	  
+
+	
+	@RequestMapping("boardsSetting.st")
+	public String boradsSetting() {
+		return "streaming/broadCenter/boardsSetting";
+	}
 }

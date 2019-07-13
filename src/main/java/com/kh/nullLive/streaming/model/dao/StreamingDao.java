@@ -107,5 +107,4 @@ public interface StreamingDao {
 	ArrayList<BroadList> searchAllVodList(SqlSessionTemplate sqlSession, int condition);
 
 
-
 }

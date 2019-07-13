@@ -417,6 +417,47 @@ public class JobBoardDaoImpl implements JobBoardDao {
 		return sqlSession.selectOne("Board.selectOneContBoard",hmap);
 	}
 
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 11.
+	 * @comment : 구인구직 매니저 지원자 상세보기
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> selectMngDetail(SqlSessionTemplate sqlSession, int mno) {
+		return (ArrayList) sqlSession.selectList("Board.selectListMngDetail",mno);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 13.
+	 * @comment : 구인구직 파트너 리스트 조회
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> selectListPartner(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return (ArrayList) sqlSession.selectList("Board.selectListPartner",hmap);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 13.
+	 * @comment : 파트너 테이블 currval
+	 */
+	@Override
+	public int selectPartnerCurrval(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Board.selectPartnerCurrval");
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 13.
+	 * @comment : 매니저 권한 테이블 입력
+	 */
+	@Override
+	public int insertManagerAuth(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.insert("Board.insertManagerAuth",hmap);
+		
+	}
+
 
 
 

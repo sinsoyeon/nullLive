@@ -22,15 +22,23 @@
 				비밀번호 확인 : <input type="password" class="form-control" id="mpwd2">
 			</div>
 			<div style="margin-top:20px;">
-				<button type="button" class="form-control btn btn-primary" onclick="pwdChange()">입력</button>
+				<button type="button" class="form-control btn btn-primary" id="pwdBtn" 
+				onclick="pwdChange()" disabled>입력</button>
 			</div>
 		</form>
 	</div>
 	
-	<script>
-		function pwdChange(){
-			$("#pwdChangeForm").attr("action","pwdChange.me").submit();
-		}
-	</script>
+<script>
+$("#mpwd2").on('keyup',function(){
+	if($(this).val() == $("#mpwd1").val()){
+		$("#pwdBtn").attr('disabled',false);
+	}else{
+		$("#pwdBtn").attr('disabled',true)
+	}
+});
+function pwdChange(){
+	$("#pwdChangeForm").attr("action","pwdChange.me").submit();
+}
+</script>
 </body>
 </html>

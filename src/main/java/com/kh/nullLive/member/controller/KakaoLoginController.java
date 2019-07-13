@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -32,18 +33,18 @@ public class KakaoLoginController {
 		return "redirect:index.jsp";
 	}
 	
-	@RequestMapping("klogin.me")
+	@RequestMapping(value="klogin.me")
     public String klogin(@RequestParam("code") String code, Model model, HttpSession session) {
+		System.out.println("컨트롤러 코드: " + code);
 		String accessToken = kakao.getAccessToken(code);
+		
+		System.out.println("컨트롤러 토큰: " + accessToken);
 		
 		HashMap<String, Object> userInfo = kakao.getUserInfo(accessToken);
 		System.out.println("login Controller: " + userInfo);
 		
-		
 		//가입한 회원인지 아닌지 확인하는 용
 		int firstLoginCheck = kakao.firstLoginCheck(userInfo); 
-		
-		
 		
 		if(firstLoginCheck <= 0) {
 			model.addAttribute("userInfo", userInfo);

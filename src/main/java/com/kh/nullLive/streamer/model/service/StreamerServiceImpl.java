@@ -41,7 +41,21 @@ public class StreamerServiceImpl implements StreamerService{
 
 	@Override
 	public int insertNP(Streamer streamer, int amount) {
-		return smDao.insertNP(sqlSession,streamer,amount);
+		int updateResult = 0;
+		int insertResult = smDao.insertNP(sqlSession,streamer,amount);
+		
+		System.out.println("insertResult : " + insertResult);
+		
+		if(insertResult > 0) {
+			HashMap<String, Object> hmap = new HashMap<String, Object>();
+			
+			hmap.put("streamer",streamer);
+			hmap.put("amount", amount);
+			updateResult = smDao.updateSponPoint(sqlSession, hmap);	
+			System.out.println("insertNp : " + hmap);
+		}
+		
+		return updateResult;
 	}
 
 	@Override
@@ -56,15 +70,15 @@ public class StreamerServiceImpl implements StreamerService{
 	}
 
 	@Override
-	public ArrayList<HashMap<String, Object>> selectSponList(int mno) {
+	public ArrayList<HashMap<String, Object>> selectSponList(HashMap<String, Object> infoMap) {
 		// TODO Auto-generated method stub
-		return smDao.selectSponList(sqlSession,mno);
+		return smDao.selectSponList(sqlSession,infoMap);
 	}
 
 	@Override
-	public ArrayList<HashMap<String, Object>> selectSponForMeList(int mno) {
+	public ArrayList<HashMap<String, Object>> selectSponForMeList(HashMap<String, Object> infoMap) {
 
-		return smDao.selectSponForMeList(sqlSession,mno);
+		return smDao.selectSponForMeList(sqlSession,infoMap);
 	}
 
 	@Override
@@ -110,9 +124,9 @@ public class StreamerServiceImpl implements StreamerService{
 	}
 
 	@Override
-	public ArrayList<HashMap<String, Object>> selectChargeList(int mno) {
+	public ArrayList<HashMap<String, Object>> selectChargeList(HashMap<String, Object> infoMap) {
 		// TODO Auto-generated method stub
-		return smDao.selectChargeList(sqlSession,mno);
+		return smDao.selectChargeList(sqlSession,infoMap);
 	}
 
 	@Override
@@ -214,6 +228,50 @@ public class StreamerServiceImpl implements StreamerService{
 	public HashMap<String, Object> selectOneClc(HashMap<String, Object> infoMap) {
 		// TODO Auto-generated method stub
 		return smDao.selectOneClc(sqlSession,infoMap);
+	}
+
+	@Override
+	public int reClc(HashMap<String, Object> infoMap) {
+		int updateResult = smDao.reClc(sqlSession,infoMap);
+		
+		
+		HashMap<String, Object> hmap = new HashMap<String, Object>();
+		
+		hmap = smDao.getInsertData(sqlSession,infoMap);
+		
+		hmap.put("mno", infoMap.get("mno"));
+		hmap.put("decno", infoMap.get("decno"));
+		
+		System.out.println("hmap : " + hmap);
+		
+		updateResult += smDao.reInsertClc(sqlSession,hmap);
+		
+		return updateResult;
+	}
+
+	@Override
+	public int getSponCount(int mno) {
+		// TODO Auto-generated method stub
+		return smDao.getSponCount(sqlSession,mno);
+	}
+
+	@Override
+	public int getSponForMeCount(int mno) {
+		// TODO Auto-generated method stub
+		return smDao.getSponForMeCount(sqlSession,mno);
+	}
+
+	@Override
+	public int updatePoint(HashMap<String, Object> hmap) {
+		
+		
+		return smDao.updatePoint(sqlSession, hmap);
+	}
+
+	@Override
+	public int getChargeCount(int mno) {
+		// TODO Auto-generated method stub
+		return smDao.getChargeCount(sqlSession,mno);
 	}
 	
 }

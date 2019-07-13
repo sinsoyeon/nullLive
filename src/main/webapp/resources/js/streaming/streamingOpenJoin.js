@@ -18,7 +18,7 @@ function openStreaming() {
 	 $("#sponModal").hide();
     openJoinStreaming();
     /*console.log(io.sockets.manager.rooms(document.getElemnetById('room-id').value));*/
-});
+};
 
 $('#sponBtn').click(function(){
 	console.log('열림');
@@ -178,10 +178,12 @@ connection.onstream = function(event) {
     }
     video.srcObject = event.stream;
     var width = parseInt(connection.videosContainer.clientWidth) - 20;
+    var height = 545;
     var mediaElement = getHTMLMediaElement(video, {
         //title: event.userid,          //영상 속성으로 위에 id 출력됌
         buttons: ['full-screen'],
         width: width,
+        height:height,
         showOnMouseEnter: false,
     });
 

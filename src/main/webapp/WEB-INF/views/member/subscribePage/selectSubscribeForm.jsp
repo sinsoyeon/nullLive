@@ -126,64 +126,77 @@ div {
 
 				<!-- 스폰 조회용 Div -->
 				<div id="sponTableArea">
+					<h4 style="color: #333333 !important;" id="textLine2">내가 후원한
+						사용자</h4>
 					<table class="table" id="sponTable" style="text-align: center">
 						<thead class="thead-dark"
 							style="color: #fff; ! important; background: #333 !important;">
 							<tr>
 								<th scope="col">후원 번호</th>
-								<th scope="col">스트리머 이름</th>
-								<th scope="col">후원 금액</th>
-								<th scope="col">후원 날짜</th>
+								<th scope="col">후원한 스트리머 이름</th>
+								<th scope="col">후원한 금액</th>
+								<th scope="col">후원한 날짜</th>
 							</tr>
 						</thead>
 						<tbody>
 
 						</tbody>
 					</table>
-
+					<div id="sponPaging"  align="center">
+					<ul class="pagination">
+					
+					
+					</ul>
+				</div>	
 
 					<button id="culBtn">환전 신청</button>
 					<br />
+					<h4 style="color: #333333 !important;" id="textLine2">나를 후원
+						사용자</h4>
 					<table class="table" id="sponForMeTable" style="text-align: center">
 						<thead class="thead-dark"
 							style="color: #fff; ! important; background: #333 !important;">
 							<tr>
 								<th scope="col">후원 번호</th>
 								<th scope="col">닉네임(아이디)</th>
-								<th scope="col">후원 금액</th>
-								<th scope="col">후원 날짜</th>
+								<th scope="col">후원받은 금액</th>
+								<th scope="col">후원받은 날짜</th>
 							</tr>
 						</thead>
 						<tbody>
 
 						</tbody>
 					</table>
-		
+					<div id="sponForMePaging" align="center">
+					<ul class="pagination">
+					
+					
+					</ul>
+				</div>	
 					<div id="searchArea" align="center" style="height: 50px;">
 						<table style="padding: 100px !important;" id="searchTable">
 							<tr>
 								<td><label for="">검색 유형 : </label> <select
-									name="searchCondition" id="searchCondition">
-										<option value="" selected>전체</option>
-										<option value="1">닉네임</option>
-										<option value="2">아이디</option>
-								</select> <input type="text" id="searchValue" placeholder="검색어를 입력해주세요."
-									width="400" />
-									<button onclick="searchSpon();" id="searchBtn"
-										style="width: 100; height: 50; ! important; border: 1px solid black;">검색</button>
-								</td>
-							</tr>
+								name="searchCondition" id="searchCondition">
+									<option value="" selected>전체</option>
+									<option value="1">닉네임</option>
+									<option value="2">아이디</option>
+							</select> <input type="text" id="searchValue" placeholder="검색어를 입력해주세요."
+								width="400" />
+								<button onclick="searchSpon();" id="searchBtn"
+									style="width: 100; height: 50; ! important; border: 1px solid black;">검색</button>
+							</td>
+						</tr>
 
-						</table>
-					</div>
-					</div>
-
-						
-
+					</table>
+					<br />
+			<br />			<br />
+			<br />
+		
 			</div>
-			<br />
-			<br />
-
+		</div>
+	</div>
+		
 			<div class="col-md-1"></div>
 		</div>
 	</div>

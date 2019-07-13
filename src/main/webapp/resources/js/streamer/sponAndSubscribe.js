@@ -203,7 +203,6 @@ $("#checkId").click(function(){
 	}
 
 	$(".sponListTab").click(function() {
-		var mno = $("#mno").val();
 		
 		$("#subscribeArea").hide();
 		$("#detailSubscribeArea").hide();
@@ -215,6 +214,16 @@ $("#checkId").click(function(){
 		
 		$(".page-head-line").text('후원 내역');
 		$("#textLine").text('후원 내역');
+		selectSponList(1);
+		sponList(1);
+	});
+	
+	
+	function selectSponList(currentPage){
+		$("#sponForMeTable > tbody").html('');
+		console.log(currentPage);
+		var mno = $("#mno").val();
+
 		
 		var sponForMeList = [];
 		
@@ -222,11 +231,13 @@ $("#checkId").click(function(){
 			url : "sponForMeList.sm",
 			type:"post",
 			data:{
-				mno:mno
+				mno:mno,
+				currentPage:currentPage
 			},
 			success : function(data){
-				$("#sponForMeTable > tbody").html('');
-				sponForMeList=data.sponForMeList;
+				
+				$("#sponForMePaging > ul").html('');
+				sponForMeList=data.infoMap.sponForMeList;
 				
 				console.log(sponForMeList);
 				
@@ -241,17 +252,39 @@ $("#checkId").click(function(){
 							+ value["SPON_DATE"]
 							+ "</td></tr>");
 				});
+				
+				//sponPaging//sponForMePaging
+				var $firstButton = $('<li class="page-item" onclick="selectSponList(1);"><a class="page-link"> << </a></li>');
+				
+				
+				$("#sponForMePaging > ul").append($firstButton);
+				
+				console.log(data.infoMap.pi.maxPage);
+				for(var i = 0; i <data.infoMap.pi.maxPage;i++){
+					$("#sponForMePaging >ul ").append('<li class="page-item" onclick="selectSponList('+ (i+1) +')"><a class="page-link">' + (i+1) + '</a></li>');
+					
+					
+				};
+				
+				var $endButton = $('<li class="page-item" onclick="selectSponList('+ data.infoMap.pi.maxPage  +');"><a class="page-link"> >> </a></li>');
+				$("#sponForMePaging > ul").append($endButton);				
 			}
 		})
 		
+	}
+	
+	function sponList(currentPage){
+		$("#sponTable > tbody").html('');
+		var mno = $("#mno").val();
 		$.ajax({
 			url : "selectSponList.sm",
 			type : "post",
 			data : {
-				mno : mno
+				mno : mno,currentPage:currentPage
 			},
 			success : function(data) {
-				var sponList = data.sponList;
+				$("#sponPaging > ul").html('');
+				var sponList = data.infoMap.sponList;
 
 				$.each(sponList, function(index, value) {
 					$("#sponTable > tbody").append(
@@ -263,11 +296,23 @@ $("#checkId").click(function(){
 							+ value["SPON_DATE"]
 							+ "</td></tr>");
 				});
-
-	
-			}
+				var $firstButton = $('<li class="page-item" onclick="sponList(1);"> <a class="page-link"> << </a></li>');
+				
+				
+				$("#sponPaging > ul").append($firstButton);
+				
+				console.log(data.infoMap.pi.maxPage);
+				for(var i = 0; i <data.infoMap.pi.maxPage;i++){
+					$("#sponPaging >ul ").append('<li class="page-item" onclick="sponList('+ (i+1) +')"><a class="page-link">' + (i+1) + '</a></li>');
+					
+					
+				};
+				
+				var $endButton = $('<li class="page-item" onclick="sponList('+ data.infoMap.pi.maxPage  +')"><a class="page-link"> >> </a></li>');
+				$("#sponPaging > ul").append($endButton);				
+				}
 		});
-	});
+	}
 	
 	
 	function searchSpon(){

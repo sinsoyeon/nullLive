@@ -1,11 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
+  
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<style>
+.pagination>li>a { border-radius: 50% !important;margin: 0 5px;}
+</style>	
 </head>
 <body>
 	<c:if test="${empty loginUser}">
@@ -59,7 +65,13 @@
 						<tbody>
 							
 						</tbody>
-					</table>					
+					</table>	
+					<div id="chrgPaging" align="center">
+						<ul class="pagination">
+						
+						
+						</ul>
+					</div>					
 				</div>
 				<div id="calArea" align="center">
 					<h4 style="color: #333333 !important;" id="textLine1">정산 신청 내역</h4>
@@ -79,8 +91,8 @@
 							
 						</tbody>
 					</table>
-					<div id="clcPaging">
-						<ul>
+					<div id="clcPaging" align="center">
+						<ul class="pagination">
 						
 						
 						</ul>
@@ -129,7 +141,6 @@
 		<div id="decModal" class="modal fade" role="dialog"
 			style="z-index: 99999;">
 			<div class="modal-dialog" role="document" style="z-index: 99999;">
-
 				<div class="modal-content" style="z-index: 99999;">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -138,8 +149,7 @@
 					</div>
 					<div class="modal-body">
 						<div id="bodyArea" align="center">
-							<h4>상세보기</h4>
-						<input type="hidden" id="excno" />
+						<input type="hidden" id="decno" />
 						<input type="hidden" id="mno" value="${loginUser.mno }" />	
 							<table id="decTable">
 								<tbody>
@@ -161,7 +171,7 @@
 			// tableName : myExcTable
 			var mno = ${loginUser.mno};
 			excList(mno,1);
-			chargeList(mno);
+			chargeList(mno,1);
 			calList(mno,1);
 		
 		});

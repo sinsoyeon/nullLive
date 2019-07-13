@@ -46,6 +46,9 @@ public class StreamerDaoImpl implements StreamerDao {
 		npMap.put("streamer", streamer);
 		npMap.put("amount", amount);
 		
+		System.out.println("npMap : " + npMap);
+		System.out.println("dao 출력중 : " + sqlSession.insert("Streamer.insertNP",npMap));
+		
 		return sqlSession.insert("Streamer.insertNP",npMap);
 	}
 
@@ -67,16 +70,27 @@ public class StreamerDaoImpl implements StreamerDao {
 
 	//내가 후원한 리스트 조회 (소연)
 	@Override
-	public ArrayList<HashMap<String, Object>> selectSponList(SqlSessionTemplate sqlSession, int mno) {
-	
-		return (ArrayList)sqlSession.selectList("Streamer.selectSponList",mno);
+	public ArrayList<HashMap<String, Object>> selectSponList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
+		int mno = (int)infoMap.get("mno");
+		PageInfo pi = (PageInfo)infoMap.get("pi");
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi.getLimit());
+		
+		return (ArrayList)sqlSession.selectList("Streamer.selectSponList",mno,rowBounds);
 	}
 
 	//나를 후원한 리스트 조회 (소연)
 	@Override
-	public ArrayList<HashMap<String, Object>> selectSponForMeList(SqlSessionTemplate sqlSession, int mno) {
-		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("Streamer.selectSponForMe",mno);
+	public ArrayList<HashMap<String, Object>> selectSponForMeList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
+		int mno = (int)infoMap.get("mno");
+		PageInfo pi = (PageInfo)infoMap.get("pi");
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi.getLimit());
+		
+		
+		return (ArrayList)sqlSession.selectList("Streamer.selectSponForMe",mno,rowBounds);
 	}
 
 	//조건 검색에 따른 후원자 검색 (소연)
@@ -99,6 +113,7 @@ public class StreamerDaoImpl implements StreamerDao {
 	//환전 신청 후 보유 포인트 차감 (소연)
 	@Override
 	public int updatePoint(SqlSessionTemplate sqlSession, HashMap<String, Object> excMap) {	
+		System.out.println("excMap : " + excMap);
 		return sqlSession.update("Streamer.updatePoint", excMap);
 	}
 
@@ -145,9 +160,16 @@ public class StreamerDaoImpl implements StreamerDao {
 	
 	//포인트 충전 내역 조회
 	@Override
-	public ArrayList<HashMap<String, Object>> selectChargeList(SqlSessionTemplate sqlSession, int mno) {
-		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("Streamer.selectChargeList", mno);
+	public ArrayList<HashMap<String, Object>> selectChargeList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
+		int mno = (int)infoMap.get("mno");
+		PageInfo pi = (PageInfo)infoMap.get("pi");
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi.getLimit());
+		
+		
+		
+		return (ArrayList)sqlSession.selectList("Streamer.selectChargeList", infoMap,rowBounds);
 	}
 
 	// 나이와 성별 구독 통계 데이터
@@ -248,6 +270,51 @@ public class StreamerDaoImpl implements StreamerDao {
 	public HashMap<String, Object> selectOneClc(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("Streamer.selecOneClc",infoMap);
+	}
+
+	@Override
+	public int reClc(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("Streamer.reClc", infoMap);
+	}
+
+	@Override
+	public int reInsertClc(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {	
+		System.out.println("infoMap : " + infoMap);
+		return sqlSession.insert("Streamer.reInsertClc",infoMap);
+	}
+
+	@Override
+	public HashMap<String, Object> getInsertData(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Streamer.getInsertData", infoMap);
+	}
+
+	@Override
+	public int getSponCount(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Streamer.getSponCount",mno);
+	}
+
+	@Override
+	public int getSponForMeCount(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		
+		return sqlSession.selectOne("Streamer.getSponForMeCount",mno);
+	}
+
+	@Override
+	public int updateSponPoint(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		// TODO Auto-generated method stub
+		System.out.println("hamp : " + hmap);
+		
+		return sqlSession.update("Streamer.updateSponPoint",hmap);
+	}
+
+	@Override
+	public int getChargeCount(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Streamer.getChargeCount",mno);
 	}
 
 

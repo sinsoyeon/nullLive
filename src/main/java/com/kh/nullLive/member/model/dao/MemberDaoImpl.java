@@ -1,5 +1,6 @@
 package com.kh.nullLive.member.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.BankAccount;
 import com.kh.nullLive.member.model.vo.Member;
+import com.kh.nullLive.member.model.vo.Subscription;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
 @Repository
@@ -158,6 +160,29 @@ public class MemberDaoImpl implements MemberDao {
 		return sqlSession.selectOne("Member.getBanDate",loginMember);
 		
 	}
-
-
+	//아이디 찾기
+	@Override
+	public String getSearchId(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.selectOne("Member.getSearchId",m);
+	}
+	//비밀전호 재발급
+	@Override
+	public int pwdReload(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("Member.pwdReload",m);
+	}
+	//구독 리스트 가져오기
+	@Override
+	public ArrayList<Subscription> getSubList(SqlSessionTemplate sqlSession, Member loginUser) {
+		return (ArrayList)sqlSession.selectList("Member.getSubList",loginUser);
+	}
+	//휴대폰 재설정
+	@Override
+	public int phoneChange(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("Member.phoneChange",m);
+	}
+	//성인 인증
+	@Override
+	public int confirmAdult(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("Member.confrimAdult",m);
+	}
 }

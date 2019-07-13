@@ -23,6 +23,7 @@ import com.kh.nullLive.board.model.vo.PageInfo;
 import com.kh.nullLive.broadCenter.model.exception.StreamerUpdateException;
 import com.kh.nullLive.broadCenter.model.service.BroadCenterService;
 import com.kh.nullLive.common.Pagination;
+import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.service.StreamerService;
 import com.kh.nullLive.streamer.model.vo.Streamer;
@@ -81,11 +82,26 @@ public class StreamerController {
 	}
 
 	@RequestMapping("insertNP.sm")
-	public String insertNP(Streamer streamer, @RequestParam("amount") int amount) {
+	public String insertNP(Streamer streamer, @RequestParam("amount") int amount,HttpSession session) {
 		System.out.println(streamer);
 		System.out.println(amount);
 
 		int result = smService.insertNP(streamer, amount);
+		
+		System.out.println("insertNP result : " + result);
+		
+		HashMap<String,Object> hmap = new HashMap<String, Object>();
+		
+		System.out.println("mno : " + ((Member)session.getAttribute("loginUser")).getMno());
+		hmap.put("mno", ((Member)session.getAttribute("loginUser")).getMno());
+		hmap.put("amount", amount);
+		
+		System.out.println("hmap :" + hmap);
+		
+		int minusResult = smService.updatePoint(hmap);
+		
+		System.out.println("result : " + result);
+		System.out.println("minusResult : " + minusResult);
 
 		return "redirect:index.jsp";
 	}
@@ -128,37 +144,6 @@ public class StreamerController {
 		model.addObject("forMeList", forMeList);
 
 		return model;
-	}
-
-	@RequestMapping(value = "selectSponList.sm")
-	@ResponseBody
-	public ModelAndView selectSponList(@RequestParam("mno") int mno, ModelAndView modelAndView) {
-		List<HashMap<String, Object>> sponList = new ArrayList<HashMap<String, Object>>();
-		sponList = smService.selectSponList(mno);
-		System.out.println("스폰 리스트 : " + sponList);
-
-		for (int i = 0; i < sponList.size(); i++) {
-			sponList.get(i).put("SPON_DATE", sponList.get(i).get("SPON_DATE").toString());
-		}
-
-		modelAndView.setViewName("jsonView");
-		modelAndView.addObject("sponList", sponList);
-
-		return modelAndView;
-	}
-
-	@RequestMapping("sponForMeList.sm")
-	public ModelAndView selectSponForMe(@RequestParam("mno") int mno, ModelAndView modelAndView) {
-		ArrayList<HashMap<String, Object>> sponForMeList = smService.selectSponForMeList(mno);
-
-		for (int i = 0; i < sponForMeList.size(); i++) {
-			sponForMeList.get(i).put("SPON_DATE", sponForMeList.get(i).get("SPON_DATE").toString());
-		}
-
-		modelAndView.setViewName("jsonView");
-		modelAndView.addObject("sponForMeList", sponForMeList);
-
-		return modelAndView;
 	}
 
 	@RequestMapping("searchSpon.sm")
@@ -231,12 +216,31 @@ public class StreamerController {
 	}
 
 	@RequestMapping("selectChargeList.sm")
-	public ModelAndView selectChargeList(ModelAndView modelAndview, int mno) {
+	public ModelAndView selectChargeList(ModelAndView modelAndview, int mno,@RequestParam("currentPage")String reqCurrentPage) {
+		int currentPage = 1;
+		
 
-		ArrayList<HashMap<String, Object>> chargeList = smService.selectChargeList(mno);
+		if(reqCurrentPage != null) {
+			currentPage = Integer.parseInt(reqCurrentPage);
+		}
+		
+		int chargeCount = smService.getChargeCount(mno);
+		
+		PageInfo pi = Pagination.getSPageInfo(currentPage, chargeCount);
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("pi", pi);
+		infoMap.put("mno", mno);		
+		
+		
+		
+		ArrayList<HashMap<String, Object>> chargeList = smService.selectChargeList(infoMap);
+		
+		infoMap.put("chargeList", chargeList);
 
+		
+		modelAndview.addObject("infoMap",infoMap);
 		modelAndview.setViewName("jsonView");
-		modelAndview.addObject("chargeList", chargeList);
 
 		return modelAndview;
 	}
@@ -486,6 +490,74 @@ public class StreamerController {
 		return modelAndView;
 	}
 	
+	@RequestMapping(value = "selectSponList.sm")
+	@ResponseBody
+	public ModelAndView selectSponList(@RequestParam("mno") int mno, ModelAndView modelAndView,@RequestParam("currentPage")String reqCurrentPage) {
+		
+		int currentPage = 1;
+		
+		if(reqCurrentPage != null) {
+			currentPage = Integer.parseInt(reqCurrentPage);
+		}
+		
+		int sponCount = smService.getSponCount(mno);
+		
+		PageInfo pi = Pagination.getSPageInfo(currentPage, sponCount);
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("pi", pi);
+		infoMap.put("mno", mno);		
+		
+		List<HashMap<String, Object>> sponList = new ArrayList<HashMap<String, Object>>();
+		sponList = smService.selectSponList(infoMap);
+		
+		System.out.println("스폰 리스트 : " + sponList);
+
+		for (int i = 0; i < sponList.size(); i++) {
+			sponList.get(i).put("SPON_DATE", sponList.get(i).get("SPON_DATE").toString());
+		}
+		infoMap.put("sponList", sponList);
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("infoMap", infoMap);
+
+		return modelAndView;
+	}
+	
+	
+
+	@RequestMapping("sponForMeList.sm")
+	public ModelAndView selectSponForMe(@RequestParam("mno") int mno, ModelAndView modelAndView,@RequestParam("currentPage")String reqCurrentPage) {
+		System.out.println("reqCurrentPage : " + reqCurrentPage);
+		int currentPage = 1;
+		
+		if(reqCurrentPage != null) {
+			currentPage = Integer.parseInt(reqCurrentPage);
+		}
+		
+		int sponForMeCount = smService.getSponForMeCount(mno);
+		
+		PageInfo pi = Pagination.getSPageInfo(currentPage, sponForMeCount);
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("pi", pi);
+		infoMap.put("mno", mno);		
+		
+		ArrayList<HashMap<String, Object>> sponForMeList = smService.selectSponForMeList(infoMap);
+
+		for (int i = 0; i < sponForMeList.size(); i++) {
+			sponForMeList.get(i).put("SPON_DATE", sponForMeList.get(i).get("SPON_DATE").toString());
+		}
+		
+		infoMap.put("sponForMeList", sponForMeList);
+
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("infoMap", infoMap);
+
+		return modelAndView;
+	}
+
+	
 	@RequestMapping("selectExcList.sm")
 	public ModelAndView selectExcList(int mno, ModelAndView modelAndView,@RequestParam("currentPage")String reqCurrentPage) {
 		int currentPage = 1;
@@ -544,6 +616,97 @@ public class StreamerController {
 		
 		return modelAndView;
 	}
+	
+	
+	@RequestMapping("reClc.sm")
+	@ResponseBody
+	public String reClc(int mno,int decno,ModelAndView modelAndView) {
+		
+		System.out.println("mno : " + mno + " decno : " + decno);
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		
+		infoMap.put("mno", mno);
+		infoMap.put("decno", decno);
+		
+		int result = smService.reClc(infoMap);
+		
+		if(result ==2) {
+			return "success";
+		}else {
+			return "fail";
+		}
+		
+	}
 
+	
+	//프로필 (정연)
+	@RequestMapping("profile.sm")
+	@ResponseBody
+	public ModelAndView selectProfile(HttpSession session, ModelAndView modelAndView) throws StreamerUpdateException{
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		int mno = loginUser.getMno();
+
+		Attachment att = bcs.getProfile(mno);
+
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("data",  att.getChangeName());
+
+		return modelAndView;
+	}
+	
+	
+	 //공지 수정 (정연)
+	 @RequestMapping("updateNotice.sm")
+	 @ResponseBody 
+	 public ModelAndView updateNotice(@RequestParam(name="mno") int mno, @RequestParam(name="content") String content, ModelAndView modelAndView) throws StreamerUpdateException{ 
+	  HashMap<String, Object> updateInfo = new HashMap<String, Object>();
+	  updateInfo.put("mno", mno); updateInfo.put("content", content);
+	  
+	  int updateNoticeCheck = bcs.updateNoticeCheck(updateInfo);
+	  
+		  if(updateNoticeCheck>0) { 
+			  HashMap<String, Object> noticeInfo = bcs.selectNoticeBoard(mno);
+		  
+			  modelAndView.setViewName("jsonView"); 
+			  modelAndView.addObject("data", noticeInfo);
+		  
+		  }else {
+			String msg = "업데이트 실패!"; modelAndView.addObject("data", msg); 
+			return modelAndView; 
+		  }
+	  return modelAndView; 
+	  }
+	 
+	 
+	 //공지 삭제(정연)
+	 @RequestMapping("deleteNotice.sm")
+	 @ResponseBody 
+	 public ModelAndView deleteNotice(@RequestParam(name="mno") int mno, ModelAndView modelAndView) {
+		 
+		 int data = bcs.deleteNotice(mno);
+		 
+		 modelAndView.setViewName("jsonView"); 
+		 modelAndView.addObject("data", data);
+		 
+		 return modelAndView;
+	 }
+	 
+	
+	 //스트리머 검색(정연)
+	 @RequestMapping("searchStreamer.sm")
+	 public String searchStreamer(Model model, @RequestParam("name") String name) {
+		 ArrayList<HashMap<String, Object>> streamerList = new ArrayList<HashMap<String, Object>>(); 
+
+		 if(name == "") {
+			 streamerList = bcs.searchStreamer();
+		 }else {
+			 streamerList = bcs.searchStreamerName(name);
+		 }
+		 
+		 model.addAttribute("streamerList", streamerList);
+		 
+		 return "member/streamerSearchList";
+	 }
 	
 }

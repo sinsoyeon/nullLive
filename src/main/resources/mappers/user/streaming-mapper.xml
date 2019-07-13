@@ -45,7 +45,9 @@
 		<result property="adult" column="ADULT"/>
 	</resultMap>
 	
-	<resultMap type="BroadList" id="broadListResultSet">
+  
+    <!-- 정언 -->
+  	<resultMap type="BroadList" id="broadListResultSet">
 		<id property="bhno" column="BHNO"/>
 		<result property="broadAddress" column="BROAD_ADDRESS"/>
 		<result property="mno" column="MNO"/>
@@ -62,7 +64,7 @@
 		<result property="bCategory" column="BROAD_CATEGORY"/>
 		<result property="adult" column="ADULT"/>
 	</resultMap>
-	
+  
 	<!-- selectMember(reset용) -->
 	<select id="selectMember" resultMap="memberResultSet" parameterType="_int">
 		SELECT *
@@ -165,7 +167,7 @@
     AND BL_STATUS ='Y'
 	</select>
 	
-	<!-- 메인페이지 Hot Live 방송 수 조회용 쿼리문 (정언) -->
+  	<!-- 메인페이지 Hot Live 방송 수 조회용 쿼리문 (정언) -->
 	<select id="hotLiveListCount" resultType="_int">
 		<![CDATA[
 		SELECT COUNT(*)
@@ -298,4 +300,5 @@
 		ORDER BY BH_START_DATE DESC
 		]]>
 	</select>
+  
 </mapper>

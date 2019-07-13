@@ -1,6 +1,7 @@
 package com.kh.nullLive.admin.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
@@ -20,16 +21,16 @@ public interface AdminDao {
 
 	// 총 회원수 조회(페이징)
 	int totalMemberSelect(SqlSessionTemplate sqlSession);
-	
+
 	// 스트리머 신고 목록
 	ArrayList<Report> streamerReportList(SqlSessionTemplate sqlSession, PagingVo paging);
-	
+
 	// 스트리머 신고 글 수 조회
 	int totalStreamerReport(SqlSessionTemplate sqlSession);
 
 	// 일반회원 신고목록
 	ArrayList<Report> memberReportList(SqlSessionTemplate sqlSession, PagingVo paging);
-	
+
 	// 일반회원 신고 글 수 조회
 	int totalMemberReport(SqlSessionTemplate sqlSession);
 
@@ -38,13 +39,12 @@ public interface AdminDao {
 
 	// 문의 목록
 	ArrayList<Question> questionList(SqlSessionTemplate sqlSession, PagingVo paging);
-	
+
 	// 회원 상세보기
 	UserDetail userDetail(SqlSessionTemplate sqlSession, UserDetail ud);
 
 	// 회원 상태 변경
 	int userStatusUpdate(SqlSessionTemplate sqlSession, Member m);
-
 
 	// 신고 상세보기
 	Report reportDetail(SqlSessionTemplate sqlSession, int bno);
@@ -103,13 +103,22 @@ public interface AdminDao {
 	// 문의 글 수 카운트
 	int totalQuestionSelect(SqlSessionTemplate sqlSession);
 
-	//FAQ 글 수 카운트
+	// FAQ 글 수 카운트
 	int totalFAQSelect(SqlSessionTemplate sqlSession);
 
 	// 공지 글 수 카운트
 	int totalNoticeSelect(SqlSessionTemplate sqlSession);
 
-	
+	// 월별 회원 유입 통계
+	ArrayList<HashMap<String, Object>> memberMonthStatistics(SqlSessionTemplate sqlSession, int year);
 
+	// 시간대별 시청인원 통계
+	ArrayList<HashMap<String, Object>> hourlyViewingTimeStatistics(SqlSessionTemplate sqlSession);
+
+	// 방송 인기 카테고리 통계
+	ArrayList<HashMap<String, Object>> bestCategoryStatistics(SqlSessionTemplate sqlSession);
+
+	// 충전 금액 통계
+	ArrayList<HashMap<String, Object>> amountChargeStatistics(SqlSessionTemplate sqlSession);
 
 }

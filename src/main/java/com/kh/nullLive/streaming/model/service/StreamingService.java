@@ -65,6 +65,15 @@ public interface StreamingService {
 	
 	//메인페이지 All Live 방송 목록 조회
 	ArrayList<BroadList> selectAllLiveList();
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 13.
+	 * Comment : 방송 정보 가져오기(제한 여부)
+	 */
+	BroadHis getStreamingInfo(String streamerAddress);
+
+
 	
 	//메인페이지 All Vod 방송 목록 개수 
 	int getAllVodListCount();

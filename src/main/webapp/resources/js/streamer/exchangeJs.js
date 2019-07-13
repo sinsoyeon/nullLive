@@ -1,3 +1,4 @@
+
 function selectOneExc(mno,excno){
 			$("#detailTable > tbody").html('');
 			$("#excno").val('');
@@ -35,15 +36,16 @@ function selectOneExc(mno,excno){
 		};
 		
 
-function chargeList(mno){
-	$("#chargeTable > body").html('');
+function chargeList(mno,currentPage){
+	$("#chargeTable > tbody").html('');
 	
 	$.ajax({
 		url:"selectChargeList.sm",
 		type:"post",
-		data:{mno:mno},
+		data:{mno:mno,currentPage:currentPage},
 		success:function(data){
-			var chargeList = data.chargeList;
+			$("#chrgPaging > ul").html('');
+			var chargeList = data.infoMap.chargeList;
 			
 			$.each(chargeList,function(index,value){						
 				$("#chargeTable > tbody").append('<tr><td>' + value["CHNO"] + '</td><td>'
@@ -53,6 +55,26 @@ function chargeList(mno){
 														  + value["POINT"] + '</td></tr>')		
 														  
 			});
+			
+			//paging
+			
+			var $firstButton = $('<li class="page-item" onclick="chargeList('+ mno + ',' + '1);"><a class="page-link"> << </a></li>');
+			
+			
+			$("#chrgPaging > ul").append($firstButton);
+			
+			console.log(data.infoMap.pi.maxPage);
+			for(var i = 0; i <data.infoMap.pi.maxPage;i++){
+				$("#chrgPaging >ul ").append('<li class="page-item" onclick="chargeList('+ mno + ',' + (i+1) +')"><a class="page-link">' + (i+1) + '</a></li>');
+				
+				
+			};
+			
+			var $endButton = $('<li class="page-item" onclick="chargeList('+ mno + ',' + data.infoMap.pi.maxPage  +');"> <a class="page-link"> >></a> </li>');
+			$("#chrgPaging > ul").append($endButton);
+			
+			
+			
 			if(chargeList.length==0){
 				$("#chargeTable > tbody").append('<tr><td colspan="5"><div class="alert alert-danger" role="alert">충전하신 내역이 없습니다. 충전 후 후원을 통해 스트리머님과 기쁨을 나눠보세요 !</div></td></tr>');
 			}else{
@@ -64,7 +86,7 @@ function chargeList(mno){
 }
 
 function calList(mno,currentPage){
-	$("#calTable > body").html('');
+	$("#calTable > tbody").html('');
 	console.log('mno : ' + mno)
 	$.ajax({
 		url:"selectCulList.sm",
@@ -83,15 +105,18 @@ function calList(mno,currentPage){
 			
 			if(value["CLC_STATUS"] == 'Y'){
 				status = '정산 완료';
-			}else if(value["CLC_STATUS"]=='N' && value["DEC_STATUS"]==null){
-				status = '정산 접수 완료';
-			}else{
+			}else if(value["CLC_STATUS"]=='N' && value["DEC_STATUS"]==null ){
+				status = '정산 처리중';
+			}else if(value["CLC_STATUS"]=='N' && value["DEC_STATUS"]=='Y' && value["REAPPLY"]=='재신청 완료'){
+				status ='재신청 완료';
+			}
+			else if(value["CLC_STATUS"]=='N' && value["DEC_STATUS"]=='Y' && value["REAPPLY"]==null){
 				status = '<button id="decBtn" class="btn btn-primary">거절 이력 보기</button>'
 			}
 			console.log(value["CLCNO"]);
-			$("#calTable > tbody").append('<tr id="myTr"><td><input type="text" id="clcno" name="clcno" value="'
+			$("#calTable > tbody").append('<tr id="myTr"><td><input type="hidden" id="clcno" name="clcno" value="'
 					+value["CLCNO"] + 
-					'"' + '/></td><td>' +value["NICK_NAME"] + '</td><td>'
+					'"' + '/>' +value["NICK_NAME"] + '</td><td>'
 					+ value["SDATE"] + '</td><td>' 
 					+ value["EDATE"] + '</td><td>'
 					+ value["CLC_DATE"] + '</td><td>'
@@ -105,24 +130,28 @@ function calList(mno,currentPage){
 			
 			//excPaingArea			
 			
-			var $firstButton = $('<li class="pagination" onclick="calList(0,1);"> << </li>');
+			var $firstButton = $('<li class="page-item" onclick="calList(0,1);"><a class="page-link"> << </a></li>');
 			
 			
 			$("#clcPaging > ul").append($firstButton);
 			
 			console.log(data.infoMap.pi.maxPage);
 			for(var i = 0; i <data.infoMap.pi.maxPage;i++){
-				$("#clcPaging >ul ").append('<li class="pagination" onclick="calList('+ mno + ',' + (i+1) +')">' + (i+1) + '</li>');
+				$("#clcPaging >ul ").append('<li class="page-item" onclick="calList('+ mno + ',' + (i+1) +')"><a class="page-link">' + (i+1) + '</a></li>');
 				
 				
 			};
 			
-			var $endButton = $('<li class="pagination" onclick="calList('+ mno + ',' + data.infoMap.pi.maxPage  +');"> >> </li>');
+			var $endButton = $('<li class="page-item" onclick="calList('+ mno + ',' + data.infoMap.pi.maxPage  +');"><a class="page-link"> >> </a></li>');
 			$("#clcPaging > ul").append($endButton);
 		}
 	})
 }
 
+
+$(document).on('click','#reqClcBtn',function(){
+	console.log('호출됨');
+})
 
 $(document).on('click', '#decBtn', function(){
 	console.log('호출됨');
@@ -131,20 +160,62 @@ $(document).on('click', '#decBtn', function(){
 	/*var clcno = $(this).parent('td').find('#clcno').val();*/
 	var mno = $('#mno').val();
 	
-	console.log($(this).parent('#myTr').find('#clcno').val());
+	var clcno = $(this).parent('td').parent('tr').find('#clcno').val();
 	
-	$('#decModal').html('');
 	
 	$.ajax({
 		url:"selecOneClc.sm",
 		type:"post",
 		data:{mno:mno,clcno:clcno},
 		success:function(data){
-			console.log(data.clcMap);
+			$('#decTable > tbody').html('');
+			var status = '';
+			
+			$("#decTable > tbody").append(
+											'<tr><td><label>신청자 : </label>'
+											+'<label>'+ data.clcMap.NICK_NAME +'</label></td></tr>'
+											+ '<tr><td><label>스트리머 :' + '</label>'
+											+ '<label>' + data.clcMap.NICK_NAME + '('+  data.clcMap.ST_NICK_NAME  +')</label></td></tr>'
+											+ '<tr><td><label>신청일 : </label>' 
+											+ '<label>' + data.clcMap.CLC_REQ_DATE + '</label></td></tr>'
+											+ '<tr><td><label>계약 시작일 : ' + '</label>'
+											+ '<label>' + data.clcMap.SDATE + '</label></td></tr>'
+											+ '<tr><td><label>계약 종료일 :' + '</label>'
+											+ '<label>' + data.clcMap.EDATE + '</label></td></tr>'
+											+ '<tr><td><label>정산 요청 금액 :' + '</label>'
+											+ '<label>' + data.clcMap.CLC_AMOUNT + '</label></td></tr>'
+											+ '<tr><td><label>정산 거부 일자 :' + '</label>'
+											+ '<label>' + data.clcMap.DEC_DATE + '</label></td></tr>'
+											+ '<tr><td><label>정산 거부 사유 :' + '</label>'
+											+ '<label>' + data.clcMap.DEC_REASON + '</label></td></tr>'		
+											+ '<tr><td> <button id="reqClcBtn" onclick="reqClc('+mno+','+data.clcMap.DECNO+')"> 정산 요청 </button>'
+											+ '<button id="cancelBtn">확인</button></td></tr>'
+										)
+										$("#decno").val(data.clcMap.DECNO);			
+										$("#decModal").modal('show');
+										
+										
+				
+			}
+		})
+});
+
+function reqClc(mno,decno){
+	console.log('reqClc 호출됨');
+	
+	$.ajax({
+		url:"reClc.sm",
+		type:"post",
+		data:{mno:mno,decno:decno},
+		success:function(data){
+			console.log('ajax 수행 중');
+			alert('정산 신청이 완료 되었습니다.');
+			$("#decModal").modal('hide');
 		}
 	});
 	
-});
+	
+}
 
 function excList(mno,currentPage){		
 	$("#myExcTable > tbody").html('');
@@ -197,19 +268,19 @@ function excList(mno,currentPage){
 				}
 			});
 			
-			var $firstButton = $('<li class="pagination" onclick="excList(0,1);"> << </li>');
+			var $firstButton = $('<li class="page-item" onclick="excList(0,1);"><a class="page-link"> << </a></li>');
 			
 			
 			$("#excPaingArea > ul").append($firstButton);
 			
 			console.log(data.infoMap.pi.maxPage);
 			for(var i = 0; i <data.infoMap.pi.maxPage;i++){
-				$("#excPaingArea >ul ").append('<li class="pagination" onclick="excList('+ mno + ',' + (i+1) +')">' + (i+1) + '</li>');
+				$("#excPaingArea >ul ").append('<li class="page-item" onclick="excList('+ mno + ',' + (i+1) +')"><a class="page-link">' + (i+1) + '</a></li>');
 				
 				
 			};
 			
-			var $endButton = $('<li class="pagination" onclick="excList('+ mno + ',' + data.infoMap.pi.maxPage  +');"> >> </li>');
+			var $endButton = $('<li class="page-item" onclick="excList('+ mno + ',' + data.infoMap.pi.maxPage  +');"> <a class="page-link"> >></a> </li>');
 			$("#excPaingArea > ul").append($endButton);
 			
 			
