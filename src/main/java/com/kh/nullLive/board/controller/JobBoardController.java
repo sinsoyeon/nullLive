@@ -487,14 +487,14 @@ public class JobBoardController {
 		int contMno = Integer.parseInt(request.getParameter("contMno"));
 		int contBno = Integer.parseInt(request.getParameter("contBno"));
 		//글 작성자 mno
-		int mno = Integer.parseInt(request.getParameter("mno"));
+		int writterMno = Integer.parseInt(request.getParameter("writterMno"));
 		HashMap<String,Object> hmap = new HashMap<>();
 		hmap.put("contMno",contMno);
 		//지원서 bno
 		hmap.put("contBno",contBno);
 		hmap.put("jBoard",jBoard);
 		hmap.put("streamer",streamer);
-		hmap.put("mno",mno);
+		hmap.put("mno",writterMno);
 		//구인구직 게시글 bno
 		hmap.put("bno",board.getBno());
 		System.out.println(hmap);
@@ -506,7 +506,7 @@ public class JobBoardController {
 				//구직인경우
 				jbs.insertMngContConsent2(hmap);
 			}
-			return "redirect:jobBoardList.jbo?bType=JOBMNG&url=board/job/jobMngList";
+			return "redirect:jobMain.jbo";
 		} catch (ContConsentExcption e) {
 			model.addAttribute("msg",e.getMessage());
 			return "common/errorPage";
@@ -587,7 +587,37 @@ public class JobBoardController {
 	}
 	
 	
-	
+	/**
+	 * @author : uukk
+	 * @throws BoardSelectListException 
+	 * @date : 2019. 7. 11.
+	 * @comment : 지원자 상세정보
+	 */
+	@RequestMapping("selectContWritterDeatil.jbo")
+	public ResponseEntity<ArrayList<HashMap<String, Object>>> selectContWritterDeatil(HttpServletRequest request) throws BoardSelectListException{
+		int mno = Integer.parseInt(request.getParameter("mno"));
+		System.out.println(mno);
+		String jBType = request.getParameter("jBtype");
+		String job = request.getParameter("job");
+		System.out.println(request.getParameter("job"));
+		HashMap<String,Object> hmap = new HashMap<>();
+		hmap.put("job", job);
+		hmap.put("mno",mno);
+		ArrayList<HashMap<String,Object>> partnerList = null;
+		//구인인 경우
+		if(jBType.equals("구인")) {
+			//구인 => 편집자인 경우 편집자 리스트 조회
+			partnerList = jbs.selectListEditorPartner(hmap);
+		}else {
+			//구직인 경우
+			//구직 => 스트리머  상세 조회
+			partnerList = jbs.selectJobStreamerDetail(mno);
+			
+		}
+		
+		//System.out.println(mngPartnerList);
+		return new ResponseEntity<ArrayList<HashMap<String, Object>>>(partnerList,HttpStatus.OK);
+	}
 	
 	
 	

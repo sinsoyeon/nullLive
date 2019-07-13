@@ -295,4 +295,24 @@ public class MemberServiceImpl implements MemberService {
 		return md.getSubList(sqlSession,loginUser);
 	}
 
+	//휴대폰 변경
+	@Override
+	public Member phoneChange(Member m) throws UpdateMemberException {
+		int result = md.phoneChange(sqlSession,m);
+		if(result <= 0) {
+			throw new UpdateMemberException("휴대폰 변경 실패");
+		}
+		return md.selectMember(sqlSession, m);
+	}
+
+	//성인 인증
+	@Override
+	public Member confirmAdult(Member m) throws UpdateMemberException {
+		int result = md.confirmAdult(sqlSession,m);
+		if(result <= 0) {
+			throw new UpdateMemberException("성인 인증 실패");
+		}
+		return md.selectMember(sqlSession, m);
+	}
+
 }

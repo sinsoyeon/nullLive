@@ -304,11 +304,29 @@
 		ORDER BY 1
     </select>
     
+    <!-- 시간대별 시청시간대 통계 -->
     <select id="hourlyViewingTimeStatistics" resultType="java.util.HashMap">
     	SELECT TO_CHAR(view_start_date,'HH24') TIME, count(*) COU
 		FROM VIEW_HIS
 		group by TO_CHAR(view_start_date,'HH24')
 		order by 1
+    </select>
+    
+    <!-- 방송 인기 카테고리 통계 -->
+    <select id="bestCategoryStatistics" resultType="java.util.HashMap">
+    	SELECT BROAD_CATEGORY CATEGORY ,COUNT(*) COU
+		FROM BROAD_HIS
+		GROUP BY BROAD_CATEGORY
+		ORDER BY 2 DESC
+    </select>
+    
+    <!-- 충전 금액 통계 -->
+    <select id="amountChargeStatistics" resultType="java.util.HashMap">
+    	SELECT TO_CHAR(CHAMOUNT,'FM99,999') CHAMOUNT , COU
+		FROM (SELECT CHAMOUNT , COUNT(*) COU
+            FROM CHARGE
+            GROUP BY CHAMOUNT
+            ORDER BY 1)
     </select>
     
 	

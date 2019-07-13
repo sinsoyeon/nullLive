@@ -48,15 +48,33 @@ public class StreamingController {
 		}
 	}
 	
-
-	@RequestMapping("record.st")
-	public String recordStraming() {
-		return "streaming/recording/record";
-	}
-
-	@RequestMapping("screenSharing.st")
-	public String screenSharing() {
-		return "streaming/screenSharing/screenSharing";
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 13.
+	 * Comment : 방송 정보 가져오기 (제한 정보)
+	 */
+	@RequestMapping("isAvailToEnter.st")
+	public String isAvailToEnter(Model model,@RequestParam(name="streamerAddress")String streamerAddress,
+									HttpServletResponse response) {
+		response.setContentType("text/html; charset=utf-8");
+		BroadHis broadHis = ss.getStreamingInfo(streamerAddress);
+		if(broadHis.getBpwd() != null && broadHis.getAdult().equals("Y")) {
+			model.addAttribute("streamerAddress",streamerAddress);
+			model.addAttribute("bpwd",broadHis.getBpwd());
+			model.addAttribute("badult",broadHis.getAdult());
+			return "streaming/streamingEntering";
+		}else if(broadHis.getBpwd() != null){
+			model.addAttribute("streamerAddress",streamerAddress);
+			model.addAttribute("bpwd",broadHis.getBpwd());
+			model.addAttribute("badult",broadHis.getAdult());
+			return "streaming/streamingEntering";
+		}else if(broadHis.getAdult().equals("Y")) {
+			model.addAttribute("streamerAddress",streamerAddress);
+			model.addAttribute("badult",broadHis.getAdult());
+			return "streaming/streamingEntering";
+		}else {
+			return "redirect:enterStreaming.st?streamerAddress="+streamerAddress;
+		}
 	}
 	
 	/**
@@ -116,6 +134,7 @@ public class StreamingController {
 		model.addAttribute("title", broadHis.getBtitle());
 		model.addAttribute("streamerAddress",broadHis.getStreamerId());
 		model.addAttribute("broadMethod",broadMethod);
+		//
 		return "streaming/streamRoom";
 	}
 	

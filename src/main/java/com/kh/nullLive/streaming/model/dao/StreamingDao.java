@@ -74,5 +74,4 @@ public interface StreamingDao {
 	ArrayList<HashMap<String, Object>> selectHotLiveList(SqlSessionTemplate sqlSession);
 
 
-
 }

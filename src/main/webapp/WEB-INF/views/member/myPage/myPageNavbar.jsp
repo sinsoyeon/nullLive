@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Literata&display=swap" rel="stylesheet">
 <style>
   /* 사이드바 래퍼 스타일 */
   #page-wrapper {

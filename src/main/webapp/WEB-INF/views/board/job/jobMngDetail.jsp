@@ -92,11 +92,12 @@
 	<div class="outer">
 		<!-- 프로필 영역 -->
 		<jsp:include page="jobHeader.jsp"/>
+	
 		<hr>
 		<div class="profileArea col-lg-3 " align="center">
 			<div class="profileImg" align="center">
-				<img alt="" src="${contextPath}/resources/uploadFiles/profile_image/${hmap.imgSource}" width="100%" height="170px">
-				<c:if test="${empty hmap.imgSource}">
+				<img alt="" src="${contextPath}/resources/uploadFiles/profile_image/${boardMap.profile.changeName}" width="100%" height="170px">
+				<c:if test="${empty boardMap.profile.changeName}">
 					<div class="profileEmpty">
 					<br><br><br>
 					이미지가 없습니다.
@@ -198,7 +199,7 @@
 			<c:out value="${ board.BContent }" escapeXml="false"/>
 		</div>
 		<!-- 첨부파일 영역 -->
-		<div class="attArea">
+		<div class="attArea col-lg-12" style="height: 200px;">
 			<label>첨부파일</label>
 			<br>
 
@@ -301,21 +302,22 @@
 				</div>
 			</div>
 			<!-- 승낙하기 form -->
-			<form action="insertMngContConsent.jbo" method="post" id="contConsentFrm">
+			<form action="insertMngContConsent.jbo" method="post" id="contConsentFrm" enctype="multipart/form-data">
 				<input type="hidden" value="${ jBoard.jbno }" name="jbno">
 				<input type="hidden" value="${ jBtype }" name="jBtype">
 				<input type="hidden" value="${ jBoard.job }" name="job">
 				<input type="hidden" value="${ board.bno }" name="bno">
 				<input type="hidden" value="${ jBoard.contContent }" name="contContent">
-				<input type="hidden" value='${ member.mno }' name="mno">
+				<input type="hidden" value='${ member.mno }' name="writterMno">
 				<c:if test="${ jBtype eq '구인' }">
-					<input type="hidden" value="${ streamer }" name="sno">
-				</c:if>
+					<input type="hidden" value="${ streamer.sno }" name="sno">
+				</c:if>	
 				
 			</form>
 		</c:if>
 		<br><br><br><br><br><br><br><br><br><br><br><br>
 	</div>
+	
 	
 	
 	<!-- 지원자 정보 상세보기 MODAL-->
@@ -341,7 +343,7 @@
 	    </div>
 	  </div>
 	  
-		<!-- 지원자 정보 상세보기 MODAL-->
+		<!-- 지원서 상세보기 MODAL-->
 		<div class="modal fade" id="contDetailModal" role="dialog">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
@@ -446,12 +448,12 @@
 			if(confirm("승낙하시겠습니까?")){
 				$("#contConsentFrm").append('<input type="hidden" value='+contMno+' name="contMno">');
 				$("#contConsentFrm").append('<input type="hidden" value='+contBno+' name="contBno">');
-				if("${ jBtype eq '구인'}"){
-					
-				}else {
-					
-				}
 				
+				$("#contConsentFrm").find("input").each(function(){
+					console.log($(this).val());
+				});
+				console.log(contMno);
+				console.log(contBno);
 				
 				$("#contConsentFrm").submit();
 				alert("성공적으로 처리되었습니다.");

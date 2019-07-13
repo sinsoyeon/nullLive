@@ -40,7 +40,7 @@
 									value="${loginUser.mid}" readonly>
 							</div>
 							<div>
-								비밀번호 : <button type="button" onclick="pwdModify()">비밀번호 변경</button>
+								비밀번호 : <button type="button" class="form-control btn btn-primary" onclick="pwdModify()">비밀번호 변경</button>
 							</div>
 							<div>
 								이메일 : <input type="email" class="form-control" name="email" id="email"
@@ -48,7 +48,7 @@
 							</div>
 							<div>
 								휴대폰 : <input type="text" class="form-control" value="${loginUser.phone}" readonly/>
-								<button onclick="">휴대폰 변경</button>
+								<button type="button" class="form-control btn btn-primary" onclick="phoneModify()">휴대폰 변경</button>
 							</div>
 							<div>
 								닉네임 : <input type="text" name="nickName" class="form-control" id="nickName"
@@ -68,8 +68,9 @@
 									placeholder="${bankAccount.holder}" />
 							</div>
 							</c:if>
-							<div style="margin-top:10px;">
-								<button onclick="modify()" align="center" class="form-control btn btn-primary">변경</button>
+							<div style="margin-top:10px; text-align:center;">
+								<button onclick="modify()" align="center" style="width: 48%;" class="form-control btn btn-primary">변경</button> &nbsp;
+								<button onclick="conAdult()" align="center" style="width: 48%;" class="form-control btn btn-warning">성인 인증</button>
 							</div>
 							<div style="margin-top:15px;">
 								<button type="button" onclick="secession()" class="form-control btn btn-danger">탈퇴</button>
@@ -105,7 +106,24 @@
 			}
 		}
 		function pwdModify(){
-			window.open('pwdInput.me','new','width=420,height=200,menubar=no, status=no, toolbar=no');
+			//창 크기 지정
+			var popWidth = 420;
+			var popHeight = 200;
+			//위치 지정
+			var popupX = (window.screen.width / 2) - (popWidth / 2);
+			var popupY = (window.screen.height / 2) - (popHeight / 2);
+			
+			window.open('pwdInput.me','new','width='+popWidth+',height='+popHeight+',left='+popupX+',top='+popupY+',menubar=no, status=no, toolbar=no');
+		}
+		function phoneModify(){
+			//창 크기 지정
+			var popupWidth = 440;
+			var popupHeight = 200;
+			//위치 지정
+			var popupX = (window.screen.width / 2) - (popupWidth / 2);
+			var popupY = (window.screen.height / 2) - (popupHeight / 2);
+			
+			window.open('phoneInput.me?phone='+'${loginUser.phone}','new','width='+popupWidth+',height='+popupHeight+',left='+popupX+',top='+popupY+',menubar=no, status=no, toolbar=no');
 		}
 		function secession(){
 			var conf = confirm('정말로 탈퇴하시겠습니까? (주의 : 금전적 손실이 발생할 수 있습니다!)');
@@ -122,6 +140,21 @@
 				form.appendChild(mid);
 				
 				form.submit();
+			}
+		}
+		function conAdult(){
+			if('${loginUser.adult}'=='Y'){
+				alert('이미 성인인증 하셨습니다');
+			}else{
+				var name = '${loginUser.name}';
+				//창 크기 지정
+				var popupWidth = 440;
+				var popupHeight = 200;
+				//위치 지정
+				var popupX = (window.screen.width / 2) - (popupWidth / 2);
+				var popupY = (window.screen.height / 2) - (popupHeight / 2);
+				
+				var openWin = window.open('conAdult.me','new','width='+popupWidth+',height='+popupHeight+',left='+popupX+',top='+popupY+',menubar=no, status=no, toolbar=no');
 			}
 		}
 	</script>

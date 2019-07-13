@@ -57,7 +57,7 @@
 
 					<!-- 방송화면 삽입-->
 					<br><br>
-					<button class="ui green button" id="button" onclick="location.href='broadSetting.st'">방송 시작</button>
+					<button class="ui green button" id="button" onclick="location.href='start.st'">방송 시작</button>
 																	
 					</div>
 				</div>
