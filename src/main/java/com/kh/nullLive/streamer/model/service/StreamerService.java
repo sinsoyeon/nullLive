@@ -20,9 +20,9 @@ public interface StreamerService {
 
 	ArrayList<HashMap<String, Object>> selectForMeSubList(int mno);
 
-	ArrayList<HashMap<String, Object>> selectSponList(int mno);
+	ArrayList<HashMap<String, Object>> selectSponList(HashMap<String, Object> infoMap);
 
-	ArrayList<HashMap<String, Object>> selectSponForMeList(int mno);
+	ArrayList<HashMap<String, Object>> selectSponForMeList(HashMap<String, Object> infoMap);
 
 	ArrayList<HashMap<String, Object>> searchSponList(HashMap<String, Object> searchTypeMap);
 
@@ -34,7 +34,7 @@ public interface StreamerService {
 
 	int cancelExchange(HashMap<String, Object> infoMap);
 
-	ArrayList<HashMap<String, Object>> selectChargeList(int mno);
+	ArrayList<HashMap<String, Object>> selectChargeList(HashMap<String, Object> infoMap);
 
 	ArrayList<HashMap<String, Object>> ageChartData(int mno);
 
@@ -65,6 +65,14 @@ public interface StreamerService {
 	HashMap<String, Object> selectOneClc(HashMap<String, Object> infoMap);
 
 	int reClc(HashMap<String, Object> infoMap);
+
+	int getSponCount(int mno);
+
+	int getSponForMeCount(int mno);
+
+	int updatePoint(HashMap<String, Object> hmap);
+
+	int getChargeCount(int mno);
 
 
 }

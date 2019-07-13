@@ -138,7 +138,7 @@
 		};
 		
 		function loadTTS(nickName,requestMsg){
-			$.ajax({
+		/* 	$.ajax({
 				url:"tts.me",
 				type:"post",
 				data:{nickName:nickName,requestMsg:requestMsg},
@@ -150,13 +150,10 @@
 				}
 				
 				
-			})
+			}) */
 		};
 		
 		///여기까지
-		
-		
-		
 		function importService(amount,requestMsg){		
 			IMP.request_pay({
 				 
