@@ -1,14 +1,15 @@
 package com.kh.nullLive.streaming.model.dao;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 
-import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streaming.model.vo.BroadHis;
+import com.kh.nullLive.streaming.model.vo.BroadList;
 
 
 @Repository
@@ -82,10 +83,144 @@ public class StreamingDaoImpl implements StreamingDao {
 
 	//메인페이지 Hot Live 방송 목록 조회
 	@Override
-	public ArrayList<HashMap<String, Object>> selectHotLiveList(SqlSessionTemplate sqlSession) {
-		ArrayList<HashMap<String, Object>>hmap = (ArrayList) sqlSession.selectList("Streaming.selectHotLiveList");
+	public ArrayList<BroadList> selectHotLiveList(SqlSessionTemplate sqlSession) {
+		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.selectHotLiveList");
 		
-		return hmap;
+		return list;
+	}
+
+	//메인페이지 Hot Vod 방송 목록 개수
+	@Override
+	public int getHotVodListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Streaming.hotVodListCount");
+	}
+
+	//메인페이지 Hot Vod 방송 목록 조회
+	@Override
+	public ArrayList<BroadList> selectHotVodList(SqlSessionTemplate sqlSession) {
+		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.selectHotVodList");
+		
+		return list;
+	}
+
+	//메인페이지 All Live 방송 목록 개수
+	@Override
+	public int getAllLiveListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Streaming.allLiveListCount");
+	}
+
+	//메인페이지 All Live 방송 목록 조회
+	@Override
+	public ArrayList<BroadList> selectAllLiveList(SqlSessionTemplate sqlSession) {
+		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.selectAllLiveList");
+		
+		return list;
+	}
+
+	//메인페이지 All Vod 방송 목록 개수
+	@Override
+	public int getAllVodListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Streaming.allVodListCount");
+	}
+
+	//메인페이지 All Vod 방송 목록 조회
+	@Override
+	public ArrayList<BroadList> selectAllVodList(SqlSessionTemplate sqlSession) {
+		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.selectAllVodList");
+		
+		return list;
+	}
+
+	//검색한 All Live 방송 목록 개수
+	@Override
+	public int getSearchAllLiveCount(SqlSessionTemplate sqlSession, int condition) {
+		String searchCondition = "";
+
+		switch(condition) {
+		case 1 : return sqlSession.selectOne("Streaming.allLiveListCount");
+		case 2 : searchCondition = "캠방"; break;
+		case 3 : searchCondition = "게임"; break;
+		case 4 : searchCondition = "음악"; break;
+		case 5 : searchCondition = "야방"; break;
+		case 6 : searchCondition = "취미"; break;
+		case 7 : searchCondition = "펫방"; break;
+		case 8 : searchCondition = "스포츠"; break;
+		case 9 : searchCondition = "라디오"; break;
+		default : searchCondition = "기타"; break;
+		}
+
+		return sqlSession.selectOne("Streaming.searchAllLiveCount", searchCondition);
+	}
+
+	//검색한 All Live 방송 목록 조회
+	@Override
+	public ArrayList<BroadList> searchAllLiveList(SqlSessionTemplate sqlSession, int condition) {
+		ArrayList<BroadList> list = null;
+		
+		String searchCondition = "";
+
+		switch(condition) {
+		case 1 : return (ArrayList) sqlSession.selectList("Streaming.selectAllLiveList");
+		case 2 : searchCondition = "캠방"; break;
+		case 3 : searchCondition = "게임"; break;
+		case 4 : searchCondition = "음악"; break;
+		case 5 : searchCondition = "야방"; break;
+		case 6 : searchCondition = "취미"; break;
+		case 7 : searchCondition = "펫방"; break;
+		case 8 : searchCondition = "스포츠"; break;
+		case 9 : searchCondition = "라디오"; break;
+		default : searchCondition = "기타"; break;
+		}
+		
+		list = (ArrayList) sqlSession.selectList("Streaming.searchAllLiveList", searchCondition);
+		
+		return list;
+	}
+
+	//검색한 All Vod 방송 목록 개수
+	@Override
+	public int getSearchAllVodCount(SqlSessionTemplate sqlSession, int condition) {
+		String searchCondition = "";
+
+		switch(condition) {
+		case 1 : return sqlSession.selectOne("Streaming.allVodListCount");
+		case 2 : searchCondition = "캠방"; break;
+		case 3 : searchCondition = "게임"; break;
+		case 4 : searchCondition = "음악"; break;
+		case 5 : searchCondition = "야방"; break;
+		case 6 : searchCondition = "취미"; break;
+		case 7 : searchCondition = "펫방"; break;
+		case 8 : searchCondition = "스포츠"; break;
+		case 9 : searchCondition = "라디오"; break;
+		default : searchCondition = "기타"; break;
+		}
+
+		return sqlSession.selectOne("Streaming.searchAllVodCount", searchCondition);
+	}
+
+	//검색한 All Vod 방송 목록 조회
+	@Override
+	public ArrayList<BroadList> searchAllVodList(SqlSessionTemplate sqlSession, int condition) {
+		ArrayList<BroadList> list = null;
+		
+		String searchCondition = "";
+
+		switch(condition) {
+		case 1 : return (ArrayList) sqlSession.selectList("Streaming.selectAllVodList");
+		case 2 : searchCondition = "캠방"; break;
+		case 3 : searchCondition = "게임"; break;
+		case 4 : searchCondition = "음악"; break;
+		case 5 : searchCondition = "야방"; break;
+		case 6 : searchCondition = "취미"; break;
+		case 7 : searchCondition = "펫방"; break;
+		case 8 : searchCondition = "스포츠"; break;
+		case 9 : searchCondition = "라디오"; break;
+		default : searchCondition = "기타"; break;
+		}
+		
+		list = (ArrayList) sqlSession.selectList("Streaming.searchAllVodList", searchCondition);
+		
+		return list;
 	}
 
 }

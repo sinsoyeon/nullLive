@@ -5,21 +5,92 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <title>Insert title here</title>
+<style type="text/css">
+/* Hot 영역 스크롤바 */
+::-webkit-scrollbar {height: 13px; }
+::-webkit-scrollbar-track {  background: none; }
+::-webkit-scrollbar-thumb {  background: none; border-radius:8px;}
+::-webkit-scrollbar-thumb:hover {background: #e2f0d8;}
+/* 사이드 바 */
+body::-webkit-scrollbar {
+	display: none;
+}
+
+.sidebar {
+	position: fixed;
+	z-index: 9;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	background: #fcf8e3d1;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: lighter;
+}
+
+.sidebar ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+.sidebar ul li {
+	position: relative;
+	height: 65px;
+}
+
+.sidebar ul li:hover {
+	cursor:pointer;
+}
+
+.sidebar ul li a {
+	text-decoration: none;
+	color: #333;
+}
+
+.sidebar ul li a:hover {
+	color: #6f8e30;
+}
+
+.sidebar ul li a i {
+	text-align: center;
+	width: 70px;
+}
+
+.sidebar ul li a span {
+	font-size: 16px;
+	padding-left: 17px;
+	line-height: 50px;
+}
+</style>
 </head>
 <body>
 	<header style="height: 50px;">
 		<jsp:include page="../common/menubar.jsp" />
 	</header>
-
 	<div class="container-fluid">
 		<div class="row">
 			<!-- 왼쪽 사이드바 -->
 			<div class="col-md-2">
-				<jsp:include page="mainNavbar.jsp" />
+				<!-- sidebar -->
+				<nav class="sidebar" style="margin-top: 50px; width: 210px;">
+					<ul style="margin-top: 15px;">
+						<li><a><i class="fas fa-star fa-lg"></i> <span>즐겨찾기</span></a></li>
+						
+						<li onclick="live();"><a><i class="fas fa-play fa-lg"></i> <span>LIVE</span></a></li>
+						
+						<li onclick="vod();"><a><i class="fas fa-video fa-lg"></i> <span>VOD</span></a></li>
+						
+						<li><a href="jobMain.jbo"> <i class="fas fa-mouse-pointer fa-lg"></i> <span>소통센터</span></a></li>
+						
+						<li><a href="serviceMain.bo"> <i class="fas fa-headphones fa-lg"></i> <span>고객센터</span></a></li>
+						
+						<li onclick="location.href='testForm.me'"><a><i class="fa fa-heart"></i><span>테스트용 탭</span></a></li>
+			
+						<li><a href="main.ad"> <i class="fas fa-star fa-lg"></i><span>관리자 테스트</span></a></li>
+			
+						<li onclick="location.href='main.st'"><a><i class="fa fa-heart"></i><span>스트리머 탭</span></a></li>
+					</ul>
+				</nav>
 			</div>
 
 			<!-- Hot -->
@@ -46,60 +117,24 @@
 							<div class="tab-content">
 
 								<!-- HOT LIVE -->
-								<div id="hLive" class="tab-pane fade in active">
-									<div class="row" style="height: 200px; margin-top: 1%;"
-										id="hotDivL">
-										<div class="col-md-4">
-											<div class="thumbnail">
-												<img src="/nullLive/resources/image/broad.PNG"
-													style="width: 100%; height: 120px;">
-
-												<p
-													style="margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
-													<strong id="hbTitle"
-														style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"><span>[생]
-													</span>배그★ 랜덤듀오에서 배린이아아앙</strong>
-												</p>
-
-												<p
-													style="margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;"
-													id="hbUser">스트리머01</p>
-												<p
-													style="font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;">
-													<i class="fas fa-user-friends"></i><span id="hbViewer">1,000</span>명
-													시청
-												</p>
-											</div>
-										</div>
+								<div id="hLive" class="tab-pane fade in active" style="overflow-y: hidden;">
+									<div class="row" style="height: 200px;margin-top: 1%;display: block;white-space: nowrap;">
+										<table id="hLiveT">
+											<tbody>
+												<tr><td id="hotDivL"></td></tr>
+											</tbody>
+										</table>
 									</div>
 								</div>
 
 								<!-- HOT VOD -->
-								<div id="hVod" class="tab-pane fade">
-									<div class="row" style="height: 200px; margin-top: 1%;"
-										id="hotDivV">
-										<div class="col-md-4">
-											<div class="thumbnail">
-												<img src="/nullLive/resources/image/broad.PNG"
-													style="width: 100%; height: 120px;">
-
-												<p
-													style="margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
-													<strong id="hbTitle"
-														style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">배그★
-														랜덤듀오에서 배린이아아앙</strong>
-												</p>
-
-												<p
-													style="margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;"
-													id="hbUser">스트리머01</p>
-												<p
-													style="font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;">
-													<i class="fas fa-user-friends"></i><span id="hbViewer">930</span>명
-													시청
-												</p>
-											</div>
-										</div>
+								<div id="hVod" class="tab-pane fade" style="overflow-y: hidden;">
+									<div class="row" style="height: 200px;margin-top: 1%;display: block;white-space: nowrap;">
+										<table id="hVodT">
+											<tbody>
+												<tr><td id="hotDivV"></td></tr>
+											</tbody>
+										</table>
 									</div>
 								</div>
 							</div>
@@ -147,8 +182,8 @@
 									    <i class="fas fa-bars"></i>
 									  </button>
 										<ul class="dropdown-menu" role="menu" style="margin-left: -192%;min-width: 0;">
-									    <li><a href="#">최신방송순</a></li>
-									    <li><a href="#">시청인원순</a></li>
+									    <li style="cursor:pointer;"><a>시청인원순</a></li>
+									    <li style="cursor:pointer;"><a>추천인원순</a></li>
 									  </ul>
 									</div>
 								</div>
@@ -157,140 +192,16 @@
 							<div class="tab-content">
 								<!-- 전체 LIVE -->
 								<div id="aLive" class="tab-pane fade in active">
-									<div class="row" style="margin-top: 1%;" id="allDivL">
-										
-										<div class="col-md-4">
-											<div class="thumbnail">
-												<img src="/nullLive/resources/image/broad.PNG"
-													style="width: 100%; height: 120px;">
-												<p>
-													<strong><span>[생] </span>배그★ 랜덤듀오에서 배린이</strong>
-												</p>
-												<p style="font-size: 12px; color: #3498db;">스트리머01</p>
-											</div>
-										</div>
-										<div class="col-md-4">
-											<div class="thumbnail">
-												<img src="/nullLive/resources/image/broad.PNG"
-													style="width: 100%; height: 120px;">
-												<p>
-													<strong><span>[생] </span>대왕연어초밥1개 + 신라면 10</strong>
-												</p>
-												<p style="font-size: 12px; color: #3498db;">스트리머02</p>
-											</div>
-										</div>
-										<div class="col-md-4">
-											<div class="thumbnail">
-												<img src="/nullLive/resources/image/broad.PNG"
-													style="width: 100%; height: 120px;">
-												<p>
-													<strong><span>[생] </span>멜론음악▶최신노래/인기가</strong>
-												</p>
-												<p style="font-size: 12px; color: #3498db;">스트리머03</p>
-											</div>
-										</div>
-
-
-										<div class="col-md-4">
-											<div class="thumbnail">
-												<img src="/nullLive/resources/image/broad.PNG"
-													style="width: 100%; height: 120px;">
-												<p>
-													<strong><span>[생] </span>배그★ 랜덤듀오에서 배린이</strong>
-												</p>
-												<p style="font-size: 12px; color: #3498db;">스트리머01</p>
-											</div>
-										</div>
-										<div class="col-md-4">
-											<div class="thumbnail">
-												<img src="/nullLive/resources/image/broad.PNG"
-													style="width: 100%; height: 120px;">
-												<p>
-													<strong><span>[생] </span>대왕연어초밥1개 + 신라면 10</strong>
-												</p>
-												<p style="font-size: 12px; color: #3498db;">스트리머02</p>
-											</div>
-										</div>
-										<div class="col-md-4">
-											<div class="thumbnail">
-												<img src="/nullLive/resources/image/broad.PNG"
-													style="width: 100%; height: 120px;">
-												<p>
-													<strong><span>[생] </span>멜론음악▶최신노래/인기가</strong>
-												</p>
-												<p style="font-size: 12px; color: #3498db;">스트리머03</p>
-											</div>
-										</div>
+									<div class="row" style="margin-top: 1%;">
+										<ul id="allDivL" style="list-style:none; padding-left:0px;">
+										</ul>
 									</div>
-
 								</div>
-
 								<!-- 전체 VOD -->
 								<div id="aVod" class="tab-pane fade">
-									<div class="row" style="margin-top: 1%;" id="allDivV">
-
-										<div class="col-md-4">
-											<div class="thumbnail">
-												<img src="/nullLive/resources/image/broad.PNG"
-													style="width: 100%; height: 120px;">
-												<p>
-													<strong>배그★ 랜덤듀오에서 배린이</strong>
-												</p>
-												<p style="font-size: 12px; color: #3498db;">스트리머01</p>
-											</div>
-										</div>
-										<div class="col-md-4">
-											<div class="thumbnail">
-												<img src="/nullLive/resources/image/broad.PNG"
-													style="width: 100%; height: 120px;">
-												<p>
-													<strong>대왕연어초밥1개 + 신라면 10</strong>
-												</p>
-												<p style="font-size: 12px; color: #3498db;">스트리머02</p>
-											</div>
-										</div>
-										<div class="col-md-4">
-											<div class="thumbnail">
-												<img src="/nullLive/resources/image/broad.PNG"
-													style="width: 100%; height: 120px;">
-												<p>
-													<strong>멜론음악▶최신노래/인기가</strong>
-												</p>
-												<p style="font-size: 12px; color: #3498db;">스트리머03</p>
-											</div>
-										</div>
-
-
-										<div class="col-md-4">
-											<div class="thumbnail">
-												<img src="/nullLive/resources/image/broad.PNG"
-													style="width: 100%; height: 120px;">
-												<p>
-													<strong>배그★ 랜덤듀오에서 배린이</strong>
-												</p>
-												<p style="font-size: 12px; color: #3498db;">스트리머01</p>
-											</div>
-										</div>
-										<div class="col-md-4">
-											<div class="thumbnail">
-												<img src="/nullLive/resources/image/broad.PNG"
-													style="width: 100%; height: 120px;">
-												<p>
-													<strong>대왕연어초밥1개 + 신라면 10</strong>
-												</p>
-												<p style="font-size: 12px; color: #3498db;">스트리머02</p>
-											</div>
-										</div>
-										<div class="col-md-4">
-											<div class="thumbnail">
-												<img src="/nullLive/resources/image/broad.PNG"
-													style="width: 100%; height: 120px;">
-												<p>
-													<strong>멜론음악▶최신노래/인기가</strong>
-												</p>
-												<p style="font-size: 12px; color: #3498db;">스트리머03</p>
-											</div>
-										</div>
+									<div class="row" style="margin-top: 1%;">
+										<ul id="allDivV" style="list-style:none; padding-left:0px;">
+										</ul>
 									</div>
 								</div>
 							</div>
@@ -298,18 +209,136 @@
 
 						</div>
 					</div>
+					<!-- 전체 끝 -->
+					
 				</div>
 			</div>
 		</div>
 	</div>
 	<script>
 	$(function(){
-		HotLiveLoad();
+		//HOT 방송 목록 불러오기
+		hotLiveLoad();
+		hotVodLoad();
+		
+		//전체 방송 목록 불러오기
+		var searchCondition = $("#bCategory").val();
+		
+		allLiveLoad(searchCondition);
+		allVodLoad(searchCondition);
+
+		//전체 방송 목록 카테고리 검색 (Live)
+		$("#bCategory").change(function(){
+			var condition = $(this).val();
+			
+			console.log(condition);
+			$.ajax({
+				url:"searchAllLive.st",
+				type:"get",
+				data:{condition:condition},
+				success:function(data){
+					$allDivL = $("#allDivL");
+					$allDivL.html('');
+					
+					console.log(data.list);
+					
+					$.each(data.list, function(index, value){
+						$li = $("<li>");
+						$div = $("<div class='col-md-4'>");
+						$thumbnailDiv = $("<div class='thumbnail'>");
+						$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='oneAllLive();'>");
+						$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text("[생] "+value.bTitle);
+						$pNickName = $("<p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;'>").text(value.nickName);
+						$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
+						$icon = $("<i class='fas fa-user-friends'>");
+						$span = $("<span>").text(value.countViewers + "명 시청");
+						
+						$li.append($div);
+						$div.append($thumbnailDiv);
+						$thumbnailDiv.append($img);
+						$thumbnailDiv.append($pTitle);
+						$thumbnailDiv.append($pNickName);
+						$thumbnailDiv.append($pViewers);
+						$pViewers.append($icon);
+						$pViewers.append($span);
+						
+						$allDivL.append($li);
+					});
+				}
+			});
+			
+		});
+		//->끝
+		
+		//전체 방송 목록 카테고리 검색 (Vod)
+		$("#bCategory").change(function(){
+			var condition = $(this).val();
+			
+			console.log(condition);
+			$.ajax({
+				url:"searchAllVod.st",
+				type:"get",
+				data:{condition:condition},
+				success:function(data){
+					$allDivV = $("#allDivV");
+					$allDivV.html('');
+					
+					console.log(data.list);
+					
+					$.each(data.list, function(index, value){
+						$li = $("<li>");
+						$div = $("<div class='col-md-4'>");
+						$thumbnailDiv = $("<div class='thumbnail'>");
+						$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='oneAllVod();'>");
+						$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text(value.bTitle);
+						$pNickName = $("<p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;'>").text(value.nickName);
+						$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
+						$icon = $("<i class='fas fa-play' style=' font-size: 9px; '>");
+						$span = $("<span>").text(value.countViewers + "명 시청");
+						
+						$li.append($div);
+						$div.append($thumbnailDiv);
+						$thumbnailDiv.append($img);
+						$thumbnailDiv.append($pTitle);
+						$thumbnailDiv.append($pNickName);
+						$thumbnailDiv.append($pViewers);
+						$pViewers.append($icon);
+						$pViewers.append($span);
+						
+						$allDivV.append($li);
+					});
+				}
+			});
+			
+		});
+		//-> 끝
 	});
+	//-> onLoad function 끝
+	
+	/*사이드바 클릭*/
+	function live(){
+		$("#aVod").removeClass("in active");
+		$("#aLive").addClass("in active");
+		$("#hVod").removeClass("in active");
+		$("#hLive").addClass("in active");
+		hotLiveLoad();
+		var searchCondition = $("#bCategory").val();
+		allLiveLoad(searchCondition);
+	}
+	function vod(){
+		$("#aLive").removeClass("in active");
+		$("#aVod").addClass("in active");
+		$("#hLive").removeClass("in active");
+		$("#hVod").addClass("in active");
+		hotVodLoad();
+		var searchCondition = $("#bCategory").val();
+		allVodLoad(searchCondition);
+	}
+	//->사이드바 끝
 	
 	/* HOT 방송 목록 */
 	//HOT 실시간 방송 조회
-	function HotLiveLoad(){
+	function hotLiveLoad(){
 		
 		$.ajax({
 		url:"hotLiveList.st",
@@ -318,19 +347,145 @@
 			$hotDivL = $("#hotDivL");
 			$hotDivL.html('');
 			
-			console(data.list);
+			console.log(data.list);
 			
 			$.each(data.list, function(index, value){
-				$div = $("<div class='col-md-4'> <div class='thumbnail'> <img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;'> <p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong id='hbTitle' style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'><span>[생] </span></strong> </p> <p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' id="hbUser"></p> <p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'> <i class='fas fa-user-friends'></i><span id='hbViewer'></span>명 시청 </p> </div> </div>");
+				$div = $("<div style='width: 261.48px;padding: 0 15px;display: inline-block;'>");
+				$thumbnailDiv = $("<div class='thumbnail'>");
+				$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='oneHotLive();'>");
+				$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text("[생] "+value.bTitle);
+				$pNickName = $("<p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;'>").text(value.nickName);
+				$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
+				$icon = $("<i class='fas fa-user-friends'>");
+				$span = $("<span>").text(value.countViewers + "명 시청");
 				
-				console.log();
-				
-				
+				$div.append($thumbnailDiv);
+				$thumbnailDiv.append($img);
+				$thumbnailDiv.append($pTitle);
+				$thumbnailDiv.append($pNickName);
+				$thumbnailDiv.append($pViewers);
+				$pViewers.append($icon);
+				$pViewers.append($span);
 				
 				$hotDivL.append($div);
 			});
 			
+		}
+	});
+ 	}
+	
+	//HOT VOD 방송 조회
+	function hotVodLoad(){
+		
+		$.ajax({
+		url:"hotVodList.st",
+		type:"get",
+		success:function(data){
+			$hotDivL = $("#hotDivV");
+			$hotDivL.html('');
 			
+			console.log(data.list);
+			
+			$.each(data.list, function(index, value){
+				$div = $("<div style='width: 261.48px;padding: 0 15px;display: inline-block;'>");
+				$thumbnailDiv = $("<div class='thumbnail'>");
+				$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='oneHotVod();'>");
+				$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text(value.bTitle);
+				$pNickName = $("<p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;'>").text(value.nickName);
+				$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
+				$icon = $("<i class='fas fa-play' style=' font-size: 9px; '>");
+				$span = $("<span>").text(value.countViewers + "명 시청");
+				
+				$div.append($thumbnailDiv);
+				$thumbnailDiv.append($img);
+				$thumbnailDiv.append($pTitle);
+				$thumbnailDiv.append($pNickName);
+				$thumbnailDiv.append($pViewers);
+				$pViewers.append($icon);
+				$pViewers.append($span);
+				
+				$hotDivL.append($div);
+			});
+			
+		}
+	});
+ 	}
+	
+	/* 전체 방송 목록 */
+	//전체 방송 목록 조회 (Live)
+	function allLiveLoad(condition){		
+		var condition = condition;
+		
+		$.ajax({
+		url:"searchAllLive.st",
+		type:"get",
+		success:function(data){			
+			$allDivL = $("#allDivL");
+			$allDivL.html('');
+			
+			console.log(data.list);
+			
+			$.each(data.list, function(index, value){
+				$li = $("<li>");
+				$div = $("<div class='col-md-4'>");
+				$thumbnailDiv = $("<div class='thumbnail'>");
+				$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='oneAllLive();'>");
+				$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text("[생] "+value.bTitle);
+				$pNickName = $("<p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;'>").text(value.nickName);
+				$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
+				$icon = $("<i class='fas fa-user-friends'>");
+				$span = $("<span>").text(value.countViewers + "명 시청");
+				
+				$li.append($div);
+				$div.append($thumbnailDiv);
+				$thumbnailDiv.append($img);
+				$thumbnailDiv.append($pTitle);
+				$thumbnailDiv.append($pNickName);
+				$thumbnailDiv.append($pViewers);
+				$pViewers.append($icon);
+				$pViewers.append($span);
+				
+				$allDivL.append($li);
+			});
+		}
+	});
+ 	}
+	
+	//전체 방송 목록 조회 (Vod)
+	function allVodLoad(condition){		
+		var condition = condition;
+		
+		$.ajax({
+		url:"searchAllVod.st",
+		type:"get",
+		success:function(data){			
+			$allDivV = $("#allDivV");
+			$allDivV.html('');
+			
+			console.log(data.list);
+			
+			$.each(data.list, function(index, value){
+				$li = $("<li>");
+				$div = $("<div class='col-md-4'>");
+				$thumbnailDiv = $("<div class='thumbnail'>");
+				$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='oneAllVod();'>");
+				$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text(value.bTitle);
+				$pNickName = $("<p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;'>").text(value.nickName);
+				$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
+				$icon = $("<i class='fas fa-play' style=' font-size: 9px; '>");
+				$span = $("<span>").text(value.countViewers + "명 시청");
+				
+				$li.append($div);
+				$div.append($thumbnailDiv);
+				$thumbnailDiv.append($img);
+				$thumbnailDiv.append($pTitle);
+				$thumbnailDiv.append($pNickName);
+				$thumbnailDiv.append($pViewers);
+				$pViewers.append($icon);
+				$pViewers.append($span);
+				
+				$allDivV.append($li);
+			});
 		}
 	});
  	}

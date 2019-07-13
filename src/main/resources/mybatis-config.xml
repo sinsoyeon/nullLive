@@ -33,8 +33,12 @@
 		
 		<!-- 스트리밍 -->
 		<typeAlias alias="BroadHis" type="com.kh.nullLive.streaming.model.vo.BroadHis"/>
+
+		<typeAlias alias="BroadList" type="com.kh.nullLive.streaming.model.vo.BroadList"/>
+
 		<!-- 파트너 -->
 		<typeAlias alias="Partner" type="com.kh.nullLive.partner.model.vo.Partner"/>
+
 	</typeAliases>
 	
 	<mappers>

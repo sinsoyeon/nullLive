@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streaming.model.vo.BroadHis;
+import com.kh.nullLive.streaming.model.vo.BroadList;
 
 public interface StreamingDao {
 
@@ -68,10 +69,42 @@ public interface StreamingDao {
 
 	int checkBlackList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
 
+	/*정언 메인페이지*/
 	//메인페이지 Hot Live 방송 목록 개수
 	int getHotLiveListCount(SqlSessionTemplate sqlSession);
+	
 	//메인페이지 Hot Live 방송 목록 조회
-	ArrayList<HashMap<String, Object>> selectHotLiveList(SqlSessionTemplate sqlSession);
+	ArrayList<BroadList> selectHotLiveList(SqlSessionTemplate sqlSession);
+	
+	//메인페이지 Hot Vod 방송 목록 개수
+	int getHotVodListCount(SqlSessionTemplate sqlSession);
+	
+	//메인페이지 Hot Vod 방송 목록 조회
+	ArrayList<BroadList> selectHotVodList(SqlSessionTemplate sqlSession);
+	
+	//메인페이지 All Live 방송 목록 개수
+	int getAllLiveListCount(SqlSessionTemplate sqlSession);
+	
+	//메인페이지 All Live 방송 목록 조회
+	ArrayList<BroadList> selectAllLiveList(SqlSessionTemplate sqlSession);
+	
+	//메인페이지 All Vod 방송 목록 개수
+	int getAllVodListCount(SqlSessionTemplate sqlSession);
+	
+	//메인페이지 All Vod 방송 목록 조회
+	ArrayList<BroadList> selectAllVodList(SqlSessionTemplate sqlSession);
+
+	//검색한 All Live 방송 목록 개수
+	int getSearchAllLiveCount(SqlSessionTemplate sqlSession, int condition);
+
+	//검색한 All Live 방송 목록 조회
+	ArrayList<BroadList> searchAllLiveList(SqlSessionTemplate sqlSession, int condition);
+
+	//검색한 All Vod 방송 목록 개수
+	int getSearchAllVodCount(SqlSessionTemplate sqlSession, int condition);
+
+	//검색한 All Vod 방송 목록 조회
+	ArrayList<BroadList> searchAllVodList(SqlSessionTemplate sqlSession, int condition);
 
 
 }
