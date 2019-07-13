@@ -12,8 +12,12 @@
 	</context-param>
 
 	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener
+		<listener-class>
+		  org.springframework.web.context.ContextLoaderListener
 		</listener-class>
+		<listener-class>
+	      org.springframework.web.context.request.RequestContextListener
+	    </listener-class>
 	</listener>
 
 	<!-- member-servlet -->
@@ -90,11 +94,29 @@
 			<param-value>/WEB-INF/config/jobBoard-context.xml</param-value>
 		</init-param>
 	</servlet>
-
+	
 	<servlet-mapping>
 		<servlet-name>jobBoard</servlet-name>
 		<url-pattern>*.jbo</url-pattern>
 	</servlet-mapping>
+	
+	<!-- partner-servlet -->
+	<servlet>
+		<servlet-name>partner</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/partner-context.xml</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>partner</servlet-name>
+		<url-pattern>*.pt</url-pattern>
+	</servlet-mapping>
+	
+	
 
 	<!-- paging -servlet -->
 	<servlet>

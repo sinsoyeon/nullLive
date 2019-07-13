@@ -571,7 +571,7 @@
 		AND BNO = #{board.bno}
 	</select>
 	
-	<!-- 매니저  파트너 상세보기-->
+	<!-- 매니저 파트너 리스트 -->
 	<select id="selectListMngDetail" parameterType="_int" resultMap="contMngDetailResultSet">
 		SELECT P.P_STATUS,P.PTYPE,C.C_SDATE,C.C_EDATE,M.NICK_NAME FROM PARTNER P
 		JOIN CONTRACT C ON(P.CNO = C.CNO)
@@ -579,5 +579,30 @@
 		JOIN MEMBER M ON(S.SNO = M.MNO)
 		WHERE P.MNO = #{mno}
 	</select>
+	
+	<!-- 파트너 리스트-->
+	<select id="selectListPartner" parameterType="java.util.HashMap" resultMap="contMngDetailResultSet">
+		SELECT P.P_STATUS,P.PTYPE,C.C_SDATE,C.C_EDATE,M.NICK_NAME FROM PARTNER P
+		JOIN CONTRACT C ON(P.CNO = C.CNO)
+		JOIN STREAMER S ON(S.SNO = P.SNO)
+		JOIN MEMBER M ON(S.SNO = M.MNO)
+		WHERE P.MNO = #{mno}
+		AND P.PTYPE = #{job}
+	</select>
+	
+	<select id="selectPartnerCurrval" resultType="_int">
+		SELECT SEQ_PNO.CURRVAL FROM DUAL
+	</select>
+	
+	<!-- 매니저 권한 입력  -->
+	<insert id="insertManagerAuth" parameterType="java.util.HashMap">
+		INSERT INTO MANAGER_AUTH VALUES(#{partnerCurrval},'게시판','강퇴, 얼리기')
+	</insert>
+	
+	
+	
+	
+	
+	
 	
 </mapper>

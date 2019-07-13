@@ -22,9 +22,9 @@ public interface StreamerDao {
 
 	ArrayList<HashMap<String, Object>> selectForMeSubList(SqlSessionTemplate sqlSession, int mno);
 
-	ArrayList<HashMap<String, Object>> selectSponList(SqlSessionTemplate sqlSession, int mno);
+	ArrayList<HashMap<String, Object>> selectSponList(SqlSessionTemplate sqlSession,HashMap<String, Object> infoMap);
 
-	ArrayList<HashMap<String, Object>> selectSponForMeList(SqlSessionTemplate sqlSession, int mno);
+	ArrayList<HashMap<String, Object>> selectSponForMeList(SqlSessionTemplate sqlSession,HashMap<String, Object> infoMap);
 
 	ArrayList<HashMap<String, Object>> searchSponList(SqlSessionTemplate sqlSession,HashMap<String, Object> searchTypeMap);
 
@@ -38,7 +38,7 @@ public interface StreamerDao {
 
 	int cancelExchange(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
 	
-	ArrayList<HashMap<String, Object>> selectChargeList(SqlSessionTemplate sqlSession, int mno);
+	ArrayList<HashMap<String, Object>> selectChargeList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
 	
 	ArrayList<HashMap<String,Object>> selectAllFemale(SqlSessionTemplate sqlSession, int mno);
 	
@@ -79,6 +79,14 @@ public interface StreamerDao {
 	int reInsertClc(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
 
 	HashMap<String, Object> getInsertData(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
+	int getSponCount(SqlSessionTemplate sqlSession, int mno);
+
+	int getSponForMeCount(SqlSessionTemplate sqlSession, int mno);
+
+	int updateSponPoint(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+	int getChargeCount(SqlSessionTemplate sqlSession, int mno);
 
 
 

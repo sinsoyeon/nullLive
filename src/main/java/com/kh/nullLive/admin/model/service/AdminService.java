@@ -96,10 +96,16 @@ public interface AdminService {
 	// 신고처리 프로세스
 	int reportProcess(int bno, Member m);
 
-	//월별 회원 유입 통계
+	// 월별 회원 유입 통계
 	ArrayList<HashMap<String, Object>> memberMonthStatistics(int year);
 
-	//시간대별 시청인원 통계
+	// 시간대별 시청인원 통계
 	ArrayList<HashMap<String, Object>> hourlyViewingTimeStatistics();
+
+	// 방송 인기 카테고리 통계
+	ArrayList<HashMap<String, Object>> bestCategoryStatistics();
+
+	// 충전 금액 통계
+	ArrayList<HashMap<String, Object>> amountChargeStatistics();
 
 }

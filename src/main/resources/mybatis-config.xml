@@ -33,7 +33,8 @@
 		
 		<!-- 스트리밍 -->
 		<typeAlias alias="BroadHis" type="com.kh.nullLive.streaming.model.vo.BroadHis"/>
-	
+		<!-- 파트너 -->
+		<typeAlias alias="Partner" type="com.kh.nullLive.partner.model.vo.Partner"/>
 	</typeAliases>
 	
 	<mappers>
@@ -44,5 +45,6 @@
 		<mapper resource="mappers/user/streaming-mapper.xml"/>
 		<mapper resource="mappers/user/subscription-mapper.xml"/>
 		<mapper resource="mappers/user/broadCenter-mapper.xml"/>
+		<mapper resource="mappers/user/partner-mapper.xml"/>
 	</mappers>
 </configuration>

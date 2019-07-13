@@ -82,11 +82,26 @@ public class StreamerController {
 	}
 
 	@RequestMapping("insertNP.sm")
-	public String insertNP(Streamer streamer, @RequestParam("amount") int amount) {
+	public String insertNP(Streamer streamer, @RequestParam("amount") int amount,HttpSession session) {
 		System.out.println(streamer);
 		System.out.println(amount);
 
 		int result = smService.insertNP(streamer, amount);
+		
+		System.out.println("insertNP result : " + result);
+		
+		HashMap<String,Object> hmap = new HashMap<String, Object>();
+		
+		System.out.println("mno : " + ((Member)session.getAttribute("loginUser")).getMno());
+		hmap.put("mno", ((Member)session.getAttribute("loginUser")).getMno());
+		hmap.put("amount", amount);
+		
+		System.out.println("hmap :" + hmap);
+		
+		int minusResult = smService.updatePoint(hmap);
+		
+		System.out.println("result : " + result);
+		System.out.println("minusResult : " + minusResult);
 
 		return "redirect:index.jsp";
 	}
@@ -129,37 +144,6 @@ public class StreamerController {
 		model.addObject("forMeList", forMeList);
 
 		return model;
-	}
-
-	@RequestMapping(value = "selectSponList.sm")
-	@ResponseBody
-	public ModelAndView selectSponList(@RequestParam("mno") int mno, ModelAndView modelAndView) {
-		List<HashMap<String, Object>> sponList = new ArrayList<HashMap<String, Object>>();
-		sponList = smService.selectSponList(mno);
-		System.out.println("스폰 리스트 : " + sponList);
-
-		for (int i = 0; i < sponList.size(); i++) {
-			sponList.get(i).put("SPON_DATE", sponList.get(i).get("SPON_DATE").toString());
-		}
-
-		modelAndView.setViewName("jsonView");
-		modelAndView.addObject("sponList", sponList);
-
-		return modelAndView;
-	}
-
-	@RequestMapping("sponForMeList.sm")
-	public ModelAndView selectSponForMe(@RequestParam("mno") int mno, ModelAndView modelAndView) {
-		ArrayList<HashMap<String, Object>> sponForMeList = smService.selectSponForMeList(mno);
-
-		for (int i = 0; i < sponForMeList.size(); i++) {
-			sponForMeList.get(i).put("SPON_DATE", sponForMeList.get(i).get("SPON_DATE").toString());
-		}
-
-		modelAndView.setViewName("jsonView");
-		modelAndView.addObject("sponForMeList", sponForMeList);
-
-		return modelAndView;
 	}
 
 	@RequestMapping("searchSpon.sm")
@@ -232,12 +216,31 @@ public class StreamerController {
 	}
 
 	@RequestMapping("selectChargeList.sm")
-	public ModelAndView selectChargeList(ModelAndView modelAndview, int mno) {
+	public ModelAndView selectChargeList(ModelAndView modelAndview, int mno,@RequestParam("currentPage")String reqCurrentPage) {
+		int currentPage = 1;
+		
 
-		ArrayList<HashMap<String, Object>> chargeList = smService.selectChargeList(mno);
+		if(reqCurrentPage != null) {
+			currentPage = Integer.parseInt(reqCurrentPage);
+		}
+		
+		int chargeCount = smService.getChargeCount(mno);
+		
+		PageInfo pi = Pagination.getSPageInfo(currentPage, chargeCount);
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("pi", pi);
+		infoMap.put("mno", mno);		
+		
+		
+		
+		ArrayList<HashMap<String, Object>> chargeList = smService.selectChargeList(infoMap);
+		
+		infoMap.put("chargeList", chargeList);
 
+		
+		modelAndview.addObject("infoMap",infoMap);
 		modelAndview.setViewName("jsonView");
-		modelAndview.addObject("chargeList", chargeList);
 
 		return modelAndview;
 	}
@@ -487,6 +490,74 @@ public class StreamerController {
 		return modelAndView;
 	}
 	
+	@RequestMapping(value = "selectSponList.sm")
+	@ResponseBody
+	public ModelAndView selectSponList(@RequestParam("mno") int mno, ModelAndView modelAndView,@RequestParam("currentPage")String reqCurrentPage) {
+		
+		int currentPage = 1;
+		
+		if(reqCurrentPage != null) {
+			currentPage = Integer.parseInt(reqCurrentPage);
+		}
+		
+		int sponCount = smService.getSponCount(mno);
+		
+		PageInfo pi = Pagination.getSPageInfo(currentPage, sponCount);
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("pi", pi);
+		infoMap.put("mno", mno);		
+		
+		List<HashMap<String, Object>> sponList = new ArrayList<HashMap<String, Object>>();
+		sponList = smService.selectSponList(infoMap);
+		
+		System.out.println("스폰 리스트 : " + sponList);
+
+		for (int i = 0; i < sponList.size(); i++) {
+			sponList.get(i).put("SPON_DATE", sponList.get(i).get("SPON_DATE").toString());
+		}
+		infoMap.put("sponList", sponList);
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("infoMap", infoMap);
+
+		return modelAndView;
+	}
+	
+	
+
+	@RequestMapping("sponForMeList.sm")
+	public ModelAndView selectSponForMe(@RequestParam("mno") int mno, ModelAndView modelAndView,@RequestParam("currentPage")String reqCurrentPage) {
+		System.out.println("reqCurrentPage : " + reqCurrentPage);
+		int currentPage = 1;
+		
+		if(reqCurrentPage != null) {
+			currentPage = Integer.parseInt(reqCurrentPage);
+		}
+		
+		int sponForMeCount = smService.getSponForMeCount(mno);
+		
+		PageInfo pi = Pagination.getSPageInfo(currentPage, sponForMeCount);
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("pi", pi);
+		infoMap.put("mno", mno);		
+		
+		ArrayList<HashMap<String, Object>> sponForMeList = smService.selectSponForMeList(infoMap);
+
+		for (int i = 0; i < sponForMeList.size(); i++) {
+			sponForMeList.get(i).put("SPON_DATE", sponForMeList.get(i).get("SPON_DATE").toString());
+		}
+		
+		infoMap.put("sponForMeList", sponForMeList);
+
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("infoMap", infoMap);
+
+		return modelAndView;
+	}
+
+	
 	@RequestMapping("selectExcList.sm")
 	public ModelAndView selectExcList(int mno, ModelAndView modelAndView,@RequestParam("currentPage")String reqCurrentPage) {
 		int currentPage = 1;
@@ -548,7 +619,8 @@ public class StreamerController {
 	
 	
 	@RequestMapping("reClc.sm")
-	public ModelAndView reClc(int mno,int decno,ModelAndView modelAndView) {
+	@ResponseBody
+	public String reClc(int mno,int decno,ModelAndView modelAndView) {
 		
 		System.out.println("mno : " + mno + " decno : " + decno);
 		
@@ -559,7 +631,12 @@ public class StreamerController {
 		
 		int result = smService.reClc(infoMap);
 		
-		return modelAndView;
+		if(result ==2) {
+			return "success";
+		}else {
+			return "fail";
+		}
+		
 	}
 
 	

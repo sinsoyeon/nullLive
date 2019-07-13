@@ -209,6 +209,20 @@ public interface MemberDao {
 	 */
 	ArrayList<Subscription> getSubList(SqlSessionTemplate sqlSession, Member loginUser);
 
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 13.
+	 * Comment : 휴대폰 변경
+	 */
+	int phoneChange(SqlSessionTemplate sqlSession, Member m);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 13.
+	 * Comment : 성인 인증
+	 */
+	int confirmAdult(SqlSessionTemplate sqlSession, Member m);
+
 
 
 }

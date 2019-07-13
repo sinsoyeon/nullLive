@@ -273,25 +273,68 @@ public class AdminDaoImpl implements AdminDao{
 	public int insertReportBan(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.insert("Admin.insertReportBan", m);
 	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 13.
+	 * @comment : 페이징용 문의글 수
+	 */
 	@Override
 	public int totalQuestionSelect(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("Admin.totalQuestionSelect");
 	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 13.
+	 * @comment :페이징용 FAQ글 수
+	 */
 	@Override
 	public int totalFAQSelect(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("Board.totalFAQSelect");
 	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 13.
+	 * @comment : 페이징용 공지사항 글 수
+	 */
 	@Override
 	public int totalNoticeSelect(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("Board.totalNoticeSelect");
 	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 13.
+	 * @comment : 월별 회원 유입 통계
+	 */
 	@Override
 	public ArrayList<HashMap<String, Object>> memberMonthStatistics(SqlSessionTemplate sqlSession, int year) {
 		return (ArrayList)sqlSession.selectList("Admin.memberMonthStatistics",year);
 	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 13.
+	 * @comment : 시간대별 시청시간대 통계
+	 */
 	@Override
 	public ArrayList<HashMap<String, Object>> hourlyViewingTimeStatistics(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("Admin.hourlyViewingTimeStatistics");
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 13.
+	 * @comment : 방송 인기 카테고리 통계
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> bestCategoryStatistics(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("Admin.bestCategoryStatistics");
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 13.
+	 * @comment : 충전 금액 통계
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> amountChargeStatistics(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("Admin.amountChargeStatistics");
 	}
 	
 	

@@ -234,5 +234,10 @@ public class centerController {
 		  return "streaming/broadCenter/communicationBoard"; 
 	  };
 	  
-	 
+
+	
+	@RequestMapping("boardsSetting.st")
+	public String boradsSetting() {
+		return "streaming/broadCenter/boardsSetting";
+	}
 }

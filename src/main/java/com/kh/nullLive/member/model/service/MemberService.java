@@ -177,5 +177,23 @@ public interface MemberService {
 	 */
 	ArrayList<Subscription> getSubList(Member loginUser);
 
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 13.
+	 * Comment : 휴대폰 변경
+	 * @return 
+	 * @throws UpdateMemberException 
+	 */
+	Member phoneChange(Member m) throws UpdateMemberException;
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 13.
+	 * Comment : 성인인증
+	 * @return 
+	 * @throws UpdateMemberException 
+	 */
+	Member confirmAdult(Member m) throws UpdateMemberException;
+
 	
 }
