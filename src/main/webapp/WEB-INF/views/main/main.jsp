@@ -182,8 +182,8 @@ body::-webkit-scrollbar {
 									    <i class="fas fa-bars"></i>
 									  </button>
 										<ul class="dropdown-menu" role="menu" style="margin-left: -192%;min-width: 0;">
-									    <li style="cursor:pointer;"><a>시청인원순</a></li>
-									    <li style="cursor:pointer;"><a>추천인원순</a></li>
+									    <li style="cursor:pointer;" onclick="viewer();"><a>시청인원순</a></li>
+									    <li style="cursor:pointer;" onclick="recommendation();"><a>추천인원순</a></li>
 									  </ul>
 									</div>
 								</div>
@@ -231,7 +231,7 @@ body::-webkit-scrollbar {
 		$("#bCategory").change(function(){
 			var condition = $(this).val();
 			
-			console.log(condition);
+			console.log("카테고리" + condition);
 			$.ajax({
 				url:"searchAllLive.st",
 				type:"get",
@@ -243,10 +243,13 @@ body::-webkit-scrollbar {
 					console.log(data.list);
 					
 					$.each(data.list, function(index, value){
+						var pwd = value.pwdCheck;
+						var streamerAddress = value.broadAddress;
+						
 						$li = $("<li>");
 						$div = $("<div class='col-md-4'>");
 						$thumbnailDiv = $("<div class='thumbnail'>");
-						$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='oneAllLive();'>");
+						$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='onebroad(pwd, streamerAddress);'>");
 						$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text("[생] "+value.bTitle);
 						$pNickName = $("<p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;'>").text(value.nickName);
 						$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
@@ -274,7 +277,7 @@ body::-webkit-scrollbar {
 		$("#bCategory").change(function(){
 			var condition = $(this).val();
 			
-			console.log(condition);
+			console.log("카테고리 : " + condition);
 			$.ajax({
 				url:"searchAllVod.st",
 				type:"get",
@@ -286,10 +289,13 @@ body::-webkit-scrollbar {
 					console.log(data.list);
 					
 					$.each(data.list, function(index, value){
+						var pwd = value.pwdCheck;
+						var streamerAddress = value.broadAddress;
+						
 						$li = $("<li>");
 						$div = $("<div class='col-md-4'>");
 						$thumbnailDiv = $("<div class='thumbnail'>");
-						$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='oneAllVod();'>");
+						$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='onebroad(pwd, streamerAddress);'>");
 						$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text(value.bTitle);
 						$pNickName = $("<p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;'>").text(value.nickName);
 						$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
@@ -350,9 +356,12 @@ body::-webkit-scrollbar {
 			console.log(data.list);
 			
 			$.each(data.list, function(index, value){
+				var pwd = value.pwdCheck;
+				var streamerAddress = value.broadAddress;
+				
 				$div = $("<div style='width: 261.48px;padding: 0 15px;display: inline-block;'>");
 				$thumbnailDiv = $("<div class='thumbnail'>");
-				$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='oneHotLive();'>");
+				$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='onebroad(pwd, streamerAddress);'>");
 				$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text("[생] "+value.bTitle);
 				$pNickName = $("<p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;'>").text(value.nickName);
 				$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
@@ -387,9 +396,12 @@ body::-webkit-scrollbar {
 			console.log(data.list);
 			
 			$.each(data.list, function(index, value){
+				var pwd = value.pwdCheck;
+				var streamerAddress = value.broadAddress;
+				
 				$div = $("<div style='width: 261.48px;padding: 0 15px;display: inline-block;'>");
 				$thumbnailDiv = $("<div class='thumbnail'>");
-				$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='oneHotVod();'>");
+				$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='onebroad(pwd, streamerAddress);'>");
 				$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text(value.bTitle);
 				$pNickName = $("<p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;'>").text(value.nickName);
 				$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
@@ -426,10 +438,13 @@ body::-webkit-scrollbar {
 			console.log(data.list);
 			
 			$.each(data.list, function(index, value){
+				var pwd = value.pwdCheck;
+				var streamerAddress = value.broadAddress;
+				
 				$li = $("<li>");
 				$div = $("<div class='col-md-4'>");
 				$thumbnailDiv = $("<div class='thumbnail'>");
-				$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='oneAllLive();'>");
+				$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='onebroad(pwd, streamerAddress);'>");
 				$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text("[생] "+value.bTitle);
 				$pNickName = $("<p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;'>").text(value.nickName);
 				$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
@@ -465,10 +480,13 @@ body::-webkit-scrollbar {
 			console.log(data.list);
 			
 			$.each(data.list, function(index, value){
+				var pwd = value.pwdCheck;
+				var streamerAddress = value.broadAddress;
+				
 				$li = $("<li>");
 				$div = $("<div class='col-md-4'>");
 				$thumbnailDiv = $("<div class='thumbnail'>");
-				$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='oneAllVod();'>");
+				$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='onebroad(pwd, streamerAddress);'>");
 				$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text(value.bTitle);
 				$pNickName = $("<p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;'>").text(value.nickName);
 				$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
@@ -489,6 +507,200 @@ body::-webkit-scrollbar {
 		}
 	});
  	}
+	
+	/* 전체 방송 정렬 */
+	function viewer(){
+		var condition = $("#bCategory").val();
+		console.log("카테고리 : " + condition);
+		
+		var al = $("#aLive").attr("class");
+		
+		console.log(al);
+		console.log(typeof(al));
+		
+		var isLV = "";
+		
+		if(al == "tab-pane fade in active"){
+			isLV = "live";
+		}else{
+			isLV = "vod";
+		}
+		
+		console.log("LIVE or VOD : " + isLV);
+		
+		$.ajax({
+			url:"sortAllbyViewer.st",
+			type:"get",
+			data:{condition:condition, isLV:isLV},
+			success:function(data){
+				//Live방송 일 때
+				if(isLV == "live"){
+					$allDivL = $("#allDivL");
+					$allDivL.html('');
+					
+					console.log(data.list);
+					
+					$.each(data.list, function(index, value){
+						var pwd = value.pwdCheck;
+						var streamerAddress = value.broadAddress;
+						
+						$li = $("<li>");
+						$div = $("<div class='col-md-4'>");
+						$thumbnailDiv = $("<div class='thumbnail'>");
+						$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='onebroad(pwd, streamerAddress);'>");
+						$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text("[생] "+value.bTitle);
+						$pNickName = $("<p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;'>").text(value.nickName);
+						$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
+						$icon = $("<i class='fas fa-user-friends'>");
+						$span = $("<span>").text(value.countViewers + "명 시청");
+						
+						$li.append($div);
+						$div.append($thumbnailDiv);
+						$thumbnailDiv.append($img);
+						$thumbnailDiv.append($pTitle);
+						$thumbnailDiv.append($pNickName);
+						$thumbnailDiv.append($pViewers);
+						$pViewers.append($icon);
+						$pViewers.append($span);
+						
+						$allDivL.append($li);
+					});
+				}else{
+					$allDivV = $("#allDivV");
+					$allDivV.html('');
+					
+					console.log(data.list);
+					
+					$.each(data.list, function(index, value){
+						var pwd = value.pwdCheck;
+						var streamerAddress = value.broadAddress;
+						
+						$li = $("<li>");
+						$div = $("<div class='col-md-4'>");
+						$thumbnailDiv = $("<div class='thumbnail'>");
+						$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='onebroad(pwd, streamerAddress);'>");
+						$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text(value.bTitle);
+						$pNickName = $("<p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;'>").text(value.nickName);
+						$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
+						$icon = $("<i class='fas fa-play' style=' font-size: 9px; '>");
+						$span = $("<span>").text(value.countViewers + "명 시청");
+						
+						$li.append($div);
+						$div.append($thumbnailDiv);
+						$thumbnailDiv.append($img);
+						$thumbnailDiv.append($pTitle);
+						$thumbnailDiv.append($pNickName);
+						$thumbnailDiv.append($pViewers);
+						$pViewers.append($icon);
+						$pViewers.append($span);
+						
+						$allDivV.append($li);
+					});
+				}
+			}
+		});
+	}
+	
+	function recommendation(){
+		var condition = $("#bCategory").val();
+		console.log("카테고리 : " + condition);
+		
+		var al = $("#aLive").attr("class");
+		
+		console.log(al);
+		console.log(typeof(al));
+		
+		var isLV = "";
+		
+		if(al == "tab-pane fade in active"){
+			isLV = "live";
+		}else{
+			isLV = "vod";
+		}
+		
+		console.log("LIVE or VOD : " + isLV);
+		
+		$.ajax({
+			url:"sortAllbyRec.st",
+			type:"get",
+			data:{condition:condition, isLV:isLV},
+			success:function(data){
+				//Live방송 일 때
+				if(isLV == "live"){
+					$allDivL = $("#allDivL");
+					$allDivL.html('');
+					
+					console.log(data.list);
+					
+					$.each(data.list, function(index, value){
+						var pwd = value.pwdCheck;
+						var streamerAddress = value.broadAddress;
+						
+						$li = $("<li>");
+						$div = $("<div class='col-md-4'>");
+						$thumbnailDiv = $("<div class='thumbnail'>");
+						$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='onebroad(pwd, streamerAddress);'>");
+						$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text("[생] "+value.bTitle);
+						$pNickName = $("<p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;'>").text(value.nickName);
+						$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
+						$icon = $("<i class='fas fa-user-friends'>");
+						$span = $("<span>").text(value.countViewers + "명 시청");
+						
+						$li.append($div);
+						$div.append($thumbnailDiv);
+						$thumbnailDiv.append($img);
+						$thumbnailDiv.append($pTitle);
+						$thumbnailDiv.append($pNickName);
+						$thumbnailDiv.append($pViewers);
+						$pViewers.append($icon);
+						$pViewers.append($span);
+						
+						$allDivL.append($li);
+					});
+				}else{
+					$allDivV = $("#allDivV");
+					$allDivV.html('');
+					
+					console.log(data.list);
+					
+					$.each(data.list, function(index, value){
+						var pwd = value.pwdCheck;
+						var streamerAddress = value.broadAddress;
+						
+						$li = $("<li>");
+						$div = $("<div class='col-md-4'>");
+						$thumbnailDiv = $("<div class='thumbnail'>");
+						$img = $("<img src='/nullLive/resources/image/broad.PNG' style='width: 100%; height: 120px;' onclick='onebroad(pwd, streamerAddress);'>");
+						$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text(value.bTitle);
+						$pNickName = $("<p style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;'>").text(value.nickName);
+						$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
+						$icon = $("<i class='fas fa-play' style=' font-size: 9px; '>");
+						$span = $("<span>").text(value.countViewers + "명 시청");
+						
+						$li.append($div);
+						$div.append($thumbnailDiv);
+						$thumbnailDiv.append($img);
+						$thumbnailDiv.append($pTitle);
+						$thumbnailDiv.append($pNickName);
+						$thumbnailDiv.append($pViewers);
+						$pViewers.append($icon);
+						$pViewers.append($span);
+						
+						$allDivV.append($li);
+					});
+				}
+			}
+		});
+	}
+	//-> 정렬 끝
+	
+	/* 방송으로 이동하기 */
+	function onebroad(pwd, streamerAddress){
+		var pwd = pwd;
+		var streamerAddress = streamerAddress;
+		console.log("방송 비밀번호 : " + pwd);
+		console.log("스트리머 주소 : " + streamerAddress);
+	};
 	</script>
 </body>
 </html>
