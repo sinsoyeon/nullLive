@@ -129,7 +129,7 @@
 	<!-- 첫 소통 게시판 활성화(정연) -->
 	<insert id="enableCommunityBoard" parameterType="_int">
 		INSERT INTO BRO_BOARD 
-		VALUES(SEQ_BBNO.NEXTVAL, '소통게시판', '소통', 'ALL', 'Y', #{mno})
+		VALUES(SEQ_BBNO.NEXTVAL, '소통게시판', '소통', 'ALL', 'Y', #{smno})
 	</insert>
 	
 	<!-- 소통게시판 리스트 조회(정연 )-->
@@ -137,7 +137,7 @@
 		SELECT *
 			FROM (SELECT ROWNUM RNUM, L.*
         		FROM ( SELECT B.BNO BNO, B.BTITLE BTITLE, B.BCONTENT BCONTENT, TO_CHAR(B.WRITTEN_DATE,'yyyy/mm/dd') WRITTEN_DATE, B.MODIFY_DATE MODIFY_DATE, 
-        				B.BCOUNT BCOUNT, B.BTYPE BTYPE, B.BWRITER BWRITER, B.B_STATUS STATUS, M2.MNO MMNO, M2.NICK_NAME MNICK_NAME, M.MNO SMNO
+        				B.BCOUNT BCOUNT, B.BTYPE BTYPE, B.BWRITER BWRITER, B.B_STATUS STATUS, M2.MNO MMNO, M2.NICK_NAME MNICK_NAME, M.MNO SMNO, BB.BBNO BBNO
                	 FROM BOARD B, BRO_BOARD BB, BROAD_CENTER BC, MEMBER M, MEMBER M2
                	 WHERE M.MNO = BC.MNO
               	  AND BC.BCNO = BB.BCNO
@@ -177,4 +177,33 @@
 		FROM MEMBER
 		WHERE MNO=#{smno}
 	</select>
+	
+	<!-- 소통게시판 상세(정연) -->
+	<select id="selectCommunityDetail" parameterType="_int" resultType="java.util.HashMap">
+		SELECT B.BNO, B.BTITLE, B.BCONTENT, TO_CHAR(B.WRITTEN_DATE, 'YYYY/MM/DD') AS WRITTEN_DATE, B.MODIFY_DATE, B.BCOUNT, 
+		B.BTYPE, B.BBNO, B.BWRITER, B.B_STATUS, M.NICK_NAME, M2.MNO SMNO, M2.NICK_NAME SNICK_NAME, BC.BCNO
+		FROM BOARD B, MEMBER M, BROAD_CENTER BC, MEMBER M2, BRO_BOARD BB
+		WHERE M.MNO = B.BWRITER
+		AND B.BBNO = BB.BBNO
+		AND BB.BCNO = BC.BCNO
+		AND BC.MNO = M2.MNO
+		AND B.BNO=#{bno}
+	</select>
+	
+	<!-- 소통게시판 조회수 증가(정연) -->
+	<update id="countCommunity" parameterType="_int">
+		UPDATE BOARD
+		SET BCOUNT = BCOUNT+1
+		WHERE BNO=#{bno}
+	</update>
+	
+	<!-- bbno 찾기 -->
+	<select id="selectBbno" parameterType="java.util.HashMap" resultType="_int">
+		SELECT BB.BBNO
+		FROM BRO_BOARD BB, BROAD_CENTER BC
+		WHERE BC.BCNO = BB.BCNO
+		AND BC.MNO = #{smno}
+		AND BB.BBTYPE= #{type}
+	</select>
+	
 </mapper>
