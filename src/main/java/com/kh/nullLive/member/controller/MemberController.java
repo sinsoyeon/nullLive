@@ -93,6 +93,7 @@ public class MemberController {
 		Member loginUser;
 		try {
 			loginUser = ms.loginMember(m);
+			loginUser.setMpwd(null);
 			model.addAttribute("loginUser", loginUser);
 
 			return "redirect:" + session.getAttribute("redirectUrl");
@@ -162,7 +163,7 @@ public class MemberController {
 
 				ArrayList<Subscription> list = ms.getSubList(loginUser);
 				ArrayList<HashMap<String, Object>> resultList = new ArrayList<HashMap<String, Object>>();
-				String pattern = "yyyy/MM/dd";
+				String pattern = "yy/MM/dd";
 				DateFormat df = new SimpleDateFormat(pattern);
 				for (Subscription sub : list) {
 					HashMap<String, Object> hmap = new HashMap<String, Object>();

@@ -9,55 +9,20 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<style>
-body{
-background-color:black;
-}
-#page {
-  display: grid;
-  width: 100%;
-  height: 768px;
-  grid-template-columns: 2.2fr 0.8fr;
-  grid-template-rows: 0.3fr 2.25fr 0.52fr;
-  grid-template-areas: "head head" "video chat" "foot foot";
-}
-#page > header {
-  grid-area: head;
-  background-color: #8ca0ff;
-}
-#page > #VideoArea {
-  grid-area: video;
-  background-color: black;
-}
-#page > #chatArea {
-  grid-area: chat;
-  background-color: #ffa08c;
-}
-#page > footer {
-  grid-area: foot;
-  background-color: #8cffa0;
-}
-#streamerProfile {
-  width:400px;
-  height:100%;
-  background-color: red;
-}
-#chat-box{
-   background:gray;
-   color:white;
-   width:100%;
-   height:95%;
-}
-</style>
+<link href="https://fonts.googleapis.com/css?family=Gothic+A1&display=swap" rel="stylesheet">
+<!-- custom layout for HTML5 audio/video elements -->
+<link rel="stylesheet" href="${contextPath}/resources/css/streaming/getHTMLMediaElement.css">
+<script src="${contextPath}/resources/css/streaming/getHTMLMediaElement.js"></script>
+<link rel="stylesheet" href="${contextPath}/resources/css/streaming/streamRoom.css" />
 </head>
 <body>
 <section id="page">
   <header>
-  <h1><c:out value="${title}"/></h1>
+  <h1 id="titleH"><c:out value="${title}"/></h1>
   </header>
   <div id="VideoArea">
       <section class="make-center">
-          <div id="videos-container" style="margin: 5px 0;"></div>
+          <div id="videos-container"></div>
     </section>
   </div>
   <nav id="chatArea">
@@ -73,31 +38,37 @@ background-color:black;
 
   </nav>
   <footer>
-    <div class="card border-secondary mb-3" style="max-width: 18rem;">
-      <div class="card-header"><c:out value="${streamerAddress}"></c:out></div>
-      <div class="card-body text-secondary">
-        <img src="" alt="" />
-        <h5 class="card-title"></h5>
-        <p class="card-text"></p>
-      </div>
-      <button onclick="testMsg()">testMsg</button>
-      <button onclick="endRecordAndService()">downtest</button>
+    <div class="card border-secondary mb-3" id="footerArea">
+      <img src="" alt="IMG LOST" id="streamerProImg"/>
+      <div class="card-header">
+      	<h4 id="footerTitle"><c:out value="${title}"/></h4>
+        <c:out value="${broadInfo['NICKNAME']}"></c:out><br />
+        	누적 추천 수 : <c:out value="${broadInfo['SELECTS']}"></c:out><br />
+        	좋아요 수 : <c:out value="${broadInfo['LIKES']}"></c:out>
+        </div>
+    </div>
+    <div id="footerComuArea">
+    	<p>현재 추천 수 : <label id="currRecom"></label></p>
+    	<button class="btn btn-success" style="width:75px;" id="recomBtn" onclick="recomBtn()">추천</button>
+    	<button onclick="testMsg()">testMsg</button>
+     	<button onclick="endRecordAndService()">downtest</button>
     </div>
   </footer>
   <input type="hidden" id="broadMethod" value="${broadMethod}" />
   <input type="hidden" id="mid" value="${loginUser.mid}"/>
-  <input type="hidden" id="room-id" value="${streamerAddress}">
+  <input type="hidden" id="room-id" value="${broadInfo['STREAMERADDRESS']}">
   <input type="hidden" id="bhno" value="${bhno}"/>
   <input type="hidden" id="mno" value="${loginUser.mno}" />
   <input type="hidden" id="point" value="${loginUser.point}" />
   <input type="hidden" id="nickName" value="${loginUser.nickName}" />
+  <input type="hidden" id="endingComment" value="${broadInfo['ENDINGCOMMENT']}" />
   
   </section>
   
 
-  	<div id="sponModal" class="modal fade" role="dialog" style="z-index:99999; important">
+  	<div id="sponModal" class="modal fade" role="dialog" style="z-index:99999 !important;">
 		<div class="modal-dialog" role="document" style="z-index:99999;">
-			<div class="modal-content" style="z-index=99999;">
+			<div class="modal-content" style="z-index:99999;">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">Login</h4>
@@ -164,11 +135,8 @@ background-color:black;
 <script src="${contextPath}/resources/js/streaming/streamingOpenJoin.js"></script>
 <script src="${contextPath}/resources/js/streaming/RecordRTC.js"></script>
 <script src="${contextPath}/resources/js/streaming/TTSjs.js"></script>
-<!-- custom layout for HTML5 audio/video elements -->
-<link rel="stylesheet" href="${contextPath}/resources/css/streaming/getHTMLMediaElement.css">
-<script src="${contextPath}/resources/css/streaming/getHTMLMediaElement.js"></script>
 <!-- chat script -->
-<script src="http://192.168.0.61:3002/socket.io/socket.io.js">
+<script src="http://192.168.0.61:3002/socket.io/socket.io.js"></script>
 <script>
 //방송 종료 처리
 $(window).on('beforeunload', function() {
@@ -176,7 +144,7 @@ $(window).on('beforeunload', function() {
         var roomId = $("#room-id").val();
         var bhno = $("#bhno").val();
         var ua  = navigator.userAgent.toLowerCase();
-        if(mid=='${streamerAddress}'){
+        if(mid == '${streamerAddress}'){
 	        if ((navigator.appName == 'Netscape' && ua.indexOf('trident') != -1) || (ua.indexOf("msie") != -1)){
 	            confirm('test1');
 	        }else{
@@ -207,6 +175,38 @@ $(window).on('beforeunload', function() {
 	      	}
     	}
 });
+
+//추천 수 리로드
+$(function(){
+	var roomId = $("#room-id").val();
+	setInterval(function(){
+		$.ajax({
+			url:"currRecom.st",
+			type:"post",
+			data:{roomId:roomId},
+			success:function(data){
+				console.log(data);
+				$("#currRecom").text(data.result);
+			}
+		});
+	},3000);	//현재 3초 마다로 해둠
+});
+
+//추천
+function recomBtn(){
+	var mid = $("#mid").val();
+    var streamerAddress = $("#room-id").val();
+	$("#recomBtn").attr('disabled',true);
+	$.ajax({
+		url:'recomStreamer.st',
+		type:'post',
+		data:{mid:mid,streamerAddress:streamerAddress},
+		success:function(data){
+			console.log(data);
+		}
+	});
+}
+
 
 $(document).ready(function(){
 	var connectionOptions =  {

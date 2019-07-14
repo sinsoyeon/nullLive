@@ -100,6 +100,42 @@ public class BroadCenterDaoImpl implements BroadCenterDao {
 		return sqlSession.update("BroadCenter.updateNoticeCheck", updateInfo);
 	}
 
+	@Override
+	public int deleteNotice(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int firstCheckCommunication(SqlSessionTemplate sqlSession, HashMap<String, Object> commuInfo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int enableCommunityBoard(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectCommunityList(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> searchStreamer(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> searchStreamerName(SqlSessionTemplate sqlSession, String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 
 }

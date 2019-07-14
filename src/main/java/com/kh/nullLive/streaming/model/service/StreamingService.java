@@ -1,9 +1,11 @@
 package com.kh.nullLive.streaming.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streaming.model.exception.EnterStreamingException;
+import com.kh.nullLive.streaming.model.exception.StreamingException;
 import com.kh.nullLive.streaming.model.vo.BroadHis;
 import com.kh.nullLive.streaming.model.vo.BroadList;
 
@@ -13,8 +15,10 @@ public interface StreamingService {
 	 * Author : ryan
 	 * Date : 2019. 7. 3.
 	 * Comment : 스트리밍 시작
+	 * @return 
+	 * @throws StreamingException 
 	 */
-	void startStreaming(BroadHis broadHis);
+	HashMap<String, Object> startStreaming(BroadHis broadHis) throws StreamingException;
 
 	/**
 	 * Author : ryan
@@ -36,7 +40,7 @@ public interface StreamingService {
 	 * Comment : 스트리밍 시청 시작
 	 * @throws EnterStreamingException 
 	 */
-	BroadHis enterStream(Member loginUser, String streamerAddress) throws EnterStreamingException;
+	HashMap<String, Object> enterStream(Member loginUser, String streamerAddress) throws EnterStreamingException;
 
 	/**
 	 * Author : ryan
@@ -92,6 +96,22 @@ public interface StreamingService {
 
 	//검색한 All Vod 방송 목록 조회
 	ArrayList<BroadList> searchAllVodList(int condition);
+
+	/**
+	 * @param bhno 
+	 * @throws StreamingException 
+	 * @Author : ryan
+	 * @Date : 2019. 7. 14.
+	 * @Comment : 방송 추천
+	 */
+	void recomStreamer(String mid, String streamerAddress) throws StreamingException;
+
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 14.
+	 * @Comment : 현재 추천 수 가져오기
+	 */
+	int currRecom(String roomId);
 
 	//시청자 순으로 정렬한 All Live 방송 조회
 	ArrayList<BroadList> sortVAllLiveList();

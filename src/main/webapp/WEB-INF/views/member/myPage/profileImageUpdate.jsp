@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div onclick="change();">
-	파일 : <img id="fileImage" width="150px" height="180px"/>
+	파일 : <img id="fileImage" width="223px" height="180px"/>
 	</div>
 	<div style="display:none">
 		<form id="proImgForm" method="post" enctype="multipart/form-data">

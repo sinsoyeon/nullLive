@@ -15,29 +15,25 @@
 	overflow:auto;
 }
 </style>
-<script>
-	//var subList = ${subList};
-	console.log('${subList}');
-</script>
 </head>
 <body>
 	<!-- ryan -->
 	<c:if test="${empty sessionScope.loginUser}">
 		<jsp:forward page="../needLogin.jsp" />
 	</c:if>
-	<header>
+	<header style="height: 50px;">
 		<jsp:include page="../../common/menubar.jsp" />
 	</header>
 	<jsp:include page="myPageNavbar.jsp" />
 	<!-- Main -->
 	<div class="container-fluid" id="contentArea">
-		<div class="row">
+		<div class="row alert alert-success">
 			<div class="col-md-12" style="display: inline; min-width: 1024;">
-				<div class="col-md-2" style="display: inline; float: left;" onclick="modifyProImage()">
-					<img src="${contextPath}/resources/uploadFiles/profile_image/${imgSource}" width="100px" />
+				<div class="col-md-4" style="display: inline; float: left;" onclick="modifyProImage()">
+					<img src="${contextPath}/resources/uploadFiles/profile_image/${imgSource}" style="width:100%;"/>
 				</div>
-				<div class="col-md-10"
-					style="display: inline; float: left; background: #e9e9e9;">
+				<div class="alert alert-success col-md-8"
+					style="display: inline; float: left;">
 					<h3>
 						<c:out value="${sessionScope.loginUser.name}" />
 					</h3>
@@ -87,7 +83,7 @@
 					</table>
 				</div>
 			</div>
-			<div class="col-md-6" style="height: 450px !important;">
+			<div class="col-md-6" style="height: 450px !important;padding-top: 15px;">
 				<div class="col-md-2" style="display: block; float: left; width:100px;">
 					<img src="${contextPath}/resources/image/profile_sample.PNG"
 						width="100px" />
@@ -110,7 +106,7 @@
 	
 <script>	
 function modifyProImage(){
-	var pwdWin = window.open('modifyProImagePage.me','new','width=420,height=400,menubar=no, status=no, toolbar=no');
+	var pwdWin = window.open('modifyProImagePage.me','new','width=380,height=300,menubar=no, status=no, toolbar=no');
 }
 
 function toBroadCenter(){
