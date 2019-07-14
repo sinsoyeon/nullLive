@@ -1,5 +1,7 @@
+<%@page import="org.apache.maven.model.Model"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,6 +42,11 @@
 
 </head>
 <body>
+	<!-- 로그인 유저 처리 -->
+	<c:if test="${ empty loginUser }">
+		<jsp:forward page="../../member/needLogin.jsp"/>
+	</c:if>
+	
 	<jsp:include page="jobMenubar.jsp"/>
 	<h1 align="center">콘텐츠제작자 구인구직게시판</h1>
 	<hr>
@@ -134,21 +141,7 @@
 				
 				var jBtype = $("#jBtype").val();
 				console.log(jBtype);
-				
-				if(jBtype =="구인"){
-					var mno = $("#mno").val();
-					$.ajax({
-						url: "selectStreamerCheck.jbo",
-						type: "get",
-						data: {mno:mno},
-						success: function(data){
-							if(data.Streamer == "" || data.Streamer == null){
-								alert("스트리머만 구인글을 등록할 수 있습니다");
-								return;
-							}
-						}
-					})
-				}
+			
 				
 				if(bTitle==""){
 					alert("제목을 입력해주세요");
@@ -161,8 +154,26 @@
 				}
 				
 				
-				obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []); 
-				$("#insertBoardFrm").submit();
+				if(jBtype =="구인"){
+					var mno = $("#mno").val();
+					$.ajax({
+						url: "selectStreamerCheck.jbo",
+						type: "get",
+						data: {mno:mno},
+						success: function(data){
+							if(data.Streamer == "" || data.Streamer == null){
+								alert("스트리머만 구인글을 등록할 수 있습니다");
+								return;
+							}else {
+								obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []); 
+								$("#insertBoardFrm").submit();
+							}
+						}
+					})
+				}else {
+					obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []); 
+					$("#insertBoardFrm").submit();
+				}
 			})
 	    });
 	</script>

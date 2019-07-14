@@ -20,4 +20,13 @@
 		SELECT chat_auth FROM MANAGER_AUTH where pno = #{pno}
 	</select>
 	
+	<!-- 매니저 권한 수정 -->
+	<update id="updateMngAuth" parameterType="java.util.HashMap">
+		UPDATE MANAGER_AUTH
+		SET 
+		BOARD_AUTH = #{boardAuthList},
+		CHAT_AUTH = #{chatAuthList}
+		WHERE PNO = #{pno}
+	</update>
+	
 </mapper>

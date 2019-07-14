@@ -288,7 +288,7 @@
 	
 	//권한 수장
 	function mngAuthModify(){
-		var mngMng = $("#mngMno").val();
+		var mngMno = $("#mngMno").val();
 		var boardAuthList = "";
 		var chatAuthList = "";
 		
@@ -312,7 +312,7 @@
 			}
 		});
 		
-		location.href="updateMngAuth.pt?mngMng="+ mngMng +"&boardAuthList="+ boardAuthList +"&chatAuthList=" + chatAuthList;
+		location.href="updateMngAuth.pt?mngMno="+ mngMno +"&boardAuthList="+ boardAuthList +"&chatAuthList=" + chatAuthList;
 
 	
 	}

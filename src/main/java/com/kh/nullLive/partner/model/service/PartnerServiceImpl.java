@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.partner.model.dao.PartnerDao;
+import com.kh.nullLive.partner.model.excption.updateMngAuthException;
 import com.kh.nullLive.streamer.model.dao.StreamerDao;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
@@ -47,18 +48,23 @@ public class PartnerServiceImpl implements PartnerService{
 		String boardAuth = pd.selectMngBoardAuth(sqlSession,pno);
 		//채팅방 권한
 		String chatAuth = pd.selectMngChatAuth(sqlSession,pno);
-
-		String boardAuthArr[] = new String[boardAuth.split(", ").length];
-		boardAuthArr = boardAuth.split(", ");
 		
-		String chatAuthArr[] = new String[chatAuth.split(", ").length];
-		chatAuthArr = chatAuth.split(", ");
-		
-		for(int i=0; i<boardAuthArr.length; i++) {
-			boardAuthList.add(boardAuthArr[i]);
+		if(boardAuth != null) {
+			String boardAuthArr[] = new String[boardAuth.split(", ").length];
+			boardAuthArr = boardAuth.split(", ");
+			
+			for(int i=0; i<boardAuthArr.length; i++) {
+				boardAuthList.add(boardAuthArr[i]);
+			}		
 		}
-		for(int i=0; i<chatAuthArr.length; i++) {
-			chatAuthList.add(chatAuthArr[i]);
+		
+		if(chatAuth != null) {
+			String chatAuthArr[] = new String[chatAuth.split(", ").length];
+			chatAuthArr = chatAuth.split(", ");
+			
+			for(int i=0; i<chatAuthArr.length; i++) {
+				chatAuthList.add(chatAuthArr[i]);
+			}
 		}
 		
 		authHamp.put("boardAuthList", boardAuthList);
@@ -66,6 +72,29 @@ public class PartnerServiceImpl implements PartnerService{
 		
 		
 		return authHamp;
+	}
+
+	/**
+	 * @author : uukk
+	 * @throws updateMngAuthException 
+	 * @date : 2019. 7. 14.
+	 * @comment : 매니저 권한 수정
+	 */
+	@Override
+	public void updateMngAuth(HashMap<String, Object> hmap) throws updateMngAuthException {
+		
+		Streamer stremaer = sd.selectStreamerMno(sqlSession, (int) hmap.get("stMno"));
+		int sno = stremaer.getSno();
+		hmap.put("sno", sno);
+		
+		int pno = pd.getMngPno(sqlSession, hmap);
+		hmap.put("pno",pno);
+		
+		int result = pd.updateMngAuth(sqlSession,hmap);
+		
+		if(result<0) {
+			throw new updateMngAuthException("매니저 권한 수정 실패");
+		}
 	}
 
 }
