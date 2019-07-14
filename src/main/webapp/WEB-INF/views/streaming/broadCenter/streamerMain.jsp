@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Null Live</title>
 <script src="${contextPath}/resources/js/streaming/main.js"></script>
 <link rel="stylesheet"
 	href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
@@ -54,7 +54,7 @@
 					<label>방송 전</label><br>
 					<label>현재 시청자 수:</label>
 					<label>200</label>
-
+					
 					<!-- 방송화면 삽입-->
 					<br><br>
 					<button class="ui green button" id="button" onclick="location.href='start.st'">방송 시작</button>

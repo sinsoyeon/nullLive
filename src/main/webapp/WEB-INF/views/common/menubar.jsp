@@ -48,11 +48,9 @@ ul li.unread:after {
 							style="width: 145.72px; padding-left: 15%; text-shadow: 3px 3px 2px #6f8e3085; font-size: 25px; color: #fff;"><b>NullLive</b></a>
 					</div>
 
-					<form class="navbar-form navbar-left" action="searchStreamer.sm"
-						style="margin-left: 2%;">
+					<form class="navbar-form navbar-left" style="margin-left: 2%;">
 						<div class="input-group">
-							<input type="text" class="form-control" placeholder="Search" id="search"
-								name="search">
+							<input type="text" class="form-control" placeholder="Search" id="search">
 							<div class="input-group-btn">
 								<button class="btn btn-default" type="button" id="searchBtn">
 									<i class="glyphicon glyphicon-search"></i>
@@ -88,8 +86,17 @@ ul li.unread:after {
 		$("#searchBtn").click(function(){
 			var name = $("#search").val();
 				location.href = "searchStreamer.sm?name="+name;
-			
-			
+		});
+		
+		
+		//부트스트랩이라 name으로 넘어감..
+		$("#search").keydown(function(key){
+			if(key.keyCode == 13){
+				("#searchBtn").click(function(){
+					var name = $("#search").val();
+					location.href = "searchStreamer.sm?name="+name;
+				});
+			}
 		});
 		
 	</script>

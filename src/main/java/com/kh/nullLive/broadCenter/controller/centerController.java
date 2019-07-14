@@ -31,7 +31,7 @@ import com.kh.nullLive.streamer.model.vo.Streamer;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-@SessionAttributes("loginUser")
+@SessionAttributes("broadCenter")
 @Controller
 public class centerController {
 
@@ -55,14 +55,21 @@ public class centerController {
 
 	// 스트리머 메인페이지로 이동(정연)
 	@RequestMapping("main.st")
-	public String streamerMain(HttpSession session, Model model, HttpServletRequest request) {
+	public String streamerMain(@RequestParam("smno") int smno, HttpSession session, Model model, HttpServletRequest request) {
+		BroadCenter broadCenter;
+		
+		broadCenter = bcs.broadCenter(smno);
+		
+		//Member loginUser = (Member) session.getAttribute("loginUser");
+		//int mno = loginUser.getMno();
 
-		Member loginUser = (Member) session.getAttribute("loginUser");
-		int mno = loginUser.getMno();
+		HashMap<String, Object> mainInfo = bcs.selectMainInfo(smno);
 
-		HashMap<String, Object> mainInfo = bcs.selectMainInfo(mno);
-
+		//model.addAttribute("smno", smno);
 		model.addAttribute("mainInfo", mainInfo);
+		model.addAttribute("broadCenter", broadCenter);
+		
+		System.out.println("브로드 센터: " + broadCenter);
 
 		return "streaming/broadCenter/streamerMain";
 
@@ -115,6 +122,8 @@ public class centerController {
 		
 		HashMap<String, Object> noticeInfo = bcs.selectNoticeBoard(mno);
 		
+		//System.out.println("노티스:" + noticeInfo);
+		
 		model.addAttribute("noticeInfo", noticeInfo);
 		
 		return "streaming/broadCenter/NoticeBoard";
@@ -122,19 +131,18 @@ public class centerController {
 
 	// 시청자 소통 게시판 페이지로 이동(정연)
 	@RequestMapping("communicationBoard.st")
-	public String communicationBoard(HttpSession session, Model model) {
+	public String communicationBoard(@RequestParam("smno") int smno, HttpSession session, Model model) {
 		int mno =  ((Member) session.getAttribute("loginUser")).getMno();
 		
 		HashMap<String, Object> commuInfo = new HashMap<String, Object>();
-		commuInfo.put("mno", mno);
+		commuInfo.put("smno", smno);
 		commuInfo.put("type", "소통");
 		
 		int firstCheck = bcs.firstCheckCommunication(commuInfo);
 		
 		//System.out.println("체크: " + firstCheck);
 		
-		
-		ArrayList<HashMap<String, Object>> list = bcs.selectCommunityList(mno);
+		ArrayList<HashMap<String, Object>> list = bcs.selectCommunityList(smno);
 		
 		model.addAttribute("firstCheck", firstCheck);
 		model.addAttribute("list", list);
@@ -144,7 +152,7 @@ public class centerController {
 
 	// 블랙리스트 제보 게시판 페이지로 이동(정연)
 	@RequestMapping("reportBlackListBoard.st")
-	public String reportBlackListBoard() {
+	public String reportBlackListBoard(@RequestParam("smno") int smno) {
 		return "streaming/broadCenter/reportBlackListBoard";
 	}
 
@@ -240,4 +248,12 @@ public class centerController {
 	public String boradsSetting() {
 		return "streaming/broadCenter/boardsSetting";
 	}
+	
+	@RequestMapping("selectCommunityDetail.st")
+	public String selectCommunityDetail(@RequestParam("bno") int bno) {
+		System.out.println("비엔오: " + bno );
+		
+		return "streaming/broadCenter/communityBoardDetail";
+	}
+	
 }

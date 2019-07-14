@@ -6,6 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Null Live</title>
+<style>
+.streamerList tr:hover{
+	background:#cfefcf;
+}
+</style>
 </head>
 <body>
 	<header style="height: 50px;">
@@ -21,12 +26,11 @@
 			
 			<div class="col-md-10" style="padding-left: 55px; padding-top: 28px;">
 				<div class="col-md-12">
-					<table>
+					<table class="streamerList">
 					<c:forEach var="list" items="${streamerList}">
 						<tr>
-							<td>
-								${list.NICK_NAME}
-							</td>
+							<td>${list.NICK_NAME}</td>
+							<td style="visibility: hidden;" class="smno">${list.MNO}</td>
 						</tr>
 					</c:forEach>
 				</table>
@@ -34,6 +38,18 @@
 			</div>
 		</div>
 	</div>
+
+
+<script>
+	$(".streamerList tr td").click(function(){
+		var smno = $(this).closest('td').siblings('.smno').text();
+		//console.log("smno:" + smno);
+		
+		location.href = "main.st?smno="+smno;
+		
+	});
+</script>
+
 
 </body>
 </html>

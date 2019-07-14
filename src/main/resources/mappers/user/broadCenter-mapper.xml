@@ -121,7 +121,7 @@
 		FROM BRO_BOARD BB, BROAD_CENTER BC, MEMBER M
 		WHERE M.MNO=BC.MNO
 		AND BC.BCNO=BB.BCNO
-		AND M.MNO=#{mno}
+		AND M.MNO=#{smno}
 		AND BB.BBTYPE=#{type}
 		AND BB.BB_STATUS='Y'
 	</select>
@@ -143,7 +143,7 @@
               	  AND BC.BCNO = BB.BCNO
               	  AND BB.BBNO = B.BBNO
               	  AND B.BWRITER = M2.MNO
-              	  AND M.MNO = #{mno}
+              	  AND M.MNO = #{smno}
               	  AND B.B_STATUS=7
                	 ORDER BY B.BNO) L)
 			ORDER BY RNUM DESC
@@ -165,4 +165,16 @@
 	AND M.M_STATUS = 'Y'
 	</select>
 	
+	<!-- broadCenter -->
+	<select id="selectBroadCenter" resultMap="BroadCenterResultMap" parameterType="_int">
+		SELECT *
+		FROM BROAD_CENTER
+		WHERE MNO = #{smno}
+	</select>
+	
+	<select id="streamerPofile" parameterType="_int" resultType="java.util.HashMap">
+		SELECT *
+		FROM MEMBER
+		WHERE MNO=#{smno}
+	</select>
 </mapper>

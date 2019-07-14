@@ -73,13 +73,18 @@ public interface BroadCenterService {
 	int enableCommunityBoard(int mno);
 
 	//소통 게시판 리스트 조회(정연)
-	ArrayList<HashMap<String, Object>> selectCommunityList(int mno);
+	ArrayList<HashMap<String, Object>> selectCommunityList(int smno);
 
 	//스트리머 검색 (정연)
 	ArrayList<HashMap<String, Object>> searchStreamer();
 
 	//스르티머 이름 검색(정연)
 	ArrayList<HashMap<String, Object>> searchStreamerName(String name);
+
+	//방송국 broadCenter
+	BroadCenter broadCenter(int smno);
+
+	HashMap<String, Object> streamerPofile(int smno);
 
 	
 
