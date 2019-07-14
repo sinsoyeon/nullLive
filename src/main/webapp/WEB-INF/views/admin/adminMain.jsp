@@ -6,56 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawVisualization);
-google.charts.setOnLoadCallback(drawVisualization1);
-function drawVisualization() { 
-	var data = google.visualization.arrayToDataTable([
-			['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
-			['2004/05',  165,      938,         522,             998,           450,      614.6],
-			['2005/06',  135,      1120,        599,             1268,          288,      682],
-			['2006/07',  157,      1167,        587,             807,           397,      623],
-			['2007/08',  139,      1110,        615,             968,           215,      609.4],
-			['2008/09',  136,      691,         629,             1026,          366,      569.6]
-		]);
-	
-	var options = {
-			vAxis: {title: 'Cups'},
-			hAxis: {title: 'Month'}, 
-			seriesType: 'bars',
-			series: {5: {type: 'line'}},
-			height: 300,
-			width: 400
-		};
-	
-	var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-	chart.draw(data, options);
-	}
-	
-function drawVisualization1() { 
-	var data = google.visualization.arrayToDataTable([
-			['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
-			['2004/05',  165,      938,         522,             998,           450,      614.6],
-			['2005/06',  135,      1120,        599,             1268,          288,      682],
-			['2006/07',  157,      1167,        587,             807,           397,      623],
-			['2007/08',  139,      1110,        615,             968,           215,      609.4],
-			['2008/09',  136,      691,         629,             1026,          366,      569.6]
-		]);
-	
-	var options = {
-			vAxis: {title: 'Cups'},
-			hAxis: {title: 'Month'}, 
-			seriesType: 'bars',
-			series: {5: {type: 'line'}},
-			height: 300,
-			width: 400
-		};
-	
-	var chart = new google.visualization.ComboChart(document.getElementById('chart_div1'));
-	chart.draw(data, options);
-	}
-</script>
 <title>NullLive</title>
 <style>
 	.col-sm-5>div,.col-sm-10>div{
@@ -75,12 +25,12 @@ function drawVisualization1() {
 <div class="row" align="center">
   <div class="col-sm-1"></div>
   <div class="col-sm-5">
-  <h3>회원 통계</h3>
-  	<div onclick="location.href='memberStatisticsList.ad'"  data-toggle="tooltip" title="회원 통계 페이지로 이동" id="chart_div" ></div>
+  <h3>방송 통계</h3>
+  	<div onclick="location.href='streamingStatisticsList.ad'"  data-toggle="tooltip" title="방송 통계 페이지로 이동" id="chart_div1" ></div>
   </div>
   <div class="col-sm-5">
-   <h3>사이트 통계</h3>
-  <div onclick="location.href='sitesStatisticsList.ad'" data-toggle="tooltip" title="사이트 통계 페이지로 이동" id="chart_div1">
+   <h3>수익 통계</h3>
+  <div onclick="location.href='revenueStatisticsList.ad'" data-toggle="tooltip" title="수익 통계 페이지로 이동" id="chart_div2">
   <br>
   	<br>
   	<br>
@@ -224,6 +174,58 @@ function drawVisualization1() {
 </body>
 
 <script>
+
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(revenue);
+google.charts.setOnLoadCallback(bestCategory);
+function revenue() {
+	  var data = new google.visualization.arrayToDataTable([
+	    ['Year', '환전 수수료', '구독 수수료'],
+	    ['2016년',  1645840,      2654325],
+	    ['2017년',  2176485,      4606540],
+	    ['2018년',  5694321,      3526556],
+	    ['2019년',  4030568,      5456889]
+	  ]);
+
+	  var options = {
+	    hAxis: {title: '기간',  titleTextStyle: {color: '#333'}},
+	    vAxis: {minValue: 0},
+	    legend: {position: 'none'},
+	  };
+
+	  var chart = new google.visualization.AreaChart(document.getElementById('chart_div2'));
+	  chart.draw(data, options);
+	}
+
+function bestCategory() { 
+	var bestCategoryChart = new google.visualization.DataTable();
+	var bestCategoryData = new Array();
+	$.ajax({
+        url: "bestCategory.ad",
+        type: "post",
+        success: function(data){
+        	
+        	$.each(data,function(i,value){
+        		bestCategoryData[i] = 	[value["CATEGORY"],value["COU"]];
+        	});
+        	
+        	bestCategoryChart.addColumn('string',"카테고리");
+        	bestCategoryChart.addColumn('number',"방송 수");
+        	bestCategoryChart.addRows(bestCategoryData);
+        	
+        	var options = {
+				is3D: true,
+				slices: {  0: {offset: 0.2},
+         			 },
+        		};
+        	
+        	var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
+        	chart.draw(bestCategoryChart, options);
+        	
+       		}
+        });
+	}
+
 	$(function() {
 		$('li:eq(0)').addClass('active');
 		$('#home').addClass('active in');

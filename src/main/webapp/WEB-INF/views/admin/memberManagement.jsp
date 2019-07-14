@@ -138,7 +138,7 @@ height: auto; */
 							style="padding-left: 0px; padding-right: 0px; padding-bottom: 0px; padding-top: 0px;"></span>
 					</div>
 					<div class="row userContent">
-						<div class="col-sm-4"><img src="resources/image/bbashong.png" id='profileImg'></div>
+						<div class="col-sm-4"><img src="${contextPath}/resources/uploadFiles/profile_image/profile_sample.PNG" id='profileImg'></div>
 						<div class="col-sm-3"><br>
 							<p>아이디 :</p>
 							<p>이름 :</p>
@@ -230,14 +230,14 @@ var ban
 			$('#menu1').addClass('active in');
 			$('#menu1 a:eq(0)').css('font-weight','bold');
 			$('tbody>tr').click(function() {
-				var userId = $(this).children().eq(1).html();
+				var mno = $(this).children().eq(0).html();
 				var statusType = $(this).children().eq(6).html();
 				
 				memberId = $(this).children().eq(1).html();
 				$.ajax({
 		            url: "userDeatil.ad",
 		            type: "post",
-		            data: {userId:userId, statusType:statusType},
+		            data: {mno:mno, statusType:statusType},
 		            success: function(data){
 		            	
 		            	var mno = data.mno;
@@ -251,6 +251,7 @@ var ban
 		            	var mStatus = data.memStatus;
 		            	var endDay = data.endDay;
 		            	var banDay = data.banDay;
+		            	var img = data.img;
 		            	
 		            	memberNo = data.mno;
 		            	memberStatus = data.memStatus;
@@ -262,7 +263,7 @@ var ban
 		            		ban ='B9';	
 		            	}
 		            	
-		            	
+		            	$('#profileImg').attr('src','${contextPath}/resources/uploadFiles/profile_image/'+img);
 		            	$('#userDetailContent').append("<p>"+mid+"</p>");
 		            	$('#userDetailContent').append("<p>"+name+"</p>");
 		            	$('#userDetailContent').append("<p>"+nickName+"</p>");

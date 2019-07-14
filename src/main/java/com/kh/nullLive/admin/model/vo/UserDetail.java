@@ -11,7 +11,7 @@ import lombok.Setter;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDetail {
+public class UserDetail implements java.io.Serializable{
 	private int mno; // MNO
 	private String mid; // MID
 	private String name; // NAME
@@ -23,5 +23,6 @@ public class UserDetail {
 	private int broCount; // BROCOUNT
 	private int banDay; //BAN_DAY
 	private int endDay; //END_DAY
+	private String img;//IMG
 
 }

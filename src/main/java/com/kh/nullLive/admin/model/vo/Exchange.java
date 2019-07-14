@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Exchange {
+public class Exchange implements java.io.Serializable{
 	private int excno; //EXCNO
 	private String nickName; // NICK_NAME
 	private String name; // NAME

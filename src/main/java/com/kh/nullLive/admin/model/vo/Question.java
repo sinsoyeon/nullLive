@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Question {
+public class Question implements java.io.Serializable{
 	private int bno; // BNO
 	private String questionType;// QUESTION_TYPE
 	private String name;// NAME

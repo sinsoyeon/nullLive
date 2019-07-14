@@ -7,22 +7,29 @@
 <meta charset="UTF-8">
 <title>NullLive</title>
 <style>
-tr>th{
-		text-align: center;
-		background: #438c31;
-		color: white;
-	}
-	.col-sm-10>div>table{
-		background: #ffffff;
-	}
-	
-	.modal-dialog{
-	width: 40% !important;
-	}
-	
-	.modal-header, .modal-body{
+tr>th {
 	text-align: center;
-	}
+	background: #438c31;
+	color: white;
+}
+
+.col-sm-10>div>table {
+	background: #ffffff;
+}
+
+.modal-dialog {
+	width: 40% !important;
+}
+
+.modal-header, .modal-body {
+	text-align: center;
+}
+
+.btn.btn-success, .btn.btn-warning {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	margin-bottom: 2px;
+}
 </style>
 </head>
 <body>
@@ -33,9 +40,9 @@ tr>th{
 	<div class="col-sm-1"></div>
 	<div class="col-sm-10">
 	<div>
-	<div style="float: left;"><button data-toggle="modal" data-target="#multiple">환전하기</button></div>
+	<div style="float: left;"><button data-toggle="modal" data-target="#multiple" class="btn btn-warning">환전하기</button></div>
 		<div style="margin-bottom: 5px; float: right;">
-			<input type="text"> <button>검색</button>
+			<input type="text"> <button class="btn btn-success">검색</button>
 		</div>
 	</div>
 		<div>
@@ -62,7 +69,7 @@ tr>th{
 						<td>${exchange.name}</td>	
 						<td>${exchange.excAmount}</td>	
 						<td>${exchange.applicationDate}</td>	
-						<td><input type="button" value="환전하기" data-toggle="modal" data-target="#single"></td>	
+						<td><input type="button" value="환전하기" data-toggle="modal" data-target="#single" class="btn btn-success"></td>	
 					</tr>
 				</c:if>
 				

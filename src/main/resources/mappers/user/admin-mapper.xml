@@ -41,6 +41,7 @@
 		<result property="broCount" column="BROCOUNT"/>
 		<result property="endDay" column="END_DAY"/>
 		<result property="banDay" column="BAN_DAY"/>
+		<result property="img" column="IMG"/>
 	</resultMap>
 	
 	<!-- 신고 관련 관리자 resultSet  -->
@@ -125,11 +126,11 @@
 	<select id="selectUserDetail" resultMap="UserDetailResultSet" parameterType="com.kh.nullLive.admin.model.vo.UserDetail">
 	<if test='memStatus == "Y"'>
 	SELECT M.MNO, M.MID,M.NAME, M.NICK_NAME, TO_CHAR(M.ENROLL_DATE, 'YYYY/MM/DD') ENROLL_DATE, M.M_STATUS, 
-			bc.broad_address, RCOU.REPORT, BCOU.BROCOUNT
+			bc.broad_address, RCOU.REPORT, BCOU.BROCOUNT, ATT.CHANGE_NAME IMG
 	</if>
 	<if test='memStatus != "Y"'>
 	SELECT M.MNO, M.MID,M.NAME, M.NICK_NAME, TO_CHAR(M.ENROLL_DATE, 'YYYY/MM/DD') ENROLL_DATE, M.M_STATUS, 
-			bc.broad_address, RCOU.REPORT, BCOU.BROCOUNT, TO_NUMBER(BA.BAN_END-BA.BAN_DATE) BAN_DAY, ROUND(TO_NUMBER(BA.BAN_END-SYSDATE)) END_DAY
+			bc.broad_address, RCOU.REPORT, BCOU.BROCOUNT, TO_NUMBER(BA.BAN_END-BA.BAN_DATE) BAN_DAY, ROUND(TO_NUMBER(BA.BAN_END-SYSDATE)) END_DAY, ATT.CHANGE_NAME IMG
 	</if>
 	FROM MEMBER M
 	JOIN BROAD_CENTER BC ON(M.MNO = BC.MNO)
@@ -138,14 +139,18 @@
 	        JOIN BAN B ON(MM.MNO = B.MNO)
 	        GROUP BY MM.MNO) RCOU ON(M.MNO = RCOU.MNO)
 	LEFT JOIN (SELECT MMM.MID , COUNT(*) BROCOUNT
-	            FROM BROAD_CENTER BRC
-	            JOIN BROAD_HIS BH ON(BRC.BCNO = BH.BCNO)
-	            JOIN MEMBER MMM ON(MMM.MNO = BRC.MNO)
-	            GROUP BY MMM.MID) BCOU ON(M.MID = BCOU.MID)
+            FROM BROAD_CENTER BRC
+            JOIN BROAD_HIS BH ON(BRC.BCNO = BH.BCNO)
+            JOIN MEMBER MMM ON(MMM.MNO = BRC.MNO)
+            GROUP BY MMM.MID) BCOU ON(M.MID = BCOU.MID)
+	LEFT JOIN (SELECT M.MNO, AT.CHANGE_NAME
+            FROM MEMBER M
+            JOIN ATT_MANAGE AM ON(M.MNO = AM.MNO)
+            JOIN ATTACHMENT AT ON(AM.ATTNO = AT.ATTNO)) ATT ON(M.MNO = ATT.MNO)
 	<if test='memStatus != "Y"'>
 	LEFT JOIN BAN BA ON(M.MNO = BA.MNO)
 	</if>
-	WHERE M.MID LIKE #{mid}
+	WHERE M.MNO LIKE #{mno}
 	<if test='memStatus != "Y"'>
 	AND BA.BA_STATUS LIKE 'Y'
 	</if>

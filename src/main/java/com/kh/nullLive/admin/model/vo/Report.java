@@ -15,7 +15,7 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Report {
+public class Report implements java.io.Serializable{
 	private int bno;				//BNO
 	private String bTitle;			//BTITLE
 	private String bContent;		//BCONTENT

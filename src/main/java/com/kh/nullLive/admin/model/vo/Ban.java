@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Ban {
+public class Ban implements java.io.Serializable{
 	private int bano;//BANO
 	private Date banDate;//BAN_DATE
 	private Date endDate; //BAN_END
