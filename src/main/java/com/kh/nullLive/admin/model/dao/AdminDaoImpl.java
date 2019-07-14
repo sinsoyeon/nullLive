@@ -162,8 +162,17 @@ public class AdminDaoImpl implements AdminDao{
 	 * @comment :환전 리스트
 	 */
 	@Override
-	public ArrayList<Exchange> exchangeList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("Admin.selectExchange");
+	public ArrayList<Exchange> exchangeList(SqlSessionTemplate sqlSession, PagingVo paging) {
+		return (ArrayList)sqlSession.selectList("Admin.selectExchange",paging);
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 14.
+	 * @comment :환전 카운트
+	 */
+	@Override
+	public int totalExchange(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("Admin.totalExchange");
 	}
 	
 	/**
@@ -333,9 +342,19 @@ public class AdminDaoImpl implements AdminDao{
 	 * @comment : 충전 금액 통계
 	 */
 	@Override
-	public ArrayList<HashMap<String, Object>> amountChargeStatistics(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("Admin.amountChargeStatistics");
+	public ArrayList<HashMap<String, Object>> chargeAndExchangeStatistics(SqlSessionTemplate sqlSession,int year) {
+		return (ArrayList)sqlSession.selectList("Admin.chargeAndExchangeStatistics",year);
 	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 14.
+	 * @comment : 수수료 통계
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> revenueStatistics(SqlSessionTemplate sqlSession,int year) {
+		return (ArrayList)sqlSession.selectList("Admin.revenueStatistics",year);
+	}
+	
 	
 	
 }

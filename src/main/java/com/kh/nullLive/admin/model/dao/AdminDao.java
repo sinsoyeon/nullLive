@@ -35,7 +35,10 @@ public interface AdminDao {
 	int totalMemberReport(SqlSessionTemplate sqlSession);
 
 	// 환전신청 목록
-	ArrayList<Exchange> exchangeList(SqlSessionTemplate sqlSession);
+	ArrayList<Exchange> exchangeList(SqlSessionTemplate sqlSession, PagingVo paging);
+	
+	//환전 신청 수 카운트
+	int totalExchange(SqlSessionTemplate sqlSession);
 
 	// 문의 목록
 	ArrayList<Question> questionList(SqlSessionTemplate sqlSession, PagingVo paging);
@@ -119,6 +122,10 @@ public interface AdminDao {
 	ArrayList<HashMap<String, Object>> bestCategoryStatistics(SqlSessionTemplate sqlSession);
 
 	// 충전 금액 통계
-	ArrayList<HashMap<String, Object>> amountChargeStatistics(SqlSessionTemplate sqlSession);
+	ArrayList<HashMap<String, Object>> chargeAndExchangeStatistics(SqlSessionTemplate sqlSession, int year);
+
+	// 수수료 통계
+	ArrayList<HashMap<String, Object>> revenueStatistics(SqlSessionTemplate sqlSession, int year);
+
 
 }

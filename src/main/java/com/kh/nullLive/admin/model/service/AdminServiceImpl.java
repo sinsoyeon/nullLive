@@ -194,11 +194,21 @@ public class AdminServiceImpl implements AdminService {
 	 * @comment :환전 리스트
 	 */
 	@Override
-	public ArrayList<Exchange> exchangeList() {
-		ArrayList<Exchange> ExchangeList = ad.exchangeList(sqlSession);
+	public ArrayList<Exchange> exchangeList(PagingVo paging) {
+		ArrayList<Exchange> ExchangeList = ad.exchangeList(sqlSession, paging);
 		return ExchangeList;
 	}
 	
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 14.
+	 * @comment :환전 수 카운트
+	 */
+	@Override
+	public int totalExchangeSelect() {
+		int totalExchange = ad.totalExchange(sqlSession);
+		return totalExchange;
+	}
 	/**
 	 * @author INHYO
 	 * @date : 2019. 7. 3.
@@ -401,9 +411,21 @@ public class AdminServiceImpl implements AdminService {
 	 * @comment : 충전 금액 통계
 	 */
 	@Override
-	public ArrayList<HashMap<String, Object>> amountChargeStatistics() {
-		ArrayList<HashMap<String, Object>> amountChargeChart = ad.amountChargeStatistics(sqlSession);
-		return amountChargeChart;
+	public ArrayList<HashMap<String, Object>> chargeAndExchangeStatistics(int year) {
+		ArrayList<HashMap<String, Object>> chargeAndExchangeChart = ad.chargeAndExchangeStatistics(sqlSession ,year);
+		return chargeAndExchangeChart;
 	}
+
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 14.
+	 * @comment : 수수료 통계
+	 */
+	@Override
+	public ArrayList<HashMap<String, Object>> revenueStatistics(int year) {
+		ArrayList<HashMap<String, Object>> revenueChart = ad.revenueStatistics(sqlSession ,year);
+		return revenueChart;
+	}
+
 
 }

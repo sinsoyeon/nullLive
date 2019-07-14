@@ -16,8 +16,20 @@
 
 		<div align="center">
 			<br>
+			<b>연도 선택 : </b>
+			<select id="year1" onchange='yearChange1();'>
+				<option value="2019" selected>2019년</option>
+				<option value="2018">2018년</option>
+				<option value="2017">2017년</option>
+			</select>
 			<div id="chart_div1" style="width: 900px; height: 500px;"></div>
 			<br>
+			<b>연도 선택 : </b>
+			<select id="year2" onchange='yearChange2();'>
+				<option value="2019" selected>2019년</option>
+				<option value="2018">2018년</option>
+				<option value="2017">2017년</option>
+			</select>
 			<div id="chart_div2" style="width: 900px; height: 500px;"></div>
 			<br>
 		</div>
@@ -25,57 +37,84 @@
 </body>
 <script>
 
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(revenue);
-google.charts.setOnLoadCallback(amountCharge);
-
-function revenue() {
-  var data = new google.visualization.arrayToDataTable([
-    ['Year', '환전 수수료', '구독 수수료'],
-    ['2016년',  1645840,      2654325],
-    ['2017년',  2176485,      4606540],
-    ['2018년',  5694321,      3526556],
-    ['2019년',  4030568,      5456889]
-  ]);
-
-  var options = {
-    title: 'NullLive 수익 통계',
-    hAxis: {title: '기간',  titleTextStyle: {color: '#333'}},
-    vAxis: {minValue: 0},
-  };
-
-  var chart = new google.visualization.AreaChart(document.getElementById('chart_div1'));
-  chart.draw(data, options);
+function yearChange1() {
+	chargeAndExchange();
+}
+function yearChange2() {
+	revenue();
 }
 
-function amountCharge() { 
-	var amountChargeChart = new google.visualization.DataTable();
-	var amountChargeData = new Array();
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(chargeAndExchange);
+google.charts.setOnLoadCallback(revenue);
+
+function chargeAndExchange() { 
+	var year = $("#year1").val();
+	var chargeAndExchangeChart = new google.visualization.DataTable();
+	var chargeAndExchangeData = new Array();
 	$.ajax({
-        url: "amountCharge.ad",
+        url: "chargeAndExchange.ad",
         type: "post",
+        data: {year:year},
         success: function(data){
         	
         	$.each(data,function(i,value){
-        		amountChargeData[i] = 	[value["CHAMOUNT"]+"원",value["COU"]];
+        		chargeAndExchangeData[i] = 	[value["MONTH"]+"월", value["CHARGE"], value["EXCHANGE"], value["NET_PROFIT"] ];
         	});
         	
-        	console.log(amountChargeData);
-        	amountChargeChart.addColumn('string',"CHAMOUNT");
-        	amountChargeChart.addColumn('number',"충전 수");
-        	amountChargeChart.addRows(amountChargeData);
+        	console.log(chargeAndExchangeData);
+        	chargeAndExchangeChart.addColumn('string',"MONTH");
+        	chargeAndExchangeChart.addColumn('number',"충전");
+        	chargeAndExchangeChart.addColumn('number',"환전");
+        	chargeAndExchangeChart.addColumn('number',"순이익");
+        	chargeAndExchangeChart.addRows(chargeAndExchangeData);
         	
         	var options = {
-				title: '충전 금액대',
-				 colors: ['#9575cd'],
+				title: 'NullLive '+year+'년 순이익',
+				 colors: ['#4f90c4', '#94d1dc', '#b6d57c']
         		};
         	
-        	var chart = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
-        	chart.draw(amountChargeChart, options);
+        	var chart = new google.visualization.ColumnChart(document.getElementById('chart_div1'));
+        	chart.draw(chargeAndExchangeChart, options);
         	
        		}
         });
 	}
+
+function revenue() {
+	var year = $("#year2").val();
+	var revenueChart = new google.visualization.DataTable();
+	var revenueData = new Array();
+	$.ajax({
+        url: "revenue.ad",
+        type: "post",
+        data: {year:year},
+        success: function(data){
+        	
+        	$.each(data,function(i,value){
+        		revenueData[i] = 	[value["MONTH"]+"월", value["EXCHANGE"], value["SUBSCRIPTION"]];
+        	});
+        	
+        	console.log(revenueData);
+        	revenueChart.addColumn('string',"MONTH");
+        	revenueChart.addColumn('number',"환전 수수료");
+        	revenueChart.addColumn('number',"구독 수수료");
+        	revenueChart.addRows(revenueData);
+        	
+        	var options = {
+				title: 'NullLive '+year+'년 수수료 통계',
+				hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+		        vAxis: {minValue: 0}
+        		};
+        	
+        	var chart = new google.visualization.AreaChart(document.getElementById('chart_div2'));
+        	chart.draw(revenueChart, options);
+        	
+       		}
+        });
+}
+
+
 	
 $(function() {
 	$('li:eq(2)').addClass('active');
