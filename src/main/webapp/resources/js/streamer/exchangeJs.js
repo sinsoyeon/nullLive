@@ -46,7 +46,7 @@ function chargeList(mno,currentPage){
 		success:function(data){
 			$("#chrgPaging > ul").html('');
 			var chargeList = data.infoMap.chargeList;
-			
+		
 			$.each(chargeList,function(index,value){						
 				$("#chargeTable > tbody").append('<tr><td>' + value["CHNO"] + '</td><td>'
 														  + value["CHAMOUNT"] + '</td><td>' 

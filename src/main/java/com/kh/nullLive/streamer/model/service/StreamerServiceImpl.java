@@ -252,10 +252,7 @@ public class StreamerServiceImpl implements StreamerService{
 		System.out.println("hmap : " + hmap);
 		
 		updateResult += smDao.reInsertClc(sqlSession,hmap);
-		
-		if(updateResult > 0) {
-			smDao.reInsertClc(sqlSession, hmap);
-		}
+
 		
 		return updateResult;
 	}
@@ -328,6 +325,24 @@ public class StreamerServiceImpl implements StreamerService{
 		}
 		
 		return result;
+	}
+
+	@Override
+	public int selectMyConCount(int mno) {
+		// TODO Auto-generated method stub
+		return smDao.selectMyConCount(sqlSession,mno);
+	}
+
+	@Override
+	public  ArrayList<HashMap<String, Object>> selectMyConList(HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return smDao.selectMyConList(sqlSession,infoMap);
+	}
+
+	@Override
+	public int insertClc(HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return smDao.reInsertClc(sqlSession,infoMap);
 	}
 	
 }

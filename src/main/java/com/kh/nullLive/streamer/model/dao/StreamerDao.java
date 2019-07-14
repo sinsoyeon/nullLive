@@ -100,6 +100,10 @@ public interface StreamerDao {
 
 	int updateClcPoint(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
 
+	int selectMyConCount(SqlSessionTemplate sqlSession, int mno);
+
+	 ArrayList<HashMap<String, Object>> selectMyConList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
 
 
 

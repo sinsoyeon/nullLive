@@ -835,6 +835,64 @@ public class StreamerController {
 		
 		return "redirect:excView.sm";
 	}
+	
+	@RequestMapping("selectMyConList.sm")
+	public ModelAndView selectMyConList(int mno,@RequestParam("currentPage")String reqCurrentPage,ModelAndView modelAndView) {
+		int currentPage = 1;
+		 
+		if(reqCurrentPage != null) {
+			currentPage = Integer.parseInt(reqCurrentPage);
+		}
+		
+		int selectMyConCount = smService.selectMyConCount(mno);
+		
+		PageInfo pi = Pagination.getSPageInfo(currentPage, selectMyConCount);
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("pi", pi);
+		infoMap.put("mno", mno);
+		
+		 ArrayList<HashMap<String, Object>> possibleMap = smService.selectMyConList(infoMap);
+		
+		infoMap.put("possibleList", possibleMap);
+		
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("infoMap",infoMap);
+				
+		return modelAndView;
+	}
+	
+	@RequestMapping("insertClc.sm")
+	public void insertClc(int mno,int pno,int sno,String amount,HttpServletResponse response) {
+		response.setContentType("text/html; charset=utf-8");
+		
+		HashMap<String,Object> infoMap = new HashMap<String, Object>();
+		
+		infoMap.put("PNO", pno);
+		infoMap.put("mno", mno);
+		infoMap.put("SNO", sno);
+		infoMap.put("CLC_AMOUNT", Integer.parseInt(amount));
+		
+		int result = smService.insertClc(infoMap);
+		
+		 try {
+			PrintWriter pw = response.getWriter();
+			
+			if(result > 0) {
+				//pw.println("<script>alert('블랙리스트에 추가 되었습니다.'); location.href='blackListManage.st';</script>\n");
+				pw.println("<script>alert('정산 요청을 완료하였습니다.'); location.href='partner.me';</script>\n");
+			}else {
+				pw.println("<script>alert('정산 요청을 실패하였습니다.<br/> 다시 시도해주세요.'); location.href='partner.me';</script>\n");
+			}
+			
+			pw.flush();
+			pw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	
 }

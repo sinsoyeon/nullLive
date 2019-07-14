@@ -524,7 +524,8 @@
 	
 	<!-- 정산 재신청 (소연) -->
 	<insert id="reInsertClc" parameterType="java.util.HashMap">
-		insert into calculate values (SEQ_CLCNO.NEXTVAL,#{mno},#{PNO},sysdate,#{CLC_AMOUNT},'N',sysdate)
+			insert into calculate values (SEQ_CLCNO.NEXTVAL,#{SNO},#{PNO},sysdate,#{CLC_AMOUNT},'N',sysdate)
+
 	</insert>
 	
 	
@@ -607,4 +608,31 @@
 	             AND C.CLCNO = #{clcno})
 	</update>
 	
+	<!-- 정산 가능한 내역 조회(페이징용 , 소연) -->
+	<select id="selectMyConCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM (SELECT S.SNO,P.PNO,ST.MID,ST.NICK_NAME,PTYPE,C_SDATE,PERPRICE
+		FROM MEMBER M,MEMBER ST,STREAMER S,PARTNER P,CONTRACT R,CALCULATE C
+		WHERE M.MNO = P.MNO
+		AND ST.MNO = S.MNO
+		AND S.SNO = P.SNO
+		AND R.CNO = P.CNO
+		AND C.PNO(+) = P.PNO
+		AND M.MNO = #{mno}
+		AND C.CLCNO IS NULL
+		AND FLOOR(SYSDATE - C_SDATE) BETWEEN 0 AND 8 )
+	</select>
+	
+	<select id="selectMyConList" resultType="java.util.HashMap">
+		SELECT S.SNO,P.PNO,ST.MID,ST.NICK_NAME,PTYPE,C_SDATE,PERPRICE,(CASE WHEN FLOOR(SYSDATE - R.C_SDATE)  BETWEEN 0 AND 8  THEN '정산 가능'
+	              ELSE '정산 불가능' END) AS 정산가능여부,TO_CHAR(R.C_SDATE,'YYYY/MM/DD')AS SDATE,ST.NICK_NAME AS ST_NICK_NAME
+		FROM MEMBER M,MEMBER ST,STREAMER S,PARTNER P,CONTRACT R,CALCULATE C
+		WHERE M.MNO = P.MNO
+		AND ST.MNO = S.MNO
+		AND S.SNO = P.SNO
+		AND R.CNO = P.CNO
+		AND C.PNO(+) = P.PNO
+		AND M.MNO = #{mno}
+		AND C.CLCNO IS NULL
+	</select>
 </mapper>
