@@ -39,7 +39,7 @@ public class AdminController {
 		paging.setIndex(0);
 		paging.setListCnt(5);
 		
-		ArrayList<Exchange> ExchangeList = as.exchangeList();
+		ArrayList<Exchange> ExchangeList = as.exchangeList(paging);
 		ArrayList<Report> streamerReportList = as.streamerReportList(paging);
 		ArrayList<Question> QuestionList = as.questionList(paging);
 
@@ -291,14 +291,26 @@ public class AdminController {
 	/**
 	 * @author INHYO
 	 * @date : 2019. 7. 13.
-	 * @comment : 충전 금액 Ajax
+	 * @comment : 순이익 통계 Ajax
 	 */
-	@RequestMapping("amountCharge.ad")
-	public ResponseEntity amountChargeStatistics() {
+	@RequestMapping("chargeAndExchange.ad")
+	public ResponseEntity chargeAndExchangeStatistics(int year) {
 		
-		ArrayList<HashMap<String, Object>> amountChargeChart = as.amountChargeStatistics();
+		ArrayList<HashMap<String, Object>> chargeAndExchangeChart = as.chargeAndExchangeStatistics(year);
 		
-		return new ResponseEntity<ArrayList<HashMap<String, Object>>>(amountChargeChart, HttpStatus.OK);
+		return new ResponseEntity<ArrayList<HashMap<String, Object>>>(chargeAndExchangeChart, HttpStatus.OK);
+	}
+	/**
+	 * @author INHYO
+	 * @date : 2019. 7. 14.
+	 * @comment : 수수료 통계 Ajax
+	 */
+	@RequestMapping("revenue.ad")
+	public ResponseEntity revenueStatistics(int year) {
+		
+		ArrayList<HashMap<String, Object>> revenueChart = as.revenueStatistics(year);
+		
+		return new ResponseEntity<ArrayList<HashMap<String, Object>>>(revenueChart, HttpStatus.OK);
 	}
 	
 	
@@ -313,10 +325,11 @@ public class AdminController {
 	 * @comment : 환전 페이지 이동 (페이징)
 	 */
 	@RequestMapping("exchangeList.ad")
-	public String adminExchangeList(Model model) {
+	public String adminExchangeList(Model model, PagingVo paging) {
 		
-		ArrayList<Exchange> ExchangeList = as.exchangeList();
-		
+		ArrayList<Exchange> ExchangeList = as.exchangeList(paging);
+		paging.setTotal(as.totalExchangeSelect());
+		model.addAttribute("pi",paging);
 		model.addAttribute("ExchangeList", ExchangeList);
 		
 		return "admin/exchange";

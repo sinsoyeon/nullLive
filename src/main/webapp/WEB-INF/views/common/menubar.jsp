@@ -64,12 +64,19 @@ ul li.unread:after {
 					<li><a href="join.me"><i class="fas fa-user fa-lg" style="color: #fff;"></i></a></li>
 				</c:if>
 				<c:if test="${!empty sessionScope.loginUser}">
-					<li data-content="2" class="unread"><a href="#"> <i
-								class="fas fa-globe-asia fa-lg" style="color: #fff;"></i>
-						</a></li>
-					<li><a href="logout.me"><i class="fas fa-sign-out-alt fa-lg" style="color: #fff;"></i></a></li>
-					<li><a href="myPage.me"><c:out value="${sessionScope.loginUser.nickName} 님"/></a></li>
-				</c:if>
+					<c:if test="${sessionScope.loginUser.mid ne 'admin'}">
+						<li data-content="2" class="unread"><a href="#"> <i
+									class="fas fa-globe-asia fa-lg" style="color: #fff;"></i>
+							</a></li>
+						<li><a href="logout.me"><i class="fas fa-sign-out-alt fa-lg" style="color: #fff;"></i></a></li>
+						<li><a href="myPage.me"><c:out value="${sessionScope.loginUser.nickName} 님"/></a></li>
+					</c:if>
+					<c:if test="${sessionScope.loginUser.mid eq 'admin'}">
+						<li><a href="logout.me"><i class="fas fa-sign-out-alt fa-lg" style="color: #fff;"></i></a></li>
+						<li><a href="main.ad">관리자 페이지</a></li>
+					</c:if>
+				</c:if>	
+				
 			</ul>
 
 				</div>
