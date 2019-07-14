@@ -447,4 +447,252 @@ public class StreamingController {
 		return mv;
 	}
 	
+	/**
+	 * @author : eon
+	 * @date : 2019. 7. 13.
+	 * @comment : 메인페이지 All 방송 리스트 시청인원순으로 정렬하는 메소드
+	 */
+	@RequestMapping("sortAllbyViewer.st")
+	public ModelAndView sortAllbyViewer(HttpServletRequest request, ModelAndView mv, HttpServletResponse response) {
+		String isLV = request.getParameter("isLV");
+		
+		System.out.println("LIVE or VOD : " + isLV);
+		
+		if(request.getParameter("condition") == null) {
+			ArrayList<BroadList> blist = null;
+			
+			//LIVE일때 조회
+			if(isLV.equals("live")) {
+				//전체 Live 방송 목록 개수 가져옴
+				int listCount = ss.getAllLiveListCount();
+				System.out.println("All Live 방송 갯수 : " + listCount);
+
+				blist = ss.sortVAllLiveList();
+				System.out.println("시청자 순으로 정렬한 All Live 방송 목록 : " + blist);
+			}else {
+				//전체 Vod 방송 목록 개수 가져옴
+				int listCount = ss.getAllVodListCount();
+				System.out.println("All Vod 방송 갯수 : " + listCount);
+
+				blist = ss.sortVAllVodList();
+				System.out.println("시청자 순으로 정렬한 All Vod 방송 목록 : " + blist);
+			}
+
+			ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+			SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+
+			for(int i = 0; i < blist.size(); i++) {
+				HashMap<String, Object> hmap = new HashMap<String, Object>();
+				String sDate = fmt.format(blist.get(i).getStartDate());
+				String eDate = fmt.format(blist.get(i).getEndDate());
+
+				hmap.put("bhno", blist.get(i).getBhno());
+				hmap.put("broadAddress", blist.get(i).getBroadAddress());
+				hmap.put("mno", blist.get(i).getMno());
+				hmap.put("nickName", blist.get(i).getNickName());
+				hmap.put("startDate", sDate);
+				hmap.put("endDate", eDate);
+				hmap.put("bhStatus", blist.get(i).getBhStatus());
+				hmap.put("countViewers", blist.get(i).getCountViewers());
+				hmap.put("bcno", blist.get(i).getBcno());
+				hmap.put("streamerId", blist.get(i).getStreamerId());
+				hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
+				hmap.put("bTitle", blist.get(i).getBTitle());
+				hmap.put("bPwd", blist.get(i).getBPwd());
+				hmap.put("pwdCheck", blist.get(i).getPwdCheck());
+				hmap.put("bCategory", blist.get(i).getBCategory());
+				hmap.put("adult", blist.get(i).getAdult());
+
+				list.add(hmap);
+
+
+			}
+			
+			mv.addObject("list", list);
+			mv.setViewName("jsonView");
+
+			
+		}else {
+			int condition = Integer.parseInt(request.getParameter("condition"));
+			
+			ArrayList<BroadList> blist = null;
+			
+			//LIVE일때 조회
+			if(isLV.equals("live")) {
+				//시청자 순으로 정렬한 All Live 방송 목록 개수 가져옴(조건있음)
+				int listCount = ss.getSearchAllLiveCount(condition);
+				System.out.println("시청자 순으로 정렬한 All Live 방송 갯수(조건있음) : " + listCount);
+
+				blist = ss.sortVAllLiveList2(condition);
+				System.out.println("시청자 순으로 정렬한 All Live 방송 목록 (조건있음): " + blist);
+			}else {
+				//시청자 순으로 정렬한 All Vod 방송 목록 개수 가져옴(조건있음)
+				int listCount = ss.getSearchAllVodCount(condition);
+				System.out.println("시청자 순으로 정렬한 All Vod 방송 갯수(조건있음) : " + listCount);
+
+				blist = ss.sortVAllVodList2(condition);
+				System.out.println("시청자 순으로 정렬한 All Vod 방송 목록(조건있음) : " + blist);
+			}
+			
+			ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+			SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+
+			for(int i = 0; i < blist.size(); i++) {
+				HashMap<String, Object> hmap = new HashMap<String, Object>();
+				String sDate = fmt.format(blist.get(i).getStartDate());
+				String eDate = fmt.format(blist.get(i).getEndDate());
+
+				hmap.put("bhno", blist.get(i).getBhno());
+				hmap.put("broadAddress", blist.get(i).getBroadAddress());
+				hmap.put("mno", blist.get(i).getMno());
+				hmap.put("nickName", blist.get(i).getNickName());
+				hmap.put("startDate", sDate);
+				hmap.put("endDate", eDate);
+				hmap.put("bhStatus", blist.get(i).getBhStatus());
+				hmap.put("countViewers", blist.get(i).getCountViewers());
+				hmap.put("bcno", blist.get(i).getBcno());
+				hmap.put("streamerId", blist.get(i).getStreamerId());
+				hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
+				hmap.put("bTitle", blist.get(i).getBTitle());
+				hmap.put("bPwd", blist.get(i).getBPwd());
+				hmap.put("pwdCheck", blist.get(i).getPwdCheck());
+				hmap.put("bCategory", blist.get(i).getBCategory());
+				hmap.put("adult", blist.get(i).getAdult());
+
+				list.add(hmap);
+
+
+			}
+
+			mv.addObject("list", list);
+			mv.setViewName("jsonView");
+		}
+		
+		return mv;
+	}
+	
+	/**
+	 * @author : eon
+	 * @date : 2019. 7. 14.
+	 * @comment : 메인페이지 All 방송 리스트 추천인원순으로 정렬하는 메소드
+	 */
+	@RequestMapping("sortAllbyRec.st")
+	public ModelAndView sortAllbyRec(HttpServletRequest request, ModelAndView mv, HttpServletResponse response) {
+		String isLV = request.getParameter("isLV");
+		
+		System.out.println("LIVE or VOD : " + isLV);
+		
+		if(request.getParameter("condition") == null) {
+			ArrayList<BroadList> blist = null;
+			
+			//LIVE일때 조회
+			if(isLV.equals("live")) {
+				//전체 Live 방송 목록 개수 가져옴
+				int listCount = ss.getAllLiveListCount();
+				System.out.println("All Live 방송 갯수 : " + listCount);
+
+				blist = ss.sortRAllLiveList();
+				System.out.println("추천 순으로 정렬한 All Live 방송 목록 : " + blist);
+			}else {
+				//전체 Vod 방송 목록 개수 가져옴
+				int listCount = ss.getAllVodListCount();
+				System.out.println("All Vod 방송 갯수 : " + listCount);
+
+				blist = ss.sortRAllVodList();
+				System.out.println("추천 순으로 정렬한 All Vod 방송 목록 : " + blist);
+			}
+
+			ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+			SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+
+			for(int i = 0; i < blist.size(); i++) {
+				HashMap<String, Object> hmap = new HashMap<String, Object>();
+				String sDate = fmt.format(blist.get(i).getStartDate());
+				String eDate = fmt.format(blist.get(i).getEndDate());
+
+				hmap.put("bhno", blist.get(i).getBhno());
+				hmap.put("broadAddress", blist.get(i).getBroadAddress());
+				hmap.put("mno", blist.get(i).getMno());
+				hmap.put("nickName", blist.get(i).getNickName());
+				hmap.put("startDate", sDate);
+				hmap.put("endDate", eDate);
+				hmap.put("bhStatus", blist.get(i).getBhStatus());
+				hmap.put("countViewers", blist.get(i).getCountViewers());
+				hmap.put("bcno", blist.get(i).getBcno());
+				hmap.put("streamerId", blist.get(i).getStreamerId());
+				hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
+				hmap.put("bTitle", blist.get(i).getBTitle());
+				hmap.put("bPwd", blist.get(i).getBPwd());
+				hmap.put("pwdCheck", blist.get(i).getPwdCheck());
+				hmap.put("bCategory", blist.get(i).getBCategory());
+				hmap.put("adult", blist.get(i).getAdult());
+
+				list.add(hmap);
+
+
+			}
+			
+			mv.addObject("list", list);
+			mv.setViewName("jsonView");
+
+			
+		}else {
+			int condition = Integer.parseInt(request.getParameter("condition"));
+			
+			ArrayList<BroadList> blist = null;
+			
+			//LIVE일때 조회
+			if(isLV.equals("live")) {
+				//추천 순으로 정렬한 All Live 방송 목록 개수 가져옴(조건있음)
+				int listCount = ss.getSearchAllLiveCount(condition);
+				System.out.println("추천 순으로 정렬한 All Live 방송 갯수(조건있음) : " + listCount);
+
+				blist = ss.sortRAllLiveList2(condition);
+				System.out.println("추천 순으로 정렬한 All Live 방송 목록 (조건있음): " + blist);
+			}else {
+				//추천 순으로 정렬한 All Vod 방송 목록 개수 가져옴(조건있음)
+				int listCount = ss.getSearchAllVodCount(condition);
+				System.out.println("추천 순으로 정렬한 All Vod 방송 갯수(조건있음) : " + listCount);
+
+				blist = ss.sortRAllVodList2(condition);
+				System.out.println("추천 순으로 정렬한 All Vod 방송 목록(조건있음) : " + blist);
+			}
+			
+			ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+			SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+
+			for(int i = 0; i < blist.size(); i++) {
+				HashMap<String, Object> hmap = new HashMap<String, Object>();
+				String sDate = fmt.format(blist.get(i).getStartDate());
+				String eDate = fmt.format(blist.get(i).getEndDate());
+
+				hmap.put("bhno", blist.get(i).getBhno());
+				hmap.put("broadAddress", blist.get(i).getBroadAddress());
+				hmap.put("mno", blist.get(i).getMno());
+				hmap.put("nickName", blist.get(i).getNickName());
+				hmap.put("startDate", sDate);
+				hmap.put("endDate", eDate);
+				hmap.put("bhStatus", blist.get(i).getBhStatus());
+				hmap.put("countViewers", blist.get(i).getCountViewers());
+				hmap.put("bcno", blist.get(i).getBcno());
+				hmap.put("streamerId", blist.get(i).getStreamerId());
+				hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
+				hmap.put("bTitle", blist.get(i).getBTitle());
+				hmap.put("bPwd", blist.get(i).getBPwd());
+				hmap.put("pwdCheck", blist.get(i).getPwdCheck());
+				hmap.put("bCategory", blist.get(i).getBCategory());
+				hmap.put("adult", blist.get(i).getAdult());
+
+				list.add(hmap);
+
+
+			}
+
+			mv.addObject("list", list);
+			mv.setViewName("jsonView");
+		}
+		
+		return mv;
+	}
+	
 }
