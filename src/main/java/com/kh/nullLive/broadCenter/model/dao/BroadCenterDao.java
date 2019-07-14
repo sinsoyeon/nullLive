@@ -73,7 +73,7 @@ public interface BroadCenterDao {
 	int firstCheckCommunication(SqlSessionTemplate sqlSession, HashMap<String, Object> commuInfo);
 
 	//첫 소통 게시판 활성화(정연)
-	int enableCommunityBoard(SqlSessionTemplate sqlSession, int mno);
+	int enableCommunityBoard(SqlSessionTemplate sqlSession, int smno);
 
 	//소통게시판 리스트 조회(정연)
 	ArrayList<HashMap<String, Object>> selectCommunityList(SqlSessionTemplate sqlSession, int smno);
@@ -87,5 +87,14 @@ public interface BroadCenterDao {
 	BroadCenter broadCenter(SqlSessionTemplate sqlSession, int smno);
 
 	HashMap<String, Object> streamerPofile(SqlSessionTemplate sqlSession, int smno);
+
+	//소통 게시판 상게(정연)
+	HashMap<String, Object> selectCommunityDetail(SqlSessionTemplate sqlSession, int bno);
+
+	//소통 게시판 조회수 증가(정연)
+	int countCommunity(SqlSessionTemplate sqlSession, int bno);
+
+	//bbno찾기
+	int selectBbno(SqlSessionTemplate sqlSession, HashMap<String, Object> commuInfo);
 
 }

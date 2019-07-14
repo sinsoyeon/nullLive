@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
@@ -31,7 +32,7 @@ import com.kh.nullLive.streamer.model.vo.Streamer;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-@SessionAttributes("broadCenter")
+@SessionAttributes({"broadCenter", "loginUser"})
 @Controller
 public class centerController {
 
@@ -135,6 +136,7 @@ public class centerController {
 		int mno =  ((Member) session.getAttribute("loginUser")).getMno();
 		
 		HashMap<String, Object> commuInfo = new HashMap<String, Object>();
+		System.out.println("smno: " + smno);
 		commuInfo.put("smno", smno);
 		commuInfo.put("type", "소통");
 		
@@ -143,9 +145,13 @@ public class centerController {
 		//System.out.println("체크: " + firstCheck);
 		
 		ArrayList<HashMap<String, Object>> list = bcs.selectCommunityList(smno);
+		int bbno = bcs.selectBbno(commuInfo); 
+		
 		
 		model.addAttribute("firstCheck", firstCheck);
 		model.addAttribute("list", list);
+		model.addAttribute("bbno", bbno);
+		
 		
 		return "streaming/broadCenter/communicationBoard";
 	}
@@ -235,8 +241,8 @@ public class centerController {
 	  
 	  //시청자 소통 게시판 생성(정연)
 	  @RequestMapping("enableCommunityBoard.st")
-	  public String enableCommunityBoard(@RequestParam("mno") int mno, Model model){
-		 int enableCheck = bcs.enableCommunityBoard(mno);
+	  public String enableCommunityBoard(@RequestParam("smno") int smno, Model model){
+		 int enableCheck = bcs.enableCommunityBoard(smno);
 		  
 		 model.addAttribute("firstCheck", enableCheck);
 		  return "streaming/broadCenter/communicationBoard"; 
@@ -249,11 +255,62 @@ public class centerController {
 		return "streaming/broadCenter/boardsSetting";
 	}
 	
+	
+	//소통 게시판 상세 보기(정연)
 	@RequestMapping("selectCommunityDetail.st")
-	public String selectCommunityDetail(@RequestParam("bno") int bno) {
-		System.out.println("비엔오: " + bno );
+	public String selectCommunityDetail(@RequestParam("bno") int bno, Model model, HttpSession session) {
+		//System.out.println("비엔오: " + bno );
 		
-		return "streaming/broadCenter/communityBoardDetail";
+		
+		int count = bcs.countCommunity(bno);
+		
+		if(count>0) {
+			HashMap<String, Object> communityDetail = bcs.selectCommunityDetail(bno);
+			model.addAttribute("communityDetail", communityDetail);
+			return "streaming/broadCenter/communityBoardDetail";
+		}else {
+			return "common/errorPage";
+		}
+	}
+	
+	//소통 게시판 작성페이지 이동(정연)
+	@RequestMapping("insertCommunityDetail.st")
+	public String insertCommunityDetail(@RequestParam("mno") int mno, Model model) {
+		return "streaming/broadCenter/insertCommunityDetail";
+	}
+	
+	
+	
+	  //소통게시판 작성 insert(정연)
+	  
+	  @RequestMapping("insertCommunityDetail.bc")
+	  @ResponseBody public String insertCommunityDetail(@RequestParam("jsonData")
+	  String jsonData, Model model) { // 직렬화 시켜 가져온 오브젝트 배열을 JSONArray 형식으로 바꿔줌
+	  JSONArray array = JSONArray.fromObject(jsonData);
+	  
+	  HashMap<String, Object> insertDetail = new HashMap<String, Object>();
+	  
+	  for (int i = 0; i < array.size(); i++) { 
+		  // JSONArray 형태의 값을 가져와 JSONObject 로풀어준다. 
+		  
+	  JSONObject obj = (JSONObject) array.get(i);
+	  
+	  insertDetail.put("mno", obj.get("mno")); insertDetail.put("title",
+	  obj.get("title")); insertDetail.put("content", obj.get("content"));
+	  insertDetail.put("bcno", obj.get("bcno")); }
+	  
+	  //int result = bcs.insertCommunityDetail(insertDetail);
+	  
+	  return "streaming/broadCenter/communityBoardDetail"; 
+	  
+	  }
+	 
+	
+	//방송국 끊기(정연)
+	@RequestMapping("logout.st")
+	public String logout(HttpSession session) {
+		session.removeAttribute("broadCenter");
+		return "redirect:index.jsp";
 	}
 	
 }

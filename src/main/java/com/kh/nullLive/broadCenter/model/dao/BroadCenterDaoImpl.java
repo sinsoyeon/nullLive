@@ -114,8 +114,8 @@ public class BroadCenterDaoImpl implements BroadCenterDao {
 
 	//첫 소통 게시판 활성화(정연)
 	@Override
-	public int enableCommunityBoard(SqlSessionTemplate sqlSession, int mno) {
-		return sqlSession.insert("BroadCenter.enableCommunityBoard", mno);
+	public int enableCommunityBoard(SqlSessionTemplate sqlSession, int smno) {
+		return sqlSession.insert("BroadCenter.enableCommunityBoard", smno);
 	}
 
 	//소통게시판 리스트 조회(정연)
@@ -144,6 +144,25 @@ public class BroadCenterDaoImpl implements BroadCenterDao {
 	@Override
 	public HashMap<String, Object> streamerPofile(SqlSessionTemplate sqlSession, int smno) {
 		return sqlSession.selectOne("BroadCenter.streamerPofile", smno);
+	}
+
+	
+	//소통게시판 상세(정연)
+	@Override
+	public HashMap<String, Object> selectCommunityDetail(SqlSessionTemplate sqlSession, int bno) {
+		return sqlSession.selectOne("BroadCenter.selectCommunityDetail", bno);
+	}
+
+	//소통게시판 조회수 증가(정연)
+	@Override
+	public int countCommunity(SqlSessionTemplate sqlSession, int bno) {
+		return sqlSession.update("BroadCenter.countCommunity", bno);
+	}
+
+	
+	@Override
+	public int selectBbno(SqlSessionTemplate sqlSession, HashMap<String, Object> commuInfo) {
+		return sqlSession.selectOne("BroadCenter.selectBbno", commuInfo);
 	}
 
 	
