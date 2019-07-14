@@ -251,9 +251,11 @@ public class StreamingDaoImpl implements StreamingDao {
 		return sqlSession.update("Streaming.recomBroad",streamerAddress);
 	}
 
+	//현재 방송 추천 수
 	@Override
 	public int currRecom(SqlSessionTemplate sqlSession, String roomId) {
 		return sqlSession.selectOne("Streaming.currRecom",roomId);
+	}
 
 	//시청자 순으로 정렬한 All Live 방송 조회
 	@Override
