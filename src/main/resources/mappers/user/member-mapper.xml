@@ -298,5 +298,33 @@
 		WHERE M.MNO = #{mno}
 	</select>
 	
+	<!-- 페이징용 알람 카운트 조회(소연) -->
+	<select id="selectAlarmCount" resultType="_int">
+		select count(*) from alarm_his where mno = #{mno}
+	</select>
+	
+	<!-- 알람 조회 -->
+	<select id="selectMyAlmList" resultType="java.util.HashMap">
+		SELECT ANO,ST.NICK_NAME,ST.MID,A.ATYPE,ALM_STATUS,TO_CHAR(ALM_DATE,'YYYY/MM/DD HH24:MI:SS') AS ALM_DATE,
+                (SELECT COUNT(*) 
+                FROM MEMBER M,ALARM_HIS A
+                WHERE M.MNO = A.MNO 
+                AND ALM_STATUS ='N' 
+                AND M.MNO = #{mno}) AS COUNT     
+		FROM MEMBER M,MEMBER ST,STREAMER S,SUBSCRIPTION_HIS SU,ALARM_HIS A
+		WHERE M.MNO = SU.MNO
+		AND M.MNO = A.MNO
+		AND ST.MNO = S.MNO
+		AND S.SNO = SU.SNO
+		AND A.SNO = A.SNO
+		AND SU.SUNO = A.SUNO
+		AND M.MNO = #{mno}
+		ORDER BY ALM_STATUS ASC
+	</select>
+	
+	<!-- 알람 읽음 처리 -->
+	<update id="updateAlarm" parameterType="java.util.HashMap">
+	 	UPDATE ALARM_HIS SET ALM_STATUS = 'Y' WHERE ANO = #{ano}
+	</update>
 		
 </mapper>

@@ -131,6 +131,11 @@ public class StreamingController {
 		broadHis.setStreamerId(((Member)session.getAttribute("loginUser")).getMid());
 		try {
 			HashMap<String,Object> hmap = ss.startStreaming(broadHis);
+			
+			if(hmap != null) {
+				int result = ss.subInfoMap(((Member)session.getAttribute("loginUser")).getMno());
+			}
+			
 			model.addAttribute("broadInfo",hmap);
 			model.addAttribute("title", broadHis.getBtitle());
 			model.addAttribute("broadMethod",broadMethod);

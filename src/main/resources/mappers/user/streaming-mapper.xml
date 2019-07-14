@@ -442,4 +442,19 @@
 		ORDER BY COUNT_RECOMMENDATION DESC
 		]]>
 	</select>
+	
+	<!--  방송 시작시 알람 테이블 이력추가할 데이터 조회 (소연) -->
+	<select  id="subInfoMap" resultType="java.util.HashMap">
+		SELECT M.MNO,S.SNO,SU.SUNO
+		FROM MEMBER M,MEMBER ST,STREAMER S,SUBSCRIPTION_HIS SU
+		WHERE M.MNO = SU.MNO
+		AND ST.MNO = S.MNO
+		AND S.SNO = SU.SNO
+		AND ST.MNO = #{mno}
+	</select>
+	
+	<!-- 나를 구독하는 사람들에게 알람 보내기 (소연) -->
+	<insert id="insertAlarm" parameterType="java.util.HashMap">
+		INSERT INTO ALARM_HIS VALUES (SEQ_ANO.NEXTVAL,#{MNO},#{SNO},NULL,#{SUNO},SYSDATE,0,1,'N')
+	</insert>
 </mapper>

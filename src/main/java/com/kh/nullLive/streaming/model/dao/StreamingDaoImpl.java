@@ -389,4 +389,17 @@ public class StreamingDaoImpl implements StreamingDao {
 		return list;
 	}
 
+	@Override
+	public ArrayList<HashMap<String, Object>> subInfoMap(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("Streaming.subInfoMap", mno);
+	}
+
+	@Override
+	public int insertAlarm(SqlSessionTemplate sqlSession, HashMap<String, Object> hashMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("Streaming.insertAlarm",hashMap);
+	}
+
+
 }
