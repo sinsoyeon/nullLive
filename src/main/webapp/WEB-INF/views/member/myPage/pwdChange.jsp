@@ -29,6 +29,11 @@
 	</div>
 	
 <script>
+$("#mpwd2").keydown(function(key){
+    if(key.keyCode == 13){
+    	pwdChange();
+    }
+});
 $("#mpwd2").on('keyup',function(){
 	if($(this).val() == $("#mpwd1").val()){
 		$("#pwdBtn").attr('disabled',false);

@@ -49,7 +49,11 @@ $(function(){
 	console.log($("#userName").val());
 	$("#confArea").hide();
 });
-
+$("#p3").keydown(function(key){
+    if(key.keyCode == 13){
+    	conAdultSms();
+    }
+});
 function conAdultSms(){
 	var phone = $("#p1").val()+$("#p2").val()+$("#p3").val();
 	if($("#name").val() == $("#userName").val() && phone == "${loginUser.phone}"){

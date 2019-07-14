@@ -122,32 +122,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
         that.window = global;
     })(typeof global !== 'undefined' ? global : null);
 
-    
-    
-    /////////////////////////////////////////////////////////////////////////////////
-  
-	function loadTTS(nickName,requestMsg){
-		if(requestMsg!=null){
-			connection.onMessageEvent				
-		}	
-		
-		$.ajax({
-			url:"tts.me",
-			type:"post",
-			data:{nickName:nickName,requestMsg:requestMsg},
-			success:function(data){
-				console.log('tts 연동중');
-			},
-			error:function(data){
-				console.log(data);
-			}	
-		})
-		
-    }
-   
-    
-    
-    /////////////////////////////////////////////////////////////////////////////////
+
     
     function SocketConnection(connection, connectCallback) {
         function isData(session) {
@@ -4951,6 +4926,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
         connection.onclose = function(event) {
             if (!!connection.enableLogs) {
                 console.warn('Data connection has been closed between you & ', event.userid);
+                endingComment();
             }
         };
 

@@ -68,3 +68,11 @@ body{
     margin-top: 15px;
     margin-bottom: 0px;
 }
+#chat-box{
+	-ms-overflow-style: none;
+	overflow:auto;
+	height:534px;
+}
+-webkit-scrollbar {
+	display:none;
+}
