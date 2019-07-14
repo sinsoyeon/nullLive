@@ -215,35 +215,6 @@ public class StreamerController {
 		return "해당 내역을 삭제했습니다.";
 	}
 
-	@RequestMapping("selectChargeList.sm")
-	public ModelAndView selectChargeList(ModelAndView modelAndview, int mno,@RequestParam("currentPage")String reqCurrentPage) {
-		int currentPage = 1;
-		
-
-		if(reqCurrentPage != null) {
-			currentPage = Integer.parseInt(reqCurrentPage);
-		}
-		
-		int chargeCount = smService.getChargeCount(mno);
-		
-		PageInfo pi = Pagination.getSPageInfo(currentPage, chargeCount);
-		
-		HashMap<String, Object> infoMap = new HashMap<String, Object>();
-		infoMap.put("pi", pi);
-		infoMap.put("mno", mno);		
-		
-		
-		
-		ArrayList<HashMap<String, Object>> chargeList = smService.selectChargeList(infoMap);
-		
-		infoMap.put("chargeList", chargeList);
-
-		
-		modelAndview.addObject("infoMap",infoMap);
-		modelAndview.setViewName("jsonView");
-
-		return modelAndview;
-	}
 
 	@RequestMapping("chartView.sm")
 	public String chartView() {
@@ -631,7 +602,7 @@ public class StreamerController {
 		
 		int result = smService.reClc(infoMap);
 		
-		if(result ==2) {
+		if(result > 0) {
 			return "success";
 		}else {
 			return "fail";
@@ -708,5 +679,156 @@ public class StreamerController {
 		 
 		 return "member/streamerSearchList";
 	 }
+	 
+	 
+	 @RequestMapping("detailClc.sm")
+	 public ModelAndView selectOneClc1(int mno,int clcno,ModelAndView modelAndView) {
+		 
+		 
+		 HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		 infoMap.put("mno",mno);
+		 infoMap.put("clcno",clcno);
+		 
+		 HashMap<String, Object> detailClc = smService.detailClc(infoMap);
+		 
+		 modelAndView.setViewName("jsonView");
+		 modelAndView.addObject("detailClc",detailClc);
+		 
+		 return modelAndView;
+	 }
+	 
+	 
+	 @RequestMapping("rejectClc.sm")
+	 public String rejectClc(int mno,int clcno,String reason,HttpServletResponse response) {
+		 response.setContentType("text/html; charset=utf-8");
+		 System.out.println("mno : " + mno);
+		 System.out.println("clcno : " + clcno);
+		 System.out.println("reason : " + reason);
+		 
+		 HashMap<String, Object> rejectMap = new HashMap<String, Object>();
+		 rejectMap.put("mno", mno);
+		 rejectMap.put("clcno", clcno);
+		 rejectMap.put("reason", reason);
+		 
+		 int result = smService.rejectClc(rejectMap);
+		 
+		 try {
+			PrintWriter pw = response.getWriter();
+			
+			if(result > 0) {
+				//pw.println("<script>alert('블랙리스트에 추가 되었습니다.'); location.href='blackListManage.st';</script>\n");
+				pw.println("<script>alert('해당 정산 요청을 거절하였습니다.'); location.href='excView.sm?status=1';</script>\n");
+			}else {
+				pw.println("<script>alert('정산 거절에 실패하였습니다.<br/> 다시 시도해주세요.'); location.href='excView.sm?status=1';</script>\n");
+			}
+			
+			pw.flush();
+			pw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
+		 
+		 return "redirect:excView.sm";
+	 }
+	 
+	 @RequestMapping("selectReqCulList.sm")
+	 public ModelAndView selectReqCulList(int mno,@RequestParam("currentPage")String reqCurrentPage,ModelAndView modelAndView) {
+		int currentPage = 1;
+		 
+		if(reqCurrentPage != null) {
+			currentPage = Integer.parseInt(reqCurrentPage);
+		}
+		
+		int reqClcCount = smService.getReqClcCount(mno);
+		
+		PageInfo pi = Pagination.getSPageInfo(currentPage, reqClcCount);
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("pi", pi);
+		infoMap.put("mno", mno);		
+		
+		
+		
+		ArrayList<HashMap<String, Object>> reqClcList = smService.selectReqClcList(infoMap);
+		
+		System.out.println("reqClcList : " + reqClcList);
+		
+		infoMap.put("reqClcList", reqClcList);
+
+		
+		modelAndView.addObject("infoMap",infoMap);
+		modelAndView.setViewName("jsonView");
+
+	
+		 
+		 return modelAndView;
+	 }
+	 
+	@RequestMapping("selectChargeList.sm")
+	public ModelAndView selectChargeList(ModelAndView modelAndview, int mno,@RequestParam("currentPage")String reqCurrentPage) {
+		int currentPage = 1;
+		
+
+		if(reqCurrentPage != null) {
+			currentPage = Integer.parseInt(reqCurrentPage);
+		}
+		
+		int chargeCount = smService.getChargeCount(mno);
+		
+		PageInfo pi = Pagination.getSPageInfo(currentPage, chargeCount);
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("pi", pi);
+		infoMap.put("mno", mno);		
+		
+		
+		
+		ArrayList<HashMap<String, Object>> chargeList = smService.selectChargeList(infoMap);
+		
+		infoMap.put("chargeList", chargeList);
+
+		
+		modelAndview.addObject("infoMap",infoMap);
+		modelAndview.setViewName("jsonView");
+
+		return modelAndview;
+	}
+	
+	
+	@RequestMapping("confirmClc.sm")
+	public String confirmClc(int mno,int clcno,int clc_amount,HttpServletResponse response) {
+		
+		response.setContentType("text/html; charset=utf-8");
+		
+		HashMap<String, Object> infoMap= new HashMap<String, Object>();
+		
+		infoMap.put("mno", mno);
+		infoMap.put("clcno", clcno);
+		infoMap.put("clc_amount", clc_amount);
+		
+		int result = smService.confirmClc(infoMap);
+		
+		 try {
+				PrintWriter pw = response.getWriter();
+				
+				if(result > 0) {
+					//pw.println("<script>alert('블랙리스트에 추가 되었습니다.'); location.href='blackListManage.st';</script>\n");
+					pw.println("<script>alert('해당 정산 요청을 승인하였습니다.'); location.href='excView.sm?status=1';</script>\n");
+				}else {
+					pw.println("<script>alert('정산 승인에 실패하였습니다.<br/> 다시 시도해주세요.'); location.href='excView.sm?status=1';</script>\n");
+				}
+				
+				pw.flush();
+				pw.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		return "redirect:excView.sm";
+	}
+
 	
 }

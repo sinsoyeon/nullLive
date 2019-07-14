@@ -136,5 +136,29 @@ public interface StreamingDao {
 	 * @Comment : 현재 추천 수 가져오기
 	 */
 	int currRecom(SqlSessionTemplate sqlSession, String roomId);
+  
+	//시청자 순으로 정렬한 All Live 방송 조회
+	ArrayList<BroadList> sortVAllLiveList(SqlSessionTemplate sqlSession);
+
+	//시청자 순으로 정렬한 All Vod 방송 조회
+	ArrayList<BroadList> sortVAllVodList(SqlSessionTemplate sqlSession);
+
+	//시청자 순으로 정렬한 All Live 방송 조회(조건있음)
+	ArrayList<BroadList> sortVAllLiveList2(SqlSessionTemplate sqlSession, int condition);
+
+	//시청자 순으로 정렬한 All Vod 방송 조회(조건있음)
+	ArrayList<BroadList> sortVAllVodList2(SqlSessionTemplate sqlSession, int condition);
+
+	//추천 순으로 정렬한 All Live 방송 조회
+	ArrayList<BroadList> sortRAllLiveList(SqlSessionTemplate sqlSession);
+
+	//추천 순으로 정렬한 All Vod 방송 조회
+	ArrayList<BroadList> sortRAllVodList(SqlSessionTemplate sqlSession);
+
+	//추천 순으로 정렬한 All Live 방송 조회(조건있음)
+	ArrayList<BroadList> sortRAllLiveList2(SqlSessionTemplate sqlSession, int condition);
+
+	//추천 순으로 정렬한 All Vod 방송 조회(조건있음)
+	ArrayList<BroadList> sortRAllVodList2(SqlSessionTemplate sqlSession, int condition);
 
 }

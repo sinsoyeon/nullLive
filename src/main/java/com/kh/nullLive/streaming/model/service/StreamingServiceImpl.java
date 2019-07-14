@@ -159,6 +159,7 @@ public class StreamingServiceImpl implements StreamingService {
 		return sd.searchAllVodList(sqlSession, condition);
 	}
 
+
 	//방송 추천
 	@Override
 	public void recomStreamer(String mid, String streamerAddress) throws StreamingException {
@@ -173,6 +174,53 @@ public class StreamingServiceImpl implements StreamingService {
 	@Override
 	public int currRecom(String roomId) {
 		return sd.currRecom(sqlSession,roomId);
+  }
+	//시청자 순으로 정렬한 All Live 방송 조회
+	@Override
+	public ArrayList<BroadList> sortVAllLiveList() {
+		return sd.sortVAllLiveList(sqlSession);
+	}
+
+	//시청자 순으로 정렬한 All Vod 방송 조회
+	@Override
+	public ArrayList<BroadList> sortVAllVodList() {
+		return sd.sortVAllVodList(sqlSession);
+	}
+
+	//시청자 순으로 정렬한 All Live 방송 조회(조건있음)
+	@Override
+	public ArrayList<BroadList> sortVAllLiveList2(int condition) {
+		return sd.sortVAllLiveList2(sqlSession, condition);
+	}
+
+	//시청자 순으로 정렬한 All Vod 방송 조회(조건있음)
+	@Override
+	public ArrayList<BroadList> sortVAllVodList2(int condition) {
+		return sd.sortVAllVodList2(sqlSession, condition);
+	}
+
+	//추천 순으로 정렬한 All Live 방송 조회
+	@Override
+	public ArrayList<BroadList> sortRAllLiveList() {
+		return sd.sortRAllLiveList(sqlSession);
+	}
+
+	//추천 순으로 정렬한 All Vod 방송 조회
+	@Override
+	public ArrayList<BroadList> sortRAllVodList() {
+		return sd.sortRAllVodList(sqlSession);
+	}
+
+	//추천 순으로 정렬한 All Live 방송 조회(조건있음)
+	@Override
+	public ArrayList<BroadList> sortRAllLiveList2(int condition) {
+		return sd.sortRAllLiveList2(sqlSession, condition);
+	}
+
+	//추천 순으로 정렬한 All Vod 방송 조회(조건있음)
+	@Override
+	public ArrayList<BroadList> sortRAllVodList2(int condition) {
+		return sd.sortRAllVodList2(sqlSession, condition);
 	}
 
 }

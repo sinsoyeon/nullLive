@@ -317,6 +317,48 @@ public class StreamerDaoImpl implements StreamerDao {
 		return sqlSession.selectOne("Streamer.getChargeCount",mno);
 	}
 
+	@Override
+	public HashMap<String, Object> detailClc(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Streamer.detailClc",infoMap);
+	}
+
+	@Override
+	public int rejectClc(SqlSessionTemplate sqlSession, HashMap<String, Object> rejectMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("Streamer.rejectClc",rejectMap);
+	}
+
+	@Override
+	public int getReqClcCount(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Streamer.getReqClcCount",mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectReqClcList(SqlSessionTemplate sqlSession,
+			HashMap<String, Object> infoMap) {
+		int mno = (int)infoMap.get("mno");
+		PageInfo pi = (PageInfo)infoMap.get("pi");
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi.getLimit());
+		
+		return (ArrayList)sqlSession.selectList("Streamer.selectReqClcList", mno,rowBounds);
+	}
+
+	@Override
+	public int confirmClc(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("Streamer.confirmClc", infoMap);
+	}
+
+	@Override
+	public int updateClcPoint(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("Streamer.updateClcPoint",infoMap);
+	}
+
 
 	
 }

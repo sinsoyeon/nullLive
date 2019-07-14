@@ -13,7 +13,7 @@
 	<script type="text/javascript" src="${ contextPath }/resources/css/semantic/semantic.min.js"></script>
 <link rel="stylesheet"
 	href="${ contextPath }/resources/css/streamer/streamerMenu.css">
-<script src="https://code.jquery.com/jquery-1.4.4.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-1.4.4.min.js"></script> -->
 <style>
 </style>
 </head>

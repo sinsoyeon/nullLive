@@ -223,6 +223,7 @@ public class StreamingDaoImpl implements StreamingDao {
 		return list;
 	}
 
+
 	//방송 시작 스트리머 정보 가져오기
 	@Override
 	public HashMap<String, Object> getStreamingInfo(SqlSessionTemplate sqlSession, BroadHis broadHis) {
@@ -253,6 +254,137 @@ public class StreamingDaoImpl implements StreamingDao {
 	@Override
 	public int currRecom(SqlSessionTemplate sqlSession, String roomId) {
 		return sqlSession.selectOne("Streaming.currRecom",roomId);
+
+	//시청자 순으로 정렬한 All Live 방송 조회
+	@Override
+	public ArrayList<BroadList> sortVAllLiveList(SqlSessionTemplate sqlSession) {
+		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.sortVAllLiveList");
+		
+		return list;
+	}
+
+	//시청자 순으로 정렬한 All Vod 방송 조회
+	@Override
+	public ArrayList<BroadList> sortVAllVodList(SqlSessionTemplate sqlSession) {
+		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.sortVAllVodList");
+		
+		return list;
+	}
+
+	//시청자 순으로 정렬한 All Live 방송 조회(조건있음)
+	@Override
+	public ArrayList<BroadList> sortVAllLiveList2(SqlSessionTemplate sqlSession, int condition) {
+		ArrayList<BroadList> list = null;
+		
+		String searchCondition = "";
+
+		switch(condition) {
+		case 1 : return (ArrayList) sqlSession.selectList("Streaming.sortVAllLiveList");
+		case 2 : searchCondition = "캠방"; break;
+		case 3 : searchCondition = "게임"; break;
+		case 4 : searchCondition = "음악"; break;
+		case 5 : searchCondition = "야방"; break;
+		case 6 : searchCondition = "취미"; break;
+		case 7 : searchCondition = "펫방"; break;
+		case 8 : searchCondition = "스포츠"; break;
+		case 9 : searchCondition = "라디오"; break;
+		default : searchCondition = "기타"; break;
+		}
+		
+		list = (ArrayList) sqlSession.selectList("Streaming.sortVAllLiveList2", searchCondition);
+		
+		return list;
+	}
+
+	//시청자 순으로 정렬한 All Vod 방송 조회(조건있음)
+	@Override
+	public ArrayList<BroadList> sortVAllVodList2(SqlSessionTemplate sqlSession, int condition) {
+		ArrayList<BroadList> list = null;
+		
+		String searchCondition = "";
+
+		switch(condition) {
+		case 1 : return (ArrayList) sqlSession.selectList("Streaming.sortVAllVodList");
+		case 2 : searchCondition = "캠방"; break;
+		case 3 : searchCondition = "게임"; break;
+		case 4 : searchCondition = "음악"; break;
+		case 5 : searchCondition = "야방"; break;
+		case 6 : searchCondition = "취미"; break;
+		case 7 : searchCondition = "펫방"; break;
+		case 8 : searchCondition = "스포츠"; break;
+		case 9 : searchCondition = "라디오"; break;
+		default : searchCondition = "기타"; break;
+		}
+		
+		list = (ArrayList) sqlSession.selectList("Streaming.sortVAllVodList2", searchCondition);
+		
+		return list;
+	}
+	
+	//추천 순으로 정렬한 All Live 방송 조회
+	@Override
+	public ArrayList<BroadList> sortRAllLiveList(SqlSessionTemplate sqlSession) {
+		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.sortRAllLiveList");
+		
+		return list;
+	}
+
+	//추천 순으로 정렬한 All Vod 방송 조회
+	@Override
+	public ArrayList<BroadList> sortRAllVodList(SqlSessionTemplate sqlSession) {
+		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.sortRAllVodList");
+		
+		return list;
+	}
+
+	//추천 순으로 정렬한 All Live 방송 조회(조건있음)
+	@Override
+	public ArrayList<BroadList> sortRAllLiveList2(SqlSessionTemplate sqlSession, int condition) {
+		ArrayList<BroadList> list = null;
+		
+		String searchCondition = "";
+
+		switch(condition) {
+		case 1 : return (ArrayList) sqlSession.selectList("Streaming.sortRAllLiveList");
+		case 2 : searchCondition = "캠방"; break;
+		case 3 : searchCondition = "게임"; break;
+		case 4 : searchCondition = "음악"; break;
+		case 5 : searchCondition = "야방"; break;
+		case 6 : searchCondition = "취미"; break;
+		case 7 : searchCondition = "펫방"; break;
+		case 8 : searchCondition = "스포츠"; break;
+		case 9 : searchCondition = "라디오"; break;
+		default : searchCondition = "기타"; break;
+		}
+		
+		list = (ArrayList) sqlSession.selectList("Streaming.sortRAllLiveList2", searchCondition);
+		
+		return list;
+	}
+
+	//추천 순으로 정렬한 All Vod 방송 조회(조건있음)
+	@Override
+	public ArrayList<BroadList> sortRAllVodList2(SqlSessionTemplate sqlSession, int condition) {
+		ArrayList<BroadList> list = null;
+		
+		String searchCondition = "";
+
+		switch(condition) {
+		case 1 : return (ArrayList) sqlSession.selectList("Streaming.sortRAllVodList");
+		case 2 : searchCondition = "캠방"; break;
+		case 3 : searchCondition = "게임"; break;
+		case 4 : searchCondition = "음악"; break;
+		case 5 : searchCondition = "야방"; break;
+		case 6 : searchCondition = "취미"; break;
+		case 7 : searchCondition = "펫방"; break;
+		case 8 : searchCondition = "스포츠"; break;
+		case 9 : searchCondition = "라디오"; break;
+		default : searchCondition = "기타"; break;
+		}
+		
+		list = (ArrayList) sqlSession.selectList("Streaming.sortRAllVodList2", searchCondition);
+		
+		return list;
 	}
 
 }

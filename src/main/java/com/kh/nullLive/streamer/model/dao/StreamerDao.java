@@ -88,6 +88,18 @@ public interface StreamerDao {
 
 	int getChargeCount(SqlSessionTemplate sqlSession, int mno);
 
+	HashMap<String, Object> detailClc(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
+	int rejectClc(SqlSessionTemplate sqlSession, HashMap<String, Object> rejectMap);
+
+	int getReqClcCount(SqlSessionTemplate sqlSession, int mno);
+
+	ArrayList<HashMap<String, Object>> selectReqClcList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
+	int confirmClc(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
+	int updateClcPoint(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
 
 
 

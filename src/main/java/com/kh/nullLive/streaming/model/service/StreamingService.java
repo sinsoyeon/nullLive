@@ -113,4 +113,28 @@ public interface StreamingService {
 	 */
 	int currRecom(String roomId);
 
+	//시청자 순으로 정렬한 All Live 방송 조회
+	ArrayList<BroadList> sortVAllLiveList();
+
+	//시청자 순으로 정렬한 All Vod 방송 조회
+	ArrayList<BroadList> sortVAllVodList();
+
+	//시청자 순으로 정렬한 All Live 방송 조회(조건있음)
+	ArrayList<BroadList> sortVAllLiveList2(int condition);
+
+	//시청자 순으로 정렬한 All Vod 방송 조회(조건있음)
+	ArrayList<BroadList> sortVAllVodList2(int condition);
+
+	//추천 순으로 정렬한 All Live 방송 조회
+	ArrayList<BroadList> sortRAllLiveList();
+
+	//추천 순으로 정렬한 All Vod 방송 조회
+	ArrayList<BroadList> sortRAllVodList();
+
+	//추천 순으로 정렬한 All Live 방송 조회(조건있음)
+	ArrayList<BroadList> sortRAllLiveList2(int condition);
+
+	//추천 순으로 정렬한 All Vod 방송 조회(조건있음)
+	ArrayList<BroadList> sortRAllVodList2(int condition);
+
 }

@@ -11,6 +11,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <style>
 .pagination>li>a { border-radius: 50% !important;margin: 0 5px;}
+#clcListBtn{cursor:pointer;}
 </style>	
 </head>
 <body>
@@ -19,6 +20,11 @@
 	</c:if>
 	<c:if test="${!empty loginUser }">
 		<jsp:include page="recordPageNavbar.jsp"/>
+				<ol class="breadcrumb" style="padding-left:460px !important; padding-top:-30px !important;">
+				    <li><a href="#" id="pointBtn">포인트(환전/충전) 기록</a></li>
+				    <li id="clcListBtn">정산 기록</li>   
+				    <li id="reqClcBtn">나의 스트리머 확인</li>   
+				  </ol>	
 		<div class="row">
 			<div class="col-md-3"></div>
 			
@@ -74,7 +80,7 @@
 					</div>					
 				</div>
 				<div id="calArea" align="center">
-					<h4 style="color: #333333 !important;" id="textLine1">정산 신청 내역</h4>
+					<h4 style="color: #333333 !important;" id="textLine1">정산 처리 내역</h4>
 					<table class="table" id="calTable">
 						<thead class="thead-dark"
 							style="color: #fff; ! important; background: #333 !important;">
@@ -97,9 +103,65 @@
 						
 						</ul>
 					</div>	
-				</div>										
+				</div>		
 				
+				<div id="reqCalArea" align="center">
+					<h4 style="color: #333333 !important;" id="textLine1">정산 요청 내역</h4>
+					<table class="table" id="reqCalTable">
+						<thead class="thead-dark"
+							style="color: #fff; ! important; background: #333 !important;">
+							<tr>
+								<th scope="col">나의 스트리머</th>
+								<th scope="col">계약 시작일</th>
+								<th scope="col">계약 종료일</th>
+								<th scope="col">요청 날짜</th>
+								<th scope="col">요청 금액</th>
+								<th scope="col">처리 상태</th>
+							</tr>
+						</thead>
+						<tbody>
+							
+						</tbody>
+					</table>
+					<div id="reqClcPaging" align="center">
+						<ul class="pagination">
 						
+						
+						</ul>
+					</div>	
+				</div>														
+				
+				
+				
+				<div id="reqCalListArea" align="center">
+				<div class="jumbotron">
+				  <h1>Hello, ${loginUser.nickName}</h1>
+				  <p>스트리머님과의 추억을 시작해보세요.</p>
+				  <p><a class="btn btn-primary btn-lg" href="#" id="myStreamer" role="button">나의 스트리머</a></p>
+				</div>
+					
+					<table class="table" id="reqCalListTable">
+						<thead class="thead-dark"
+							style="color: #fff; ! important; background: #333 !important;">
+							<tr>
+								<th scope="col">나의 스트리머</th>
+								<th scope="col">계약 시작일</th>
+								<th scope="col">계약 종료일</th>
+								<th scope="col">정산 하기</th>
+							</tr>
+						</thead>
+						<tbody>
+							
+						</tbody>
+					</table>
+					<div id="reqClcListPaging" align="center">
+						<ul class="pagination">
+						
+						
+						</ul>
+					</div>	
+				</div>														
+										
 			</div>
 			
 			
@@ -116,18 +178,20 @@
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 						<h4 class="modal-title" style="text-align: center;"
-							id="searchHeader">환전 상세보기</h4>
+							id="searchHeader">상세보기</h4>
 					</div>
 					<div class="modal-body">
 						<div id="bodyArea" align="center">
-							<h4>상세보기</h4>
-						<input type="hidden" id="excno" />
-						<input type="hidden" id="mno" value="${loginUser.mno }" />	
-							<table id="detailTable">
-								<tbody>
-								
-								</tbody>
-							</table>							
+							<form id="detailForm" action="" method="post">		
+							<input type="hidden" id="excno" name="excno"/>
+							<input type="hidden" id="mno" value="${loginUser.mno }" name="mno" />	
+						
+								<table id="detailTable">
+									<tbody>
+									
+									</tbody>
+								</table>		
+							</form>					
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -170,10 +234,85 @@
 		$(function(){
 			// tableName : myExcTable
 			var mno = ${loginUser.mno};
+			
+			var params = getUrlParams();
+			console.log(params);
+			console.log(params.status);
+			if(params.status==1){
+				console.log('st');
+				clcBtnClick();
+			}else{
 			excList(mno,1);
 			chargeList(mno,1);
-			calList(mno,1);
+			$('#calArea').hide();
+			$('#reqCalArea').hide();
+			$('.jumbotron').hide();
+			$('#reqCalListTable').hide();
+			$('#reqCalListArea').hide();
+			}
+			
 		
+			
+			/* calList(mno,1); */
+			
+			
+		
+		});
+		
+		function getUrlParams() {
+		    var params = {};
+		    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+		    return params;
+		} 
+		
+		
+		$('#clcListBtn').click(function(){
+			clcBtnClick();
+		});
+		
+		function clcBtnClick(){
+				var mno = ${loginUser.mno};
+				calList(mno,1);
+				reqClcList(mno,1);
+				$('#calArea').show();
+				$('#reqCalArea').show();
+				$('#myExcTableArea').hide();
+				$('#chargeArea').hide();	
+				$('#reqCalListTable').hide();
+				$('#reqCalListArea').hide();
+				history.replaceState({}, null, location.pathname);
+		}
+		
+		$('#pointBtn').click(function(){
+			var mno = ${loginUser.mno};
+			excList(mno,1);
+			chargeList(mno,1);
+			$('#myExcTableArea').show();
+			$('#chargeArea').show();
+			$('#calArea').hide();
+			$('#reqCalArea').hide();
+			$('#reqCalListTable').hide();
+			$('.jumbotron').hide();
+			$('#reqCalListArea').hide();
+		});
+		
+		$('#reqClcBtn').click(function(){
+			var mno = ${loginUser.mno};
+			$('#myExcTableArea').hide();
+			$('#chargeArea').hide();
+			$('#calArea').hide();
+			$('#reqCalListTable').hide();
+			$('#reqCalArea').hide();
+			$('.jumbotron').show();
+			$('#reqCalListArea').show();
+		});
+		
+		$('#myStreamer').click(function(){
+			$('#reqCalListTable').show();
+			$('.jumbotron').show();
+			$('#reqCalListArea').show();
+			
+			selectMyStreamer(mno,1);
 		});
 
 	</script>

@@ -379,7 +379,7 @@
 		VALUES(SEQ_SNO.NEXTVAL,#{mno},SYSDATE,DEFAULT,DEFAULT)
 	</insert>
 	
-	<!-- 블랙리스트 추가 -->
+	<!-- 블랙리스트 추가(소연) -->
 	<insert id="insertBlackList" parameterType="java.util.HashMap">
 		INSERT INTO BLACKLIST VALUES(SEQ_BLNO.NEXTVAL,#{mno},SYSDATE,'Y',(SELECT MNO FROM MEMBER WHERE MID=#{userId}))
 	</insert>
@@ -427,12 +427,12 @@
 	AND BL_STATUS = 'Y'
 	</select>	
 	
-	<!-- 다중 블랙리스트 처리 -->
+	<!-- 다중 블랙리스트 처리(소연) -->
 	<update id="mutipleDeleteBlack" parameterType="java.util.HashMap">
 		UPDATE BLACKLIST SET BL_STATUS = 'N' WHERE SNO = #{mno} AND BLNO = #{blno}
 	</update>
 	
-	<!-- 스트리머 정산 내역 count 조회 -->
+	<!-- 스트리머 정산 내역 count 조회 (소연)-->
 	<select id="getCulCount" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) AS CLC_COUNT
 		FROM (SELECT C.CLCNO,M.NICK_NAME,TO_CHAR(R.C_SDATE,'YYYY/MM/DD') AS SDATE,TO_CHAR(R.C_EDATE,'YYYY/MM/DD') AS EDATE
@@ -451,7 +451,7 @@
 	
 	<!-- 내가 정산해준  내역 조회(소연) -->
 	<select id="clcList" parameterType="_int" resultType="java.util.HashMap">
-		SELECT CALVIEW.*,( CASE WHEN DEC_DATE IS NOT NULL THEN '재신청 완료' END) AS REAPPLY
+		SELECT CALVIEW.*,( CASE WHEN DEC_DATE IS NOT NULL AND DEC_STATUS='Y' THEN '재신청 완료' END) AS REAPPLY
 		FROM (SELECT C.CLCNO,M.NICK_NAME,TO_CHAR(R.C_SDATE,'YYYY/MM/DD') AS SDATE,TO_CHAR(R.C_EDATE,'YYYY/MM/DD') AS EDATE
 		            ,TO_CHAR(CLC_DATE,'YYYY/MM/DD') AS CLC_DATE,CLC_AMOUNT,CLC_STATUS,DEC_STATUS,DEC_DATE
 		FROM MEMBER M,MEMBER ST,STREAMER S,PARTNER P,CONTRACT R,CALCULATE C,DECLINE D
@@ -463,19 +463,39 @@
 		AND D.CLCNO(+) = C.CLCNO
 		AND ST.MNO = #{mno}
 		order by dec_status desc) CALVIEW
+		order by clc_status desc,dec_status asc
 	</select>
 	
-	<!-- 거절 이력 조회 -->
+	<!-- 거절 이력 조회(소연) -->
 	<select id="selecOneClc" resultType="java.util.HashMap" parameterType="java.util.HashMap">	
-		SELECT DECNO,M.NICK_NAME,ST.NICK_NAME AS ST_NICK_NAME,ST.MID,TO_CHAR(R.C_SDATE,'YYYY/MM/DD') AS SDATE,TO_CHAR(R.C_EDATE,'YYYY/MM/DD') AS EDATE,
-		            CLC_AMOUNT,TO_CHAR(DEC_DATE,'YYYY/MM/DD')AS DEC_DATE,DEC_REASON,TO_CHAR(CLC_REQ_DATE,'YYYY/MM/DD')AS CLC_REQ_DATE
-		FROM MEMBER M,MEMBER ST,PARTNER P,CALCULATE C,CONTRACT R,DECLINE D
+		SELECT ST.MID,ST.NICK_NAME,TO_CHAR(R.C_SDATE,'YYYY/MM/DD')AS SDATE,TO_CHAR(R.C_EDATE,'YYYY/MM/DD') AS EDATE,
+			   TO_CHAR(C.CLC_DATE,'YYYY/MM/DD') AS CLC_DATE,C.CLC_STATUS,C.CLCNO,
+			   D.DECNO,D.DEC_STATUS,TO_CHAR(D.DEC_DATE,'YY/MM/DD')AS DEC_DATE,PERPRICE,PTYPE,
+			   TO_CHAR(CLC_AMOUNT,'999,999,999')AS CLC_AMOUNT,DEC_REASON,DECNO
+		FROM MEMBER M,MEMBER ST, STREAMER S,PARTNER P,CONTRACT R,CALCULATE C,DECLINE D
 		WHERE M.MNO = P.MNO
-		AND ST.MNO = P.SNO
-		AND C.SNO = ST.MNO
+		AND ST.MNO = S.MNO
+		AND S.SNO = P.SNO
 		AND R.CNO = P.CNO
-		AND P.PNO = C.CLCNO
-		AND D.CLCNO = C.CLCNO
+		AND C.PNO = P.PNO
+		AND C.CLCNO = D.CLCNO(+)
+		AND M.MNO = #{mno}
+		AND C.CLCNO = #{clcno}
+	</select>
+	
+	<!-- 요청받은 정산 내역 조회(소연) -->
+	<select id="detailClc" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+		SELECT M.MID,M.NICK_NAME,C.CLCNO,P.PTYPE,
+				C.CLC_AMOUNT,J.PERPRICE,
+				TO_CHAR(R.C_SDATE,'YYYY/MM/DD')AS SDATE,TO_CHAR(C.CLC_DATE,'YYYY/MM/DD') AS CLC_DATE
+		FROM MEMBER M,MEMBER ST,STREAMER S,PARTNER P,CALCULATE C,JOB_BOARD J,CONTRACT R,BOARD B
+		WHERE M.MNO = P.MNO
+		AND ST.MNO = S.MNO
+		AND S.SNO = P.SNO
+		AND P.PNO = C.PNO
+		AND J.BNO = B.BNO
+		AND R.CNO = P.CNO
+		AND J.JBNO = R.JBNO
 		AND ST.MNO = #{mno}
 		AND C.CLCNO = #{clcno}
 	</select>
@@ -489,32 +509,102 @@
 	
 
 
-	<!-- 정산 작업중 (status update) -->
+	<!-- 정산 작업중 (status update) 소연 -->
 	<update id="reClc" parameterType="java.util.HashMap">
 		update decline 
 		set DEC_STATUS = 'Y' 
 		where clcno = (select C.clcno 
 						from CALCULATE C,decline D 
-						where c.clcno = d.clcno and decno = #{decno} and C.SNO = (select distinct mno 
-																					from member 
-																					where mno = #{mno}))
+						where c.clcno = d.clcno and decno = #{decno}  
+						and C.SNO = (select sno 
+									 from calculate c,decline d 
+									 where c.clcno = d.clcno 
+									 and decno=#{decno})) 
 	</update>
 	
+	<!-- 정산 재신청 (소연) -->
 	<insert id="reInsertClc" parameterType="java.util.HashMap">
 		insert into calculate values (SEQ_CLCNO.NEXTVAL,#{mno},#{PNO},sysdate,#{CLC_AMOUNT},'N',sysdate)
 	</insert>
 	
+	
+	<!-- insert용 데이터 조회(소연) -->
 	<select id="getInsertData" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		SELECT S.SNO,P.PNO,CLC_AMOUNT
 		FROM MEMBER M, MEMBER ST,STREAMER S,PARTNER P,DECLINE D,CALCULATE C
-		WHERE ST.MNO = S.MNO
+		WHERE M.MNO = P.MNO
+		AND ST.MNO = S.MNO
 		AND S.SNO = P.SNO
-		AND S.MNO = M.MNO
-		AND P.SNO = S.SNO
-		AND P.PNO = C.PNO
-		AND D.CLCNO = C.CLCNO		
+		AND C.PNO = P.PNO
+		AND C.CLCNO = D.CLCNO(+)		
 		AND D.DECNO = #{decno}
 		AND M.MNO = #{mno}
 			
 	</select>
+	
+	<!-- 요청한 정산 내역 카운트 조회 -->
+	<select  id="getReqClcCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM(SELECT C.*
+		    FROM MEMBER M,MEMBER ST, STREAMER S,PARTNER P,CONTRACT R,CALCULATE C,DECLINE D
+		    WHERE M.MNO = P.MNO
+		    AND ST.MNO = S.MNO
+		    AND S.SNO = P.SNO
+		    AND R.CNO = P.CNO
+		    AND C.PNO = P.PNO
+		    AND C.CLCNO = D.CLCNO(+)
+		    AND M.MNO = #{mno})
+		ORDER BY 1 ASC
+	</select>
+	
+	<!-- 내가 요청한 정산 내역 조회 -->
+	<select id="selectReqClcList" resultType="java.util.HashMap">
+	SELECT CLCVIEW.*,( CASE WHEN DEC_DATE IS NOT NULL AND DEC_STATUS='Y' THEN '재신청 완료'
+	                        WHEN CLC_STATUS = 'Y' THEN '정산 완료' 
+	                        WHEN DEC_DATE IS NOT NULL AND DEC_STATUS='N' THEN '정산 거절' 
+	                        WHEN DEC_DATE IS NULL AND CLC_STATUS='N' THEN '정산 접수' END) AS REAPPLY               
+	FROM(SELECT ST.MID,ST.NICK_NAME,TO_CHAR(R.C_SDATE,'YYYY/MM/DD')AS SDATE,TO_CHAR(R.C_EDATE,'YYYY/MM/DD') AS EDATE,
+				TO_CHAR(C.CLC_DATE,'YYYY/MM/DD') AS CLC_DATE,C.CLC_STATUS,
+				C.CLCNO,D.DECNO,D.DEC_STATUS,TO_CHAR(D.DEC_DATE,'YY/MM/DD')AS DEC_DATE,
+				TO_CHAR(clc_req_date,'YYYY/MM/DD')AS CLC_REQ_DATE,TO_CHAR(CLC_AMOUNT,'999,999,999')AS CLC_AMOUNT
+		FROM MEMBER M,MEMBER ST, STREAMER S,PARTNER P,CONTRACT R,CALCULATE C,DECLINE D
+		WHERE M.MNO = P.MNO
+		AND ST.MNO = S.MNO
+		AND S.SNO = P.SNO
+		AND R.CNO = P.CNO
+		AND C.PNO = P.PNO
+		AND C.CLCNO = D.CLCNO(+)
+		AND M.MNO = #{mno}) CLCVIEW
+		order by clc_status asc,dec_status asc,clc_req_date asc
+	</select>
+	
+	<!-- 정산 거절 이력 추가(소연) -->
+	<insert id="rejectClc" parameterType="java.util.HashMap">
+		INSERT INTO DECLINE VALUES (SEQ_DECNO.NEXTVAL,#{reason},#{clcno},SYSDATE,'N')	
+	</insert>
+	
+	<!-- 좆같은 정산처리 중 ♡♡ -->
+	<update id="confirmClc"  parameterType="java.util.HashMap">
+	UPDATE CALCULATE SET CLC_STATUS='Y' WHERE CLCNO = #{clcno}
+	</update>
+	
+	<!-- 좆같은 정산처리 중 ♡♡ -->
+	<update id="updateClcPoint" parameterType="java.util.HashMap">
+	UPDATE MEMBER
+	SET POINT = (SELECT M.POINT
+	            FROM MEMBER M,MEMBER ST,STREAMER S,PARTNER P,CALCULATE C
+	            WHERE M.MNO = P.MNO
+	            AND ST.MNO = S.MNO
+	            AND S.SNO = P.SNO
+	            AND C.PNO = P.PNO
+	            AND C.CLCNO = #{clcno}) + #{clc_amount}
+	WHERE MNO = (SELECT M.MNO
+	             FROM MEMBER M,MEMBER ST,STREAMER S,PARTNER P,CALCULATE C
+	             WHERE M.MNO = P.MNO
+	             AND ST.MNO = S.MNO
+	             AND S.SNO = P.SNO
+	             AND C.PNO = P.PNO
+	             AND C.CLCNO = #{clcno})
+	</update>
+	
 </mapper>
