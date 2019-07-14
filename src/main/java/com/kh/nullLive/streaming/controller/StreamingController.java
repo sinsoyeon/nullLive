@@ -103,8 +103,8 @@ public class StreamingController {
 			}else {
 				HashMap<String,Object> hmap = ss.enterStream(loginUser,streamerAddress);
 				model.addAttribute("broadInfo",hmap);		//방송 정보 담아가야함
-				model.addAttribute("title", hmap.get("title"));
-				model.addAttribute("bhno",hmap.get("bhno"));
+				model.addAttribute("title", hmap.get("TITLE"));
+				model.addAttribute("bhno",hmap.get("BHNO"));
 				model.addAttribute("mid",loginUser.getMid());
 
 				return "streaming/streamRoom";

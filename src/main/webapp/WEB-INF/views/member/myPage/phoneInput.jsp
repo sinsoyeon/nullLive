@@ -38,6 +38,11 @@
 	</div>
 	<script>
 	var smsCode;
+	$("#p3").keydown(function(key){
+	    if(key.keyCode == 13){
+	    	phoneCheck();
+	    }
+	});
 	$(function(){
 		$("#phoneInputForm").hide();
 		//쿼리 스트링 값 가져오기 (key=value 식)

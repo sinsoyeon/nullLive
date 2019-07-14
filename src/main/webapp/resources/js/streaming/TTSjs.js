@@ -18,12 +18,12 @@ function payment(){
 	var requestMsg = $("#requestMsg").val();
 var amount = $("#inputMoney").val();
 
-
-if($("#point").val()> amount){		
-		insertNP(amount,requestMsg);
-	}else{
-		importService(amount,requestMsg);
-	}
+insertNP(amount,requestMsg);
+// if($("#point").val()> amount){		
+// 		insertNP(amount,requestMsg);
+// 	}else{
+// 		importService(amount,requestMsg);
+// 	}
  }
 
 
@@ -44,30 +44,43 @@ $.ajax({
 		
 		var nickName = $('#nickName').val();
 			console.log(nickName);
-			loadTTS(nickName,requestMsg);
+			// loadTTS(nickName,requestMsg);
+			var msg="tts##"
+			msg += nickName+'&'+requestMsg;
+			connection.send(msg);
 		}
 		
 	});
 };
 
-/*function loadTTS(nickName,requestMsg){
-	if(requestMsg!=null){
-		connection.onMessageEvent				
-	}
-	
-	
+function loadTTS(nickName,requestMsg){
 	$.ajax({
 		url:"tts.me",
 		type:"post",
 		data:{nickName:nickName,requestMsg:requestMsg},
 		success:function(data){
-			console.log('tts 연동중');
+			console.log('tts 파일 완성');
+			connection.send('startTTS##'+data);
 		},
 		error:function(data){
 			console.log(data);
 		}	
+	});
+};
+
+function startTTS(fileName){
+	//ajax
+	$.ajax({
+		url:"startTTs.me",
+		type:"post",
+		data:{fileName:fileName},
+		success:function(data){
+			
+		}
 	})
-};*/
+}
+	//
+
 
 ///여기까지
 

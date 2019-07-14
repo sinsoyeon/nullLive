@@ -15,10 +15,12 @@ import java.io.OutputStream;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class TextToSpeach {	
 	@RequestMapping("tts.me")
+	@ResponseBody
 	public String textToSpeach(@RequestParam("requestMsg")String requestMsg,@RequestParam("nickName")String nickName) {
 		  try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create()) {
 		      SynthesisInput input = SynthesisInput.newBuilder()
@@ -40,11 +42,11 @@ public class TextToSpeach {
 
             ByteString audioContents = response.getAudioContent();
 
-		      String fileName = nickName + "/" + "01.mp3";
+		      String fileName = nickName + "01.mp3";
 		      
 		      try (OutputStream out = new FileOutputStream(fileName)) {
 		        out.write(audioContents.toByteArray());
-				/* new SoundPlayer("output.mp3",false).start(); */
+				/* new SoundPlayer(fileName,false).start(); */
 		        System.out.println("성공했습니다.");		       
 		        return fileName;
 		      }
@@ -52,5 +54,15 @@ public class TextToSpeach {
 			e.printStackTrace();
 			return "";
 		}
+	}
+	
+	
+	@RequestMapping("startTTs.me")
+	@ResponseBody
+	public String startTTS(String fileName) {
+		
+		 new SoundPlayer(fileName,false).start();
+		
+		return "";
 	}
 }

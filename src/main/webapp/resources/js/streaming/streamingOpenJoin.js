@@ -11,18 +11,17 @@ $(function(){
     }else{
         joinStreaming();
     }
-    //$("#logModal").modal("hide");
+    $("#sponModal").hide();
 })
 function openStreaming() {
     connection.open(document.getElementById('room-id').value);
-	 $("#sponModal").hide();
     openJoinStreaming();
     /*console.log(io.sockets.manager.rooms(document.getElemnetById('room-id').value));*/
 };
 
 $('#sponBtn').click(function(){
 	console.log('열림');
-	 $("#sponModal").modal();
+	 $("#sponModal").show();
 });
 
 
@@ -42,6 +41,14 @@ function joinStreaming(){
     connection.join(document.getElementById('room-id').value);
 }
 
+//방송 종료 멘트 출력
+function endingComment(){
+    if($("#mid").val() != $("#roomId").val()) {
+        alert('방송이 종료되었습니다.');
+        $("#VideoArea").append('<p style="font-size:2em;color:white;margin-left:15px;margin-top:50px;">'+$("#endingComment").val()+'</p>')
+        window.close();
+    }
+}
 
 // ......................................................
 // ..................RTCMultiConnection Code.............
@@ -96,10 +103,55 @@ function testMsg(){
     connection.send('testMsg()보냄');
 }
 
-connection.onmessage  = function(event){
-    console.log(event.data);
+// .................채팅......................
+//엔터키 입력시
+$("#inputMsg").keydown(function(key){
+    if(key.keyCode == 13){
+    //msg_send 클릭
+    msg_send.click();
+    }
+});
+
+connection.onmessage  = function(event) {
     console.log(event);
+    //넘어온 데이터
+    var dataArr = event.data.split('##');
+
+    //채팅 넘어온 경우
+    if(dataArr[0] == 'chat'){
+        //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
+        $('<div></div>').text(dataArr[1]+'').appendTo("#chat-box");
+        $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
+    }else if(dataArr[0] == 'tts') {
+        if($("#mid").val() == $("#roomId").val()) {
+            var info = dataArr[1].split('&');
+            console.log(dataArr);
+            loadTTS(info[0],info[1]);
+        }
+    }else if(dataArr[0] == 'startTTS'){
+        startTTS(dataArr[1]);
+    }
 }
+
+//msg_send 클릭시
+$("#msg_send").click(function(){
+var output ='chat##';
+var chatData = '';
+chatData += $("#nickName").val();
+chatData += ' : ';
+chatData += $("#inputMsg").val();
+connection.send(output+chatData);
+$('<div></div>').text(chatData).appendTo("#chat-box");
+$("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
+
+//#inputMsg 비움
+$("#inputMsg").val("");
+});
+
+//   //DB에 저장되어 있는 내용을 가져올 경우
+//   socket.on('preload', function(data){
+//     $('<div></div>').text(data.name + " : " + data.message).appendTo("#chat-box");
+//   });
 
 // 금칙어 같은거 할 때 쓸만한 코드
 // document.getElementById('input-text-chat').onkeyup = function(e) {
@@ -112,6 +164,7 @@ connection.onmessage  = function(event){
 //     this.value = '';
 //   };
 
+//..............................................
 //..............CustomMessageEnd................
 
 //...............resolution change..............

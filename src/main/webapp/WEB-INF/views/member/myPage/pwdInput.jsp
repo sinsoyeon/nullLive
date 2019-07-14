@@ -16,7 +16,7 @@
 		<form id="pwdCheckForm" method="post">
 		<input type="hidden" name="mid" value="${loginUser.mid}"/>
 			<div>
-				비밀번호 : <input type="password" class="form-control" name="mpwd" autofocus>
+				비밀번호 : <input type="password" class="form-control" name="mpwd" id="mpwd" autofocus>
 			</div>
 			<div style="margin-top:20px;">
 				<button type="button" class="form-control btn btn-primary" onclick="pwdCheck()">입력</button>
@@ -24,6 +24,11 @@
 		</form>
 	</div>
 	<script>
+	$("#mpwd").keydown(function(key){
+	    if(key.keyCode == 13){
+	    	pwdCheck();
+	    }
+	});
 		function pwdCheck(){
 			$("#pwdCheckForm").attr("action","pwdCheck.me").submit();
 		}
