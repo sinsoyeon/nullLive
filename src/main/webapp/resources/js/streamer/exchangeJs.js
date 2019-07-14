@@ -85,6 +85,66 @@ function chargeList(mno,currentPage){
 	});
 }
 
+
+function reqClcList(mno,currentPage){
+	$("#reqCalTable > tbody").html('');
+	console.log('mno : ' + mno)
+	$.ajax({
+		url:"selectReqCulList.sm",
+		type:"post",
+		data:{mno:mno,currentPage:currentPage},
+		success:function(data){
+			console.log(data.infoMap);
+			$("#reqClcPaging > ul").html('');
+			
+			var clcList = data.infoMap.reqClcList;
+			var pi = data.pi;
+			console.log(clcList);
+			$.each(clcList,function(index,value){
+				
+			var status = '';
+			
+			if(value["REAPPLY"]=='정산 거절'){
+				status = '<button id="decBtn" class="btn btn-primary">거절 이력 보기</button>';
+			}else{
+				status = value["REAPPLY"];
+			}
+
+			console.log(value["CLCNO"]);
+			$("#reqCalTable > tbody").append('<tr id="myTr"><td><input type="hidden" id="reqClcno" name="reqClcno" value="'
+					+value["CLCNO"] + 
+					'"' + '/>' +value["NICK_NAME"] +'('+ value["MID"] +')</td><td>'
+					+ value["SDATE"] + '</td><td>' 
+					+ value["EDATE"] + '</td><td>'
+					+ value["CLC_REQ_DATE"] + '</td><td>'
+					+ value["CLC_AMOUNT"] + '</td><td>'
+					+ status +'</td></tr>')
+					
+			/*	$("#clcno").attr('value',value["CLCNO"]);*/
+				console.log($('#reqClcno').val());
+			});
+			
+			
+			//excPaingArea			
+			
+			var $firstButton = $('<li class="page-item" onclick="reqClcList(0,1);"><a class="page-link"> << </a></li>');
+			
+			
+			$("#reqClcPaging > ul").append($firstButton);
+			
+			console.log(data.infoMap.pi.maxPage);
+			for(var i = 0; i <data.infoMap.pi.maxPage;i++){
+				$("#reqClcPaging >ul ").append('<li class="page-item" onclick="reqClcList('+ mno + ',' + (i+1) +')"><a class="page-link">' + (i+1) + '</a></li>');
+				
+				
+			};
+			
+			var $endButton = $('<li class="page-item" onclick="reqClcList('+ mno + ',' + data.infoMap.pi.maxPage  +');"><a class="page-link"> >> </a></li>');
+			$("#reqClcPaging > ul").append($endButton);
+		}
+	})
+}
+
 function calList(mno,currentPage){
 	$("#calTable > tbody").html('');
 	console.log('mno : ' + mno)
@@ -103,16 +163,17 @@ function calList(mno,currentPage){
 	
 			var status ='';
 			
+
 			if(value["CLC_STATUS"] == 'Y'){
 				status = '정산 완료';
 			}else if(value["CLC_STATUS"]=='N' && value["DEC_STATUS"]==null ){
-				status = '정산 처리중';
+				status = '<button id="clcBtn" class="btn btn-primary">정산하기</button>';
 			}else if(value["CLC_STATUS"]=='N' && value["DEC_STATUS"]=='Y' && value["REAPPLY"]=='재신청 완료'){
-				status ='재신청 완료';
+				status ='거절 완료';
+			}else if(value["CLC_STATUS"]=='N' && value["DEC_STATUS"]=='N'){
+				status ='거절 완료';
 			}
-			else if(value["CLC_STATUS"]=='N' && value["DEC_STATUS"]=='Y' && value["REAPPLY"]==null){
-				status = '<button id="decBtn" class="btn btn-primary">거절 이력 보기</button>'
-			}
+
 			console.log(value["CLCNO"]);
 			$("#calTable > tbody").append('<tr id="myTr"><td><input type="hidden" id="clcno" name="clcno" value="'
 					+value["CLCNO"] + 
@@ -151,6 +212,81 @@ function calList(mno,currentPage){
 
 $(document).on('click','#reqClcBtn',function(){
 	console.log('호출됨');
+});
+
+
+$(document).on('click',"#clcBtn",function(){
+	var mno = $('#mno').val();
+	var clcno = $(this).parent('td').parent('tr').find('#clcno').val();
+	console.log('clcno : ' + clcno);
+	
+	$("#detailTable > tbody").html('');
+	
+	$.ajax({
+		url:"detailClc.sm",
+		type:"post",
+		data:{mno:mno,clcno:clcno},
+		success:function(data){
+			$("#detailTable").css("border-spacing","10px");
+			$("#detailTable").css("padding-left","80px");
+			$("#detailTable > tbody").append(
+					'<tr><td>' + '<input type="hidden" id="clcno" name="clcno" value="'+ data.detailClc.CLCNO  +'"/>'
+					+ '<label>신청자 닉네임(아이디) : </label>'
+					+'<label>'+ data.detailClc.NICK_NAME +'(' +data.detailClc.MID + ')</label></td></tr>'
+					+ '<tr><td><label>매니저/편집자 구분 :' + '</label>'
+					+ '<label>' + data.detailClc.PTYPE + '</label></td></tr>'
+					+ '<tr><td><label>정산 금액 : </label>' 
+					+ '<label>' + data.detailClc.CLC_AMOUNT + '<input type="hidden" name="clc_amount" value="'+ data.detailClc.CLC_AMOUNT +'"/></label></td></tr>'
+					+ '<tr><td><label>건당 금액 :' + '</label>'
+					+ '<label>' + data.detailClc.PERPRICE + '</label></td></tr>'
+					+ '<tr><td><label>정산 신청일 :' + '</label>'
+					+ '<label>' + data.detailClc.CLC_DATE + '</label></td></tr>'					
+					+ '<tr><td><label>계약일:' + '</label>'
+					+ '<label>' + data.detailClc.SDATE + '</label></td></tr>'
+					+ '<tr class="space"><td><div id="reason" style="display:none; border:2px solid red; border-radius:20px; width:410px; height:73px; text-align:center;">'
+					+ '<label>사유를 적어주세요 !' + '</label><br/>'
+					+ '<input type="text" placeholder="사유" name="reason" id="reasonText"/><div><br/></td></tr>'					
+					+ '<tr><td colspan="5"><div style="padding-top:20px;" class="alert alert-danger" role="alert">정산 승인으로 인해 묶일 회원님의 포인트는'
+					+ data.detailClc.CLC_AMOUNT +'원 입니다. <br/> 상기 내용을 확인 후 정산을 진행하세요.</div></td></tr>'
+					+ '<tr style="text-align:center;"><td> <button id="confirmClc" type="button"> 정산하기 </button>'
+					+ '<button type="button" id="declineBtn";">정산 거절</button></td></tr>'
+				)
+				
+				$(".space").css("border-bottom","10px solid #fff");
+				$("#selectModal").modal("show");
+				}
+			})
+		});
+
+$(document).on('click','#declineBtn',function(){
+	console.log('1');
+	if($("#reasonText").val().length==0){
+		console.log('2');
+		$('#reason').show();
+	}else{
+		if(window.confirm('정산 거절을 진행하시겠습니까?')){
+			console.log('3');
+			rejectClc();
+		}else{
+			alert('정산 진행을 종료합니다.');
+			$("#reasonText").val('');
+		}
+	}
+	
+	
+});
+
+function rejectClc(){
+	$('#detailForm').attr({action:'rejectClc.sm'}).submit();
+}
+
+
+$(document).on('click','#confirmClc',function(){
+	var mno = $('#mno').val();
+	
+	var clcno = $(this).parent('td').parent('tr').parent('#detailTable >tbody').find('#clcno').val();
+	
+	$('#detailForm').attr({action:'confirmClc.sm'}).submit();	
 })
 
 $(document).on('click', '#decBtn', function(){
@@ -160,7 +296,7 @@ $(document).on('click', '#decBtn', function(){
 	/*var clcno = $(this).parent('td').find('#clcno').val();*/
 	var mno = $('#mno').val();
 	
-	var clcno = $(this).parent('td').parent('tr').find('#clcno').val();
+	var clcno = $(this).parent('td').parent('tr').find('#reqClcno').val();
 	
 	
 	$.ajax({
@@ -172,10 +308,8 @@ $(document).on('click', '#decBtn', function(){
 			var status = '';
 			
 			$("#decTable > tbody").append(
-											'<tr><td><label>신청자 : </label>'
-											+'<label>'+ data.clcMap.NICK_NAME +'</label></td></tr>'
-											+ '<tr><td><label>스트리머 :' + '</label>'
-											+ '<label>' + data.clcMap.NICK_NAME + '('+  data.clcMap.ST_NICK_NAME  +')</label></td></tr>'
+											'<tr><td><label>스트리머 :' + '</label>'
+											+ '<label>' + data.clcMap.MID + '('+  data.clcMap.NICK_NAME  +')</label></td></tr>'
 											+ '<tr><td><label>신청일 : </label>' 
 											+ '<label>' + data.clcMap.CLC_REQ_DATE + '</label></td></tr>'
 											+ '<tr><td><label>계약 시작일 : ' + '</label>'
@@ -211,6 +345,7 @@ function reqClc(mno,decno){
 			console.log('ajax 수행 중');
 			alert('정산 신청이 완료 되었습니다.');
 			$("#decModal").modal('hide');
+			window.reload();
 		}
 	});
 	
@@ -310,4 +445,9 @@ function cancelExc(){
 		}
 	})
 
+}
+
+
+function selectMyStreamer(mno,currentPage){
+	
 }

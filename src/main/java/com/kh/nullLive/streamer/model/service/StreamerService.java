@@ -74,5 +74,15 @@ public interface StreamerService {
 
 	int getChargeCount(int mno);
 
+	HashMap<String, Object> detailClc(HashMap<String, Object> infoMap);
+
+	int rejectClc(HashMap<String, Object> rejectMap);
+
+	int getReqClcCount(int mno);
+
+	ArrayList<HashMap<String, Object>> selectReqClcList(HashMap<String, Object> infoMap);
+
+	int confirmClc(HashMap<String, Object> infoMap);
+
 
 }
