@@ -23,9 +23,9 @@
 		
 			<div class="sidebar">
 				<div class="profile">
-					<img class="img-circle" alt="Cinque Terre" id="profileImg" onclick="location.href='main.st'">
-					<h3 style="color: white">${loginUser.nickName}</h3>
-					<h5 style="color: white">@${loginUser.mid}</h5>
+					<img class="img-circle" alt="Cinque Terre" id="profileImg" onclick="location.href='main.st?smno=${broadCenter.mno}'">
+					<h3  id="nickName" style="color: white"></h3>
+					<h5 id="id" style="color: white"></h5>
 				</div>
 				<br>
 				<br>
@@ -45,8 +45,8 @@
 					<h3>게시판 <a style="font-size:0.2em;color:#ace600;margin-left:70px;" align="right" href="boardsSetting.st">게시판 관리</a></h3>
 					<ul>
 						<li><a onclick="location.href='noticeBoard.st'">방송 공지 게시판</a></li>
-						<li><a onclick="location.href='communicationBoard.st'">시청자 소통 게시판</a></li>
-						<li><a onclick="location.href='reportBlackListBoard.st'">블랙리스트 제보 게시판</a></li>
+						<li><a onclick="location.href='communicationBoard.st?smno=${broadCenter.mno}'">시청자 소통 게시판</a></li>
+						<li><a onclick="location.href='reportBlackListBoard.st?smno=${broadCenter.mno}'">블랙리스트 제보 게시판</a></li>
 					</ul>
 					<h3>개인 페이지</h3>
 					<ul>
@@ -66,12 +66,15 @@
 			type:"get",
 			success:function(data){
 				//console.log(data.data);
-				$("#profileImg").attr('src', "${contextPath}/resources/uploadFiles/profile_image/" + data.data);
+				$("#profileImg").attr('src', "${contextPath}/resources/uploadFiles/profile_image/" + data.changeName);
+				$("#nickName").text(data.data.NICK_NAME);
+				$("#id").text("@"+data.data.MID);
 			},
 			error:function(){
 				console.log("프로필 조회 실패!");
 			}
 		});
+		
 	}
 
 </script>

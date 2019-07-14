@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
 <!DOCTYPE html>
 <html>
 <head>
@@ -78,10 +79,10 @@ body::-webkit-scrollbar {
 						테스트</span>
 			</a></li>
 
-			<li data-content="2" class="unread" onclick="location.href='main.st'"><a
+			<%-- <li data-content="2" class="unread" onclick="location.href='main.st?smno=${loginUser.mno}';"><a
 				href="javascript:void(0)"> <i class="fa fa-heart"></i> <span>스트리머
 						탭</span>
-			</a></li>
+			</a></li> --%>
 		</ul>
 	</nav>
 </body>

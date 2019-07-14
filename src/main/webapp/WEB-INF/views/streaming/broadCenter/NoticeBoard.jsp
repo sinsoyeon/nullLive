@@ -35,8 +35,10 @@
 						<input type="text" style="visibility:hidden;" value="${noticeInfo.MNO}" id="mno"/>
 					</div>
 					<div id="button">
-					<button class="ui green button" id="update">수정</button>
-					<button class="ui green button" id="delete">삭제</button>
+					<c:if test="${loginUser.mno eq noticeInfo.MNO}">
+						<button class="ui green button" id="update">수정</button>
+						<button class="ui green button" id="delete">삭제</button>
+					</c:if>
 					</div>
 				</div>
 			</div>

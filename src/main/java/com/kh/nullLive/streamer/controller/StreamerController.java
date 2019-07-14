@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.kh.nullLive.board.model.vo.PageInfo;
 import com.kh.nullLive.broadCenter.model.exception.StreamerUpdateException;
 import com.kh.nullLive.broadCenter.model.service.BroadCenterService;
+import com.kh.nullLive.broadCenter.model.vo.BroadCenter;
 import com.kh.nullLive.common.Pagination;
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.Member;
@@ -645,12 +646,17 @@ public class StreamerController {
 	@ResponseBody
 	public ModelAndView selectProfile(HttpSession session, ModelAndView modelAndView) throws StreamerUpdateException{
 		Member loginUser = (Member) session.getAttribute("loginUser");
-		int mno = loginUser.getMno();
+		BroadCenter broadCenter = (BroadCenter)session.getAttribute("broadCenter");
+		
+		//int mno = loginUser.getMno();
+		int smno = broadCenter.getMno();
 
-		Attachment att = bcs.getProfile(mno);
+		Attachment att = bcs.getProfile(smno);
+		HashMap<String, Object> profile = bcs.streamerPofile(smno);
 
 		modelAndView.setViewName("jsonView");
-		modelAndView.addObject("data",  att.getChangeName());
+		modelAndView.addObject("changeName",  att.getChangeName());
+		modelAndView.addObject("data", profile);
 
 		return modelAndView;
 	}

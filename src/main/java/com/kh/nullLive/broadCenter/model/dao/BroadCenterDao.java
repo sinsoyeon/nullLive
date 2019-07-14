@@ -76,11 +76,16 @@ public interface BroadCenterDao {
 	int enableCommunityBoard(SqlSessionTemplate sqlSession, int mno);
 
 	//소통게시판 리스트 조회(정연)
-	ArrayList<HashMap<String, Object>> selectCommunityList(SqlSessionTemplate sqlSession, int mno);
+	ArrayList<HashMap<String, Object>> selectCommunityList(SqlSessionTemplate sqlSession, int smno);
 
 	//스트리머 검색(정연)
 	ArrayList<HashMap<String, Object>> searchStreamer(SqlSessionTemplate sqlSession);
 
 	ArrayList<HashMap<String, Object>> searchStreamerName(SqlSessionTemplate sqlSession, String name);
+
+	//broadCenter
+	BroadCenter broadCenter(SqlSessionTemplate sqlSession, int smno);
+
+	HashMap<String, Object> streamerPofile(SqlSessionTemplate sqlSession, int smno);
 
 }

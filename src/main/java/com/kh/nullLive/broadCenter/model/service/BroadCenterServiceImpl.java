@@ -13,7 +13,6 @@ import com.kh.nullLive.broadCenter.model.exception.StreamerUpdateException;
 import com.kh.nullLive.broadCenter.model.vo.BroadCenter;
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.Member;
-import com.kh.nullLive.streamer.model.vo.Streamer;
 
 @Service
 public class BroadCenterServiceImpl implements BroadCenterService {
@@ -155,8 +154,8 @@ public class BroadCenterServiceImpl implements BroadCenterService {
 
 	//소통 게시판 리스트 조회(정연)
 	@Override
-	public ArrayList<HashMap<String, Object>> selectCommunityList(int mno) {
-		return bcd.selectCommunityList(sqlSession, mno);
+	public ArrayList<HashMap<String, Object>> selectCommunityList(int smno) {
+		return bcd.selectCommunityList(sqlSession, smno);
 	}
 
 	//스트리머 검색(정연)
@@ -168,6 +167,16 @@ public class BroadCenterServiceImpl implements BroadCenterService {
 	@Override
 	public ArrayList<HashMap<String, Object>> searchStreamerName(String name) {
 		return bcd.searchStreamerName(sqlSession, name);
+	}
+
+	@Override
+	public BroadCenter broadCenter(int smno) {
+		return bcd.broadCenter(sqlSession, smno);
+	}
+
+	@Override
+	public HashMap<String, Object> streamerPofile(int smno) {
+		return bcd.streamerPofile(sqlSession, smno);
 	}
 
 	

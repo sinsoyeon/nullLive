@@ -114,7 +114,7 @@ function modifyProImage(){
 }
 
 function toBroadCenter(){
-	location.href='main.st';
+	location.href='main.st?smno='+${loginUser.mno};
 }
 
 function enterStreaming(){

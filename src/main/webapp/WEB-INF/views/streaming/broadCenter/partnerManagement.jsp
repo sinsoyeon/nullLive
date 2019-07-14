@@ -122,6 +122,7 @@
 					<c:forEach var="editor" items="${partnerList}">
 						<c:if test="${editor.PTYPE eq '편집자' }">
 						<tr>
+							<td style="visibility: hidden;"></td>
 							<td><input type="checkbox" /></td>
 							<td><c:out value="${editor.MID}" /></td>
 							<td><c:out value="${editor.NICK_NAME}" /></td>
@@ -223,6 +224,7 @@
 <script>
 	$(".table tbody td").click(function(){
 		var mno = $(this).parent().children().eq(5).text();
+		
 		
 		console.log("m:" + mno); 
 		
