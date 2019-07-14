@@ -19,7 +19,10 @@
 		<h1>잘못된 경로로 접근하셨습니다.</h1>
 	</c:if>
 	<c:if test="${!empty loginUser }">
-		<jsp:include page="recordPageNavbar.jsp"/>
+	<header style="height: 50px;">
+		<jsp:include page="../../common/menubar.jsp" />
+	</header>
+		<jsp:include page="../myPage/myPageNavbar.jsp"/>
 				<ol class="breadcrumb" style="padding-left:460px !important; padding-top:-30px !important;">
 				    <li><a href="#" id="pointBtn">포인트(환전/충전) 기록</a></li>
 				    <li id="clcListBtn">정산 기록</li>   
@@ -28,7 +31,7 @@
 		<div class="row">
 			<div class="col-md-3"></div>
 			
-			<div class="col-md-8">
+			<div class="col-md-9" style=" padding-right: 6%; ">
 				<input type="hidden" value="${loginUser.mno}" id="mno" />	
 				<div id="myExcTableArea">
 					
@@ -164,8 +167,6 @@
 										
 			</div>
 			
-			
-			<div class="col-md-1"></div>
 		</div>		
 		
 		

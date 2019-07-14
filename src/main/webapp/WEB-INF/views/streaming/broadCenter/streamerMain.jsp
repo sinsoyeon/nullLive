@@ -16,12 +16,12 @@
 	<div class="container-fluid">
 		<div class="row">
 			<!-- sidebar -->
-			<div class="col-sm-3">
+			<div class="col-sm-2">
 				<jsp:include page="../broadCenter/streamerMenu.jsp" />
 			</div>
 			
 			<!-- main content -->
-			<div class="col-sm-9" >
+			<div class="col-sm-10" style="padding-left: 55px;">
 				<div id="main">
 					<table class="headInfo">
 						<tr>
