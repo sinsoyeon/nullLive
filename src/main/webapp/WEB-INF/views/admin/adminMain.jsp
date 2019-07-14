@@ -179,22 +179,37 @@ google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(revenue);
 google.charts.setOnLoadCallback(bestCategory);
 function revenue() {
-	  var data = new google.visualization.arrayToDataTable([
-	    ['Year', '환전 수수료', '구독 수수료'],
-	    ['2016년',  1645840,      2654325],
-	    ['2017년',  2176485,      4606540],
-	    ['2018년',  5694321,      3526556],
-	    ['2019년',  4030568,      5456889]
-	  ]);
-
-	  var options = {
-	    hAxis: {title: '기간',  titleTextStyle: {color: '#333'}},
-	    vAxis: {minValue: 0},
-	    legend: {position: 'none'},
-	  };
-
-	  var chart = new google.visualization.AreaChart(document.getElementById('chart_div2'));
-	  chart.draw(data, options);
+	  var year = 2019;
+		var chargeAndExchangeChart = new google.visualization.DataTable();
+		var chargeAndExchangeData = new Array();
+		$.ajax({
+	        url: "chargeAndExchange.ad",
+	        type: "post",
+	        data: {year:year},
+	        success: function(data){
+	        	
+	        	$.each(data,function(i,value){
+	        		chargeAndExchangeData[i] = 	[value["MONTH"]+"월", value["CHARGE"], value["EXCHANGE"], value["NET_PROFIT"] ];
+	        	});
+	        	
+	        	console.log(chargeAndExchangeData);
+	        	chargeAndExchangeChart.addColumn('string',"MONTH");
+	        	chargeAndExchangeChart.addColumn('number',"충전");
+	        	chargeAndExchangeChart.addColumn('number',"환전");
+	        	chargeAndExchangeChart.addColumn('number',"순이익");
+	        	chargeAndExchangeChart.addRows(chargeAndExchangeData);
+	        	
+	        	var options = {
+					 colors: ['#4f90c4', '#94d1dc', '#b6d57c'],
+					 legend: {position: 'none'},
+	        		};
+	        	
+	        	var chart = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
+	        	chart.draw(chargeAndExchangeChart, options);
+	        	
+	       		}
+	        });
+	  
 	}
 
 function bestCategory() { 

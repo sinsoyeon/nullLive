@@ -86,8 +86,6 @@ body::-webkit-scrollbar {
 						
 						<li onclick="location.href='testForm.me'"><a><i class="fa fa-heart"></i><span>테스트용 탭</span></a></li>
 			
-						<li><a href="main.ad"> <i class="fas fa-star fa-lg"></i><span>관리자 테스트</span></a></li>
-			
 						<li onclick="location.href='main.st'"><a><i class="fa fa-heart"></i><span>스트리머 탭</span></a></li>
 					</ul>
 				</nav>

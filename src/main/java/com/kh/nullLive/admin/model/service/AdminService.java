@@ -34,7 +34,10 @@ public interface AdminService {
 	int totalMemberReport();
 
 	// 환전 신청 목록
-	ArrayList<Exchange> exchangeList();
+	ArrayList<Exchange> exchangeList(PagingVo paging);
+	
+	//환전 신청 수 조회(페이징)
+	int totalExchangeSelect();
 
 	// 1:1문의 목록
 	ArrayList<Question> questionList(PagingVo paging);
@@ -106,6 +109,11 @@ public interface AdminService {
 	ArrayList<HashMap<String, Object>> bestCategoryStatistics();
 
 	// 충전 금액 통계
-	ArrayList<HashMap<String, Object>> amountChargeStatistics();
+	ArrayList<HashMap<String, Object>> chargeAndExchangeStatistics(int year);
+
+	// 수수료  통계
+	ArrayList<HashMap<String, Object>> revenueStatistics(int year);
+
+	
 
 }

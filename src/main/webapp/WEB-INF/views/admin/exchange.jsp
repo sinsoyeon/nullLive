@@ -39,12 +39,22 @@ tr>th {
 <div class="row" align="center">
 	<div class="col-sm-1"></div>
 	<div class="col-sm-10">
-	<div>
 	<div style="float: left;"><button data-toggle="modal" data-target="#multiple" class="btn btn-warning">환전하기</button></div>
-		<div style="margin-bottom: 5px; float: right;">
-			<input type="text"> <button class="btn btn-success">검색</button>
+		<div align="right" style="margin-bottom: 5px;">
+			<div class="listSelectArea" style="display: inline-block;">
+					<select id="listChange" class="form-controll" onchange='listChange();'>
+						<option contenteditable="true">목록갯수</option>
+						<option value="5">5</option>
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+					</select>
+				</div>
+				<div style="display: inline-block;">
+					<input type="text">
+					<button class="btn btn-success">검색</button>
+				</div>
 		</div>
-	</div>
 		<div>
 			<table class="table table-hover"  style="text-align: center; ">
 				<thead>
@@ -89,20 +99,37 @@ tr>th {
 				</tbody>
 			</table>
 		</div>
-		
 	</div>
 	<div class="col-sm-1"></div>
 	</div>
 	<div align="center">
-		<button><</button>
-		<button>1</button>
-		<button>2</button>
-		<button>3</button>
-		<button>4</button>
-		<button>5</button>
-		<button>></button>
+		<ul class="pagination">
+
+			<!--맨 첫페이지 이동 -->
+			<li><a onclick='pagePre(${pi.pageCnt+1},${pi.pageCnt});'>«</a></li>
+			<!--이전 페이지 이동 -->
+			<li><a onclick='pagePre(${pi.pageStartNum},${pi.pageCnt});'>‹</a></li>
+
+			<!--페이지번호 -->
+			<c:forEach var='i' begin="${pi.pageStartNum}" end="${pi.pageLastNum}" step="1">
+				<li class='pageIndex${i}'><a onclick='pageIndex(${i});'>${i}</a></li>
+			</c:forEach>
+
+			<!--다음 페이지 이동 -->
+			<li><a
+				onclick='pageNext(${pi.pageStartNum},${pi.total},${pi.listCnt},${pi.pageCnt});'>›</a></li>
+			<!--마지막 페이지 이동 -->
+			<li><a
+				onclick='pageLast(${pi.pageStartNum},${pi.total},${pi.listCnt},${pi.pageCnt});'>»</a></li>
+
+		</ul>
 	</div>
-	
+	<form action="exchangeList.ad" method="get" id='frmPaging'>
+	      <!--출력할 페이지번호, 출력할 페이지 시작 번호, 출력할 리스트 갯수 -->
+	      <input type='hidden' name='index' id='index' value='${pi.index}'>
+	      <input type='hidden' name='pageStartNum' id='pageStartNum' value='${pi.pageStartNum}'>
+	      <input type='hidden' name='listCnt' id='selected' value='${pi.listCnt}'>    
+	</form>
 	<!-- 단일 환전 -->
 	<div class="modal fade" id="single" role="dialog">
 		<div class="modal-dialog">
