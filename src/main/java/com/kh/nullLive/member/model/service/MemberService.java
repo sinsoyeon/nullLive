@@ -195,5 +195,12 @@ public interface MemberService {
 	 */
 	Member confirmAdult(Member m) throws UpdateMemberException;
 
+	/**
+	 * Author : INHYO
+	 * Date : 2019. 7. 14.
+	 * Comment : 파트너조회
+	 */
+	ArrayList<HashMap<String, Object>> partner(Member loginUser);
+
 	
 }

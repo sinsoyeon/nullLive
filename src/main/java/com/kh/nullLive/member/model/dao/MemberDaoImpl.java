@@ -185,4 +185,9 @@ public class MemberDaoImpl implements MemberDao {
 	public int confirmAdult(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.update("Member.confrimAdult",m);
 	}
+	//파트너조회
+	@Override
+	public ArrayList<HashMap<String, Object>> partner(SqlSessionTemplate sqlSession, Member loginUser) {
+		return (ArrayList)sqlSession.selectList("Member.partner",loginUser);
+	}
 }

@@ -315,4 +315,11 @@ public class MemberServiceImpl implements MemberService {
 		return md.selectMember(sqlSession, m);
 	}
 
+	//파트너 조회
+	@Override
+	public ArrayList<HashMap<String, Object>> partner(Member loginUser) {
+		ArrayList<HashMap<String, Object>> partner = md.partner(sqlSession, loginUser);
+		return partner;
+	}
+
 }

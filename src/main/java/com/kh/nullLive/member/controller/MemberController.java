@@ -345,7 +345,15 @@ public class MemberController {
 	 * Author : INHYO Date : 2019. 7. 8 Comment : 방송파트너 페이지
 	 */
 	@RequestMapping("partner.me")
-	public String partner(Member m, Model model) {
+	public String partner(Model model, HttpServletRequest request) {
+		Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+		
+		ArrayList<HashMap<String, Object>> partner = ms.partner(loginUser);
+		
+		System.out.println(partner);
+		
+		model.addAttribute("partner",partner);
+		
 		return "member/myPage/myPagePartner";
 	}
 

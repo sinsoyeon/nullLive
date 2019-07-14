@@ -9,6 +9,7 @@
 		<typeAlias alias="Member" type="com.kh.nullLive.member.model.vo.Member" />
 		<typeAlias alias="MySub" type="com.kh.nullLive.member.model.vo.Subscription"/>
 		<typeAlias alias="Board" type="com.kh.nullLive.board.model.vo.Board" />
+		<typeAlias alias="MyPartner" type="com.kh.nullLive.member.model.vo.MyPartner" />
     
 		<!-- 구인구직게시판 vo -->
 		<typeAlias alias="JobBoard" type="com.kh.nullLive.board.model.vo.JobBoard" />

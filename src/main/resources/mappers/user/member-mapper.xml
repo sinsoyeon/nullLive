@@ -54,6 +54,16 @@
 		<result property="broadAddress" column="BROAD_ADDRESS"/>
 		<result property="byn" column="방송여부"/>
 	</resultMap>
+	
+	<resultMap type="MyPartner" id="MyPartnerResultSet">
+		<id property="mno" column="MNO"/>
+		<result property="onair" column="ONAIR"/>
+		<result property="sNnick" column="S_NICK"/>
+		<result property="perprice" column="PERPRICE"/>
+		<result property="startDate" column="C_SDATE"/>
+		<result property="endDate" column="C_EDATE"/>
+		<result property="ptype" column="PTYPE"/>
+	</resultMap>
 
 	<!-- 로그인 정보 가져오기 -->
 	<select id="selectMember" resultMap="memberResultSet" parameterType="Member">
@@ -273,5 +283,20 @@
 		SET ADULT='Y'
 		WHERE MID=#{mid}
 	</update>
+	
+	<!-- 파트너 조회 -->
+	<select id="partner" resultMap="MyPartnerResultSet"  parameterType="Member">
+		SELECT M.MNO , NVL(BROAD.BH_STATUS, 'N') ONAIR, MB.NICK_NAME S_NICK, C.PERPRICE , TO_CHAR(C.C_SDATE) C_SDATE, NVL(TO_CHAR(C.C_EDATE),'미정') C_EDATE, P.PTYPE PTYPE
+		FROM MEMBER M
+		JOIN PARTNER P ON(M.MNO = P.MNO)
+		JOIN MEMBER MB ON(MB.MNO = P.SNO)
+		JOIN CONTRACT C ON(P.CNO = C.CNO)
+		LEFT JOIN (SELECT B.MNO, BH_STATUS
+		            FROM BROAD_CENTER B
+		            JOIN BROAD_HIS BH ON(BH.BCNO = B.BCNO)
+		            WHERE BH_STATUS = 'Y') BROAD ON(BROAD.MNO = MB.MNO)
+		WHERE M.MNO = #{mno}
+	</select>
+	
 		
 </mapper>

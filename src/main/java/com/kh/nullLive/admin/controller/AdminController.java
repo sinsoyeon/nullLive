@@ -75,12 +75,12 @@ public class AdminController {
 	 * @comment : 회원 상세정보 조회
 	 */
 	@RequestMapping("userDeatil.ad")
-	public ResponseEntity<UserDetail> userDeatil(String userId, String statusType) {
+	public ResponseEntity<UserDetail> userDeatil(int mno, String statusType) {
 		
 		
 		UserDetail userDetail = new UserDetail();
 		
-		userDetail.setMid(userId);
+		userDetail.setMno(mno);
 		userDetail.setMemStatus(statusType);
 		
 		userDetail = as.userDetail(userDetail);

@@ -223,6 +223,13 @@ public interface MemberDao {
 	 */
 	int confirmAdult(SqlSessionTemplate sqlSession, Member m);
 
+	/**
+	 * Author : INHYO
+	 * Date : 2019. 7. 14.
+	 * Comment : 파트너조회
+	 */
+	ArrayList<HashMap<String, Object>> partner(SqlSessionTemplate sqlSession, Member loginUser);
+
 
 
 }
