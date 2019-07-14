@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +20,8 @@
 <!-- 스마트 에디터 -->
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript" src="./resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/12.2.0/classic/ckeditor.js"></script>
+<!-- ckeditor -->
+<script type="text/javascript" src="${ contextPath }/resources/ckeditor/ckeditor.js"></script>
 <style>
 
 	.outer {
@@ -41,6 +43,10 @@
 
 </head>
 <body>
+	<!-- 로그인 유저 처리 -->
+	<c:if test="${ empty loginUser }">
+		<jsp:forward page="../../member/needLogin.jsp"/>
+	</c:if>
 	<jsp:include page="jobMenubar.jsp"/>
 	<h1 align="center">매니저 구인구직게시판</h1>
 	<hr>
@@ -83,7 +89,7 @@
 				<h3>내용 </h3>
 				<!-- 내용영역 -->
 				<div class="contentArea">
-					<textarea name="bContent" id="editor" required placeholder="내용을입력하세요(4자이상)" wrap="hard" style="width: 880px; height: 400px;"></textarea>
+					 <textarea name="bContent" id="editor" required placeholder="내용을입력하세요(4자이상)" wrap="hard" style="width: 880px; height: 400px;"></textarea>
 				</div>
 				<br>
 				<!-- 첨부파일 영역 -->
@@ -104,17 +110,6 @@
 </body>
 <script type="text/javascript">
 	    $(function(){
-	        var obj = [];              
-	        nhn.husky.EZCreator.createInIFrame({
-	            oAppRef: obj,
-	            elPlaceHolder: "editor",
-	            sSkinURI: "./resources/editor/SmartEditor2Skin.html",
-	            htParams : {
-	                bUseToolbar : true,            
-	                bUseVerticalResizer : true,    
-	                bUseModeChanger : true,
-	            }
-	        });
 	        $("#save").click(function(){ 
 				var bTitle = $("#bTitle").val();        	
 				if(bTitle==""){
@@ -126,6 +121,7 @@
 				
 				if(jBtype =="구인"){
 					var mno = $("#mno").val();
+					console.log(mno);
 					$.ajax({
 						url: "selectStreamerCheck.jbo",
 						type: "get",
@@ -134,16 +130,23 @@
 							if(data.Streamer == "" || data.Streamer == null){
 								alert("스트리머만 구인글을 등록할 수 있습니다");
 								return;
+							}else {
+								$("#insertBoardFrm").submit();
 							}
 						}
 					})
+				}else {
+					$("#insertBoardFrm").submit();
 				}
 				
 				
-				obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []); 
-				$("#insertBoardFrm").submit();
 			})
 	    });
+	    CKEDITOR.replace('editor', {
+	    	height:500,
+	    	//filebrowserImageUploadUrl: '/community/imageUpload' //여기 경로로 파일을 전달하여 업로드 시킨다.
+	    })
+	   
 	</script>
 
 

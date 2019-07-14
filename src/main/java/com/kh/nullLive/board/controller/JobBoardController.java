@@ -3,13 +3,11 @@ package com.kh.nullLive.board.controller;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.lang.ProcessBuilder.Redirect;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +17,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.catalina.tribes.group.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +24,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.nullLive.board.model.exception.BoardSelectListException;
 import com.kh.nullLive.board.model.exception.ContConsentExcption;
-import com.kh.nullLive.board.model.exception.JobBoardInsertException;
 import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.service.JobBoardService;
 import com.kh.nullLive.board.model.vo.Board;
@@ -46,8 +43,6 @@ import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.service.MemberService;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.vo.Streamer;
-
-import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpRequest;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -107,8 +102,55 @@ public class JobBoardController {
         System.out.println(sb.toString());
         return sb.toString();
     }
-	
-
+	    
+    
+    @RequestMapping(value = "/community/imageUpload", method = RequestMethod.POST)
+    public void communityImageUpload(HttpServletRequest request, HttpServletResponse response, @RequestParam MultipartFile upload) {
+ 
+        OutputStream out = null;
+        PrintWriter printWriter = null;
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("text/html;charset=utf-8");
+ 
+        try{
+ 
+            String fileName = upload.getOriginalFilename();
+            byte[] bytes = upload.getBytes();
+            String uploadPath = "저장경로/" + fileName;//저장경로
+ 
+            out = new FileOutputStream(new File(uploadPath));
+            out.write(bytes);
+            String callback = request.getParameter("CKEditorFuncNum");
+ 
+            printWriter = response.getWriter();
+            String fileUrl = "저장한 URL경로/" + fileName;//url경로
+ 
+            printWriter.println("<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction("
+                    + callback
+                    + ",'"
+                    + fileUrl
+                    + "','이미지를 업로드 하였습니다.'"
+                    + ")</script>");
+            printWriter.flush();
+ 
+        }catch(IOException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (printWriter != null) {
+                    printWriter.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+ 
+        return;
+    }
+    
 	/**
 	 * @author : uukk
 	 * @date : 2019. 6. 19.
@@ -287,26 +329,6 @@ public class JobBoardController {
 			
 	}
 	
-	/**
-	 * @author : uukk
-	 * @date : 2019. 6. 19.
-	 * @comment : 구인구직 게시판 지원현황 조회용
-	 */
-	public String SelectListApply() {
-		
-		jbs.SelectListApply();
-		return null;
-	}
-	
-	/**
-	 * @author : uukk
-	 * @date : 2019. 6. 19.
-	 * @comment : 구인구직 게시판 수정용
-	 */
-	public String updateJobBoard() {
-		jbs.updateJobBoard();
-		return null;
-	}
 	
 	/**
 	 * @author : uukk

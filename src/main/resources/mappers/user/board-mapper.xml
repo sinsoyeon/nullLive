@@ -543,8 +543,14 @@
 	<!--   -->
 	<insert id="insertMngPartner" parameterType="java.util.HashMap">
 		INSERT INTO PARTNER(PNO,SNO,MNO,CNO,PTYPE,P_STATUS) 
-		VALUES(SEQ_PNO.NEXTVAL,#{streamer.sno},#{contMno},#{contCurrval},#{jBoard.job},'Y')
+		<if test="jBoard.jBtype == '구인'">
+			VALUES(SEQ_PNO.NEXTVAL,#{streamer.sno},#{contMno},#{contCurrval},#{jBoard.job},'Y')
+		</if>
+		<if test="jBoard.jBtype == '구직'">
+			VALUES(SEQ_PNO.NEXTVAL,#{streamer.sno},#{mno},#{contCurrval},#{jBoard.job},'Y')
+		</if>
 	</insert>
+	
 	<!-- 계약 테이블 currval조회 -->
 	<select id="selectContCurrval" resultType="_int">
 		SELECT SEQ_CNO.CURRVAL FROM DUAL
@@ -556,11 +562,6 @@
 		SET B_STATUS = '501'
 		WHERE BNO = #{bno}
 	</update> 
-	
-	<!-- 매니저/콘텐츠제작자 파트너 스트리머 list 조회 -->
-<!-- 	<select id="selectListPartner" parameterType="_int" resultType="java.uitl.HashMap">
-		SELECT
-	</select> -->
 	
 	<!-- 지원서 상세조회 -->
 	<select id="selectOneContBoard" parameterType="java.util.HashMap" resultType="Board">
@@ -596,7 +597,7 @@
 	
 	<!-- 매니저 권한 입력  -->
 	<insert id="insertManagerAuth" parameterType="java.util.HashMap">
-		INSERT INTO MANAGER_AUTH VALUES(#{partnerCurrval},'게시판','강퇴, 얼리기')
+		INSERT INTO MANAGER_AUTH VALUES(#{partnerCurrval},'공지','강퇴, 얼리기')
 	</insert>
 	
 	

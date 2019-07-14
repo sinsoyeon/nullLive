@@ -12,4 +12,6 @@ public interface PartnerDao {
 
 	String selectMngChatAuth(SqlSessionTemplate sqlSession, int pno);
 
+	int updateMngAuth(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
 }

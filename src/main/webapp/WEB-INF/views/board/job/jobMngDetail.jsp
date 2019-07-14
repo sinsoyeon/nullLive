@@ -407,7 +407,8 @@
 		
 		//계약하기
 		function fn_ContractSumit(){
-			
+			var jBtype = "${jBtype}";
+			var mno = "${ loginUser.mno }";
 			//해당 글에 지원 이력이 있는경우 안됨
 			<c:forEach var="list" items="${ contBoardList }">
 				if(${list.mno eq loginUser.mno}){
@@ -418,6 +419,22 @@
 			</c:forEach>
 			var bTitle = $("#bTitle").val();
 			var bContent = $("#editor").prop("textLength");
+			
+			//구직글인 경우 지원시 스트리머인지 확인
+			if(jBtype =="구직"){
+				console.log("구직");
+				$.ajax({
+					url: "selectStreamerCheck.jbo",
+					type: "get",
+					data: {mno:mno},
+					success: function(data){
+						if(data.Streamer == "" || data.Streamer == null){
+							alert("구직글에는 스트리머만 지원서를 등록할 수 있습니다");
+							return;
+						}
+					}
+				})	
+			}
 
 			if(bTitle==""){
 				alert("제목을  입력해주세요");
@@ -432,7 +449,6 @@
 			
 			
 			$("#contractFrm").submit();
-			alert("성공적으로 지원되셨습니다.");
 		}
 		//지원서 폼 보여주기
 		function fn_showContract(){

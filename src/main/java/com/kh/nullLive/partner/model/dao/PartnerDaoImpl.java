@@ -38,4 +38,14 @@ public class PartnerDaoImpl implements PartnerDao {
 		return sqlSession.selectOne("Partner.selectMngChatAuth",pno);
 	}
 
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 14.
+	 * @comment : 매니저 권한 수정
+	 */
+	@Override
+	public int updateMngAuth(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.update("Partner.updateMngAuth",hmap);
+	}
+
 }

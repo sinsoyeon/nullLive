@@ -46,6 +46,5 @@ https://www.springframework.org/schema/context/spring-context.xsd http://www.spr
 		<beans:property value="1" name="order" />
 	</beans:bean>
 	
-	
 
 </beans:beans>
