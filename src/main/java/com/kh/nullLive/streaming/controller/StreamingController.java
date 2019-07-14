@@ -489,6 +489,7 @@ public class StreamingController {
 		return mv;
 	}
   
+	/*
 	 * @author : eon
 	 * @date : 2019. 7. 13.
 	 * @comment : 메인페이지 All 방송 리스트 시청인원순으로 정렬하는 메소드
