@@ -17,7 +17,8 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="./resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/12.2.0/classic/ckeditor.js"></script>
+
+<script type="text/javascript" src="${ contextPath }/resources/ckeditor/ckeditor.js"></script>
 
 <style>
 
@@ -124,17 +125,6 @@
 </body>
 <script type="text/javascript">
 	    $(function(){
-	        var obj = [];              
-	        nhn.husky.EZCreator.createInIFrame({
-	            oAppRef: obj,
-	            elPlaceHolder: "editor",
-	            sSkinURI: "./resources/editor/SmartEditor2Skin.html",
-	            htParams : {
-	                bUseToolbar : true,            
-	                bUseVerticalResizer : true,    
-	                bUseModeChanger : true,
-	            }
-	        });
 	        $("#save").click(function(){ 
 				var bTitle = $("#bTitle").val();
 				var contContent = $("#contContent").prop("textLength");
@@ -165,16 +155,44 @@
 								alert("스트리머만 구인글을 등록할 수 있습니다");
 								return;
 							}else {
-								obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []); 
 								$("#insertBoardFrm").submit();
 							}
 						}
 					})
 				}else {
-					obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []); 
 					$("#insertBoardFrm").submit();
 				}
 			})
 	    });
+	    
+	  //에디터 
+	    var editorConfig = {
+	   		uploadUrl: "${pageContext.request.contextPath }/fileupload.jbo",
+	   	    filebrowserUploadUrl : "${pageContext.request.contextPath }/fileupload.jbo", //이미지만 업로드
+	   	    extraPlugins : 'uploadimage',
+	   };
+	    CKEDITOR.editorConfig = function(config) {
+    	  
+    	  config.extraPlugins = 'inserthtml';
+    	  config.toolbar = 'Basic';
+    	}
+	   	    
+	   	    
+	   CKEDITOR.on('dialogDefinition', function( ev ){
+	   	   var dialogName = ev.data.name;
+	   	   var dialogDefinition = ev.data.definition;
+	
+	   	   switch (dialogName) {
+	   	       case 'image': //Image Properties dialog
+	   	   //dialogDefinition.removeContents('info');
+	   	   dialogDefinition.removeContents('Link');
+	   	   dialogDefinition.removeContents('advanced');
+	   	           break;
+	   	       }
+	   	});
+	
+   	  	 window.onload = function(){
+   	        ck = CKEDITOR.replace("editor", editorConfig);
+   	   	};
 	</script>
 </html>

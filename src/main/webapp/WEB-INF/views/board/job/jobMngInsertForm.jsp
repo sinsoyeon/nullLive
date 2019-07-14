@@ -142,13 +142,39 @@
 				
 			})
 	    });
-	    CKEDITOR.replace('editor', {
-	    	height:500,
-	    	//filebrowserImageUploadUrl: '/community/imageUpload' //여기 경로로 파일을 전달하여 업로드 시킨다.
-	    })
-	   
+	    //에디터 
+	    var editorConfig = {
+	   		uploadUrl: "${pageContext.request.contextPath }/fileupload.jbo",
+	   	    filebrowserUploadUrl : "${pageContext.request.contextPath }/fileupload.jbo", //이미지만 업로드
+	   	    extraPlugins : 'uploadimage',
+	   };
+	    CKEDITOR.editorConfig = function(config) {
+    	  
+    	  config.extraPlugins = 'inserthtml';
+    	  config.toolbar = 'Basic';
+    	}
+	   	    
+	   	    
+	   CKEDITOR.on('dialogDefinition', function( ev ){
+	   	   var dialogName = ev.data.name;
+	   	   var dialogDefinition = ev.data.definition;
+	
+	   	   switch (dialogName) {
+	   	       case 'image': //Image Properties dialog
+	   	   //dialogDefinition.removeContents('info');
+	   	   dialogDefinition.removeContents('Link');
+	   	   dialogDefinition.removeContents('advanced');
+	   	           break;
+	   	       }
+	   	});
+	
+   	  	 window.onload = function(){
+   	        ck = CKEDITOR.replace("editor", editorConfig);
+   	   	};
+	    
+	    
+       
 	</script>
-
 
 
 

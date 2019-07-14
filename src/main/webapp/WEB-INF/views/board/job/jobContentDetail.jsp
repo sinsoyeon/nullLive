@@ -13,6 +13,7 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${ contextPath }/resources/ckeditor/ckeditor.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
@@ -315,6 +316,7 @@
 			<!-- 승낙하기 form -->
 			<form action="insertMngContConsent.jbo" method="post" id="contConsentFrm" enctype="multipart/form-data">
 				<input type="hidden" value="${ jBoard.jbno }" name="jbno">
+				<input type="hidden" value="${ jBoard.perprice }" name="perprice">
 				<input type="hidden" value="${ jBtype }" name="jBtype">
 				<input type="hidden" value="${ jBoard.job }" name="job">
 				<input type="hidden" value="${ board.bno }" name="bno">
@@ -449,11 +451,6 @@
 		if(bTitle==""){
 			alert("제목을  입력해주세요");
 			$("#bTitle").focus();
-			return;
-		}
-		if(bContent<10){
-			alert("내용을 10자 이상 입력해주세요");
-			$("#editor").focus();
 			return;
 		}
 		//구직글인 경우 지원시 스트리머인지 확인
@@ -673,7 +670,34 @@
 	Number.prototype.zf = function(len){return this.toString().zf(len);};
 	//->여기까지 Date Format함수!
 	
-
+	var editorConfig = {
+	   		uploadUrl: "${pageContext.request.contextPath }/fileupload.jbo",
+	   	    filebrowserUploadUrl : "${pageContext.request.contextPath }/fileupload.jbo", //이미지만 업로드
+	   	    extraPlugins : 'uploadimage',
+	   };
+	    CKEDITOR.editorConfig = function(config) {
+    	  
+    	  config.extraPlugins = 'inserthtml';
+    	  config.toolbar = 'Basic';
+    	}
+	   	    
+	   	    
+	   CKEDITOR.on('dialogDefinition', function( ev ){
+	   	   var dialogName = ev.data.name;
+	   	   var dialogDefinition = ev.data.definition;
+	
+	   	   switch (dialogName) {
+	   	       case 'image': //Image Properties dialog
+	   	   //dialogDefinition.removeContents('info');
+	   	   dialogDefinition.removeContents('Link');
+	   	   dialogDefinition.removeContents('advanced');
+	   	           break;
+	   	       }
+	   	});
+	
+   	  	 window.onload = function(){
+   	        ck = CKEDITOR.replace("editor", editorConfig);
+   	   	};
 
 </script>
 

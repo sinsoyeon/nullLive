@@ -13,7 +13,7 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
+<script type="text/javascript" src="${ contextPath }/resources/ckeditor/ckeditor.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
@@ -72,6 +72,13 @@
 	}
 	th{
 		background: #e2f0d8;
+		border-right: 1px solid gray;
+	}
+	.profileImg2{
+		width: 300px;
+		height:150px;
+		margin-top: 2%;
+		margin-bottom: 2%;
 	}
 </style>
 
@@ -94,6 +101,83 @@
 		<jsp:include page="jobHeader.jsp"/>
 	
 		<hr>
+		<table class="table">
+		   <tr align="center">
+		   	<td colspan="10">
+		   		<img  src="${contextPath}/resources/uploadFiles/profile_image/${boardMap.profile.changeName}" id="profileImg" style="border-radius: 50%; object-fit: cover;" width="330px" height="330px">
+						<c:if test="${empty boardMap.profile.changeName}">
+							<div class="profileEmpty">
+							<br><br><br>
+							이미지가 없습니다.
+							</div>
+						</c:if>
+						<br>
+						<label><c:out value="${ member.nickName }"/></label><br>
+						<label><i class="fas fa-ban"></i></label> &nbsp;
+						<label><i class="far fa-envelope"></i></label>
+		   	</td>
+		   </tr>
+		  <tr>
+		    <th>글번호</th>
+		    <td><c:out value="${ board.bno  }"/></td>
+		    <th>조회수</th>
+		    <td><c:out value="${ board.BCount }"/></td>
+		    <th>구분</th>
+		    <td><c:out value="${ jBoard.JBtype }"/></td>
+		    <th>마감여부</th>
+		    <td><c:out value="${ boardMap.boardStatus }"></c:out></td>
+		  </tr>
+		  <tr>
+		    <th style="height: 50px;">제목</th>
+		    <td colspan="7"><h2><c:out value="${ board.BTitle }"/></h2></td>
+		  </tr>
+		  <tr>
+		    
+		    <th>등록일시</th>
+		    <td colspan="3">
+		    	<c:set var="writtenDate" value="${ board.writtenDate }"
+				 />
+				<c:set var="nowDate" value="<%= new java.util.Date() %>"/>
+				
+				<fmt:formatDate value="${writtenDate}" pattern="yyyy-MM-dd" var="wd"/>
+				<fmt:formatDate value="${nowDate}" pattern="yyyy-MM-dd" var="nd"/>
+				
+				<!-- 등록일시 일수가 넘어간경우 날짜를 보여줌 -->
+				<c:if test="${ wd < nd }">
+					<fmt:formatDate value="${writtenDate}" pattern="yyyy-MM-dd" />
+				</c:if>
+				<!-- 등록일시가 현재일인 경우 시간을 보여줌 -->
+				<c:if test="${ wd >= nd }">
+					<fmt:formatDate type="TIME" timeStyle="short" value="${writtenDate}"/>
+				</c:if>
+		    </td>
+		    <th>마감일시</th>
+		    <td colspan="3">
+				<c:set var="deadline" value="${ jBoard.deadLine }" />
+				<fmt:formatDate value="${deadline}" pattern="yyyy-MM-dd" />
+		    </td>
+		  </tr>
+		  <tr>
+		  	<th>게시자 상세정보</th>
+		  	<td colspan="5">
+		  		<c:if test="${ jBoard.JBtype eq '구인' }">
+					<div>스트리머 정보</div>
+					<div><b>방송시작일 :<c:out value="${ streamer.bstart_date }"/></b></div>
+					<div><b>구독자수 :<c:out value="${ boardMap.suCount }"/></b></div>
+					<div><b>누적추천수 :<c:out value="${ streamer.cumulative_selection }"/></b></div>
+				</c:if>
+				<c:if test="${ jBoard.JBtype eq '구직' }">
+					<div>매니저 정보</div>
+					<div><b>가입일 : <c:out value="${ member.enrollDate }"></c:out></b></div>
+				</c:if>
+		  	</td>
+		  	<th>상세정보</th>
+		  	<td>
+		  		<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#detailModal" onclick="fn_showWritterDetail2(${ member.mno })">상세정보</button>
+		  	</td>
+		  </tr>
+		</table>
+		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 		<div class="profileArea col-lg-3 " align="center">
 			<div class="profileImg" align="center">
 				<img alt="" src="${contextPath}/resources/uploadFiles/profile_image/${boardMap.profile.changeName}" width="100%" height="170px">
@@ -441,11 +525,6 @@
 				$("#bTitle").focus();
 				return;
 			}
-			if(bContent<10){
-				alert("내용을 10자 이상 입력해주세요");
-				$("#editor").focus();
-				return;
-			}
 			
 			
 			$("#contractFrm").submit();
@@ -660,6 +739,35 @@
 		Number.prototype.zf = function(len){return this.toString().zf(len);};
 		//->여기까지 Date Format함수!
 		
+		
+		var editorConfig = {
+	   		uploadUrl: "${pageContext.request.contextPath }/fileupload.jbo",
+	   	    filebrowserUploadUrl : "${pageContext.request.contextPath }/fileupload.jbo", //이미지만 업로드
+	   	    extraPlugins : 'uploadimage',
+	   };
+	    CKEDITOR.editorConfig = function(config) {
+    	  
+    	  config.extraPlugins = 'inserthtml';
+    	  config.toolbar = 'Basic';
+    	}
+	   	    
+	   	    
+	   CKEDITOR.on('dialogDefinition', function( ev ){
+	   	   var dialogName = ev.data.name;
+	   	   var dialogDefinition = ev.data.definition;
+	
+	   	   switch (dialogName) {
+	   	       case 'image': //Image Properties dialog
+	   	   //dialogDefinition.removeContents('info');
+	   	   dialogDefinition.removeContents('Link');
+	   	   dialogDefinition.removeContents('advanced');
+	   	           break;
+	   	       }
+	   	});
+	
+   	  	 window.onload = function(){
+   	        ck = CKEDITOR.replace("editor", editorConfig);
+   	   	};
 		
 	</script>
 </body>
