@@ -10,7 +10,7 @@
 	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 <style>
 #contentArea {
-	padding-left: 200px;
+	padding-left: 225px;
 }
 #streamerPartnerArea{
 	background: #e9e9e9;

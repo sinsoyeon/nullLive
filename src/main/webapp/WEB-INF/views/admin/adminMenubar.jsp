@@ -42,6 +42,9 @@
 	.nav-tabs.nav-justified>.active>a, .nav-tabs.nav-justified>.active>a:focus, .nav-tabs.nav-justified>.active>a:hover {
     border: 0px;
 }
+.logo:hover{
+	cursor:pointer;
+}
 </style>
 </head>
 <body>
@@ -52,13 +55,8 @@
 					<i class="fas fa-home fa-lg" style="color: #fff;"></i>
 				</a>
 			</div>
-			<div style="display: inline-block;">
-				<img src="/nullLive/resources/image/logo.png" style="width: 25px;height: 41px; padding-bottom: 35%">
-			</div>
-			<div style="display: inline-block;">
-				<a style=" text-shadow: 3px 3px 2px #6f8e3085; font-size: 30px; color: #fff; cursor: pointer; " href="main.ad">
-					<b>NullLive</b>
-				</a>
+			<div style="align:center; display:inline-block;">
+				<img src="/nullLive/resources/image/logo.png" class="logo" onclick="location.href='main.ad'" style="width: 164.72px;height: 57px;margin-top: 2px;">
 			</div>
 			<div style="float: right; display: inline-block; padding: 15px;">
 				<a href="logout.me" >

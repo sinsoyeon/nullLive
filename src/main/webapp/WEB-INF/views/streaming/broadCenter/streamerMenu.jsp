@@ -15,45 +15,92 @@
 	href="${ contextPath }/resources/css/streamer/streamerMenu.css">
 <!-- <script src="https://code.jquery.com/jquery-1.4.4.min.js"></script> -->
 <style>
+body::-webkit-scrollbar {
+	display: none;
+}
+
+.sidebar {
+	position: fixed;
+	z-index: 9;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	background: #e2f0d869;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: lighter;
+}
+
+.sidebar ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+.sidebar ul li {
+	position: relative;
+	height: 35px;
+}
+
+.sidebar ul li:hover {
+	cursor:pointer;
+}
+
+.sidebar ul li a {
+	text-decoration: none;
+	color: black;
+}
+
+.sidebar ul li a:hover {
+	color:  #4a8522;
+}
+
+.sidebar ul li a i {
+	text-align: center;
+	width: 70px;
+}
+
+.sidebar ul li a span {
+	font-size: 14px;
+	padding-left: 17px;
+	line-height: 50px;
+}
+body::-webkit-scrollbar {
+	display: none;
+}
 </style>
 </head>
 <body>
 	<jsp:include page="../../common/menubar.jsp" />
 	<div class="row">
 		
-			<div class="sidebar">
+			<div style="width: 210px;margin-top: -15px;height: 170px;">
 				<div class="profile">
 					<img class="img-circle" alt="Cinque Terre" id="profileImg" onclick="location.href='main.st?smno=${broadCenter.mno}'">
 					<h3  id="nickName" style="color: white"></h3>
 					<h5 id="id" style="color: white"></h5>
 				</div>
-				<br>
-				<br>
-				<br>
-				<div class="streamerSideMenu">
+				<nav class="sidebar" style="margin-top: 210px; width: 210px;">
+					<ul style=" margin-top: -4px; ">
 					<c:if test="${loginUser.isStreamer eq 'Y'}">
-						<h3>방송 설정</h3>
-						<ul>
-							<li><a onclick="location.href='broadSetting.st'">방송 기능 설정</a></li>
-							<li><a onclick="location.href='partnerManage.st?mno=${loginUser.mno}'">매니저 설정</a></li>
-							<li><a onclick="location.href='blackListManage.st'">블랙리스트 관리</a></li>
-							<li><a onclick="">방송 기록 관리</a></li>
-							<li><a onclick="location.href='prohibitiveWordManage.st'">금칙어 설정</a></li>
-							<li id="chartList"><a onclick="location.href='chartView.sm'">통계페이지</a></li>
-						</ul>
+						<li><a href="broadSetting.st"><i class="fas fa-video fa-lg"></i><span>방송기능설정</span></a></li>
+						<li><a href="partnerManage.st?mno=${loginUser.mno}"><i class="fas fa-video fa-lg"></i><span>매니저 설정</span></a></li>
+						<li><a href="blackListManage.st"><i class="fas fa-video fa-lg"></i><span>블랙리스트관리</span></a></li>
+						<li><a href=""><i class="fas fa-video fa-lg"></i><span>방송기록관리</span></a></li>
+						<li><a href="prohibitiveWordManage.st"><i class="fas fa-video fa-lg"></i><span>금칙어설정</span></a></li>
+						<li id="chartList"><a href="chartView.sm"><i class="fas fa-video fa-lg"></i><span>통계페이지</span></a></li>
 					</c:if>
-					<h3>게시판 <a style="font-size:0.2em;color:#ace600;margin-left:70px;" align="right" href="boardsSetting.st">게시판 관리</a></h3>
-					<ul>
-						<li><a onclick="location.href='noticeBoard.st'">방송 공지 게시판</a></li>
-						<li><a onclick="location.href='communicationBoard.st?smno=${broadCenter.mno}'">시청자 소통 게시판</a></li>
-						<li><a onclick="location.href='reportBlackListBoard.st?smno=${broadCenter.mno}'">블랙리스트 제보 게시판</a></li>
+					<li><a href="broadSetting.st"><i class="fas fa-cog fa-lg"></i><span>방송기능설정</span></a></li>
+						<li><a href="partnerManage.st?mno=${loginUser.mno}"><i class="fas fa-user-cog fa-lg"></i><span>매니저 설정</span></a></li>
+						<li><a href="blackListManage.st"><i class="fas fa-angry fa-lg"></i><span>블랙리스트관리</span></a></li>
+						<li><a href=""><i class="fas fa-file-video fa-lg"></i><span>방송기록관리</span></a></li>
+						<li><a href="prohibitiveWordManage.st"><i class="fas fa-comment-slash fa-lg"></i><span>금칙어설정</span></a></li>
+						<li id="chartList"><a href="chartView.sm"><i class="fas fa-chart-line fa-lg"></i><span>통계페이지</span></a></li>
+						<li><a href="boardsSetting.st"><i class="fas fa-edit fa-lg"></i><span>게시판관리</span></a></li>
+						<li><a href="noticeBoard.st"><i class="fas fa-bullhorn fa-lg"></i><span>방송공지게시판</span></a></li>
+						<li><a onclick="location.href='communicationBoard.st?smno=${broadCenter.mno}'"><i class="fas fa-mouse-pointer fa-lg"></i><span>시청자소통게시판</span></a></li>
+						<li><a onclick="location.href='reportBlackListBoard.st?smno=${broadCenter.mno}'"><i class="fas fa-thumbs-down fa-lg"></i><span>블랙리스트제보</span></a></li>
+						<li><a onclick="location.href='updateProfile.st'"><i class="fas fa-id-badge fa-lg"></i><span>개인정보수정</span></a></li>
 					</ul>
-					<h3>개인 페이지</h3>
-					<ul>
-						<li><a onclick="location.href='updateProfile.st'">개인정보 수정</a></li>
-					</ul>
-					<br>
-				</div>
+				</nav>
 			</div>
 		
 	</div>

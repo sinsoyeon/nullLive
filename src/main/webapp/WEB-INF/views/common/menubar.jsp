@@ -31,6 +31,9 @@ ul li.unread:after {
 	background: #ef5952;
 	font-size: 8px;
 }
+.logo:hover{
+	cursor:pointer;
+}
 </style>
 </head>
 <body>
@@ -41,9 +44,10 @@ ul li.unread:after {
 		<div class="col-md-12">
 			<nav class="navbar navbar-fixed-top navbar-inverse">
 				<div class="container-fluid">
-					<div class="navbar-header">
-						<img src="/nullLive/resources/image/logo.png"
-							style="width: 30px; float: left; height: 41px; padding-top: 5%;">
+
+					<div class="navbar-header" style=" width: 160.72px; height: 50px; ">
+						<img src="/nullLive/resources/image/logo.png" class="logo" onclick="location.href='index.jsp'" style="width: 164.72px;height: 57px;margin-top: 3px;">
+
 						<a class="navbar-brand" href="#" onclick="location.href='logout.st'"
 							style="width: 145.72px; padding-left: 15%; text-shadow: 3px 3px 2px #6f8e3085; font-size: 25px; color: #fff;"><b>NullLive</b></a>
 					</div>

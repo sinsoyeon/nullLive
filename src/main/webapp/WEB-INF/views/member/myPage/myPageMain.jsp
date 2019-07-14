@@ -8,7 +8,7 @@
 <title>마이페이지</title>
 <style>
 #contentArea {
-	padding-left: 200px;
+	padding-left: 225px;
 }
 #subListArea{
 	height:300px;

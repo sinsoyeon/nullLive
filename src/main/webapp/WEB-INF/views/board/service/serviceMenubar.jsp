@@ -16,6 +16,11 @@
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
 <title>Insert title here</title>
+<style>
+.logo:hover{
+	cursor:pointer;
+}
+</style>
 </head>
 <body>
 	<c:set var="contextPath"
@@ -25,15 +30,11 @@
 		<div class="col-md-12">
 			<nav class="navbar navbar-fixed-top navbar-inverse">
 				<div class="container-fluid">
-					<div class="navbar-header">
-						<img src="/nullLive/resources/image/logo.png"
-							style="width: 30px; float: left; height: 41px; padding-top: 5%;">
-						<a class="navbar-brand" href="#"
-							onclick="location.href='index.jsp'"
-							style="width: 145.72px; padding-left: 15%; text-shadow: 3px 3px 2px #6f8e3085; font-size: 25px; color: #fff;"><b>NullLive</b></a>
+					<div class="navbar-header" style=" width: 160.72px; height: 50px; ">
+						<img src="/nullLive/resources/image/logo.png" class="logo" onclick="location.href='index.jsp'" style="width: 164.72px;height: 57px;margin-top: 3px;">
 					</div>
 
-					<ul class="nav navbar-nav">
+					<ul class="nav navbar-nav" style="height: 30px;margin-top: 4px;">
 						<c:if test="${empty sessionScope.loginUser}">
 							<li><a href="needLogin.me"><b>문의하기</b></a></li>
 							<li><a href="needLogin.me"><b>신고하기</b></a></li>
@@ -44,7 +45,7 @@
 						</c:if>
 					</ul>
 					
-					<ul class="nav navbar-nav navbar-right">
+					<ul class="nav navbar-nav navbar-right" style="height: 30px;margin-top: 4px;">
 						<c:if test="${empty sessionScope.loginUser}">
 							<li><a href="loginPage.me"><i
 									class="fas fa-sign-in-alt fa-lg" style="color: #fff;"></i></a></li>
