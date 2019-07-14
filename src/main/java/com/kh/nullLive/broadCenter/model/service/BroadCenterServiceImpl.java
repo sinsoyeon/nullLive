@@ -148,8 +148,8 @@ public class BroadCenterServiceImpl implements BroadCenterService {
 
 	//첫 소통 게시판 활성화(정연)
 	@Override
-	public int enableCommunityBoard(int mno) {
-		return bcd.enableCommunityBoard(sqlSession, mno);
+	public int enableCommunityBoard(int smno) {
+		return bcd.enableCommunityBoard(sqlSession, smno);
 	}
 
 	//소통 게시판 리스트 조회(정연)
@@ -177,6 +177,24 @@ public class BroadCenterServiceImpl implements BroadCenterService {
 	@Override
 	public HashMap<String, Object> streamerPofile(int smno) {
 		return bcd.streamerPofile(sqlSession, smno);
+	}
+
+	//소통 게시판 상세(정연)
+	@Override
+	public HashMap<String, Object> selectCommunityDetail(int bno) {
+		return bcd.selectCommunityDetail(sqlSession, bno);
+	}
+
+	//소통게시판 조회수 증가(정연)
+	@Override
+	public int countCommunity(int bno) {
+		return bcd.countCommunity(sqlSession, bno);
+	}
+
+	//bbno 찾기(정연)
+	@Override
+	public int selectBbno(HashMap<String, Object> commuInfo) {
+		return bcd.selectBbno(sqlSession, commuInfo);
 	}
 
 	

@@ -70,7 +70,7 @@ public interface BroadCenterService {
 	int firstCheckCommunication(HashMap<String, Object> commuInfo);
 
 	//첫 소통 게시판 활성화(정연)
-	int enableCommunityBoard(int mno);
+	int enableCommunityBoard(int smno);
 
 	//소통 게시판 리스트 조회(정연)
 	ArrayList<HashMap<String, Object>> selectCommunityList(int smno);
@@ -85,6 +85,15 @@ public interface BroadCenterService {
 	BroadCenter broadCenter(int smno);
 
 	HashMap<String, Object> streamerPofile(int smno);
+
+	//소통 게시판 상세(정연)
+	HashMap<String, Object> selectCommunityDetail(int bno);
+
+	//소통 게시판 조회수 증가(정연)
+	int countCommunity(int bno);
+
+	//bbno찾기
+	int selectBbno(HashMap<String, Object> commuInfo);
 
 	
 

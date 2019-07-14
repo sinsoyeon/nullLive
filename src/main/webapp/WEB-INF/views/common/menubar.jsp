@@ -44,8 +44,12 @@ ul li.unread:after {
 		<div class="col-md-12">
 			<nav class="navbar navbar-fixed-top navbar-inverse">
 				<div class="container-fluid">
+
 					<div class="navbar-header" style=" width: 160.72px; height: 50px; ">
 						<img src="/nullLive/resources/image/logo.png" class="logo" onclick="location.href='index.jsp'" style="width: 164.72px;height: 57px;margin-top: 3px;">
+
+						<a class="navbar-brand" href="#" onclick="location.href='logout.st'"
+							style="width: 145.72px; padding-left: 15%; text-shadow: 3px 3px 2px #6f8e3085; font-size: 25px; color: #fff;"><b>NullLive</b></a>
 					</div>
 
 					<form class="navbar-form navbar-left" style="margin-left: 2%;">
@@ -64,12 +68,19 @@ ul li.unread:after {
 					<li><a href="join.me"><i class="fas fa-user fa-lg" style="color: #fff;"></i></a></li>
 				</c:if>
 				<c:if test="${!empty sessionScope.loginUser}">
-					<li data-content="2" class="unread"><a href="#"> <i
-								class="fas fa-globe-asia fa-lg" style="color: #fff;"></i>
-						</a></li>
-					<li><a href="logout.me"><i class="fas fa-sign-out-alt fa-lg" style="color: #fff;"></i></a></li>
-					<li><a href="myPage.me"><c:out value="${sessionScope.loginUser.nickName} 님"/></a></li>
-				</c:if>
+					<c:if test="${sessionScope.loginUser.mid ne 'admin'}">
+						<li data-content="2" class="unread"><a href="#"> <i
+									class="fas fa-globe-asia fa-lg" style="color: #fff;"></i>
+							</a></li>
+						<li><a href="logout.me"><i class="fas fa-sign-out-alt fa-lg" style="color: #fff;"></i></a></li>
+						<li><a href="myPage.me"><c:out value="${sessionScope.loginUser.nickName} 님"/></a></li>
+					</c:if>
+					<c:if test="${sessionScope.loginUser.mid eq 'admin'}">
+						<li><a href="logout.me"><i class="fas fa-sign-out-alt fa-lg" style="color: #fff;"></i></a></li>
+						<li><a href="main.ad">관리자 페이지</a></li>
+					</c:if>
+				</c:if>	
+				
 			</ul>
 
 				</div>
