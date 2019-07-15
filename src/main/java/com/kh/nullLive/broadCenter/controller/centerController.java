@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -274,43 +275,29 @@ public class centerController {
 	}
 	
 	//소통 게시판 작성페이지 이동(정연)
-	@RequestMapping("insertCommunityDetail.st")
-	public String insertCommunityDetail(@RequestParam("mno") int mno, Model model) {
+	@RequestMapping("moveCommunityDetail.st")
+	public String insertCommunityDetail() {
 		return "streaming/broadCenter/insertCommunityDetail";
 	}
 	
-	
-	
-	  //소통게시판 작성 insert(정연)
-	  
-	  @RequestMapping("insertCommunityDetail.bc")
-	  @ResponseBody public String insertCommunityDetail(@RequestParam("jsonData")
-	  String jsonData, Model model) { // 직렬화 시켜 가져온 오브젝트 배열을 JSONArray 형식으로 바꿔줌
-	  JSONArray array = JSONArray.fromObject(jsonData);
-	  
-	  HashMap<String, Object> insertDetail = new HashMap<String, Object>();
-	  
-	  for (int i = 0; i < array.size(); i++) { 
-		  // JSONArray 형태의 값을 가져와 JSONObject 로풀어준다. 
-		  
-	  JSONObject obj = (JSONObject) array.get(i);
-	  
-	  insertDetail.put("mno", obj.get("mno")); insertDetail.put("title",
-	  obj.get("title")); insertDetail.put("content", obj.get("content"));
-	  insertDetail.put("bcno", obj.get("bcno")); }
-	  
-	  //int result = bcs.insertCommunityDetail(insertDetail);
-	  
-	  return "streaming/broadCenter/communityBoardDetail"; 
-	  
-	  }
-	 
 	
 	//방송국 끊기(정연)
 	@RequestMapping("logout.st")
 	public String logout(HttpSession session) {
 		session.removeAttribute("broadCenter");
 		return "redirect:index.jsp";
+	}
+	
+	
+	//소통 게시물 수정 이동(정연)
+	@RequestMapping("moveUpdateCommu.st")
+	public String moveUpdateCommu(@RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("bno") int bno, Model model) {
+		model.addAttribute("title", title);
+		model.addAttribute("content", content);
+		model.addAttribute("update", "Y");
+		model.addAttribute("bno", bno);
+		
+		return "streaming/broadCenter/insertCommunityDetail";
 	}
 	
 }

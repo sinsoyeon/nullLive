@@ -97,4 +97,14 @@ public interface BroadCenterDao {
 	//bbno찾기
 	int selectBbno(SqlSessionTemplate sqlSession, HashMap<String, Object> commuInfo);
 
+	
+	//소통 게시글 작성(정연)
+	int insertCommunityDetail(SqlSessionTemplate sqlSession, HashMap<String, Object> insertDetail);
+
+	//소통 게시물 수정(정연)
+	int updateCommunityDetail(SqlSessionTemplate sqlSession, HashMap<String, Object> updateDetail);
+
+	//소통 게시물 삭제(정연)
+	int deleteCommu(SqlSessionTemplate sqlSession, int bno);
+
 }

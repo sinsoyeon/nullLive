@@ -210,6 +210,15 @@ function recomBtn(){
 }
 
 
+
+
+
+
+
+
+
+
+
 // $(document).ready(function(){
 // 	var connectionOptions =  {
 //             "force new connection" : true,
@@ -236,7 +245,8 @@ function recomBtn(){
 //   });
     
 //   //msg_send 클릭시
-//   $("#msg_send").click(function(){
+//   
+//     $("#msg_send").click(function(){
 //     /* var output ='';
 //     output += $("#nickName").val();
 //     output += ' : ';

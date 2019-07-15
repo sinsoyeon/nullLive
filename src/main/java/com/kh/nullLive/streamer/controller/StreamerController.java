@@ -30,6 +30,8 @@ import com.kh.nullLive.streamer.model.service.StreamerService;
 import com.kh.nullLive.streamer.model.vo.Streamer;
 
 import aj.org.objectweb.asm.Type;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Controller
 public class StreamerController {
@@ -893,6 +895,123 @@ public class StreamerController {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	//소통게시판 작성 insert(정연)
+	  @RequestMapping("insertCommunityDetail.st")
+	  @ResponseBody 
+	  public ModelAndView insertCommunityDetail(@RequestParam("jsonData") String jsonData, ModelAndView modelAndView) { 
+		  // 직렬화 시켜 가져온 오브젝트 배열을 JSONArray 형식으로 바꿔줌
+		  JSONArray array = JSONArray.fromObject(jsonData);
+		  
+		  HashMap<String, Object> insertDetail = new HashMap<String, Object>();
+		  
+		  for (int i = 0; i < array.size(); i++) { 
+			  // JSONArray 형태의 값을 가져와 JSONObject 로풀어준다. 
+			  
+		  JSONObject obj = (JSONObject) array.get(i);
+		  
+		  insertDetail.put("mno", obj.get("mno")); 
+		  insertDetail.put("title",obj.get("title")); 
+		  insertDetail.put("content", obj.get("content"));
+		  insertDetail.put("smno", obj.get("smno")); 
+		  insertDetail.put("type", "소통");
+		  
+		  }
+		  
+		  //bbno 가져오기
+		  int bbno = bcs.selectBbno(insertDetail); 
+		  
+		  insertDetail.put("bbno", bbno);
+		  
+		  System.out.println("인서트 bbno:" + insertDetail);
+		  
+		  int result = bcs.insertCommunityDetail(insertDetail);
+		  
+		  System.out.println("등록: " + result );
+		  
+		  
+		  modelAndView.setViewName("jsonView");
+		modelAndView.addObject("data", result);
+		  
+		  if(result>0) {
+			  return modelAndView; 
+		  }else {
+			  return modelAndView;
+		  }
+		  
+		  //model.addAttribute("bbno", bbno);
+		  
+		  }
 
+	  
+	  //소통게시물 수정(정연)
+	  @RequestMapping("updateCommunityDetail.st")
+	  @ResponseBody
+	  public ModelAndView updateCommunityDetail(@RequestParam("jsonData") String jsonData, ModelAndView modelAndView) { 
+		  JSONArray array = JSONArray.fromObject(jsonData);
+		  
+		  HashMap<String, Object> updateDetail = new HashMap<String, Object>();
+		  
+		  for (int i = 0; i < array.size(); i++) { 
+
+			  JSONObject obj = (JSONObject) array.get(i);
+
+			  updateDetail.put("bno", obj.get("bno")); 
+			  updateDetail.put("title",obj.get("title")); 
+			  updateDetail.put("content", obj.get("content"));
+		  }
+		  
+		  int result = bcs.updateCommunityDetail(updateDetail);
+
+		  modelAndView.setViewName("jsonView");
+		  modelAndView.addObject("data", result);
+		  
+		  if(result>0) {
+			  return modelAndView; 
+		  }else {
+			  return modelAndView;
+		  }
+
+
+	  }
+	  
+	  //소통 게시물 삭제(정연)
+	  @RequestMapping("deleteCommunityDetail.st")
+	  @ResponseBody
+	  public ModelAndView deleteCommunityDetail(@RequestParam("bno") int bno, ModelAndView modelAndView) {
+		  int result = bcs.deleteCommu(bno);
+		  
+		  
+		  modelAndView.setViewName("jsonView");
+		  modelAndView.addObject("data", result);
+		  return modelAndView;
+	  }
+	  
+	  //소통 게시물 여러개 삭제(정연)
+	  @RequestMapping("deleteManyCommu.st")
+	  public ModelAndView deleteManyCommu(@RequestParam("list") String list, ModelAndView modelAndView) {
+		  System.out.println("리스트: " + list);
+		  String[] splitList = list.split(",");
+		  int [] dlist = new int[splitList.length];
+		  int result = 0;
+			
+		  
+			for(int i=0; i<splitList.length; i++) {
+				dlist[i] = Integer.parseInt(splitList[i]);
+				int bno = dlist[i];
+				
+				result = bcs.deleteCommu(bno);
+				System.out.println(i+"결과: " + result);
+			}
+		  
+		  modelAndView.setViewName("jsonView");
+		  modelAndView.addObject("data", result);
+		  return modelAndView; 
+	  }
+	  
+	  
+	  
+	  
 	
 }
