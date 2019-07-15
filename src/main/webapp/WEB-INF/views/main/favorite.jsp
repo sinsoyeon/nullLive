@@ -80,20 +80,7 @@
 										<tbody>
 											<tr>
 												<td id="fBjDiv">
-													<div
-														style="width: 240px; height: 113px; padding: 0 15px; display: inline-block;">
-														<div style="display: inline;">
-															<img class="img-circle"
-																src="/nullLive/resources/image/male.png"
-																style="width: 70px; height: 70px; margin-top: 9%;">
-														</div>
-														<div style="display: inline-table; margin-left: 5%;">
-															<p style="font-size: 12px; color: #3498db;" id="bUser">스트리머01</p>
-															<p style="font-size: 11px; color: #999;">
-																구독자 수 <span id="subCount">1,000</span>명
-															</p>
-														</div>
-													</div>
+													
 												</td>
 											</tr>
 										</tbody>
@@ -179,8 +166,8 @@
 						<!-- 최근본방송 -->
 						<div id="latest" class="tab-pane fade">
 							<!-- Live -->
-							<div class="col-md-12" style="padding: 0 15px;">
-								<span style="font-size: 16px; color: #777;">LIVE</span>
+							<div style=" margin-top: 2%; "><span style="font-size: 16px; color: #777;">LIVE</span></div>
+							<div class="col-md-12" style="padding: 0; overflow-y: hidden;">
 								<div class="row"
 									style="height: 200px; margin-top: 1%; display: block; white-space: nowrap;">
 									<table id="liveT">
@@ -193,12 +180,12 @@
 								</div>
 							</div>
 							<!-- VOD -->
-							<div class="col-md-12" style="padding: 0 15px;">
+							<div class="col-md-12" style="padding: 0; margin-top: 2%;">
 								<span style="font-size: 16px; color: #777;">VOD</span>
-							</div>
-							<div class="row" style="margin-top: 1%;">
-								<ul id="lVodDiv" style="list-style: none; padding-left: 0px;">
-								</ul>
+								<div class="row" style="margin-top: 1%;">
+									<ul id="lVodDiv" style="list-style: none; padding-left: 0px;">
+									</ul>
+								</div>
 							</div>
 						</div>
 
@@ -211,9 +198,14 @@
 	</div>
 	<script>
 		$(function() {
+			/* 즐겨찾기 */
 			fBjLoad();
-			fLiveLoad();
-			fVodLoad();
+			//fLiveLoad();
+			//fVodLoad();
+			
+			/* 최근본방송 */
+			latestLiveLoad();
+			latestVodLoad();
 		});
 		//-> onLoad function 끝
 		
@@ -231,20 +223,29 @@
 				console.log(data.list);
 				
 				$.each(data.list, function(index, value){
-					var countViewers = $fn(value.countViewers);
-				
+					var smno = value.mno;
+					var countViewers = $fn(value.favCount);
+					var gender = value.sGender;
+					
 					$div = $("<div style='width: 240px; height: 113px; padding: 0 15px; display: inline-block;'>");
 					$imgDiv = $("<div style='display: inline;'>");
-					$img = $("<img class='img-circle' src='/nullLive/resources/image/male.png' style='width: 70px; height: 70px; margin-top: 9%;'>");
+					$mimg = $("<img class='img-circle' src='/nullLive/resources/image/male.png' style='width: 70px; height: 70px; margin-top: 9%;'>");
+					$fimg = $("<img class='img-circle' src='/nullLive/resources/image/female.png' style='width: 70px; height: 70px; margin-top: 9%;'>");
 					$pDiv = $("<div style='display: inline-table; margin-left: 5%;'>");
-					$pStreamer = $("<p class='s-name' style='font-size: 12px; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text();
+					$pStreamer = $("<p class='s-name' style='font-size: 12px; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
 					$pViewers = $("<p style='font-size: 11px; color: #999;'>");
 					$icon = $("<i class='fas fa-star'>");
-					$span = $("<span>").text(countViewers + "명");
+					$span = $("<span>").text(" " + countViewers + "명");
 					
 					$div.append($imgDiv);
 					$div.append($pDiv);
-					$imgDiv.append($img);
+					
+					if(gender == "M"){
+						$imgDiv.append($mimg);
+					}else{
+						$imgDiv.append($fimg);
+					}
+					
 					$pDiv.append($pStreamer);
 					$pDiv.append($pViewers);
 					$pViewers.append($icon);
@@ -271,6 +272,7 @@
 				
 				$.each(data.list, function(index, value){
 					var countViewers = $fn(value.countViewers);
+					var smno = value.mno;
 					
 					$div = $("<div style='width: 261.48px;padding: 0 15px;display: inline-block;'>");
 					$thumbnailDiv = $("<div class='thumbnail'>");
@@ -334,6 +336,104 @@
 			}
 		});
 	 	}
+		
+		/* 최근본방송 */
+		// LIVE
+		function latestLiveLoad(){
+			
+			$.ajax({
+			url:"lLiveList.st",
+			type:"get",
+			success:function(data){
+				$lLiveDiv = $("#lLiveDiv");
+				$lLiveDiv.html('');
+				
+				console.log(data.list);
+				
+				$.each(data.list, function(index, value){
+					var countViewers = $fn(value.countViewers);
+					var streamerAddress = value.broadAddress;
+					var smno = value.mno;
+					
+					$div = $("<div style='width: 261.48px;padding: 0 15px;display: inline-block;'>");
+					$thumbnailDiv = $("<div class='thumbnail'>");
+					$img = $("<img src='/nullLive/resources/image/broadhotl.png' class='t-img' style='width: 100%; height: 120px;' onclick='onbroad(\"" + streamerAddress + "\");'>");
+					$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text("[생] "+value.bTitle);
+					$pNickName = $("<p class='s-name' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
+					$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
+					$icon = $("<i class='fas fa-user-friends'>");
+					$span = $("<span>").text(countViewers + "명 시청");
+					
+					$div.append($thumbnailDiv);
+					$thumbnailDiv.append($img);
+					$thumbnailDiv.append($pTitle);
+					$thumbnailDiv.append($pNickName);
+					$thumbnailDiv.append($pViewers);
+					$pViewers.append($icon);
+					$pViewers.append($span);
+					
+					$lLiveDiv.append($div);
+				});
+				
+			}
+		});
+	 	}
+		
+		// VOD
+		function latestVodLoad(){
+			
+			$.ajax({
+			url:"lVodList.st",
+			type:"get",
+			success:function(data){
+				$lVodDiv = $("#lVodDiv");
+				$lVodDiv.html('');
+				
+				console.log(data.list);
+				
+				$.each(data.list, function(index, value){
+					var countViewers = $fn(value.countViewers);
+					var streamerAddress = value.broadAddress;
+					var smno = value.mno;
+					
+					$li = $("<li>");
+					$div = $("<div class='col-md-4'>");
+					$thumbnailDiv = $("<div class='thumbnail'>");
+					$img = $("<img src='/nullLive/resources/image/broadvod.png' class='t-img' style='width: 100%; height: 120px;' onclick='broad(\"" + streamerAddress + "\");'>");
+					$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text(value.bTitle);
+					$pNickName = $("<p class='s-name' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
+					$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
+					$icon = $("<i class='fas fa-play' style=' font-size: 9px; '>");
+					$span = $("<span>").text(countViewers + "명 시청");
+					
+					$li.append($div);
+					$div.append($thumbnailDiv);
+					$thumbnailDiv.append($img);
+					$thumbnailDiv.append($pTitle);
+					$thumbnailDiv.append($pNickName);
+					$thumbnailDiv.append($pViewers);
+					$pViewers.append($icon);
+					$pViewers.append($span);
+					
+					$lVodDiv.append($li);
+				});
+				
+			}
+		});
+	 	}
+		
+		/* 방송으로 이동하기 */
+		//Live 방송
+		function onbroad(streamerAddress){
+			console.log("스트리머 주소(Live) : " + streamerAddress);
+			window.open('isAvailToEnter.st?streamerAddress=' + streamerAddress,'new','width=1024,height=768,menubar=no, status=no, toolbar=no');
+		};
+		
+		//Vod 방송
+		function broad(streamerAddress){
+			console.log("스트리머 주소(VOD) : " + streamerAddress);
+		}
+		
 		/* 스트리머 페이지로 이동하기 */
 		function goBroadCenter(smno){
 			location.href = "main.st?smno=" + smno;
