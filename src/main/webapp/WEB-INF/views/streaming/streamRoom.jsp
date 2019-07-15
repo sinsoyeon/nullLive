@@ -21,6 +21,7 @@
 <section id="page">
   <header>
   <h1 id="titleH"><c:out value="${title}"/></h1>
+  <img src="/nullLive/resources/image/logo.png" class="logo" onclick="location.href='index.jsp'" style="float:right;width: 164.72px;height: 57px;margin-top: -46px;">
   </header>
   <div id="VideoArea">
       <section class="make-center">
@@ -51,9 +52,8 @@
     <div id="footerComuArea">
     	<p>현재 추천 수 : <label id="currRecom"></label></p>
     	<button class="btn btn-success" style="width:75px;" id="recomBtn" onclick="recomBtn()">추천</button>
-    	<button onclick="testMsg()">testMsg</button>
-		 <button onclick="endRecordAndService()">downtest</button>
-		 <button data-toggle="modal" data-target="#sponModal" id="sponBtn"  style="background: pink; color: white;">결제테스트</button>
+		<button onclick="endRecordAndService()">downtest</button>
+		<button data-toggle="modal" data-target="#sponModal" id="sponBtn"  style="background: pink; color: white;">결제테스트</button>
     </div>
   </footer>
   <input type="hidden" id="broadMethod" value="${broadMethod}" />
@@ -178,21 +178,34 @@ $(window).on('beforeunload', function() {
     	}
 });
 
+//추천 수 리로드(자동)
+// $(function(){
+// 	var roomId = $("#room-id").val();
+// 	setInterval(function(){
+// 		$.ajax({
+// 			url:"currRecom.st",
+// 			type:"post",
+// 			data:{roomId:roomId},
+// 			success:function(data){
+// 				console.log(data);
+// 				$("#currRecom").text(data.result);
+// 			}
+// 		});
+// 	},5000);	//현재 5초 마다로 해둠
+// });
 //추천 수 리로드
-$(function(){
+function reloadCurrRecom(){
 	var roomId = $("#room-id").val();
-	setInterval(function(){
-		$.ajax({
-			url:"currRecom.st",
-			type:"post",
-			data:{roomId:roomId},
-			success:function(data){
-				console.log(data);
-				$("#currRecom").text(data.result);
-			}
-		});
-	},3000);	//현재 3초 마다로 해둠
-});
+	$.ajax({
+		url:"currRecom.st",
+		type:"post",
+		data:{roomId:roomId},
+		success:function(data){
+			console.log(data);
+			$("#currRecom").text(data.result);
+		}
+	});
+}
 
 //추천
 function recomBtn(){
@@ -205,6 +218,8 @@ function recomBtn(){
 		data:{mid:mid,streamerAddress:streamerAddress},
 		success:function(data){
 			console.log(data);
+			connection.send('recom##');
+			reloadCurrRecom();
 		}
 	});
 }
