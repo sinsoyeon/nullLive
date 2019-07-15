@@ -223,4 +223,18 @@ public class StreamingServiceImpl implements StreamingService {
 		return sd.sortRAllVodList2(sqlSession, condition);
 	}
 
+	@Override
+	public int subInfoMap(int mno) {
+		ArrayList<HashMap<String, Object>> infoList= sd.subInfoMap(sqlSession,mno);
+		
+		int result = 0;
+		
+		for (int i = 0; i < infoList.size(); i++) {
+			result += sd.insertAlarm(sqlSession,infoList.get(i));
+		}
+		
+		return result;
+	}
+
+
 }

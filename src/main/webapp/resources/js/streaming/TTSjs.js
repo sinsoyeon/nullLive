@@ -75,7 +75,7 @@ function startTTS(fileName){
 		type:"post",
 		data:{fileName:fileName},
 		success:function(data){
-			
+			console.log('tts 실행중');
 		}
 	})
 }

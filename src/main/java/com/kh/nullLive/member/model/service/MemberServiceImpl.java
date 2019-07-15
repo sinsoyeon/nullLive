@@ -322,4 +322,28 @@ public class MemberServiceImpl implements MemberService {
 		return partner;
 	}
 
+	@Override
+	public int selectAlarmCount(int mno) {
+		// TODO Auto-generated method stub
+		return md.selectAlarmCount(sqlSession,mno);
+	}
+
+	@Override
+	public ArrayList<HashMap<String, Object>> selectMyAlmList(HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return md.selectMyAlmList(sqlSession,infoMap);
+	}
+
+	@Override
+	public int updateAlarm(HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return md.updateAlarm(sqlSession,infoMap);
+	}
+
+	@Override
+	public int selectCount(int mno) {
+		// TODO Auto-generated method stub
+		return md.selectCount(sqlSession,mno);
+	}
+
 }

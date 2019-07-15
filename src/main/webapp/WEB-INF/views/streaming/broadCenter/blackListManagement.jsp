@@ -159,9 +159,12 @@
 				type:"post",
 				data:{searchValue:searchValue},
 				success:function(data){
+					//ajax 처리하기 위해서 tbody를 삭제해줌
+					//이유 : 삭제하지 않으면 계속 추가 추가 추가 추가됨(모모링 설문조사하셨을 때 2개가 한 곳에 나왔떤 것처럼 ㅎㅎ)
 		 			$(".blackListDetail > tbody").html('');
 		 			
 		 			
+				
 		 			$.each(data.searchList,function(index,value){		 						 			
 			 			$(".blackListDetail > tbody")
 			 										.append('<tr><td><input type="checkBox"  name="checkBox" id="checkBox">'
@@ -172,7 +175,10 @@
 			 												+ value["MID"] + '</td>'
 			 												+ '<td>'+ value["NICK_NAME"] +'</td>'
 			 												+ '<td>' + value["BL_DATE"] + '</td></tr>');
-	
+			 			
+						//모모링 여기가 input box에 value 담는 거에요
+						//jquery 이상해서 
+						//가끔 $('이름').val('설정값'); 하면 먹히지 않는 경우가 있어서 아래처럼 했어요 !
 			 			$('#blnoOne').attr('value',value["BLNO"]); 
 		 			});
 				}
@@ -183,18 +189,24 @@
 		
 		
 		
+		//1. 체크박스를 누른 뒤 삭제 버튼을 누르면 실행되는 function
+		
 		$('#deleteBtn').click(function(){
 			var checkList = [];
 			
+			//2. 체크박스가 체크된 개수만큼  반복문을 돌면서 해당 번호를 가져옴 (저는 blackList 테이블 값을 넣었어요)
+			// 참고로 #blnOne은 hidden으로 숨겨놓은 input box
 			$("input[name='checkBox']:checked").each(function(i){
 				checkList.push($(this).parent('td').find('#blnoOne').val());
 			})
 			
 			console.log(checkList);
 			
+			//체크박스를 서블릿으로 보내는 곳
 			$.ajax({
 				url:"mutipleDeleteBlack.sm",
 				type:"post",
+				//체크박스는 [] << 이 형태로 넘어가기 때문에 서블릿 소스도 같이 보내드릴게요~
 				data:{checkList:checkList},
 				success:function(data){
 					console.log(data);

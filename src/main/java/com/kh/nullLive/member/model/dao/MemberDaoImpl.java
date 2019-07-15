@@ -3,9 +3,11 @@ package com.kh.nullLive.member.model.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.nullLive.board.model.vo.PageInfo;
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.member.model.vo.BankAccount;
 import com.kh.nullLive.member.model.vo.Member;
@@ -189,5 +191,33 @@ public class MemberDaoImpl implements MemberDao {
 	@Override
 	public ArrayList<HashMap<String, Object>> partner(SqlSessionTemplate sqlSession, Member loginUser) {
 		return (ArrayList)sqlSession.selectList("Member.partner",loginUser);
+	}
+	@Override
+	public int selectAlarmCount(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Member.selectAlarmCount",mno);
+	}
+	@Override
+	public ArrayList<HashMap<String, Object>> selectMyAlmList(SqlSessionTemplate sqlSession,
+			HashMap<String, Object> infoMap) {
+		int mno = (int)infoMap.get("mno");
+		PageInfo pi = (PageInfo)infoMap.get("pi");
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getLimit();
+		RowBounds rowBounds = new RowBounds(offset,pi.getLimit());
+		
+		System.out.println(((ArrayList)sqlSession.selectList("Member.selectMyAlmList",mno,rowBounds)).size());
+		
+		return (ArrayList)sqlSession.selectList("Member.selectMyAlmList",mno,rowBounds);
+	}
+	@Override
+	public int updateAlarm(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("Member.updateAlarm", infoMap);
+	}
+	@Override
+	public int selectCount(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Member.selectCount",mno);
 	}
 }

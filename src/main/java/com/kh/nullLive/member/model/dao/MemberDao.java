@@ -230,6 +230,14 @@ public interface MemberDao {
 	 */
 	ArrayList<HashMap<String, Object>> partner(SqlSessionTemplate sqlSession, Member loginUser);
 
+	int selectAlarmCount(SqlSessionTemplate sqlSession, int mno);
+
+	ArrayList<HashMap<String, Object>> selectMyAlmList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
+	int updateAlarm(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
+	int selectCount(SqlSessionTemplate sqlSession, int mno);
+
 
 
 }
