@@ -2,6 +2,10 @@
 // .......................UI Code........................
 // ......................................................
 const mid = document.getElementById('mid').value;
+const nickName = document.getElementById('nickName').value;
+const roomId = document.getElementById('room-id').value;
+console.log('nickName : '+nickName);
+console.log('roomId : '+roomId);
 $(function(){
 	//var IMP = window.IMP; // 생략가능
 	//IMP.init('imp08034800'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
@@ -15,7 +19,9 @@ $(function(){
 })
 function openStreaming() {
     connection.open(document.getElementById('room-id').value);
-    openJoinStreaming();
+    $("#sponModal").hide();
+    updateParticipantStreamer();
+    //openJoinStreaming();
     /*console.log(io.sockets.manager.rooms(document.getElemnetById('room-id').value));*/
 };
 
@@ -37,7 +43,7 @@ function joinStreaming(){
 function endingComment(){
     if(!connection.isInitiator) {
         alert('방송이 종료되었습니다.');
-        $("#VideoArea").append('<p style="font-size:2em;color:white;margin-left:15px;margin-top:50px;">'+$("#endingComment").val()+'</p>')
+        $("#VideoArea").append('<p style="font-size:2em;color:black;margin-left:15px;margin-top:50px;">'+$("#endingComment").val()+'</p>')
     }
 }
 
@@ -98,10 +104,39 @@ function testMsg(){
 //엔터키 입력시
 $("#inputMsg").keydown(function(key){
     if(key.keyCode == 13){
-    //msg_send 클릭
-    msg_send.click();
+        //msg_send 클릭
+        msg_send.click();
     }
 });
+
+function updateMembers(){
+    $("#membersList").html('');
+    console.log(connection.getAllParticipants);
+    connection.getAllParticipants().forEach(function(participantId) {
+        var user = connection.peers[participantId];
+        var userInfo = user.userid.split('_');
+        var userNickName = userInfo[0];
+        var userId = userInfo[1];
+        console.log('userInfo : '+userInfo);
+        if(userId == roomId){
+            updateParticipantStreamer();
+        }else{
+            $("#membersList").append('<div>').text(userNickName+'('+userId+')');
+        }
+    });
+    if(userId == roomId){
+        updateParticipantStreamer();
+    }
+
+    var numberOfMembers = connection.getAllParticipants().length;
+    $("#currMems").text(numberOfMembers+1);
+}
+
+function updateParticipantStreamer(){
+    //방장 추가
+    $("#membersList").append('<div>').text(roomId).append('<img src="/nullLive/resources/image/crown.jpg" style="width:19px;height:19px;">');
+}
+
 
 connection.onmessage  = function(event) {
     console.log(event);
@@ -136,17 +171,17 @@ connection.onmessage  = function(event) {
 
 //msg_send 클릭시
 $("#msg_send").click(function(){
-var output ='chat##';
-var chatData = '';
-chatData += $("#nickName").val();
-chatData += ' : ';
-chatData += $("#inputMsg").val();
-connection.send(output+chatData);
-$('<div></div>').text(chatData).appendTo("#chat-box");
-$("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
+    var output ='chat##';
+    var chatData = '';
+    chatData += $("#nickName").val();
+    chatData += ' : ';
+    chatData += $("#inputMsg").val();
+    connection.send(output+chatData);
+    $('<div></div>').text(chatData).appendTo("#chat-box");
+    $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
 
-//#inputMsg 비움
-$("#inputMsg").val("");
+    //#inputMsg 비움
+    $("#inputMsg").val("");
 });
 
 //   //DB에 저장되어 있는 내용을 가져올 경우

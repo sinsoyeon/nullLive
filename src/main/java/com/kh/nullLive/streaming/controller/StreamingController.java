@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.nullLive.member.model.exception.UpdateMemberException;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streaming.model.exception.EnterStreamingException;
 import com.kh.nullLive.streaming.model.exception.StreamingException;
@@ -880,5 +881,25 @@ public class StreamingController {
 		mv.setViewName("jsonView");
 		
 		return mv;
+	}
+	
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 16.
+	 * @Comment : 스트리머 즐겨찾기
+	 */
+	@ResponseBody
+	@RequestMapping("favoStreamer.st")
+	public String favoStreamer(String mid,String streamerAddress) {
+		HashMap<String,Object> hmap = new HashMap<String,Object>();
+		hmap.put("mid",mid);
+		hmap.put("sid",streamerAddress);
+		System.out.println("hmap : "+hmap);
+		try {
+			ss.favoStreamer(hmap);
+			return "success";
+		} catch (UpdateMemberException e) {
+			return "already";
+		}
 	}
 }

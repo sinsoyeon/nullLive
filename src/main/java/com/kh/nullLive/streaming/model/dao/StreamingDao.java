@@ -183,5 +183,18 @@ public interface StreamingDao {
 	//즐겨찾기 한 BJ 목록
 	ArrayList<BroadList> selectfBjList(SqlSessionTemplate sqlSession, int mno);
 
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 16.
+	 * @Comment : 이미 즐겨찾기한 스트리머인지
+	 */
+	int isFavoStreamer(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 16.
+	 * @Comment : 스트리머 즐겨찾기
+	 */
+	int favoStreamer(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
 
 }

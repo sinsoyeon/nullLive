@@ -3,6 +3,7 @@ package com.kh.nullLive.streaming.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.kh.nullLive.member.model.exception.UpdateMemberException;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streaming.model.exception.EnterStreamingException;
 import com.kh.nullLive.streaming.model.exception.StreamingException;
@@ -156,5 +157,13 @@ public interface StreamingService {
 	
 	//즐겨찾기 한 BJ 목록
 	ArrayList<BroadList> selectfBjList(int mno);
+
+	/**
+	 * @throws UpdateMemberException 
+	 * @Author : ryan
+	 * @Date : 2019. 7. 16.
+	 * @Comment : 스트리머 즐겨찾기
+	 */
+	void favoStreamer(HashMap<String, Object> hmap) throws UpdateMemberException;
 
 }

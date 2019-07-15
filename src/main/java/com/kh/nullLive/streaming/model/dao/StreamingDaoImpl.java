@@ -442,4 +442,17 @@ public class StreamingDaoImpl implements StreamingDao {
 
 		return list;
 	}
+
+	//이미 즐겨찾기한 유저인지
+	@Override
+	public int isFavoStreamer(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.selectOne("Streaming.isFavoStreamer",hmap);
+	}
+	
+	//스트리머 즐겨찾기
+	@Override
+	public int favoStreamer(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.insert("Streaming.favoStreamer",hmap);
+	}
+
 }
