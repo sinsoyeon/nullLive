@@ -206,4 +206,24 @@
 		AND BB.BBTYPE= #{type}
 	</select>
 	
+	<!-- 소통 게시글 등록(정연) -->
+	<insert id="insertCommunityDetail" parameterType="java.util.HashMap">
+		INSERT INTO BOARD
+		VALUES(SEQ_BNO.NEXTVAL, #{title}, #{content}, SYSDATE, NULL, 0, #{type}, 'N', NULL, NULL, #{bbno}, #{mno}, NULL, 'N', NULL, 7) 
+	</insert>
+	
+	<!-- 소통 게시물 수정(정연) -->
+	<update id="updateCommunityDetail" parameterType="java.util.HashMap">
+		UPDATE BOARD
+		SET BTITLE = #{title}, BCONTENT=#{content}, MODIFY_DATE=SYSDATE
+		WHERE BNO = #{bno}
+	</update>
+	
+	<!-- 소통 게시물 삭제(정연) -->
+	<delete id="deleteCommu" parameterType="_int">
+		UPDATE BOARD
+		SET B_STATUS = 99
+		WHERE BNO = #{bno}
+	</delete>
+	
 </mapper>

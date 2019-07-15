@@ -32,3 +32,8 @@
 	background:#446600;
 	color:white;
 }
+.button{
+	float:right;
+	height:30px;
+	width:80px;
+}

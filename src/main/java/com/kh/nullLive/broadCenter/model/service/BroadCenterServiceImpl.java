@@ -197,6 +197,24 @@ public class BroadCenterServiceImpl implements BroadCenterService {
 		return bcd.selectBbno(sqlSession, commuInfo);
 	}
 
+	//소통 게시글 등록(정연)
+	@Override
+	public int insertCommunityDetail(HashMap<String, Object> insertDetail) {
+		return bcd.insertCommunityDetail(sqlSession, insertDetail);
+	}
+
+	//소통게시물 수정(정연)
+	@Override
+	public int updateCommunityDetail(HashMap<String, Object> updateDetail) {
+		return bcd.updateCommunityDetail(sqlSession, updateDetail);
+	}
+	
+	//소통 게시물 삭제(정연)
+	@Override
+	public int deleteCommu(int bno) {
+		return bcd.deleteCommu(sqlSession, bno);
+	}
+
 	
 
 	

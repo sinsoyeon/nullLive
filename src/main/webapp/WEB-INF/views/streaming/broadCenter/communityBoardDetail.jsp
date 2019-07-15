@@ -40,21 +40,22 @@
 					</tr>
 					<tr>
 						<td class="head" colspan="2">제목</td>
-						<td colspan="8">${communityDetail.BTITLE }</td>
+						<td colspan="8" id="title">${communityDetail.BTITLE }</td>
 					</tr>
 					<tr>
-						<td class="content" colspan="10"><p style="min-height:200px;">${communityDetail.BCONTENT}</td>
+						<td class="content" colspan="10" id="content"><p style="min-height:200px;">${communityDetail.BCONTENT}</td>
 					</tr>
 				</table>
 				<br><br>
 				
-				<div class="button">
+				<div class="buttonArea">
 					<c:if test="${communityDetail.BWRITER eq loginUser.mno }">
-						<button class="ui green button">수정</button>
-						<button class="ui green button">삭제</button>
+						<button class="ui green button" id="delete">삭제</button>
+						<button class="ui green button" id="update">수정</button>
 					</c:if>
 				</div>
-				
+				<br><br><br>
+				<br><br><br>
 				<table align="center">
 					<tr>
 						<td><textarea cols="60" rows="5"></textarea></td>
@@ -66,6 +67,9 @@
 						<td colspan="2"><b></b></td>
 					</tr>
 				</table>
+				
+				<input type="text" id="bno" value="${communityDetail.BNO}" hidden/>
+				
 				<%-- <c:if test="${ rCount > 0 }">
 		<table align="center">
 			<c:forEach var="r" items="${b.replyList }">
@@ -80,6 +84,46 @@
 			</div>
 		</div>
 	</div>
+	
+	
+	
+	<script>
+		$("#update").click(function(){
+			var title = $("#title").text();
+			var content = $("#content").text();
+			var bno = $("#bno").val();
+			
+			
+			console.log("t:" + title + "c: " + content + "b: " + bno);
+			
+			location.href="moveUpdateCommu.st?title="+title+"&content="+content+"&bno="+bno;
+		});		
+		
+		
+		$("#delete").click(function(){
+			var bno = $("#bno").val();
+			var smno = ${broadCenter.mno};
+			
+			$.ajax({
+				type:"post",
+				url:"deleteCommunityDetail.st",
+				data:{bno:bno},
+				success:function(data){
+					if(data.data>0){
+						alert("게시물을 삭제했습니다.");
+						location.href='communicationBoard.st?smno='+smno;
+					}else{
+						alert("게시물 삭제에 실패했습니다.");
+					}
+				},
+				error:function(data){
+					console.log("삭제 실패! " + data);
+				}
+			});
+			
+		});
+		
+	</script>
 
 </body>
 </html>

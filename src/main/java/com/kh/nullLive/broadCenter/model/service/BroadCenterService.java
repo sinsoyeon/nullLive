@@ -95,6 +95,15 @@ public interface BroadCenterService {
 	//bbno찾기
 	int selectBbno(HashMap<String, Object> commuInfo);
 
+	//소통게시판 작성(정연)
+	int insertCommunityDetail(HashMap<String, Object> insertDetail);
+	
+	//소통 게시물 수정(정연)
+	int updateCommunityDetail(HashMap<String, Object> updateDetail);
+
+	//소통 게시물 삭제(정연)
+	int deleteCommu(int bno);
+
 	
 
 	

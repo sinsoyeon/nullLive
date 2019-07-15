@@ -165,7 +165,23 @@ public class BroadCenterDaoImpl implements BroadCenterDao {
 		return sqlSession.selectOne("BroadCenter.selectBbno", commuInfo);
 	}
 
-	
+	//소통 게시글 등록(정연)
+	@Override
+	public int insertCommunityDetail(SqlSessionTemplate sqlSession, HashMap<String, Object> insertDetail) {
+		return sqlSession.insert("BroadCenter.insertCommunityDetail", insertDetail);
+	}
+
+	//소통 게시물 수정(정연)
+	@Override
+	public int updateCommunityDetail(SqlSessionTemplate sqlSession, HashMap<String, Object> updateDetail) {
+		return sqlSession.update("BroadCenter.updateCommunityDetail", updateDetail);
+	}
+
+	//소통 게시물 삭제(정연)
+	@Override
+	public int deleteCommu(SqlSessionTemplate sqlSession, int bno) {
+		return sqlSession.delete("BroadCenter.deleteCommu", bno);
+	}
 	
 
 }

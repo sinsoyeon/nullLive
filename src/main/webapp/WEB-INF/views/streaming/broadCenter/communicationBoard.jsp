@@ -41,7 +41,7 @@
 				<table class="communiTable" id="test">
 					<thead>
 					<tr>
-						<th></th>
+						<th><input type="checkbox" id="allCheck"/></th>
 						<th>글번호</th>	
 						<th>글제목</th>
 						<th>작성자</th>
@@ -53,7 +53,7 @@
 					<tbody>
 					<c:forEach var="list" items="${list}">
 						<tr>
-							<td><input type="checkbox" class="checkbox"/></td>
+							<td onclick="event.cancelBubble=true;"><input type="checkbox" class="checkbox" name="checkDelete"/></td>
 							<td>${list.RNUM}</td>
 							<td>${list.BTITLE}</td>
 							<td>${list.MNICK_NAME}</td>
@@ -66,12 +66,12 @@
 				</table>
 				<!-- 페이징 처리 필요 -->
 				<br><br><br>
-				<button class="ui green button" id="write">글작성</button>
+				<button class="ui green button" id="write" onclick="location.href='moveCommunityDetail.st'">글작성</button>
 				
 				
 				<!-- 삭제는 스트리머만 가능하게 -->
 					<c:if test="${loginUser.mno eq broadCenter.mno}">
-						<button class="ui green button">삭제</button>
+						<button class="ui green button" id="delete">삭제</button>
 					</c:if>
 				</c:if>
 			</div>
@@ -82,7 +82,8 @@
 
 <script>
 	
-	 $(".communiTable tbody td").click(function(){
+	//상세보기
+	 $(".communiTable").on('click', 'td', function(){
 		 var bno = $(this).closest('td').siblings(".bno").text();
 		//console.log("비엔오: " + bno);
 		
@@ -90,18 +91,54 @@
 	});
 	 
 	
-	 $("#write").click(function(){
-		 var mno = ${loginUser.mno};
-		 var bbno = ${bbno};
-		 //console.log("작성자 :" + mno);
+	 $('#delete').click(function() {
+		 var result = confirm('해당 게시물들을 삭제하시겠습니까?'); 
 		 
-		 console.log("bbno:" + bbno);
-	 	
-		 //location.href = "insertCommunityDetail.st?mno="+mno;
+		 if(result){
+			var deleteList = "";
+			var smno = ${broadCenter.mno}
+		
+			$("input[name='checkDelete']:checked").each(function() {
+				var bbbb = $(this).closest("td").siblings(".bno").text();
+				
+				
+				console.log(bbbb);
+				
+				if(deleteList == "") {
+					deleteList = $(this).closest("td").siblings(".bno").text();
+				} else {
+					deleteList = deleteList + "," + $(this).closest("td").siblings(".bno").text();
+				}
+			});
+		
+			console.log(deleteList);
+		
+			$.ajax({
+				type:"post",
+				url:"deleteManyCommu.st",
+				data:{list:deleteList},
+				success:function(data){
+					if(data.data>0){
+						alert("선택 게시물을 삭제했습니다.");
+						location.href='communicationBoard.st?smno='+smno;
+					}else{
+						alert("선택 게시물 삭제에 실패했습니다.");
+					}
+				},
+				error:function(data){
+					console.log("삭제 실패! " + data);
+				}
+			});
+		
+		 }
+		
 	 });
-	 
 	
 	
+	 //전체 체크 선택
+	 $("#allCheck").click(function(){
+		 $('.checkbox').prop('checked', this.checked);
+	 });
 	
 </script>
 
