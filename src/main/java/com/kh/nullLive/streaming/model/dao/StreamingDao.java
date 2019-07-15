@@ -161,4 +161,9 @@ public interface StreamingDao {
 	//추천 순으로 정렬한 All Vod 방송 조회(조건있음)
 	ArrayList<BroadList> sortRAllVodList2(SqlSessionTemplate sqlSession, int condition);
 
+	ArrayList<HashMap<String, Object>> subInfoMap(SqlSessionTemplate sqlSession, int mno);
+
+	int insertAlarm(SqlSessionTemplate sqlSession, HashMap<String, Object> hashMap);
+
+	
 }

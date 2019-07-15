@@ -43,10 +43,9 @@ function joinStreaming(){
 
 //방송 종료 멘트 출력
 function endingComment(){
-    if($("#mid").val() != $("#roomId").val()) {
+    if(!connection.isInitiator) {
         alert('방송이 종료되었습니다.');
         $("#VideoArea").append('<p style="font-size:2em;color:white;margin-left:15px;margin-top:50px;">'+$("#endingComment").val()+'</p>')
-        window.close();
     }
 }
 
@@ -130,6 +129,8 @@ connection.onmessage  = function(event) {
         }
     }else if(dataArr[0] == 'startTTS'){
         startTTS(dataArr[1]);
+    }else if(dataArr[0] =='recom'){
+        reloadCurrRecom();
     }
 }
 
@@ -262,7 +263,6 @@ connection.onstream = function(event) {
         connection.recorder.streams = [];
     }
     connection.recorder.streams.push(event.stream);
-    recordingStatus.innerHTML = 'Recording ' + connection.recorder.streams.length + ' streams';
 }
 
 function endRecordAndService(){

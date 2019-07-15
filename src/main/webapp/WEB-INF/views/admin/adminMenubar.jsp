@@ -45,6 +45,10 @@
 .logo:hover{
 	cursor:pointer;
 }
+
+body::-webkit-scrollbar {
+   display: none;
+}
 </style>
 </head>
 <body>

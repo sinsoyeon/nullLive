@@ -71,7 +71,7 @@ function chargeAndExchange() {
         	
         	var options = {
 				title: 'NullLive '+year+'년 순이익',
-				 colors: ['#4f90c4', '#94d1dc', '#b6d57c']
+				 colors: ['#4f90c4', '#94d1dc', '#b6d57c'],
         		};
         	
         	var chart = new google.visualization.ColumnChart(document.getElementById('chart_div1'));

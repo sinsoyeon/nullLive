@@ -25,6 +25,7 @@ import com.kh.nullLive.broadCenter.model.service.BroadCenterService;
 import com.kh.nullLive.broadCenter.model.vo.BroadCenter;
 import com.kh.nullLive.common.Pagination;
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
+import com.kh.nullLive.member.model.service.MemberService;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streamer.model.service.StreamerService;
 import com.kh.nullLive.streamer.model.vo.Streamer;
@@ -40,8 +41,10 @@ public class StreamerController {
 	private StreamerService smService;
 
 	@Autowired
-
 	private BroadCenterService bcs;
+	
+	@Autowired
+	private MemberService ms;
 
 	@RequestMapping("selectStreamer.sm")
 	public ModelAndView selectStreamer(String streamer, ModelAndView modelAndView) {
@@ -859,9 +862,6 @@ public class StreamerController {
 		infoMap.put("possibleList", possibleMap);
 		
 		
-		modelAndView.setViewName("jsonView");
-		modelAndView.addObject("infoMap",infoMap);
-				
 		return modelAndView;
 	}
 	
@@ -956,7 +956,7 @@ public class StreamerController {
 		  for (int i = 0; i < array.size(); i++) { 
 
 			  JSONObject obj = (JSONObject) array.get(i);
-
+ 
 			  updateDetail.put("bno", obj.get("bno")); 
 			  updateDetail.put("title",obj.get("title")); 
 			  updateDetail.put("content", obj.get("content"));
@@ -1010,8 +1010,58 @@ public class StreamerController {
 		  return modelAndView; 
 	  }
 	  
-	  
-	  
-	  
+	//소연 : 알람 작업중 1
+	@RequestMapping("selectAlarmList.sm")
+	public ModelAndView selectAlarmList(int mno,@RequestParam("currentPage")String reqCurrentPage,ModelAndView modelAndView) {
+		int currentPage = 1;
+		
+		if(reqCurrentPage != null) {
+			currentPage = Integer.parseInt(reqCurrentPage);
+		}
+		
+		int myAlarmCount = ms.selectAlarmCount(mno);
+		
+		PageInfo pi = Pagination.getSPageInfo(currentPage, myAlarmCount);
+		
+		pi.setLimit(4);
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("pi", pi);
+		infoMap.put("mno", mno);
+		
+		 ArrayList<HashMap<String, Object>> myAlarmList  = ms.selectMyAlmList(infoMap);
+		
+		 System.out.println("myAlarmList : " +myAlarmList.size());
+		 
+		infoMap.put("myAlarmList", myAlarmList);
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("infoMap",infoMap);
+		
+		return modelAndView;
+	}
 	
+	//소연 알람작업중 2
+	@RequestMapping("updateAlarm.sm")
+	public ModelAndView updateAlarm(HttpSession session,int ano,String mid,ModelAndView modelAndView) {
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("ano", ano);
+		infoMap.put("mid", mid);
+		
+		int result = ms.updateAlarm(infoMap);
+		
+		modelAndView.setViewName("jsonView");
+		modelAndView.addObject("result",result);
+		
+		return modelAndView;
+	}
+
+	@RequestMapping("selectCount.sm")
+	@ResponseBody
+	public String selectCount(int mno) {
+		int count = ms.selectCount(mno); 
+		
+		return count+"";
+	}
 }

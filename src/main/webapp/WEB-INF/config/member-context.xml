@@ -35,6 +35,7 @@ https://www.springframework.org/schema/context/spring-context.xsd http://www.spr
 
 	<!-- ajax -> jsonView setting -->
 	<beans:bean class="net.sf.json.spring.web.servlet.view.JsonView" id="jsonView"/>
+	
 	<!-- <beans:bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" id="jsonView">
 		<beans:property name="contentType" value="application/json; charset=utf-8"></beans:property>
 	</beans:bean>

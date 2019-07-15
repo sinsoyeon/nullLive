@@ -137,4 +137,7 @@ public interface StreamingService {
 	//추천 순으로 정렬한 All Vod 방송 조회(조건있음)
 	ArrayList<BroadList> sortRAllVodList2(int condition);
 
+	int subInfoMap(int mno);
+
+	
 }

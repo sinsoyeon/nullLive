@@ -10,6 +10,7 @@
 
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -31,7 +32,7 @@
 		padding-bottom : 50px;
 		margin-left: auto;
 		margin-right: auto;
-		border: solid 1px lightgray;
+		margin-bottom: 20px;
 	}
 	.dateArea {
 		float: right;
@@ -59,7 +60,7 @@
 	}
 	.contractArea {
 		width: 100%;
-		height: 550px;
+		height: 100%;
 		border: solid 1px lightgray;
 		margin-top : 20px;
 		margin-bottom: 50px;
@@ -72,14 +73,14 @@
 	}
 	th{
 		background: #e2f0d8;
-		border-right: 1px solid gray;
 	}
-	.profileImg2{
-		width: 300px;
-		height:150px;
-		margin-top: 2%;
-		margin-bottom: 2%;
+	#profileImg{
+		border-radius: 50%; 
+		object-fit: cover; 
+		border: 1px solid gray;
+		margin-bottom: 20px;
 	}
+
 </style>
 
 </head>
@@ -99,43 +100,36 @@
 	<div class="outer">
 		<!-- 프로필 영역 -->
 		<jsp:include page="jobHeader.jsp"/>
-	
 		<hr>
+		<h3 align="center"><a href="jobBoardList.jbo?bType=JOBMNG&url=board/job/jobMngList">매니저</a> / <c:out value="${ jBtype }"/> </h3>
+		<br>
 		<table class="table">
+			
 		   <tr align="center">
-		   	<td colspan="10">
-		   		<img  src="${contextPath}/resources/uploadFiles/profile_image/${boardMap.profile.changeName}" id="profileImg" style="border-radius: 50%; object-fit: cover;" width="330px" height="330px">
-						<c:if test="${empty boardMap.profile.changeName}">
-							<div class="profileEmpty">
-							<br><br><br>
-							이미지가 없습니다.
-							</div>
-						</c:if>
-						<br>
-						<label><c:out value="${ member.nickName }"/></label><br>
-						<label><i class="fas fa-ban"></i></label> &nbsp;
-						<label><i class="far fa-envelope"></i></label>
-		   	</td>
+			   <td colspan="5">
+			   		<img  src="${contextPath}/resources/uploadFiles/profile_image/${boardMap.profile.changeName}" id="profileImg" style=""  width="330px" height="330px">
+							<c:if test="${empty boardMap.profile.changeName}">
+								<div class="profileEmpty">
+								<br><br><br>
+								이미지가 없습니다.
+								</div>
+							</c:if>
+							<br>
+							<label><b><font size="5" style="color: #3399ff"><c:out value="${ member.nickName }"/></font></b></label><br>
+							<label><i class="fas fa-ban"></i></label> &nbsp;
+							<label><i class="far fa-envelope"></i></label>
+			   </td>
 		   </tr>
-		  <tr>
-		    <th>글번호</th>
-		    <td><c:out value="${ board.bno  }"/></td>
-		    <th>조회수</th>
-		    <td><c:out value="${ board.BCount }"/></td>
-		    <th>구분</th>
-		    <td><c:out value="${ jBoard.JBtype }"/></td>
-		    <th>마감여부</th>
-		    <td><c:out value="${ boardMap.boardStatus }"></c:out></td>
-		  </tr>
-		  <tr>
-		    <th style="height: 50px;">제목</th>
-		    <td colspan="7"><h2><c:out value="${ board.BTitle }"/></h2></td>
-		  </tr>
-		  <tr>
-		    
-		    <th>등록일시</th>
-		    <td colspan="3">
-		    	<c:set var="writtenDate" value="${ board.writtenDate }"
+		   <tr>
+		   		<td colspan="5"><h1><b><c:out value="${ board.BTitle }"/></b></h1></td>
+		   </tr>
+		  
+		  <tr style="height: 70px; ">
+		  	<td style="vertical-align: middle;"><font size="3">조회수 : <c:out value="${ board.BCount }"/></font></td>
+		   	<td style="vertical-align: middle;">구분 : <b><c:out value="${ jBoard.JBtype }"/></b></td>
+		    <td style="vertical-align: middle;">마감여부 : <b><c:out value="${ boardMap.boardStatus }"></c:out></b></td>
+		    <td style="vertical-align: middle;">등록일시 : 
+		    <c:set var="writtenDate" value="${ board.writtenDate }"
 				 />
 				<c:set var="nowDate" value="<%= new java.util.Date() %>"/>
 				
@@ -150,113 +144,35 @@
 				<c:if test="${ wd >= nd }">
 					<fmt:formatDate type="TIME" timeStyle="short" value="${writtenDate}"/>
 				</c:if>
+		    
 		    </td>
-		    <th>마감일시</th>
-		    <td colspan="3">
-				<c:set var="deadline" value="${ jBoard.deadLine }" />
+		    <td style="vertical-align: middle;">마감일시 : <c:set var="deadline" value="${ jBoard.deadLine }" />
 				<fmt:formatDate value="${deadline}" pattern="yyyy-MM-dd" />
-		    </td>
+			</td>
 		  </tr>
-		  <tr>
-		  	<th>게시자 상세정보</th>
-		  	<td colspan="5">
-		  		<c:if test="${ jBoard.JBtype eq '구인' }">
-					<div>스트리머 정보</div>
-					<div><b>방송시작일 :<c:out value="${ streamer.bstart_date }"/></b></div>
-					<div><b>구독자수 :<c:out value="${ boardMap.suCount }"/></b></div>
-					<div><b>누적추천수 :<c:out value="${ streamer.cumulative_selection }"/></b></div>
-				</c:if>
-				<c:if test="${ jBoard.JBtype eq '구직' }">
-					<div>매니저 정보</div>
-					<div><b>가입일 : <c:out value="${ member.enrollDate }"></c:out></b></div>
-				</c:if>
+		  <tr style="height: 120px;">
+		  <c:if test="${ jBoard.JBtype eq '구인' }">
+			  <td style=" vertical-align: middle;"><font size="6"><b>스트리머 정보  </b></font></td>
+			  <td style=" vertical-align: middle;">방송시작일 : <b><c:out value="${ streamer.bstart_date }"/></b></td>
+			  <td style=" vertical-align: middle;"><b>구독자수 :<c:out value="${ boardMap.suCount }"/></b></td>
+			  <td style=" vertical-align: middle;"><b>누적추천수 :<c:out value="${ streamer.cumulative_selection }"/></b></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			  <td></td>
+		  </c:if>
+		  <c:if test="${ jBoard.JBtype eq '구직' }">
+		  	<td style="height: 120px; vertical-align: middle;">
+		  		<b><font size="6">매니저 정보</font></b>
 		  	</td>
-		  	<th>상세정보</th>
-		  	<td>
+		  	<td style="height: 120px; vertical-align: middle;">
+		  		<b>가입일 : <c:out value="${ member.enrollDate }"></c:out></b>
+		  	</td>
+		  	<td></td><td></td>
+		  	<td style="height: 120px; vertical-align: middle;" align="center">
 		  		<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#detailModal" onclick="fn_showWritterDetail2(${ member.mno })">상세정보</button>
 		  	</td>
+		  	</c:if>
 		  </tr>
+		  <tr><td colspan="5"></td></tr>
 		</table>
-		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-		<div class="profileArea col-lg-3 " align="center">
-			<div class="profileImg" align="center">
-				<img alt="" src="${contextPath}/resources/uploadFiles/profile_image/${boardMap.profile.changeName}" width="100%" height="170px">
-				<c:if test="${empty boardMap.profile.changeName}">
-					<div class="profileEmpty">
-					<br><br><br>
-					이미지가 없습니다.
-					</div>
-				</c:if>
-				<label><c:out value="${ member.nickName }"/></label><br>
-				<label><i class="fas fa-ban"></i></label> &nbsp;
-				<label><i class="far fa-envelope"></i></label>
-				
-			</div>
-		</div>
-		<!-- 게시글 정보 영역 -->
-		<div class="divTest col-lg-9">
-			<div><h2><c:out value="${ board.BTitle }"/></h2></div>
-		</div>
-		<div class="boardInfoArea" >
-			
-			<div class="boardInfoHeader col-lg-1 col-md-2 col-xs-2">글번호</div>
-			<div class="boardInfoHeader col-lg-1 col-md-2 col-xs-2">조회수</div>
-			<div class="boardInfoHeader col-lg-1 col-md-2 col-xs-2">구분</div>
-			<div class="boardInfoHeader col-lg-2 col-md-2 col-xs-2">등록일시</div>
-			<div class="boardInfoHeader col-lg-2 col-md-2 col-xs-2">마감일시</div>
-			<div class="boardInfoHeader col-lg-2 col-md-2 col-xs-2">마감여부</div>
-			
-			<div class="divTest col-lg-1 col-md-2">
-				<c:out value="${ board.bno  }"/>
-			</div>
-			<div class="divTest col-lg-1 col-md-2">
-				<c:out value="${ board.BCount }"/>
-			</div>
-			<div class="divTest col-lg-1 col-md-2">
-				<c:out value="${ jBoard.JBtype }"/>
-			</div> 
-			<div class="divTest col-lg-2 col-md-2">
-				<c:set var="writtenDate" value="${ board.writtenDate }"
-				 />
-				<c:set var="nowDate" value="<%= new java.util.Date() %>"/>
-				
-				<fmt:formatDate value="${writtenDate}" pattern="yyyy-MM-dd" var="wd"/>
-				<fmt:formatDate value="${nowDate}" pattern="yyyy-MM-dd" var="nd"/>
-				
-				<!-- 등록일시 일수가 넘어간경우 날짜를 보여줌 -->
-				<c:if test="${ wd < nd }">
-					<fmt:formatDate value="${writtenDate}" pattern="yyyy-MM-dd" />
-				</c:if>
-				<!-- 등록일시가 현재일인 경우 시간을 보여줌 -->
-				<c:if test="${ wd >= nd }">
-					<fmt:formatDate type="TIME" timeStyle="short" value="${writtenDate}"/>
-				</c:if>
-				
-			</div>
-			<div class="divTest col-lg-2 col-md-2">
-				<c:set var="deadline" value="${ jBoard.deadLine }" />
-				<fmt:formatDate value="${deadline}" pattern="yyyy-MM-dd" />
-			</div>
-			<div class="divTest col-lg-2 col-md-2">
-				<c:out value="${ boardMap.boardStatus }"></c:out>
-			</div>
-		</div>
-		<hr>
-		<!-- 게시자 정보 영역 -->
-		<div class="writerInfoArea col-lg-9">
-			
-			<c:if test="${ jBoard.JBtype eq '구인' }">
-				<div>게시자 정보(스트리머)</div>
-				<div><b>방송시작일 :<c:out value="${ streamer.bstart_date }"/></b></div>
-				<div><b>구독자수 :<c:out value="${ boardMap.suCount }"/></b></div>
-				<div><b>누적추천수 :<c:out value="${ streamer.cumulative_selection }"/></b></div>
-			</c:if>
-			<c:if test="${ jBoard.JBtype eq '구직' }">
-				<div>게시자 정보(매니저)</div>
-				<div><b>가입일 : <c:out value="${ member.enrollDate }"></c:out></b></div>
-				<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#detailModal" onclick="fn_showWritterDetail2(${ member.mno })">상세정보</button>
-			</c:if>
-		</div>
 		<!-- 버튼영역  -->
 		<div class="btnArea col-lg-12 col-md-12 col-xs-12" align="center">
 			<br><br>
@@ -279,22 +195,30 @@
 			
 			
 		<!-- 게시글  -->
-		<div class="contentArea col-lg-12" style="overflow: scroll;">
+		<div class="contentArea col-lg-12" style="OVERFLOW-Y:auto;">
 			<c:out value="${ board.BContent }" escapeXml="false"/>
 		</div>
+		<hr>
 		<!-- 첨부파일 영역 -->
 		<div class="attArea col-lg-12" style="height: 200px;">
 			<label>첨부파일</label>
-			<br>
-
 			<c:forEach var="row" items="${attList}" >
 				<div>
 					<input type="hidden" class="attno" name="attno" value="${row.attno }">
 					<a href="#this" name="file">${row.originName }</a><br>
-					<br>
+					<hr>
 				</div>
 			</c:forEach>
 		</div>
+		
+		<!-- 지원하기 버튼 -->
+		<div class="btnArea col-lg-12" align="center">
+			<%-- 로그인된 유저이거나 작성자가 아닌경우 지원하기 버튼을 보여줌 --%>
+			<c:if test="${ !empty loginUser && loginUser.mno ne member.mno}">
+				<button class="btn btn-success btn-lg" onclick="fn_showContract()">지원하기</button>
+			</c:if>
+		</div>
+		
 		
 		<!-- 지원서 폼 -->
 			<div class="contractArea col-lg-12" id="conToggle" align="center">
@@ -303,7 +227,7 @@
 					<h3>제목</h3>
 					<input class="form-control col-lg-12 col-md-12 col-sm-8" type="text" name="bTitle" id="bTitle" placeholder="제목을 입력하세요">
 					<h3>내용</h3>
-					<textarea name="bContent" class="col-lg-12" id="editor" required  wrap="hard" placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 200px;"></textarea>
+					<textarea name="bContent" class="col-lg-12" id="editor" required  wrap="hard" placeholder="내용을입력하세요(4자이상)" style="width: 880px; height: 200px;"></textarea>
 					<input type="hidden" value="${ board.bno }" name="refBno">
 					<input type="hidden" value="JOBMNGCONT" name="bType">
 					<input type="hidden" value="${ jBoard.job }" name="job">
@@ -317,14 +241,7 @@
 				<button class="btn btn-success btn-sm" onclick="fn_ContractSumit()">제출하기</button>
 				<!-- 첨부파일 영역 -->
 			</div>
-			
-		<!-- 지원하기 버튼 -->
-		<div class="btnArea col-lg-12" align="center">
-			<%-- 로그인된 유저이거나 작성자가 아닌경우 지원하기 버튼을 보여줌 --%>
-			<c:if test="${ !empty loginUser && loginUser.mno ne member.mno}">
-				<button class="btn btn-success btn-lg" onclick="fn_showContract()">지원하기</button>
-			</c:if>
-		</div>
+
 		
 		<br><br><br><br><br><br>
 		<hr>

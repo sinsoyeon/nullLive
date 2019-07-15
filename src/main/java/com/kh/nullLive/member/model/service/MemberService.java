@@ -202,5 +202,13 @@ public interface MemberService {
 	 */
 	ArrayList<HashMap<String, Object>> partner(Member loginUser);
 
+	int selectAlarmCount(int mno);
+
+	ArrayList<HashMap<String, Object>> selectMyAlmList(HashMap<String, Object> infoMap);
+
+	int updateAlarm(HashMap<String, Object> infoMap);
+
+	int selectCount(int mno);
+
 	
 }
