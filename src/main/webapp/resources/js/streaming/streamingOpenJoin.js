@@ -25,14 +25,6 @@ $('#sponBtn').click(function(){
 });
 
 
-function openStreaming() {
-    connection.open(document.getElementById('room-id').value, function() {
-        showRoomURL(connection.sessionid);
- 
-    	console.log()
-    });
-};
-
 function joinStreaming(){
     connection.sdpConstraints.mandatory = {
         OfferToReceiveAudio: false,
