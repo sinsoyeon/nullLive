@@ -4741,8 +4741,8 @@ var RTCMultiConnection = function(roomid, forceOptions) {
             //bandwidth (밴드width 설정)
             if (connection.bandwidth.video) {
                 sdp = CodecsHandler.setVideoBitrates(sdp, {
-                    min: connection.bandwidth.video * 8 * 1024,
-                    max: connection.bandwidth.video * 8 * 1024 * 10
+                    min: connection.bandwidth.video * 8 * 512,
+                    max: connection.bandwidth.video * 8 * 1024
                 });
             }
 
