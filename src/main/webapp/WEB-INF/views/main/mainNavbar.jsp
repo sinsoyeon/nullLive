@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +17,8 @@ body::-webkit-scrollbar {
 	top: 0;
 	left: 0;
 	bottom: 0;
-	background: #fcf8e3d1;
+	background: #e2f0d869;
+	/*background: #fcf8e3d1;*/
 	font-family: 'Montserrat', sans-serif;
 	font-weight: lighter;
 }
@@ -29,7 +30,11 @@ body::-webkit-scrollbar {
 
 .sidebar ul li {
 	position: relative;
-	height: 65px;
+	height: 75px;
+}
+
+.sidebar ul li:hover {
+	cursor: pointer;
 }
 
 .sidebar ul li a {
@@ -38,7 +43,7 @@ body::-webkit-scrollbar {
 }
 
 .sidebar ul li a:hover {
-	color: #6f8e30;
+	color: #4a8522;
 }
 
 .sidebar ul li a i {
@@ -57,33 +62,22 @@ body::-webkit-scrollbar {
 	<!-- sidebar -->
 	<nav class="sidebar" style="margin-top: 50px; width: 210px;">
 		<ul style="margin-top: 15px;">
-			<li><a href="#"> <i class="fas fa-star fa-lg"></i> <span>즐겨찾기</span>
-			</a></li>
-			<li><a href="#"> <i class="fas fa-play fa-lg"></i> <span>LIVE</span>
-			</a></li>
-			<li><a href="#"> <i class="fas fa-video fa-lg"></i> <span>VOD</span>
-			</a></li>
-			<li><a href="jobMain.jbo"> <i
-					class="fas fa-mouse-pointer fa-lg"></i> <span>소통센터</span>
-			</a></li>
-			<li><a href="serviceMain.bo"> <i
-					class="fas fa-headphones fa-lg"></i> <span>고객센터</span>
-			</a></li>
-			<li data-content="2" class="unread"
-				onclick="location.href='testForm.me'"><a
-				href="javascript:void(0)"> <i class="fa fa-heart"></i> <span>테스트용
-						탭</span>
-			</a></li>
+			<li><a href="favorite.st"><i class="fas fa-star fa-lg"></i><span>즐겨찾기</span></a></li>
+			
+			<li onclick="location.href='index.jsp'"><a><i class="fas fa-play fa-lg"></i> <span>LIVE</span></a></li>
 
-			<li><a href="main.ad"> <i class="fas fa-star fa-lg"></i> <span>관리자
-						테스트</span>
-			</a></li>
+			<li><a onclick="goMain();"><i class="fas fa-video fa-lg"></i> <span>VOD</span></a></li>
 
-			<%-- <li data-content="2" class="unread" onclick="location.href='main.st?smno=${loginUser.mno}';"><a
-				href="javascript:void(0)"> <i class="fa fa-heart"></i> <span>스트리머
-						탭</span>
-			</a></li> --%>
+			<li><a href="jobMain.jbo"> <i class="fas fa-mouse-pointer fa-lg"></i> <span>소통센터</span></a></li>
+
+			<li><a href="serviceMain.bo"> <i class="fas fa-headphones fa-lg"></i> <span>고객센터</span></a></li>
 		</ul>
 	</nav>
+	<script>
+		function goMain(){
+			alert("즐겨찾기 페이지에서는 이동할 수 없습니다.");
+			location.href="index.jsp";
+		}
+	</script>
 </body>
 </html>

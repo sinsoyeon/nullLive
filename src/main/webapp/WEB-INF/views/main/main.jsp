@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>NullLive</title>
 <style type="text/css">
 /* Hot 영역 스크롤바 */
 ::-webkit-scrollbar {height: 13px; }
@@ -35,7 +35,7 @@ body::-webkit-scrollbar {
 
 .sidebar ul li {
 	position: relative;
-	height: 65px;
+	height: 75px;
 }
 
 .sidebar ul li:hover {
@@ -62,11 +62,11 @@ body::-webkit-scrollbar {
 	line-height: 50px;
 }
 /* 방송 목록 */
-.sName:hover{
+.s-name:hover{
 	cursor: pointer;
     text-decoration: underline;
 }
-.tImg:hover{
+.t-img:hover{
 	cursor: pointer;
 }
 </style>
@@ -82,7 +82,12 @@ body::-webkit-scrollbar {
 				<!-- sidebar -->
 				<nav class="sidebar" style="margin-top: 50px; width: 210px;">
 					<ul style="margin-top: 15px;">
-						<li><a><i class="fas fa-star fa-lg"></i> <span>즐겨찾기</span></a></li>
+						<c:if test="${empty sessionScope.loginUser}">
+							<li><a href="needLogin.me"><i class="fas fa-star fa-lg"></i> <span>즐겨찾기</span></a></li>
+						</c:if>
+						<c:if test="${!empty sessionScope.loginUser}">
+							<li><a href="favorite.st"><i class="fas fa-star fa-lg"></i> <span>즐겨찾기</span></a></li>						
+						</c:if>
 						
 						<li onclick="live();"><a><i class="fas fa-play fa-lg"></i> <span>LIVE</span></a></li>
 						
@@ -91,13 +96,6 @@ body::-webkit-scrollbar {
 						<li><a href="jobMain.jbo"> <i class="fas fa-mouse-pointer fa-lg"></i> <span>소통센터</span></a></li>
 						
 						<li><a href="serviceMain.bo"> <i class="fas fa-headphones fa-lg"></i> <span>고객센터</span></a></li>
-						
-						<li onclick="location.href='testForm.me'"><a><i class="fa fa-heart"></i><span>테스트용 탭</span></a></li>
-
-						<li><a href="main.ad"> <i class="fas fa-star fa-lg"></i><span>관리자 테스트</span></a></li>
-			
-						<!-- <li onclick="location.href='main.st'"><a><i class="fa fa-heart"></i><span>스트리머 탭</span></a></li> -->
-				
 					</ul>
 				</nav>
 			</div>
@@ -235,7 +233,7 @@ body::-webkit-scrollbar {
 		
 		allLiveLoad(searchCondition);
 		allVodLoad(searchCondition);
-
+		
 		//전체 방송 목록 카테고리 검색 (Live)
 		$("#bCategory").change(function(){
 			var condition = $(this).val();
@@ -252,18 +250,19 @@ body::-webkit-scrollbar {
 					console.log(data.list);
 					
 					$.each(data.list, function(index, value){
+						var countViewers = $fn(value.countViewers);
 						var streamerAddress = value.broadAddress;
 						var smno = value.mno;
 						
 						$li = $("<li>");
 						$div = $("<div class='col-md-4'>");
 						$thumbnailDiv = $("<div class='thumbnail'>");
-						$img = $("<img src='/nullLive/resources/image/broadlive.png' class='tImg' style='width: 100%; height: 120px;' onclick='onbroad(\"" + streamerAddress + "\");'>");
+						$img = $("<img src='/nullLive/resources/image/broadlive.png' class='t-img' style='width: 100%; height: 120px;' onclick='onbroad(\"" + streamerAddress + "\");'>");
 						$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text("[생] "+value.bTitle);
-						$pNickName = $("<p class='sName' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
+						$pNickName = $("<p class='s-name' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
 						$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
 						$icon = $("<i class='fas fa-user-friends'>");
-						$span = $("<span>").text(value.countViewers + "명 시청");
+						$span = $("<span class='format-number'>").text(countViewers + "명 시청");
 						
 						$li.append($div);
 						$div.append($thumbnailDiv);
@@ -298,18 +297,19 @@ body::-webkit-scrollbar {
 					console.log(data.list);
 					
 					$.each(data.list, function(index, value){
+						var countViewers = $fn(value.countViewers);
 						var streamerAddress = value.broadAddress;
 						var smno = value.mno;
 						
 						$li = $("<li>");
 						$div = $("<div class='col-md-4'>");
 						$thumbnailDiv = $("<div class='thumbnail'>");
-						$img = $("<img src='/nullLive/resources/image/broadvod.png' class='tImg' style='width: 100%; height: 120px;' onclick='broad(\"" + streamerAddress + "\");'>");
+						$img = $("<img src='/nullLive/resources/image/broadvod.png' class='t-img' style='width: 100%; height: 120px;' onclick='broad(\"" + streamerAddress + "\");'>");
 						$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text(value.bTitle);
-						$pNickName = $("<p class='sName' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
+						$pNickName = $("<p class='s-name' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
 						$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
 						$icon = $("<i class='fas fa-play' style=' font-size: 9px; '>");
-						$span = $("<span>").text(value.countViewers + "명 시청");
+						$span = $("<span class='format-number'>").text(countViewers + "명 시청");
 						
 						$li.append($div);
 						$div.append($thumbnailDiv);
@@ -365,17 +365,18 @@ body::-webkit-scrollbar {
 			console.log(data.list);
 			
 			$.each(data.list, function(index, value){
+				var countViewers = $fn(value.countViewers);
 				var streamerAddress = value.broadAddress;
 				var smno = value.mno;
 				
 				$div = $("<div style='width: 261.48px;padding: 0 15px;display: inline-block;'>");
 				$thumbnailDiv = $("<div class='thumbnail'>");
-				$img = $("<img src='/nullLive/resources/image/broadhotl.png' class='tImg' style='width: 100%; height: 120px;' onclick='onbroad(\"" + streamerAddress + "\");'>");
+				$img = $("<img src='/nullLive/resources/image/broadhotl.png' class='t-img' style='width: 100%; height: 120px;' onclick='onbroad(\"" + streamerAddress + "\");'>");
 				$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text("[생] "+value.bTitle);
-				$pNickName = $("<p class='sName' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
+				$pNickName = $("<p class='s-name' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
 				$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
 				$icon = $("<i class='fas fa-user-friends'>");
-				$span = $("<span>").text(value.countViewers + "명 시청");
+				$span = $("<span>").text(countViewers + "명 시청");
 				
 				$div.append($thumbnailDiv);
 				$thumbnailDiv.append($img);
@@ -405,17 +406,18 @@ body::-webkit-scrollbar {
 			console.log(data.list);
 			
 			$.each(data.list, function(index, value){
+				var countViewers = $fn(value.countViewers);
 				var streamerAddress = value.broadAddress;
 				var smno = value.mno;
 				
 				$div = $("<div style='width: 261.48px;padding: 0 15px;display: inline-block;'>");
 				$thumbnailDiv = $("<div class='thumbnail'>");
-				$img = $("<img src='/nullLive/resources/image/broadhotv.png' class='tImg' style='width: 100%; height: 120px;' onclick='broad(\"" + streamerAddress + "\");'>");
+				$img = $("<img src='/nullLive/resources/image/broadhotv.png' class='t-img' style='width: 100%; height: 120px;' onclick='broad(\"" + streamerAddress + "\");'>");
 				$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text(value.bTitle);
-				$pNickName = $("<p class='sName' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
+				$pNickName = $("<p class='s-name' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
 				$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
 				$icon = $("<i class='fas fa-play' style=' font-size: 9px; '>");
-				$span = $("<span>").text(value.countViewers + "명 시청");
+				$span = $("<span>").text(countViewers + "명 시청");
 				
 				$div.append($thumbnailDiv);
 				$thumbnailDiv.append($img);
@@ -447,18 +449,19 @@ body::-webkit-scrollbar {
 			console.log(data.list);
 			
 			$.each(data.list, function(index, value){
+				var countViewers = $fn(value.countViewers);
 				var streamerAddress = value.broadAddress;
 				var smno = value.mno;
 				
 				$li = $("<li>");
 				$div = $("<div class='col-md-4'>");
 				$thumbnailDiv = $("<div class='thumbnail'>");
-				$img = $("<img src='/nullLive/resources/image/broadlive.png' class='tImg' style='width: 100%; height: 120px;' onclick='onbroad(\"" + streamerAddress + "\");'>");
+				$img = $("<img src='/nullLive/resources/image/broadlive.png' class='t-img' style='width: 100%; height: 120px;' onclick='onbroad(\"" + streamerAddress + "\");'>");
 				$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text("[생] "+value.bTitle);
-				$pNickName = $("<p class='sName' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
+				$pNickName = $("<p class='s-name' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
 				$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
 				$icon = $("<i class='fas fa-user-friends'>");
-				$span = $("<span>").text(value.countViewers + "명 시청");
+				$span = $("<span>").text(countViewers + "명 시청");
 				
 				$li.append($div);
 				$div.append($thumbnailDiv);
@@ -489,18 +492,19 @@ body::-webkit-scrollbar {
 			console.log(data.list);
 			
 			$.each(data.list, function(index, value){
+				var countViewers = $fn(value.countViewers);
 				var streamerAddress = value.broadAddress;
 				var smno = value.mno;
 				
 				$li = $("<li>");
 				$div = $("<div class='col-md-4'>");
 				$thumbnailDiv = $("<div class='thumbnail'>");
-				$img = $("<img src='/nullLive/resources/image/broadvod.png' class='tImg' style='width: 100%; height: 120px;' onclick='broad(\"" + streamerAddress + "\");'>");
+				$img = $("<img src='/nullLive/resources/image/broadvod.png' class='t-img' style='width: 100%; height: 120px;' onclick='broad(\"" + streamerAddress + "\");'>");
 				$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text(value.bTitle);
-				$pNickName = $("<p class='sName' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
+				$pNickName = $("<p class='s-name' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
 				$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
 				$icon = $("<i class='fas fa-play' style=' font-size: 9px; '>");
-				$span = $("<span>").text(value.countViewers + "명 시청");
+				$span = $("<span>").text(countViewers + "명 시청");
 				
 				$li.append($div);
 				$div.append($thumbnailDiv);
@@ -550,18 +554,19 @@ body::-webkit-scrollbar {
 					console.log(data.list);
 					
 					$.each(data.list, function(index, value){
+						var countViewers = $fn(value.countViewers);
 						var streamerAddress = value.broadAddress;
 						var smno = value.mno;
 						
 						$li = $("<li>");
 						$div = $("<div class='col-md-4'>");
 						$thumbnailDiv = $("<div class='thumbnail'>");
-						$img = $("<img src='/nullLive/resources/image/broadlive.png' class='tImg' style='width: 100%; height: 120px;' onclick='onbroad(\"" + streamerAddress + "\");'>");
+						$img = $("<img src='/nullLive/resources/image/broadlive.png' class='t-img' style='width: 100%; height: 120px;' onclick='onbroad(\"" + streamerAddress + "\");'>");
 						$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text("[생] "+value.bTitle);
-						$pNickName = $("<p class='sName' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
+						$pNickName = $("<p class='s-name' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
 						$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
 						$icon = $("<i class='fas fa-user-friends'>");
-						$span = $("<span>").text(value.countViewers + "명 시청");
+						$span = $("<span>").text(countViewers + "명 시청");
 						
 						$li.append($div);
 						$div.append($thumbnailDiv);
@@ -581,17 +586,19 @@ body::-webkit-scrollbar {
 					console.log(data.list);
 					
 					$.each(data.list, function(index, value){
+						var countViewers = $fn(value.countViewers);
 						var streamerAddress = value.broadAddress;
 						var smno = value.mno;
 						
 						$li = $("<li>");
 						$div = $("<div class='col-md-4'>");
 						$thumbnailDiv = $("<div class='thumbnail'>");
+						$img = $("<img src='/nullLive/resources/image/broadvod.png' class='t-img' style='width: 100%; height: 120px;' onclick='broad(\"" + streamerAddress + "\");'>");
 						$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text(value.bTitle);
-						$pNickName = $("<p class='sName' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
+						$pNickName = $("<p class='s-name' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
 						$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
 						$icon = $("<i class='fas fa-play' style=' font-size: 9px; '>");
-						$span = $("<span>").text(value.countViewers + "명 시청");
+						$span = $("<span>").text(countViewers + "명 시청");
 						
 						$li.append($div);
 						$div.append($thumbnailDiv);
@@ -641,18 +648,19 @@ body::-webkit-scrollbar {
 					console.log(data.list);
 					
 					$.each(data.list, function(index, value){
+						var countViewers = $fn(value.countViewers);
 						var streamerAddress = value.broadAddress;
 						var smno = value.mno;
 						
 						$li = $("<li>");
 						$div = $("<div class='col-md-4'>");
 						$thumbnailDiv = $("<div class='thumbnail'>");
-						$img = $("<img src='/nullLive/resources/image/broadlive.png' class='tImg' style='width: 100%; height: 120px;' onclick='onbroad(\"" + streamerAddress + "\");'>");
+						$img = $("<img src='/nullLive/resources/image/broadlive.png' class='t-img' style='width: 100%; height: 120px;' onclick='onbroad(\"" + streamerAddress + "\");'>");
 						$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text("[생] "+value.bTitle);
-						$pNickName = $("<p class='sName' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
+						$pNickName = $("<p class='s-name' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
 						$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
 						$icon = $("<i class='fas fa-user-friends'>");
-						$span = $("<span>").text(value.countViewers + "명 시청");
+						$span = $("<span>").text(countViewers + "명 시청");
 						
 						$li.append($div);
 						$div.append($thumbnailDiv);
@@ -672,18 +680,19 @@ body::-webkit-scrollbar {
 					console.log(data.list);
 					
 					$.each(data.list, function(index, value){
+						var countViewers = $fn(value.countViewers);
 						var streamerAddress = value.broadAddress;
 						var smno = value.mno;
 						
 						$li = $("<li>");
 						$div = $("<div class='col-md-4'>");
 						$thumbnailDiv = $("<div class='thumbnail'>");
-						$img = $("<img src='/nullLive/resources/image/broadvod.png' class='tImg' style='width: 100%; height: 120px;' onclick='broad(\"" + streamerAddress + "\");'>");
+						$img = $("<img src='/nullLive/resources/image/broadvod.png' class='t-img' style='width: 100%; height: 120px;' onclick='broad(\"" + streamerAddress + "\");'>");
 						$pTitle = $("<p style='margin-top: 2%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'> <strong style='text-overflow: ellipsis; overflow: hidden; white-space: nowrap;'>").text(value.bTitle);
-						$pNickName = $("<p class='sName' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
+						$pNickName = $("<p class='s-name' style='margin-bottom: 0; font-size: 12px; display: inline; color: #3498db;' onclick='goBroadCenter(\"" + smno + "\")'>").text(value.nickName);
 						$pViewers = $("<p style='font-size: 11px; color: #999; display: inline; float: right; margin-top: 1%; margin-right: 1%;'>");
 						$icon = $("<i class='fas fa-play' style=' font-size: 9px; '>");
-						$span = $("<span>").text(value.countViewers + "명 시청");
+						$span = $("<span>").text(countViewers + "명 시청");
 						
 						$li.append($div);
 						$div.append($thumbnailDiv);
@@ -705,18 +714,48 @@ body::-webkit-scrollbar {
 	/* 방송으로 이동하기 */
 	//Live 방송
 	function onbroad(streamerAddress){
+		if("${loginUser.mid}" == ""){
+			location.href="needLogin.me";
+		}else{
 		console.log("스트리머 주소(Live) : " + streamerAddress);
 		window.open('isAvailToEnter.st?streamerAddress=' + streamerAddress,'new','width=1024,height=768,menubar=no, status=no, toolbar=no');
+		}
 	};
 	//Vod 방송
 	function broad(streamerAddress){
-		console.log("스트리머 주소(VOD) : " + streamerAddress);
+		if("${loginUser.mid}" == ""){
+			location.href="needLogin.me";
+		}else{
+			console.log("스트리머 주소(VOD) : " + streamerAddress);
+		}
 	}
 	
 	/* 스트리머 페이지로 이동하기 */
 	function goBroadCenter(smno){
+		if("${loginUser.mid}" == ""){
+			location.href="needLogin.me";
+		}else{
 		location.href = "main.st?smno=" + smno;
+		}
 	}
+	
+	/* 숫자 포맷 */
+	// 숫자 타입에서 쓸 수 있도록 format() 함수 추가
+	$fn = function (value) {
+		// 숫자를 문자열로 형변환한다 
+		// 아래의 string 메서드 중 배열로 반환해주는 split 메서드를 사용하기 위해 문자열로 변환한 것이다
+		var data = value + "";
+		// 문자를 배열로 만들기
+		var arrResult = data.split("");
+		// 배열 요소를 뒤에서 3자리수마다 콤마 추가하기
+		var startIndex = arrResult.length - 3;
+		for (var i = startIndex; i > 0; i -= 3) {
+			arrResult.splice(i, 0, ",");
+			// 0은 기존 배열을 삭제하지 않고 삽입만 하겠다는 의미
+		}		
+		// 공백없이 문자열로 변환
+		return arrResult.join('');
+	};
 	</script>
 </body>
 </html>

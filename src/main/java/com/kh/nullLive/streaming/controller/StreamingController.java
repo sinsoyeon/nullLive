@@ -736,4 +736,13 @@ public class StreamingController {
 		
 		return mv;
 	}
+	/**
+	 * @author : eon
+	 * @date : 2019. 7. 15.
+	 * @comment : 메인페이지 즐겨찾기 화면 호출하는 메소드
+	 */
+	@RequestMapping("favorite.st")
+	public String favoritePage() { 
+		return "main/favorite";
+	}
 }
