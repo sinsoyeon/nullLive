@@ -3,11 +3,11 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html>
 <html>
-<script src="https://cdn.ckeditor.com/ckeditor5/12.2.0/classic/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript" src="./resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
+<script type="text/javascript" src="${ contextPath }/resources/ckeditor/ckeditor.js"></script>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -59,7 +59,7 @@
 				<h3>내용 </h3>
 				
 				<div class="contentArea">
-					<textarea name="bContent" id="editor" required placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 400px;"></textarea>
+					<textarea name="bContent" id="editor" required placeholder="내용을입력하세요(4자이상)" wrap="hard" style="width: 880px; height: 400px;"></textarea>
 				</div>
 				
 				<br>
@@ -84,17 +84,6 @@
 	
 	<script type="text/javascript">
 	    $(function(){
-	        var obj = [];              
-	        nhn.husky.EZCreator.createInIFrame({
-	            oAppRef: obj,
-	            elPlaceHolder: "editor",
-	            sSkinURI: "./resources/editor/SmartEditor2Skin.html",
-	            htParams : {
-	                bUseToolbar : true,            
-	                bUseVerticalResizer : true,    
-	                bUseModeChanger : true,
-	            }
-	        });
 	        $("#save").click(function(){ 
 				var bTitle = $("#bTitle").val();        	
 				
@@ -103,11 +92,39 @@
 					return;
 				}
 				
-				
-				obj.getById["editor"].exec("UPDATE_CONTENTS_FIELD", []); 
 				$("#insertBoardFrm").submit();
 			})
 	    });
+	    
+	    //에디터 
+	    var editorConfig = {
+	   		uploadUrl: "${pageContext.request.contextPath }/fileupload.jbo",
+	   	    filebrowserUploadUrl : "${pageContext.request.contextPath }/fileupload.jbo", //이미지만 업로드
+	   	    extraPlugins : 'uploadimage',
+	   };
+	    CKEDITOR.editorConfig = function(config) {
+    	  
+    	  config.extraPlugins = 'inserthtml';
+    	  config.toolbar = 'Basic';
+    	}
+	   	    
+	   	    
+	   CKEDITOR.on('dialogDefinition', function( ev ){
+	   	   var dialogName = ev.data.name;
+	   	   var dialogDefinition = ev.data.definition;
+	
+	   	   switch (dialogName) {
+	   	       case 'image': //Image Properties dialog
+	   	   //dialogDefinition.removeContents('info');
+	   	   dialogDefinition.removeContents('Link');
+	   	   dialogDefinition.removeContents('advanced');
+	   	           break;
+	   	       }
+	   	});
+	
+   	  	 window.onload = function(){
+   	        ck = CKEDITOR.replace("editor", editorConfig);
+   	   	};
 	</script>
 </body>
 </html>

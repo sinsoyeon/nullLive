@@ -29,7 +29,6 @@
 		padding-bottom : 50px;
 		margin-left: auto;
 		margin-right: auto;
-		border: solid 1px black;
 	}
 	.dateArea {
 		float: right;
@@ -55,7 +54,7 @@
 			<br>
 		</div>
 		<!-- 내용영역 -->
-		<div class="contentArea">
+		<div class="contentArea" style="OVERFLOW-Y:auto;">
 			${ board.BContent }
 		</div>
 		<br>

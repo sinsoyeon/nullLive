@@ -17,9 +17,6 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<!-- 스마트 에디터 -->
-<script src="https://code.jquery.com/jquery-latest.js"></script>
-<script type="text/javascript" src="./resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <!-- ckeditor -->
 <script type="text/javascript" src="${ contextPath }/resources/ckeditor/ckeditor.js"></script>
 <style>
