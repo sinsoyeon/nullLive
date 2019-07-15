@@ -70,6 +70,11 @@ form .answertData {
 	height: 1px;
 	width: 98%;
 }
+ .btn.btn-success{
+	padding-top: 2px;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
 </style>
 </head>
 <body>
@@ -105,9 +110,9 @@ form .answertData {
 						<div class="questionContext"><br><p>${noticeDetail.BContent }</p><br></div>
 					</div>
 					<div id='btnDiv'>
-						<input type="button" style="float: left;"onclick="history.back();" value='뒤로가기'>
-						<button style="float: right; margin-left: 10px;" onclick="deleteFAQ()">삭제</button>
-						<button style="float: right;" id='modifyBtn' data-toggle="collapse" data-target="#demo">수정</button> 
+						<input type="button" style="float: left;"onclick="history.back();" value='뒤로가기' class="btn btn-success">
+						<button style="float: right; margin-left: 10px;" onclick="deleteFAQ()" class="btn btn-success">삭제</button>
+						<button style="float: right;" id='modifyBtn' data-toggle="collapse" data-target="#demo" class="btn btn-success">수정</button> 
 					</div>
 					<div id="demo" class="collapse">
 					<div id='modify'>
@@ -116,7 +121,7 @@ form .answertData {
 						<p style="float: left; margin: 1%;">제목</p>
 						<input id='modifyTitle' type="text" style="float: left; margin: 1%; width : 80%;" value="${noticeDetail.BTitle }">
 						<textarea id='modifyContent' autofocus>${noticeDetail.BContent }</textarea>
-						<input type="button" value="적용" style="float: right;" onclick="modifyFAQ()">
+						<input type="button" value="적용" style="float: right;" onclick="modifyFAQ()" class="btn btn-success">
 					</div>
 					</div>
 				</div>

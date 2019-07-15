@@ -45,6 +45,11 @@
 	 padding: 6px;
 	 font-family: '궁서'
 }
+.btn.btn-success{
+	padding-top: 2px;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
 </style>
 </head>
 <body>
@@ -80,8 +85,8 @@
 						<div id="reportContext"><br><p>${reportContent.BContent }</p><br></div>
 						<c:if test="${reportContent.status == 5}">
 						<div style="padding: 3%;">
-							<button style="float: left;" onclick="history.back();">뒤로가기</button>
-							<button style="float: right;" onclick="reportProcess()">처리</button>
+							<button style="float: left;" onclick="history.back();"class="btn btn-success">뒤로가기</button>
+							<button style="float: right;" onclick="reportProcess()"class="btn btn-success">처리</button>
 							<select style="float: right;" id="choiceStatus">
 									<option value="Y">부적합</option>
 									<option value="B3">30일 정지</option>
