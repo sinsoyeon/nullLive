@@ -76,7 +76,10 @@
 		ORDER BY 1 DESC ) P)
 	WHERE RNUM BETWEEN #{start} AND #{last}
 	</select>
-	
+	<select id="totalExchange" resultType="_int">
+		SELECT COUNT(*)
+		FROM exchange
+	</select>
 	<!-- 문의 내역 조회 -->
 	<select id="selectQuestion" resultMap="QuestionResultSet">
 	SELECT *

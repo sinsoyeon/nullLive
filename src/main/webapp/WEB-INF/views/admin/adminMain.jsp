@@ -201,7 +201,7 @@ function revenue() {
 	        	
 	        	var options = {
 					 colors: ['#4f90c4', '#94d1dc', '#b6d57c'],
-					 legend: {position: 'none'},
+					 legend: {position: 'none'}
 	        		};
 	        	
 	        	var chart = new google.visualization.ColumnChart(document.getElementById('chart_div2'));

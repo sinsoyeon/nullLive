@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script type="text/javascript" src="resources/js/paging/paging.js"></script>
 <title>NullLive</title>
 <style>
 tr>th {
