@@ -340,4 +340,10 @@ public class MemberServiceImpl implements MemberService {
 		return md.updateAlarm(sqlSession,infoMap);
 	}
 
+	@Override
+	public int selectCount(int mno) {
+		// TODO Auto-generated method stub
+		return md.selectCount(sqlSession,mno);
+	}
+
 }

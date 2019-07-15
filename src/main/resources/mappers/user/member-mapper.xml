@@ -306,6 +306,7 @@
 	<!-- 알람 조회 -->
 	<select id="selectMyAlmList" resultType="java.util.HashMap">
 		SELECT ANO,ST.NICK_NAME,ST.MID,A.ATYPE,ALM_STATUS,TO_CHAR(ALM_DATE,'YYYY/MM/DD HH24:MI:SS') AS ALM_DATE,
+					ST.MNO AS SMNO,
                 (SELECT COUNT(*) 
                 FROM MEMBER M,ALARM_HIS A
                 WHERE M.MNO = A.MNO 
@@ -326,5 +327,13 @@
 	<update id="updateAlarm" parameterType="java.util.HashMap">
 	 	UPDATE ALARM_HIS SET ALM_STATUS = 'Y' WHERE ANO = #{ano}
 	</update>
+	
+	<select id="selectCount" resultType="_int">
+		SELECT COUNT(*) 
+        FROM MEMBER M,ALARM_HIS A
+        WHERE M.MNO = A.MNO 
+        AND ALM_STATUS ='N' 
+        AND M.MNO = #{mno}
+	</select>
 		
 </mapper>

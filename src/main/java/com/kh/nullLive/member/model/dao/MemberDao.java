@@ -236,6 +236,8 @@ public interface MemberDao {
 
 	int updateAlarm(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
 
+	int selectCount(SqlSessionTemplate sqlSession, int mno);
+
 
 
 }

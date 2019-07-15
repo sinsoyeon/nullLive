@@ -98,7 +98,7 @@ margin-top:-10px;
 				</c:if>
 				<c:if test="${!empty sessionScope.loginUser}">
 					<c:if test="${sessionScope.loginUser.mid ne 'admin'}">
-						<li  class="unread" data-content="2">
+						<li  class="unread" data-content="0" id="count">
 							<a href="#">
 							<!-- 지구본 알람 작업중(소연 ) -->
 							<input type="hidden" id="mno" value="${loginUser.mno}" />
@@ -158,6 +158,19 @@ margin-top:-10px;
 		//소연
 		$(function(){		
 			$('#myAlarmArea').hide();
+			var mno;
+			if('${loginUser.mno}' != ''){
+				mno = '${loginUser.mno}';
+				
+				$.ajax({
+					url:"selectCount.sm",
+					type:"post",
+					data:{mno:mno},
+					success:function(data){
+						$('#count').attr('data-content',data);
+					}
+				})
+			}
 		});
 		
 		//소연
@@ -211,9 +224,11 @@ margin-top:-10px;
 					$(".list-group").html('');
 					
 					var myAlarmList = data.infoMap.myAlarmList;
-					
 					$.each(myAlarmList,function(index,value){
 						
+					console.log('count : '+value["COUNT"]);
+					$('#count').attr('data-content',value["COUNT"]);
+					
 						var status = '';
 						var type = [];
 						
@@ -233,7 +248,8 @@ margin-top:-10px;
 						
 							$('.unread').data('content',value["COUNT"]);
 						$(".list-group").append(
-												'<div id="selectOne">'+status + '<input type="hidden" value="'+ value["MID"] +'" id="mid"/>' 
+												'<div id="selectOne">'+status + '<input type="hidden" value="'+ value["MID"] +'" id="mid"/>'
+												+ '<input type="hidden" value="'+  value["SMNO"]+'" id="smno"/>'
 												+ '<input type="hidden" value="'+ value["ANO"] +'" id="ano"/>' 
 												+ '<label style="font-size:14px;">' + value["NICK_NAME"]  + '</label>님이 '+type[0] + '<br/>' 
 												+ '시간 : <label style="font-size:12px;"> '+ value["ALM_DATE"] + '</label> <br/>' 
@@ -262,8 +278,10 @@ margin-top:-10px;
 		});
 		
 		$(document).on('click','#selectOne',function(){
+			//main.st
 			var ano = $(this).find('#ano').val();
 			var mid = $(this).find('#mid').val();
+			var smno = $(this).find('#smno').val();
 			console.log(ano);
 			console.log(mid);
 			
@@ -277,11 +295,17 @@ margin-top:-10px;
 					
 					if(data.result >0){
 						readMyAlarm($('#mno').val(),1);
+						
+						if(window.confirm('스트리머 페이지로 이동하시겠습니까?')){
+							window.open('main.st?smno='+smno,'_blank');
+						}
 					}
 				}
 			});
 		});
 		
+		
+
 		$(document).on('click','#checkBtn',function(){
 			if(window.confirm('모두 다 읽음 표시 하시겠습니까?')){
 

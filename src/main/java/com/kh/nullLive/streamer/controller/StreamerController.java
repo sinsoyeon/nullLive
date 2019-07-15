@@ -940,4 +940,12 @@ public class StreamerController {
 		
 		return modelAndView;
 	}
+
+	@RequestMapping("selectCount.sm")
+	@ResponseBody
+	public String selectCount(int mno) {
+		int count = ms.selectCount(mno); 
+		
+		return count+"";
+	}
 }

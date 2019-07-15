@@ -215,4 +215,9 @@ public class MemberDaoImpl implements MemberDao {
 		// TODO Auto-generated method stub
 		return sqlSession.update("Member.updateAlarm", infoMap);
 	}
+	@Override
+	public int selectCount(SqlSessionTemplate sqlSession, int mno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("Member.selectCount",mno);
+	}
 }

@@ -208,5 +208,7 @@ public interface MemberService {
 
 	int updateAlarm(HashMap<String, Object> infoMap);
 
+	int selectCount(int mno);
+
 	
 }
