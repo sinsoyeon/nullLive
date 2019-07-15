@@ -7,7 +7,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
+<style>
+th {
+text-align:center !important;
+}
+</style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
@@ -33,10 +37,10 @@
 					<div class="navbar-collapse collapse " style="">
 						<ul id="menu-top" class="nav navbar-nav navbar-right">
 							<li><a class="menu-top-active" href="#">구독하기</a></li>
-							<li><a href="#" class="sponTab">포인트 충전</a></li>
+						<!-- 	<li><a href="#" class="sponTab">포인트 충전</a></li> -->
 							<li><a href="#" class="subListTab">구독내역</a></li>
 							<li><a href="#" class="sponListTab">후원내역</a></li>
-							<li><a href="excView.sm" class="myPointMana">포인트 및 정산 관리</a></li>
+							<!-- <li><a href="excView.sm" class="myPointMana">포인트 및 정산 관리</a></li> -->
 						</ul>
 					</div>
 				</div>

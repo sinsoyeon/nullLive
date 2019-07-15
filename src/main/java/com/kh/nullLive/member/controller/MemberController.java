@@ -172,12 +172,12 @@ public class MemberController {
 					hmap.put("sid", sub.getSid());
 					hmap.put("nickName", sub.getNickName());
 					hmap.put("startDate", df.format(new java.util.Date(sub.getSu_start_date().getTime())));
+
 					if(sub.getSu_period_date() != null) {
 						hmap.put("periodDate", df.format(new java.util.Date(sub.getSu_period_date().getTime())));
 					}else {
 						hmap.put("periodDate", "정기 구독");
 					}
-					
 					hmap.put("broadAddress",sub.getBroadAddress());
 					hmap.put("byn", sub.getByn());
 					resultList.add(hmap);

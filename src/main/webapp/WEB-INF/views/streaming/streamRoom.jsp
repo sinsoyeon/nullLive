@@ -228,7 +228,27 @@ function recomBtn(){
 
 
 
-
+function startTTS(data){
+	console.log('tts startTTS');
+	var info = data.split("&");
+	console.log(info);
+	var audio = new Audio();
+	audio.src = "${contextPath}/resources/uploadFiles/audio/" + info[0];
+	audio.play();
+	
+	//$('#page').append('<audio src="${contextPath}/resources/uploadFiles/audio/' + fileName +'" autoplay/>');
+	//ajax
+/*  	$.ajax({
+		url:"startTTs.me",
+		type:"post",
+		data:{fileName:fileName},
+		success:function(data){
+			console.log('tts 실행중');
+			
+			
+		}
+	})  */
+}
 
 
 

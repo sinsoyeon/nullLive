@@ -635,4 +635,41 @@
 		AND M.MNO = #{mno}
 		AND C.CLCNO IS NULL
 	</select>
+	
+	<select id="checkBank" resultType="_int">
+		select count(*)
+		from member m,bank_account ac
+		where m.mno = ac.mno
+		and m.mno = #{mno}
+	</select>
+	
+	<insert id="insertBankCert" parameterType="java.util.HashMap">
+		insert into bank_account values (seq_accno.nextval,#{bank_code},#{account},#{holder},'Y',#{mno})
+	</insert>
+	
+	<select id="getSubCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM(SELECT
+			SUNO,ST.NICK_NAME,TO_CHAR(SU_START_DATE,'YYYY/MM/DD') AS SU_START_DATE
+			,NVL(TO_CHAR(SU_PERIOD_DATE,'YYYY/MM/DD'),'2999/12/31') AS
+			SU_PERIOD_DATE
+			FROM
+			MEMBER ST,MEMBER M,STREAMER S,SUBSCRIPTION_HIS H
+			WHERE ST.MNO = S.MNO
+			AND M.MNO = H.MNO
+			AND S.SNO = H.SNO
+			AND M.MNO = #{MNO})
+	</select>
+	
+	<select id="getSubMeCount" resultType="_int">
+		select count(*)
+		from(select SUNO,m.NICK_NAME,MESSAGE
+			from member st,member
+			m,streamer
+			s,subscription_his h
+			where st.mno = s.mno
+			AND M.MNO = H.MNO
+			AND S.SNO = H.SNO
+			and st.MNO = #{mno})
+	</select>
 </mapper>

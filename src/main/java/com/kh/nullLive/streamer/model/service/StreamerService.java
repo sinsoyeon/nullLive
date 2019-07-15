@@ -16,9 +16,9 @@ public interface StreamerService {
 
 	int insertNP(Streamer streamer, int amount);
 
-	ArrayList<HashMap<String, Object>> selectSubList(int mno);
+	ArrayList<HashMap<String, Object>> selectSubList(HashMap<String, Object> infoMap);
 
-	ArrayList<HashMap<String, Object>> selectForMeSubList(int mno);
+	ArrayList<HashMap<String, Object>> selectForMeSubList(HashMap<String, Object> infoMap);
 
 	ArrayList<HashMap<String, Object>> selectSponList(HashMap<String, Object> infoMap);
 
@@ -89,6 +89,14 @@ public interface StreamerService {
 	 ArrayList<HashMap<String, Object>> selectMyConList(HashMap<String, Object> infoMap);
 
 	int insertClc(HashMap<String, Object> infoMap);
+
+	int checkBank(int mno);
+
+	int insertBankCert(HashMap<String, Object> infoMap);
+
+	int getSubCount(int mno);
+
+	int getSubMeCount(int mno);
 
 
 }

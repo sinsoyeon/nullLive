@@ -29,6 +29,7 @@ insertNP(amount,requestMsg);
 
 ///여기서부터 추가
 function insertNP(amount,requestMsg){
+	
 	var mno =$("#mno").val();
 $.ajax({
 	url:"insertNP.sm",
@@ -48,19 +49,27 @@ $.ajax({
 			var msg="tts##"
 			msg += nickName+'&'+requestMsg;
 			connection.send(msg);
+			$("#logModal").modal("hide");
 		}
 		
 	});
 };
 
 function loadTTS(nickName,requestMsg){
+	console.log('tts load');
 	$.ajax({
 		url:"tts.me",
 		type:"post",
 		data:{nickName:nickName,requestMsg:requestMsg},
 		success:function(data){
 			console.log('tts 파일 완성');
+			console.log('tts : '+data);
+			startTTS(data);
+		   	 $('<div style="color:#119208"></div>').text($("#mid").val() + '님이 후원하셨습니다.').appendTo("#chat-box");
+		     $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);			
+			
 			connection.send('startTTS##'+data);
+			connection.send('spon##' + $("#mid").val() + '님이 후원하셨습니다.');
 		},
 		error:function(data){
 			console.log(data);
@@ -68,7 +77,8 @@ function loadTTS(nickName,requestMsg){
 	});
 };
 
-function startTTS(fileName){
+/*function startTTS(fileName){
+	console.log('tts startTTS');
 	//ajax
 	$.ajax({
 		url:"startTTs.me",
@@ -76,9 +86,11 @@ function startTTS(fileName){
 		data:{fileName:fileName},
 		success:function(data){
 			console.log('tts 실행중');
+			
+			$('#page').append('<audio src="${contextPath}/resources/uploadFiles/audio/' + data +'"/>');
 		}
 	})
-}
+}*/
 	//
 
 

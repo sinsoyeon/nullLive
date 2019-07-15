@@ -9,6 +9,7 @@
 <title>Insert title here</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>	
 <style>
 .pagination>li>a { border-radius: 50% !important;margin: 0 5px;}
 #clcListBtn{cursor:pointer;}
@@ -25,8 +26,7 @@
 		<jsp:include page="../myPage/myPageNavbar.jsp"/>
 				<ol class="breadcrumb" style="padding-left:460px !important; padding-top:-30px !important;">
 				    <li><a href="#" id="pointBtn">포인트(환전/충전) 기록</a></li>
-				    <li id="clcListBtn">정산 기록</li>   
-				    <li id="reqClcBtn">나의 스트리머 확인</li>   
+				    <li id="clcListBtn">정산 기록</li>
 				  </ol>	
 		<div class="row">
 			<div class="col-md-3"></div>

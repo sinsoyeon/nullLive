@@ -18,9 +18,9 @@ public interface StreamerDao {
 
 	int insertNP(SqlSessionTemplate sqlSession, Streamer streamer, int amount);
 
-	ArrayList<HashMap<String, Object>> selectSubList(SqlSessionTemplate sqlSession, int mno);
+	ArrayList<HashMap<String, Object>> selectSubList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
 
-	ArrayList<HashMap<String, Object>> selectForMeSubList(SqlSessionTemplate sqlSession, int mno);
+	ArrayList<HashMap<String, Object>> selectForMeSubList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
 
 	ArrayList<HashMap<String, Object>> selectSponList(SqlSessionTemplate sqlSession,HashMap<String, Object> infoMap);
 
@@ -103,6 +103,14 @@ public interface StreamerDao {
 	int selectMyConCount(SqlSessionTemplate sqlSession, int mno);
 
 	 ArrayList<HashMap<String, Object>> selectMyConList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
+	int checkBank(SqlSessionTemplate sqlSession, int mno);
+
+	int insertBankCert(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
+
+	int getSubCount(SqlSessionTemplate sqlSession, int mno);
+
+	int getSubMeCount(SqlSessionTemplate sqlSession, int mno);
 
 
 

@@ -107,22 +107,30 @@ connection.onmessage  = function(event) {
     console.log(event);
     //넘어온 데이터
     var dataArr = event.data.split('##');
-
+    console.log(dataArr);
     //채팅 넘어온 경우
     if(dataArr[0] == 'chat'){
         //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
         $('<div></div>').text(dataArr[1]+'').appendTo("#chat-box");
         $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
+        
     }else if(dataArr[0] == 'tts') {
-        if($("#mid").val() == $("#roomId").val()) {
+    	
+        if($("#mid").val() == $("#room-id").val()) {        	
             var info = dataArr[1].split('&');
-            console.log(dataArr);
             loadTTS(info[0],info[1]);
         }
+        
     }else if(dataArr[0] == 'startTTS'){
+      	var ttsInfo = dataArr[1].split("&");
+    	
         startTTS(dataArr[1]);
+	     
     }else if(dataArr[0] =='recom'){
         reloadCurrRecom();
+    }else if(dataArr[0]=='spon'){    	    	
+        $('<div style="color:#119208"></div>').text(dataArr[1]).appendTo("#chat-box");
+        $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
     }
 }
 
