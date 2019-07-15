@@ -54,7 +54,8 @@
     	<button class="btn btn-success" style="width:75px;" id="recomBtn" onclick="recomBtn()">추천</button>
 		<button onclick="endRecordAndService()">downtest</button>
 		<button data-toggle="modal" data-target="#sponModal" id="sponBtn"  style="background: pink; color: white;">결제테스트</button>
-    </div>
+	</div>
+	<div id="membersArea"></div>
   </footer>
   <input type="hidden" id="broadMethod" value="${broadMethod}" />
   <input type="hidden" id="mid" value="${loginUser.mid}"/>

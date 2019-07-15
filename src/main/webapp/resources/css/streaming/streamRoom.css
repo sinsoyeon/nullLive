@@ -62,6 +62,7 @@ body{
 #footerComuArea{
     float:left;
     min-height:130px;
+    width:150px;
     background-color:red;
 }
 #footerTitle{
@@ -75,4 +76,12 @@ body{
 }
 body::-webkit-scrollbar {
 	display: none;
+}
+#membersArea{
+    float: left;
+    overflow-x:auto;
+    min-height: 130px;
+    max-height: 130px;
+    min-width: 373px;
+    background-color: cyan;
 }

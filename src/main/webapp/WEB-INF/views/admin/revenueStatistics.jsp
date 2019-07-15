@@ -15,21 +15,28 @@
 		
 
 		<div align="center">
-			<br>
+			<br><div style="display: inline-block;">
 			<b>연도 선택 : </b>
-			<select id="year1" onchange='yearChange1();'>
+			</div>
+			<div style="display: inline-block;">
+			<select id="year1" onchange='yearChange1();' class='form-control'>
 				<option value="2019" selected>2019년</option>
 				<option value="2018">2018년</option>
 				<option value="2017">2017년</option>
 			</select>
+			</div>
 			<div id="chart_div1" style="width: 900px; height: 500px;"></div>
 			<br>
+			<div style="display: inline-block;">
 			<b>연도 선택 : </b>
-			<select id="year2" onchange='yearChange2();'>
+			</div>
+			<div style="display: inline-block;">
+			<select id="year2" onchange='yearChange2();' class='form-control'>
 				<option value="2019" selected>2019년</option>
 				<option value="2018">2018년</option>
 				<option value="2017">2017년</option>
 			</select>
+			</div>
 			<div id="chart_div2" style="width: 900px; height: 500px;"></div>
 			<br>
 		</div>
