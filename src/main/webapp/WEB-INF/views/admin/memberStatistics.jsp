@@ -6,19 +6,23 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <meta charset="UTF-8">
 <title>NullLive</title>
+<style>
+</style>
 </head>
 <body>
 	<%@ include file="adminMenubar.jsp" %>
-		
-
 		<div align="center">
 			<br>
+			<div style="display: inline-block;">
 			<b>연도 선택 : </b>
-			<select id="year" onchange='yearChange();'>
+			</div>
+			<div style="display: inline-block;">
+			<select id="year" onchange='yearChange();' class='form-control'>
 				<option value="2019" selected>2019년</option>
 				<option value="2018">2018년</option>
 				<option value="2017">2017년</option>
 			</select>
+			</div>
 			<div id="chart_div" style="width: 900px; height: 500px;"></div>
 			<br>
 		</div>

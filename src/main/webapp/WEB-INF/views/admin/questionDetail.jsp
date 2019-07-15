@@ -47,6 +47,11 @@
  form .answertData{
  visibility :  hidden;
  }
+ .btn.btn-success{
+	padding-top: 2px;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
 </style>
 </head>
 <body>
@@ -90,13 +95,13 @@
 								id='questionAnswer'>
 								<textarea id='answer' name='bContent'></textarea>
 								<div style="padding: 3%;">
-									<input type="button"  style="float: left;" onclick="history.back();" value='뒤로가기'>
+									<input type="button"  style="float: left;" onclick="history.back();" value='뒤로가기' class="btn btn-success">
 									
 									<input class="answertData" name='bTitle' value="${questionContent.BTitle }">
 									<input class="answertData" name='questionType' value="${questionContent.questionType }"> 
 									<input class="answertData" name='bno' value="${questionContent.bno }">
 									
-									<button style="float: right;" onclick="return questionAnswer()">답변보내기</button>
+									<button style="float: right;" onclick="return questionAnswer()" class="btn btn-success">답변보내기</button>
 
 								</div>
 							</form>
@@ -108,7 +113,7 @@
 							<br>
 							<div class="questionContext"><br><p>${questionContent.answer }</p><br></div>
 							<div style="padding: 3%;">
-							<button style="float: left;" onclick="location.href='questionList.ad'">뒤로가기</button>
+							<button style="float: left;" onclick="location.href='questionList.ad'" class="btn btn-success">뒤로가기</button>
 						</div>
 						</c:if>
 						

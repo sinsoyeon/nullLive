@@ -47,6 +47,11 @@
  form .answertData{
  visibility :  hidden;
  }
+ .btn.btn-success{
+	padding-top: 2px;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
 </style>
 </head>
 <body>
@@ -86,8 +91,8 @@
 						<textarea id='insertContent' autofocus placeholder='내용을 입력하세요'></textarea>	
 					</div>
 					<div style="padding-bottom: 50px; padding-left: 50px; padding-right: 50px;">
-						<input type="button" style="float: left;" onclick="history.back();" value='뒤로가기'>
-						<button style="float: right;" onclick="insertFAQ()">등록</button> 
+						<input type="button" style="float: left;" onclick="history.back();" value='뒤로가기' class="btn btn-success">
+						<button style="float: right;" onclick="insertFAQ()" class="btn btn-success">등록</button> 
 					</div>
 				</div>
 			</div>
