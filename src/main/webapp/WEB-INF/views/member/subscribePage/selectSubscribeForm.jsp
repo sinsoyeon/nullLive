@@ -104,6 +104,12 @@ div {
 
 						</tbody>
 					</table>
+					<div id="subPaging" align="center">
+						<ul class="pagination">
+						
+						
+						</ul>
+					</div>	
 
 					<h4 style="color: #333333 !important;" id="textLine2">나를 구독한
 						사용자</h4>
@@ -121,6 +127,12 @@ div {
 
 						</tbody>
 					</table>
+				<div id="subForMePaging" align="center">
+						<ul class="pagination">
+						
+						
+						</ul>
+					</div>						
 				</div>
 
 

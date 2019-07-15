@@ -145,31 +145,21 @@ $("#checkId").click(function(){
 		$("#myExcTableArea").hide();
 
 		$(".page-head-line").text('구독 내역');
-
+		subList(1);
+		subscribeForMe(1);
+	});	
+	
+	function subList(currentPage){
+		var mno = $("#mno").val();
 		$.ajax({
 			url:"subscribeListView.sm",
 			type:"post",
-			data :{mno:mno},
+			data :{mno:mno,currentPage:currentPage},
 			success:function(data){
-				var mySubscribeList = data.listMap;
-				subscribeForMe(mySubscribeList);
-			}
-		});			
-	});	
-
-	function subscribeForMe(mySubscribeList){
-		var mySubscribeList = mySubscribeList;
-		var mno = $("#mno").val();
-		
-		$("#mySubscribeArea > tbody").html('');
-		$("#subscribeForMeArea > tbody").html('');
-		
-		$.ajax({
-			url:"subscribeForMe.sm",
-			type:"post",
-			data : {mno:mno},
-			success:function(data){
-				var forMeList = data.forMeList;
+				$("#mySubscribeArea > tbody").html('');
+				$("#subPaging > ul").html('');
+				var mySubscribeList = data.infoMap.listMap;
+				
 				var subscribeType='';
 				var su_period_date = '';
 
@@ -190,14 +180,71 @@ $("#checkId").click(function(){
 							+ su_period_date  + "</td></tr>"
 					);
 				});
+				var $firstButton = $('<li class="page-item" onclick="subList(1);"><a class="page-link"> << </a></li>');
+				
+				
+				$("#subPaging > ul").append($firstButton);
+				
+				console.log(data.infoMap.pi.maxPage);
+				for(var i = 0; i <data.infoMap.pi.maxPage;i++){
+					$("#subPaging >ul ").append('<li class="page-item" onclick="subList(' + (i+1) +')"><a class="page-link">' + (i+1) + '</a></li>');
+					
+					
+				};
+				
+				var $endButton = $('<li class="page-item" onclick="subList('+ data.infoMap.pi.maxPage  +');"><a class="page-link"> >> </a></li>');
+				$("#subPaging > ul").append($endButton);
+				//subPaging
+			}
+		});			
+	}
 
+	function subscribeForMe(currentPage){
+		
+		var mno = $("#mno").val();
+		
+		
+		$("#subscribeForMeArea > tbody").html('');
+		$("#subForMePaging > ul").html('');
+		$.ajax({
+			url:"subscribeForMe.sm",
+			type:"post",
+			data : {mno:mno,currentPage:currentPage},
+			success:function(data){
+				var forMeList = data.infoMap.forMeList;
+					
+				
 				$.each(forMeList,function(index,value){
+					var msg = '';
+					
+					if(value["MSG"] != null){
+						msg = value["MSG"];
+					}else{
+						msg = '힘내세요 ! 응원해요';
+					}
+					
 					$("#subscribeForMeArea > tbody").append("<tr><td>"
 							+value["SUNO"] + "</td><td>"
 							+value["NICK_NAME"]+"</td><td colspan='3'>"
-							+value["MSG"] + "</td></tr>"
+							+msg + "</td></tr>"
 					);
+					
 				});
+				var $firstButton = $('<li class="page-item" onclick="subscribeForMe(1);"><a class="page-link"> << </a></li>');
+				
+				
+				$("#subForMePaging > ul").append($firstButton);
+				
+				console.log(data.infoMap.pi.maxPage);
+				for(var i = 0; i <data.infoMap.pi.maxPage;i++){
+					$("#subForMePaging >ul ").append('<li class="page-item" onclick="subscribeForMe(' + (i+1) +')"><a class="page-link">' + (i+1) + '</a></li>');
+					
+					
+				};
+				
+				var $endButton = $('<li class="page-item" onclick="subscribeForMe(' + data.infoMap.pi.maxPage  +');"><a class="page-link"> >> </a></li>');
+				$("#subForMePaging > ul").append($endButton);
+				//subPaging
 			}
 		});
 	}
@@ -366,7 +413,7 @@ $("#checkId").click(function(){
 	
 	
 	$("#culBtn").click(function(){
-		$("#culModal").modal("show");		
+		$("#culModal").modal('show');		
 	});
 	
 	
@@ -380,13 +427,15 @@ $("#checkId").click(function(){
 			data:{mno:mno,amount:amount},
 			success:function(data){
 				alert('ajax 성공');
+				
+				
 
 				if(data == 'success'){
 					alert('환전 신청에 성공하였습니다.'+							
 							'상세 정보는 환전 신청 내역을 통해 확인할 수 있습니다.');
+					
 					loadExcList();
 				}
-				
 				//환전 신청 내역이랑 연결
 			}
 		})

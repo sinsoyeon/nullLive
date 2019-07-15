@@ -114,8 +114,25 @@ public class StreamerController {
 
 	@RequestMapping("subscribeListView.sm")
 	@ResponseBody
-	public ModelAndView subscribeList(@RequestParam("mno") int mno, ModelAndView model) {
-		ArrayList<HashMap<String, Object>> listMap = smService.selectSubList(mno);
+	public ModelAndView subscribeList(@RequestParam("mno") int mno, ModelAndView model,@RequestParam("currentPage")String reqCurrentPage) {
+		
+		System.out.println("mno : " + mno);
+		int currentPage = 1;
+		
+		if(reqCurrentPage != null) {
+			currentPage = Integer.parseInt(reqCurrentPage);
+		}
+		
+		int subCount = smService.getSubCount(mno);
+		
+		PageInfo pi = Pagination.getSPageInfo(currentPage, subCount);
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("pi", pi);
+		infoMap.put("mno", mno);
+		
+		
+		ArrayList<HashMap<String, Object>> listMap = smService.selectSubList(infoMap);
 
 		System.out.println("회원번호 " + mno + " 의 구독자 조회 : " + listMap);
 
@@ -129,9 +146,11 @@ public class StreamerController {
 				listMap.get(i).replace("SU_PERIOD_DATE", "X");
 			}
 		}
+		
+		infoMap.put("listMap", listMap);
 
 		model.setViewName("jsonView");
-		model.addObject("listMap", listMap);
+		model.addObject("infoMap", infoMap);
 
 		System.out.println("최종 return : " + listMap);
 
@@ -140,14 +159,29 @@ public class StreamerController {
 
 	@RequestMapping("subscribeForMe.sm")
 	@ResponseBody
-	public ModelAndView subscribeForMe(@RequestParam("mno") int mno, ModelAndView model) {
+	public ModelAndView subscribeForMe(@RequestParam("mno") int mno, ModelAndView model,@RequestParam("currentPage")String reqCurrentPage) {
+		int currentPage = 1;
+		
+		if(reqCurrentPage != null) {
+			currentPage = Integer.parseInt(reqCurrentPage);
+		}
+		
+		int subMeCount = smService.getSubMeCount(mno);
+		
+		PageInfo pi = Pagination.getSPageInfo(currentPage, subMeCount);
+		
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("pi", pi);
+		infoMap.put("mno", mno);
 
-		ArrayList<HashMap<String, Object>> forMeList = smService.selectForMeSubList(mno);
+		ArrayList<HashMap<String, Object>> forMeList = smService.selectForMeSubList(infoMap);
+		
+		infoMap.put("forMeList", forMeList);
 
 		System.out.println("회원번호 " + mno + " 의 구독자 조회 : " + forMeList);
 
 		model.setViewName("jsonView");
-		model.addObject("forMeList", forMeList);
+		model.addObject("infoMap", infoMap);
 
 		return model;
 	}
@@ -170,9 +204,13 @@ public class StreamerController {
 	@RequestMapping("requestExc.sm")
 	@ResponseBody
 	public String requestExchange(@RequestParam("mno") int mno, @RequestParam("amount") int amount) {
-
+		int adultResult = smService.checkBank(mno);
+		
+		if(adultResult < 0 ) {
+			return "noCertified";
+		}
+		
 		HashMap<String, Object> excMap = new HashMap<String, Object>();
-
 		excMap.put("mno", mno);
 		excMap.put("amount", amount);
 		excMap.put("exc_fee", (amount * 0.2));
@@ -1063,5 +1101,32 @@ public class StreamerController {
 		int count = ms.selectCount(mno); 
 		
 		return count+"";
+	}
+	
+	@RequestMapping("bankCert.sm")
+	public String backCert(String account,int back_code,String holder,HttpSession session,HttpServletResponse response) {
+		HashMap<String, Object> infoMap = new HashMap<String, Object>();
+		infoMap.put("account", account);
+		infoMap.put("back_code", back_code);
+		infoMap.put("holder", holder);
+		infoMap.put("mno", ((Member)session.getAttribute("loginUser")).getMno());
+		
+		int result = smService.insertBankCert(infoMap);
+		
+		
+		PrintWriter pw =null;
+		if(result > 0) {
+			try {
+				pw = response.getWriter();
+				pw.println("<script>alert('인증 완료 되었습니다.'); location.href='requestExc.sm';</script>\n");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			pw.println("");
+		}
+		
+		return "redirect:excView.sm";
 	}
 }
