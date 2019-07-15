@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BroadList {
+	/* LIVE/VOD 방송목록 */
 	private int bhno;				//BHNO
 	private String broadAddress;	//BROAD_ADDRESS
 	private int mno;				//MNO
@@ -19,11 +20,18 @@ public class BroadList {
 	private String bhStatus;		//BH_STATUS
 	private int countViewers;		//COUNT_VIEWERS
 	private int bcno;				//BCNO
-	private String streamerId;		//BROAD_CENTER 조인 후 MEBMER.MID
 	private int countRecommendation;//COUNT_RECOMMENDATION
 	private String bTitle;			//BROAD_TITLE
 	private String bPwd;			//BROAD_PWD
 	private String pwdCheck;
 	private String bCategory;		//BROAD_CATEGORY
 	private String adult;			//ADULT
+	
+	/* 즐겨찾기 */
+	private int fano;				//FANO
+	private int favCount;			//스트리머를 즐겨찾기 한 사람 수(테이블엔 없음)
+	private String sGender;			//스트리머 성별
+	/* 구독한BJ */
+	private int suno;				//SUNO
+	private int subCount;			//스트리머를 구독 한 사람 수(테이블엔 없음)
 }

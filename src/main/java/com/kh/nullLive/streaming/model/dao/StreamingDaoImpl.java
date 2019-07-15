@@ -85,7 +85,7 @@ public class StreamingDaoImpl implements StreamingDao {
 	@Override
 	public ArrayList<BroadList> selectHotLiveList(SqlSessionTemplate sqlSession) {
 		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.selectHotLiveList");
-		
+
 		return list;
 	}
 
@@ -99,7 +99,7 @@ public class StreamingDaoImpl implements StreamingDao {
 	@Override
 	public ArrayList<BroadList> selectHotVodList(SqlSessionTemplate sqlSession) {
 		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.selectHotVodList");
-		
+
 		return list;
 	}
 
@@ -113,7 +113,7 @@ public class StreamingDaoImpl implements StreamingDao {
 	@Override
 	public ArrayList<BroadList> selectAllLiveList(SqlSessionTemplate sqlSession) {
 		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.selectAllLiveList");
-		
+
 		return list;
 	}
 
@@ -127,7 +127,7 @@ public class StreamingDaoImpl implements StreamingDao {
 	@Override
 	public ArrayList<BroadList> selectAllVodList(SqlSessionTemplate sqlSession) {
 		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.selectAllVodList");
-		
+
 		return list;
 	}
 
@@ -156,7 +156,7 @@ public class StreamingDaoImpl implements StreamingDao {
 	@Override
 	public ArrayList<BroadList> searchAllLiveList(SqlSessionTemplate sqlSession, int condition) {
 		ArrayList<BroadList> list = null;
-		
+
 		String searchCondition = "";
 
 		switch(condition) {
@@ -171,9 +171,9 @@ public class StreamingDaoImpl implements StreamingDao {
 		case 9 : searchCondition = "라디오"; break;
 		default : searchCondition = "기타"; break;
 		}
-		
+
 		list = (ArrayList) sqlSession.selectList("Streaming.searchAllLiveList", searchCondition);
-		
+
 		return list;
 	}
 
@@ -202,7 +202,7 @@ public class StreamingDaoImpl implements StreamingDao {
 	@Override
 	public ArrayList<BroadList> searchAllVodList(SqlSessionTemplate sqlSession, int condition) {
 		ArrayList<BroadList> list = null;
-		
+
 		String searchCondition = "";
 
 		switch(condition) {
@@ -217,9 +217,9 @@ public class StreamingDaoImpl implements StreamingDao {
 		case 9 : searchCondition = "라디오"; break;
 		default : searchCondition = "기타"; break;
 		}
-		
+
 		list = (ArrayList) sqlSession.selectList("Streaming.searchAllVodList", searchCondition);
-		
+
 		return list;
 	}
 
@@ -261,7 +261,7 @@ public class StreamingDaoImpl implements StreamingDao {
 	@Override
 	public ArrayList<BroadList> sortVAllLiveList(SqlSessionTemplate sqlSession) {
 		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.sortVAllLiveList");
-		
+
 		return list;
 	}
 
@@ -269,7 +269,7 @@ public class StreamingDaoImpl implements StreamingDao {
 	@Override
 	public ArrayList<BroadList> sortVAllVodList(SqlSessionTemplate sqlSession) {
 		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.sortVAllVodList");
-		
+
 		return list;
 	}
 
@@ -277,7 +277,7 @@ public class StreamingDaoImpl implements StreamingDao {
 	@Override
 	public ArrayList<BroadList> sortVAllLiveList2(SqlSessionTemplate sqlSession, int condition) {
 		ArrayList<BroadList> list = null;
-		
+
 		String searchCondition = "";
 
 		switch(condition) {
@@ -292,9 +292,9 @@ public class StreamingDaoImpl implements StreamingDao {
 		case 9 : searchCondition = "라디오"; break;
 		default : searchCondition = "기타"; break;
 		}
-		
+
 		list = (ArrayList) sqlSession.selectList("Streaming.sortVAllLiveList2", searchCondition);
-		
+
 		return list;
 	}
 
@@ -302,7 +302,7 @@ public class StreamingDaoImpl implements StreamingDao {
 	@Override
 	public ArrayList<BroadList> sortVAllVodList2(SqlSessionTemplate sqlSession, int condition) {
 		ArrayList<BroadList> list = null;
-		
+
 		String searchCondition = "";
 
 		switch(condition) {
@@ -317,17 +317,17 @@ public class StreamingDaoImpl implements StreamingDao {
 		case 9 : searchCondition = "라디오"; break;
 		default : searchCondition = "기타"; break;
 		}
-		
+
 		list = (ArrayList) sqlSession.selectList("Streaming.sortVAllVodList2", searchCondition);
-		
+
 		return list;
 	}
-	
+
 	//추천 순으로 정렬한 All Live 방송 조회
 	@Override
 	public ArrayList<BroadList> sortRAllLiveList(SqlSessionTemplate sqlSession) {
 		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.sortRAllLiveList");
-		
+
 		return list;
 	}
 
@@ -335,7 +335,7 @@ public class StreamingDaoImpl implements StreamingDao {
 	@Override
 	public ArrayList<BroadList> sortRAllVodList(SqlSessionTemplate sqlSession) {
 		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.sortRAllVodList");
-		
+
 		return list;
 	}
 
@@ -343,7 +343,7 @@ public class StreamingDaoImpl implements StreamingDao {
 	@Override
 	public ArrayList<BroadList> sortRAllLiveList2(SqlSessionTemplate sqlSession, int condition) {
 		ArrayList<BroadList> list = null;
-		
+
 		String searchCondition = "";
 
 		switch(condition) {
@@ -358,9 +358,9 @@ public class StreamingDaoImpl implements StreamingDao {
 		case 9 : searchCondition = "라디오"; break;
 		default : searchCondition = "기타"; break;
 		}
-		
+
 		list = (ArrayList) sqlSession.selectList("Streaming.sortRAllLiveList2", searchCondition);
-		
+
 		return list;
 	}
 
@@ -368,7 +368,7 @@ public class StreamingDaoImpl implements StreamingDao {
 	@Override
 	public ArrayList<BroadList> sortRAllVodList2(SqlSessionTemplate sqlSession, int condition) {
 		ArrayList<BroadList> list = null;
-		
+
 		String searchCondition = "";
 
 		switch(condition) {
@@ -383,9 +383,9 @@ public class StreamingDaoImpl implements StreamingDao {
 		case 9 : searchCondition = "라디오"; break;
 		default : searchCondition = "기타"; break;
 		}
-		
+
 		list = (ArrayList) sqlSession.selectList("Streaming.sortRAllVodList2", searchCondition);
-		
+
 		return list;
 	}
 
@@ -401,5 +401,45 @@ public class StreamingDaoImpl implements StreamingDao {
 		return sqlSession.insert("Streaming.insertAlarm",hashMap);
 	}
 
+	//즐겨찾기에서 최근 본 Live 방송 개수
+	@Override
+	public int getlLiveListCount(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("Streaming.lLiveListCount", mno);
+	}
 
+	//즐겨찾기에서 최근 본 Live 방송 조회
+	@Override
+	public ArrayList<BroadList> selectlLiveList(SqlSessionTemplate sqlSession, int mno) {
+		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.selectlLiveList", mno);
+
+		return list;
+	}
+
+	//즐겨찾기에서 최근 본 Vod 방송 개수
+	@Override
+	public int getlVodListCount(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("Streaming.lVodListCount", mno);
+	}
+
+	//즐겨찾기에서 최근 본 Vod 방송 조회
+	@Override
+	public ArrayList<BroadList> selectlVodList(SqlSessionTemplate sqlSession, int mno) {
+		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.selectlVodList", mno);
+
+		return list;
+	}
+	
+	//즐겨찾기 한 BJ 개수
+	@Override
+	public int getfBjListCount(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("Streaming.fBjListCount", mno);
+	}
+
+	//즐겨찾기 한 BJ 목록
+	@Override
+	public ArrayList<BroadList> selectfBjList(SqlSessionTemplate sqlSession, int mno) {
+		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.selectfBjList", mno);
+
+		return list;
+	}
 }

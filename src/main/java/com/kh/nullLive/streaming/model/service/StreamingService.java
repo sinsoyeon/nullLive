@@ -54,19 +54,19 @@ public interface StreamingService {
 	/*정언 메인페이지*/
 	//메인페이지 Hot Live 방송 목록 개수
 	int getHotLiveListCount();
-	
+
 	//메인페이지 Hot Live 방송 목록 조회
 	ArrayList<BroadList> selectHotLiveList();
-	
+
 	//메인페이지 Hot Vod 방송 목록 개수
 	int getHotVodListCount();
-	
+
 	//메인페이지 Hot Vod 방송 목록 조회
 	ArrayList<BroadList> selectHotVodList();
-	
+
 	//메인페이지 All Live 방송 목록 개수
 	int getAllLiveListCount();
-	
+
 	//메인페이지 All Live 방송 목록 조회
 	ArrayList<BroadList> selectAllLiveList();
 
@@ -78,13 +78,13 @@ public interface StreamingService {
 	BroadHis getStreamingInfo(String streamerAddress);
 
 
-	
+
 	//메인페이지 All Vod 방송 목록 개수 
 	int getAllVodListCount();
-	
+
 	//메인페이지 All Vod 방송 목록 조회
 	ArrayList<BroadList> selectAllVodList();
-	
+
 	//검색한 All Live 방송 목록 개수
 	int getSearchAllLiveCount(int condition);
 
@@ -139,5 +139,22 @@ public interface StreamingService {
 
 	int subInfoMap(int mno);
 
+	//즐겨찾기에서 최근 본 Live 방송 개수
+	int getlLiveListCount(int mno);
+
+	//즐겨찾기에서 최근 본 Live 방송 조회
+	ArrayList<BroadList> selectlLiveList(int mno);
 	
+	//즐겨찾기에서 최근 본 Vod 방송 개수
+	int getlVodListCount(int mno);
+
+	//즐겨찾기에서 최근 본 Vod 방송 조회
+	ArrayList<BroadList> selectlVodList(int mno);
+
+	//즐겨찾기 한 BJ 개수
+	int getfBjListCount(int mno);
+	
+	//즐겨찾기 한 BJ 목록
+	ArrayList<BroadList> selectfBjList(int mno);
+
 }

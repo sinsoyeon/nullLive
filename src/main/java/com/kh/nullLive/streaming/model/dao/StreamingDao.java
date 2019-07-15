@@ -38,7 +38,7 @@ public interface StreamingDao {
 	 * Comment : 방송 중인지
 	 */
 	int isOnAir(SqlSessionTemplate sqlSession, String streamerAddress);
-	
+
 	/**
 	 * Author : ryan
 	 * Date : 2019. 7. 7.
@@ -52,7 +52,7 @@ public interface StreamingDao {
 	 * @Comment : 입장 방송 정보 가져오기
 	 */
 	HashMap<String, Object> getBroadInfo(SqlSessionTemplate sqlSession, String streamerAddress);
-	
+
 	/**
 	 * Author : ryan
 	 * Date : 2019. 7. 7.
@@ -79,25 +79,25 @@ public interface StreamingDao {
 	/*정언 메인페이지*/
 	//메인페이지 Hot Live 방송 목록 개수
 	int getHotLiveListCount(SqlSessionTemplate sqlSession);
-	
+
 	//메인페이지 Hot Live 방송 목록 조회
 	ArrayList<BroadList> selectHotLiveList(SqlSessionTemplate sqlSession);
-	
+
 	//메인페이지 Hot Vod 방송 목록 개수
 	int getHotVodListCount(SqlSessionTemplate sqlSession);
-	
+
 	//메인페이지 Hot Vod 방송 목록 조회
 	ArrayList<BroadList> selectHotVodList(SqlSessionTemplate sqlSession);
-	
+
 	//메인페이지 All Live 방송 목록 개수
 	int getAllLiveListCount(SqlSessionTemplate sqlSession);
-	
+
 	//메인페이지 All Live 방송 목록 조회
 	ArrayList<BroadList> selectAllLiveList(SqlSessionTemplate sqlSession);
-	
+
 	//메인페이지 All Vod 방송 목록 개수
 	int getAllVodListCount(SqlSessionTemplate sqlSession);
-	
+
 	//메인페이지 All Vod 방송 목록 조회
 	ArrayList<BroadList> selectAllVodList(SqlSessionTemplate sqlSession);
 
@@ -136,7 +136,7 @@ public interface StreamingDao {
 	 * @Comment : 현재 추천 수 가져오기
 	 */
 	int currRecom(SqlSessionTemplate sqlSession, String roomId);
-  
+
 	//시청자 순으로 정렬한 All Live 방송 조회
 	ArrayList<BroadList> sortVAllLiveList(SqlSessionTemplate sqlSession);
 
@@ -165,5 +165,23 @@ public interface StreamingDao {
 
 	int insertAlarm(SqlSessionTemplate sqlSession, HashMap<String, Object> hashMap);
 
-	
+	//즐겨찾기에서 최근 본 Live 방송 개수
+	int getlLiveListCount(SqlSessionTemplate sqlSession, int mno);
+
+	//즐겨찾기에서 최근 본 Live 방송 조회
+	ArrayList<BroadList> selectlLiveList(SqlSessionTemplate sqlSession, int mno);
+
+	//즐겨찾기에서 최근 본 Vod 방송 개수
+	int getlVodListCount(SqlSessionTemplate sqlSession, int mno);
+
+	//즐겨찾기에서 최근 본 Vod 방송 조회
+	ArrayList<BroadList> selectlVodList(SqlSessionTemplate sqlSession, int mno);
+
+	//즐겨찾기 한 BJ 개수
+	int getfBjListCount(SqlSessionTemplate sqlSession, int mno);
+
+	//즐겨찾기 한 BJ 목록
+	ArrayList<BroadList> selectfBjList(SqlSessionTemplate sqlSession, int mno);
+
+
 }

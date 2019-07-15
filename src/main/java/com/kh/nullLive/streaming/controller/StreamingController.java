@@ -200,7 +200,6 @@ public class StreamingController {
 			hmap.put("bhStatus", blist.get(i).getBhStatus());
 			hmap.put("countViewers", blist.get(i).getCountViewers());
 			hmap.put("bcno", blist.get(i).getBcno());
-			hmap.put("streamerId", blist.get(i).getStreamerId());
 			hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
 			hmap.put("bTitle", blist.get(i).getBTitle());
 			hmap.put("bPwd", blist.get(i).getBPwd());
@@ -247,7 +246,6 @@ public class StreamingController {
 			hmap.put("bhStatus", blist.get(i).getBhStatus());
 			hmap.put("countViewers", blist.get(i).getCountViewers());
 			hmap.put("bcno", blist.get(i).getBcno());
-			hmap.put("streamerId", blist.get(i).getStreamerId());
 			hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
 			hmap.put("bTitle", blist.get(i).getBTitle());
 			hmap.put("bPwd", blist.get(i).getBPwd());
@@ -298,7 +296,6 @@ public class StreamingController {
 				hmap.put("bhStatus", blist.get(i).getBhStatus());
 				hmap.put("countViewers", blist.get(i).getCountViewers());
 				hmap.put("bcno", blist.get(i).getBcno());
-				hmap.put("streamerId", blist.get(i).getStreamerId());
 				hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
 				hmap.put("bTitle", blist.get(i).getBTitle());
 				hmap.put("bPwd", blist.get(i).getBPwd());
@@ -342,7 +339,6 @@ public class StreamingController {
 				hmap.put("bhStatus", blist.get(i).getBhStatus());
 				hmap.put("countViewers", blist.get(i).getCountViewers());
 				hmap.put("bcno", blist.get(i).getBcno());
-				hmap.put("streamerId", blist.get(i).getStreamerId());
 				hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
 				hmap.put("bTitle", blist.get(i).getBTitle());
 				hmap.put("bPwd", blist.get(i).getBPwd());
@@ -394,7 +390,6 @@ public class StreamingController {
 				hmap.put("bhStatus", blist.get(i).getBhStatus());
 				hmap.put("countViewers", blist.get(i).getCountViewers());
 				hmap.put("bcno", blist.get(i).getBcno());
-				hmap.put("streamerId", blist.get(i).getStreamerId());
 				hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
 				hmap.put("bTitle", blist.get(i).getBTitle());
 				hmap.put("bPwd", blist.get(i).getBPwd());
@@ -438,7 +433,6 @@ public class StreamingController {
 				hmap.put("bhStatus", blist.get(i).getBhStatus());
 				hmap.put("countViewers", blist.get(i).getCountViewers());
 				hmap.put("bcno", blist.get(i).getBcno());
-				hmap.put("streamerId", blist.get(i).getStreamerId());
 				hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
 				hmap.put("bTitle", blist.get(i).getBTitle());
 				hmap.put("bPwd", blist.get(i).getBPwd());
@@ -542,7 +536,6 @@ public class StreamingController {
 				hmap.put("bhStatus", blist.get(i).getBhStatus());
 				hmap.put("countViewers", blist.get(i).getCountViewers());
 				hmap.put("bcno", blist.get(i).getBcno());
-				hmap.put("streamerId", blist.get(i).getStreamerId());
 				hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
 				hmap.put("bTitle", blist.get(i).getBTitle());
 				hmap.put("bPwd", blist.get(i).getBPwd());
@@ -598,7 +591,6 @@ public class StreamingController {
 				hmap.put("bhStatus", blist.get(i).getBhStatus());
 				hmap.put("countViewers", blist.get(i).getCountViewers());
 				hmap.put("bcno", blist.get(i).getBcno());
-				hmap.put("streamerId", blist.get(i).getStreamerId());
 				hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
 				hmap.put("bTitle", blist.get(i).getBTitle());
 				hmap.put("bPwd", blist.get(i).getBPwd());
@@ -666,7 +658,6 @@ public class StreamingController {
 				hmap.put("bhStatus", blist.get(i).getBhStatus());
 				hmap.put("countViewers", blist.get(i).getCountViewers());
 				hmap.put("bcno", blist.get(i).getBcno());
-				hmap.put("streamerId", blist.get(i).getStreamerId());
 				hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
 				hmap.put("bTitle", blist.get(i).getBTitle());
 				hmap.put("bPwd", blist.get(i).getBPwd());
@@ -722,7 +713,6 @@ public class StreamingController {
 				hmap.put("bhStatus", blist.get(i).getBhStatus());
 				hmap.put("countViewers", blist.get(i).getCountViewers());
 				hmap.put("bcno", blist.get(i).getBcno());
-				hmap.put("streamerId", blist.get(i).getStreamerId());
 				hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
 				hmap.put("bTitle", blist.get(i).getBTitle());
 				hmap.put("bPwd", blist.get(i).getBPwd());
@@ -741,6 +731,7 @@ public class StreamingController {
 		
 		return mv;
 	}
+	
 	/**
 	 * @author : eon
 	 * @date : 2019. 7. 15.
@@ -749,5 +740,145 @@ public class StreamingController {
 	@RequestMapping("favorite.st")
 	public String favoritePage() { 
 		return "main/favorite";
+	}
+	
+	/**
+	 * @author : eon
+	 * @date : 2019. 7. 15.
+	 * @comment : 즐겨찾기에서 최근 본 Live 방송 리스트 조회용 메소드
+	 */
+	@RequestMapping("lLiveList.st")
+	public ModelAndView selectlLiveList(HttpServletRequest request, ModelAndView mv, HttpServletResponse response) {
+		Member m = (Member) request.getSession().getAttribute("loginUser");
+		
+		int mno = m.getMno();
+		System.out.println("로그인 한 유저 : " + mno);
+		
+		int listCount = ss.getlLiveListCount(mno);
+		System.out.println("최근 본 Live 방송 갯수 : " + listCount);
+
+		ArrayList<BroadList> blist = ss.selectlLiveList(mno);
+		System.out.println("최근 본 Live 방송 목록 : " + blist);
+
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+
+		for(int i = 0; i < blist.size(); i++) {
+			HashMap<String, Object> hmap = new HashMap<String, Object>();
+			String sDate = fmt.format(blist.get(i).getStartDate());
+			String eDate = fmt.format(blist.get(i).getEndDate());
+
+			hmap.put("bhno", blist.get(i).getBhno());
+			hmap.put("broadAddress", blist.get(i).getBroadAddress());
+			hmap.put("mno", blist.get(i).getMno());
+			hmap.put("nickName", blist.get(i).getNickName());
+			hmap.put("startDate", sDate);
+			hmap.put("endDate", eDate);
+			hmap.put("bhStatus", blist.get(i).getBhStatus());
+			hmap.put("countViewers", blist.get(i).getCountViewers());
+			hmap.put("bcno", blist.get(i).getBcno());
+			hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
+			hmap.put("bTitle", blist.get(i).getBTitle());
+			hmap.put("bPwd", blist.get(i).getBPwd());
+			hmap.put("pwdCheck", blist.get(i).getPwdCheck());
+			hmap.put("bCategory", blist.get(i).getBCategory());
+			hmap.put("adult", blist.get(i).getAdult());
+
+			list.add(hmap);
+		}
+
+		mv.addObject("list", list);
+		mv.setViewName("jsonView");
+		
+		return mv;
+	}
+	
+	/**
+	 * @author : eon
+	 * @date : 2019. 7. 15.
+	 * @comment : 즐겨찾기에서 최근 본 Vod 방송 리스트 조회용 메소드
+	 */
+	@RequestMapping("lVodList.st")
+	public ModelAndView selectlVodList(HttpServletRequest request, ModelAndView mv, HttpServletResponse response) {
+		Member m = (Member) request.getSession().getAttribute("loginUser");
+		
+		int mno = m.getMno();
+		System.out.println("로그인 한 유저 : " + mno);
+		
+		int listCount = ss.getlVodListCount(mno);
+		System.out.println("최근 본 Vod 방송 갯수 : " + listCount);
+
+		ArrayList<BroadList> blist = ss.selectlVodList(mno);
+		System.out.println("최근 본 Vod 방송 목록 : " + blist);
+
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+
+		for(int i = 0; i < blist.size(); i++) {
+			HashMap<String, Object> hmap = new HashMap<String, Object>();
+			String sDate = fmt.format(blist.get(i).getStartDate());
+			String eDate = fmt.format(blist.get(i).getEndDate());
+
+			hmap.put("bhno", blist.get(i).getBhno());
+			hmap.put("broadAddress", blist.get(i).getBroadAddress());
+			hmap.put("mno", blist.get(i).getMno());
+			hmap.put("nickName", blist.get(i).getNickName());
+			hmap.put("startDate", sDate);
+			hmap.put("endDate", eDate);
+			hmap.put("bhStatus", blist.get(i).getBhStatus());
+			hmap.put("countViewers", blist.get(i).getCountViewers());
+			hmap.put("bcno", blist.get(i).getBcno());
+			hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
+			hmap.put("bTitle", blist.get(i).getBTitle());
+			hmap.put("bPwd", blist.get(i).getBPwd());
+			hmap.put("pwdCheck", blist.get(i).getPwdCheck());
+			hmap.put("bCategory", blist.get(i).getBCategory());
+			hmap.put("adult", blist.get(i).getAdult());
+
+			list.add(hmap);
+		}
+
+		mv.addObject("list", list);
+		mv.setViewName("jsonView");
+		
+		return mv;
+	}
+	
+	/**
+	 * @author : eon
+	 * @date : 2019. 7. 15.
+	 * @comment : 즐겨찾기 한 BJ 리스트 조회용 메소드
+	 */
+	@RequestMapping("fBjList.st")
+	public ModelAndView selectfBjList(HttpServletRequest request, ModelAndView mv, HttpServletResponse response) {
+		Member m = (Member) request.getSession().getAttribute("loginUser");
+		
+		int mno = m.getMno();
+		System.out.println("로그인 한 유저 : " + mno);
+		
+		int listCount = ss.getfBjListCount(mno);
+		System.out.println("즐겨찾기 한 BJ 갯수 : " + listCount);
+
+		ArrayList<BroadList> blist = ss.selectfBjList(mno);
+		System.out.println("즐겨찾기 한 BJ 목록 : " + blist);
+
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+
+		for(int i = 0; i < blist.size(); i++) {
+			HashMap<String, Object> hmap = new HashMap<String, Object>();
+
+			hmap.put("fano", blist.get(i).getFano());
+			hmap.put("mno", blist.get(i).getMno());
+			hmap.put("nickName", blist.get(i).getNickName());
+			hmap.put("favCount", blist.get(i).getFavCount());
+			hmap.put("sGender", blist.get(i).getSGender());
+
+			list.add(hmap);
+		}
+
+		mv.addObject("list", list);
+		mv.setViewName("jsonView");
+		
+		return mv;
 	}
 }
