@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<% response.addHeader("Access-Control-Allow-Origin","*"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,33 +30,32 @@
     </section>
   </div>
   <nav id="chatArea">
-	<div id="chat-box"></div>
-    <input type="text" id="inputMsg"/>
+   <div id="chat-box"></div>
+    <input type="text" id="msg"/>
     <button id="msg_send">전송</button>
     
 
-    <input id="nickName" value="빠숑" type="text" hidden>
-  	<!-- <div style="display:none;" id="otherClients"></div> -->
-  	
+   <!--  <input id="nickName" value="빠숑" type="text" hidden> -->
+     <!-- <div style="display:none;" id="otherClients"></div> -->
+     
 
   </nav>
   <footer>
     <div class="card border-secondary mb-3" id="footerArea">
       <img src="" alt="IMG LOST" id="streamerProImg"/>
       <div class="card-header">
-      	<h4 id="footerTitle"><c:out value="${title}"/></h4>
+         <h4 id="footerTitle"><c:out value="${title}"/></h4>
         <c:out value="${broadInfo['NICKNAME']}"></c:out><br />
-        	누적 추천 수 : <c:out value="${broadInfo['SELECTS']}"></c:out><br />
-        	좋아요 수 : <c:out value="${broadInfo['LIKES']}"></c:out>
+           누적 추천 수 : <c:out value="${broadInfo['SELECTS']}"></c:out><br />
+           좋아요 수 : <c:out value="${broadInfo['LIKES']}"></c:out>
         </div>
     </div>
     <div id="footerComuArea">
-    	<p>현재 추천 수 : <label id="currRecom"></label></p>
-    	<button class="btn btn-success" style="width:75px;" id="recomBtn" onclick="recomBtn()">추천</button>
-		<button onclick="endRecordAndService()">downtest</button>
-		<button data-toggle="modal" data-target="#sponModal" id="sponBtn"  style="background: pink; color: white;">결제테스트</button>
-	</div>
-	<div id="membersArea"></div>
+       <p>현재 추천 수 : <label id="currRecom"></label></p>
+       <button class="btn btn-success" style="width:75px;" id="recomBtn" onclick="recomBtn()">추천</button>
+      <button onclick="endRecordAndService()">downtest</button>
+      <button data-toggle="modal" data-target="#sponModal" id="sponBtn"  style="background: pink; color: white;">결제테스트</button>
+    </div>
   </footer>
   <input type="hidden" id="broadMethod" value="${broadMethod}" />
   <input type="hidden" id="mid" value="${loginUser.mid}"/>
@@ -70,63 +70,63 @@
   
 
 <div id="sponModal" class="modal fade" role="dialog" style="z-index:99999 !important;">
-	<div class="modal-dialog" role="document" style="z-index:99999;">
-		<div class="modal-content" style="z-index:99999;">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h4 class="modal-title">Login</h4>
-			</div>
-			<div class="modal-body">
-				<form action="">
-				<div id="infoArea">
-				
-					<p align="center"><i class="fa fa-heart" style="font-size:48px;color:#ed7679"></i>빠숑님에게 별풍선 선물하기</p>
-				</div>
-			
-				<p id="selectNull">보유 중인 NULL POINT : ${loginUser.point }</p>
-				<table id="nullArea">
-					<tr>
-						<td><input type="radio" name="money" value="1000" id="moneyRadio1">
-							<label>1000 NULL</label>
-						</td>
-						<td><input type="radio" name="money" value="5000" id="moneyRadio2">
-							<label>5000 NULL</label>
-						</td>	
-						<td><input type="radio" name="money" value="10000" id="moneyRadio3">
-							<label>10000 NULL</label>
-						</td>											
-					</tr>
-					<tr>
-						<td><input type="radio" name="money" value="20000" id="moneyRadio4">
-							<label>20000 NULL</label>
-						</td>	
-						<td><input type="radio" name="money" value="30000" id="moneyRadio5">
-							<label>30000 NULL</label>
-						</td>		
-						<td><input type="radio" name="money" value="50000" id="moneyRadio6">
-							<label>50000 NULL</label>
-						</td>																								
-					</tr>
-					<tr>
-						<td>
-						<label>금액 입력</label>
-						</td>	
-						<td colspan="2"><input type="number" placeholder="NULL" name="money" id="inputMoney"><label for="">  NULL</label></td>
-					</tr>
-					<tr>
-						<td><label for="">전송할 메시지 : </label></td>
-						<td><textarea name="requestMsg" id="requestMsg" cols="30" rows="10"></textarea></td>
-					</tr>
-				</table>
-				
-				<p id="butn" onclick="payment();">후원하기</p>
-			</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
+   <div class="modal-dialog" role="document" style="z-index:99999;">
+      <div class="modal-content" style="z-index:99999;">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Login</h4>
+         </div>
+         <div class="modal-body">
+            <form action="">
+            <div id="infoArea">
+            
+               <p align="center"><i class="fa fa-heart" style="font-size:48px;color:#ed7679"></i>빠숑님에게 별풍선 선물하기</p>
+            </div>
+         
+            <p id="selectNull">보유 중인 NULL POINT : ${loginUser.point }</p>
+            <table id="nullArea">
+               <tr>
+                  <td><input type="radio" name="money" value="1000" id="moneyRadio1">
+                     <label>1000 NULL</label>
+                  </td>
+                  <td><input type="radio" name="money" value="5000" id="moneyRadio2">
+                     <label>5000 NULL</label>
+                  </td>   
+                  <td><input type="radio" name="money" value="10000" id="moneyRadio3">
+                     <label>10000 NULL</label>
+                  </td>                                 
+               </tr>
+               <tr>
+                  <td><input type="radio" name="money" value="20000" id="moneyRadio4">
+                     <label>20000 NULL</label>
+                  </td>   
+                  <td><input type="radio" name="money" value="30000" id="moneyRadio5">
+                     <label>30000 NULL</label>
+                  </td>      
+                  <td><input type="radio" name="money" value="50000" id="moneyRadio6">
+                     <label>50000 NULL</label>
+                  </td>                                                                        
+               </tr>
+               <tr>
+                  <td>
+                  <label>금액 입력</label>
+                  </td>   
+                  <td colspan="2"><input type="number" placeholder="NULL" name="money" id="inputMoney"><label for="">  NULL</label></td>
+               </tr>
+               <tr>
+                  <td><label for="">전송할 메시지 : </label></td>
+                  <td><textarea name="requestMsg" id="requestMsg" cols="30" rows="10"></textarea></td>
+               </tr>
+            </table>
+            
+            <p id="butn" onclick="payment();">후원하기</p>
+         </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+      </div>
+   </div>
 </div>
   
 
@@ -134,12 +134,11 @@
 <!-- rtc script -->
 <script src="${contextPath}/resources/js/streaming/RTCMultiConnection.js"></script>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-<script src="https://rtcmulticonnection.herokuapp.com:443/socket.io/socket.io.js"> </script>	<!-- rtc signaling server on socket.io // port:9002 -->
 <script src="${contextPath}/resources/js/streaming/streamingOpenJoin.js"></script>
 <script src="${contextPath}/resources/js/streaming/RecordRTC.js"></script>
 <script src="${contextPath}/resources/js/streaming/TTSjs.js"></script>
 <!-- chat script -->
-<!-- <script src="http://192.168.0.61:3002/socket.io/socket.io.js"></script> -->
+<script src="https://192.168.220.169:3000/socket.io/socket.io.js"></script>
 <script>
 //방송 종료 처리
 $(window).on('beforeunload', function() {
@@ -148,107 +147,138 @@ $(window).on('beforeunload', function() {
         var bhno = $("#bhno").val();
         var ua  = navigator.userAgent.toLowerCase();
         if(mid == roomId){
-	        if ((navigator.appName == 'Netscape' && ua.indexOf('trident') != -1) || (ua.indexOf("msie") != -1)){
-	            confirm('test1');
-	        }else{
-	            $.ajax({
-	                url:"endStreaming.st",
-	                type:"post",
-	                data:{mid:mid},
-	                success:function(data){
+           if ((navigator.appName == 'Netscape' && ua.indexOf('trident') != -1) || (ua.indexOf("msie") != -1)){
+               confirm('test1');
+           }else{
+               $.ajax({
+                   url:"endStreaming.st",
+                   type:"post",
+                   data:{mid:mid},
+                   success:function(data){
                     endRecordAndService();
-	                  console.log("성공 "+data);
-	                }
-	            });
-	        	return confirm('test2');
-	      	}
-    	}else{
-    		if ((navigator.appName == 'Netscape' && ua.indexOf('trident') != -1) || (ua.indexOf("msie") != -1)){
-	            confirm('test1');
-	        }else{
-	            $.ajax({
-	                url:"exitStreaming.st",
-	                type:"post",
-	                data:{mid:mid,bhno:bhno},
-	                success:function(data){
-	                    console.log("성공 "+data);
-	                }
-	            });
-	        	return confirm('test2');
-	      	}
-    	}
+                     console.log("성공 "+data);
+                   }
+               });
+              return confirm('test2');
+            }
+       }else{
+          if ((navigator.appName == 'Netscape' && ua.indexOf('trident') != -1) || (ua.indexOf("msie") != -1)){
+               confirm('test1');
+           }else{
+               $.ajax({
+                   url:"exitStreaming.st",
+                   type:"post",
+                   data:{mid:mid,bhno:bhno},
+                   success:function(data){
+                       console.log("성공 "+data);
+                   }
+               });
+              return confirm('test2');
+            }
+       }
 });
 
 //추천 수 리로드(자동)
 // $(function(){
-// 	var roomId = $("#room-id").val();
-// 	setInterval(function(){
-// 		$.ajax({
-// 			url:"currRecom.st",
-// 			type:"post",
-// 			data:{roomId:roomId},
-// 			success:function(data){
-// 				console.log(data);
-// 				$("#currRecom").text(data.result);
-// 			}
-// 		});
-// 	},5000);	//현재 5초 마다로 해둠
+//    var roomId = $("#room-id").val();
+//    setInterval(function(){
+//       $.ajax({
+//          url:"currRecom.st",
+//          type:"post",
+//          data:{roomId:roomId},
+//          success:function(data){
+//             console.log(data);
+//             $("#currRecom").text(data.result);
+//          }
+//       });
+//    },5000);   //현재 5초 마다로 해둠
 // });
 //추천 수 리로드
 function reloadCurrRecom(){
-	var roomId = $("#room-id").val();
-	$.ajax({
-		url:"currRecom.st",
-		type:"post",
-		data:{roomId:roomId},
-		success:function(data){
-			console.log(data);
-			$("#currRecom").text(data.result);
-		}
-	});
+   var roomId = $("#room-id").val();
+   $.ajax({
+      url:"currRecom.st",
+      type:"post",
+      data:{roomId:roomId},
+      success:function(data){
+         console.log(data);
+         $("#currRecom").text(data.result);
+      }
+   });
 }
 
 //추천
 function recomBtn(){
-	var mid = $("#mid").val();
+   var mid = $("#mid").val();
     var streamerAddress = $("#room-id").val();
-	$("#recomBtn").attr('disabled',true);
-	$.ajax({
-		url:'recomStreamer.st',
-		type:'post',
-		data:{mid:mid,streamerAddress:streamerAddress},
-		success:function(data){
-			console.log(data);
-			connection.send('recom##');
-			reloadCurrRecom();
-		}
-	});
+   $("#recomBtn").attr('disabled',true);
+   $.ajax({
+      url:'recomStreamer.st',
+      type:'post',
+      data:{mid:mid,streamerAddress:streamerAddress},
+      success:function(data){
+         console.log(data);
+         connection.send('recom##');
+         reloadCurrRecom();
+      }
+   });
 }
 
 
 
 
-function startTTS(data){
-	console.log('tts startTTS');
-	var info = data.split("&");
-	console.log(info);
-	var audio = new Audio();
-	audio.src = "${contextPath}/resources/uploadFiles/audio/" + info[0];
-	audio.play();
-	
-	//$('#page').append('<audio src="${contextPath}/resources/uploadFiles/audio/' + fileName +'" autoplay/>');
-	//ajax
-/*  	$.ajax({
-		url:"startTTs.me",
-		type:"post",
-		data:{fileName:fileName},
-		success:function(data){
-			console.log('tts 실행중');
-			
-			
-		}
-	})  */
-}
+//채팅
+$(document).ready(function(){
+   //노드랑 바로 연결
+    var socket = io("https://192.168.220.169:3000");
+    
+  //엔터키 입력시
+    $("#msg").keydown(function(key){
+      if(key.keyCode == 13){
+        //msg_send 클릭
+        msg_send.click();
+      }
+    });
+      
+    //msg_send 클릭시
+    $("#msg_send").click(function(){
+     /*  var output ='';
+      output += $("#nickName").val();
+      output += ' : ';
+      output += $("#inputMsg").val();  */
+        
+      //socket.emit("send_msg", output);
+      
+      
+      
+      //소켓에 send_msg 이벤트로 msg 전달
+      socket.emit('send_msg',{
+        name: $('#nickName').val(),
+        message : $("#msg").val(),
+        roomId : $("#room-id").val()
+      
+      });
+
+      
+      //#inputMsg 비움
+      $("#msg").val("");
+    });
+      
+    //소켓 서버로 부터 send_msg를 통해 이벤트를 받을 경우 
+      socket.on('send_msg', function(msg) {
+          //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
+          $('<div></div>').text(msg.name + " : " + msg.message).appendTo("#chat-box");
+      });
+    
+     //DB에 저장되어 있는 내용을 가져올 경우
+    socket.on('preload', function(data){
+      $('<div></div>').text(data.name + " : " + data.message).appendTo("#chat-box");
+      
+    }); 
+
+    
+});
+
 
 
 
@@ -256,16 +286,16 @@ function startTTS(data){
 
 
 // $(document).ready(function(){
-// 	var connectionOptions =  {
+//    var connectionOptions =  {
 //             "force new connection" : true,
 //             "reconnectionAttempts": "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
 //             "timeout" : 10000, //before connect_error and connect_timeout are emitted.
 //             "transports" : ["websocket"]
 //         };
-// 	console.log(connectionOptions);
+//    console.log(connectionOptions);
 
-// 	 var socket = io("192.168.0.61:3002", {secure:true});
-// 	 console.log(socket);
+//     var socket = io("192.168.0.61:3002", {secure:true});
+//     console.log(socket);
 // })
 
 //채팅
@@ -319,21 +349,21 @@ function startTTS(data){
 
 
 // window.onload = function(){
-// 	var xhr = new XMLHttpRequest();
-// 	 xhr.onload = function(){
-// 	  console.log(xhr.response);  
-// 	 }; 
-// 	 xhr.open("GET", "http://192.168.30.30:3002/");
-// 	 xhr.send();
+//    var xhr = new XMLHttpRequest();
+//     xhr.onload = function(){
+//      console.log(xhr.response);  
+//     }; 
+//     xhr.open("GET", "http://192.168.30.30:3002/");
+//     xhr.send();
 
 // window.onload = function(){
-// 	 $("#logModal").modal('hide');
-// 	var xhr = new XMLHttpRequest();
-// 	 xhr.onload = function(){
-// 	  console.log(xhr.response);  
-// 	 }; 
-// 	 xhr.open("GET", "http://192.168.30.30:3002/");
-// 	 xhr.send();
+//     $("#logModal").modal('hide');
+//    var xhr = new XMLHttpRequest();
+//     xhr.onload = function(){
+//      console.log(xhr.response);  
+//     }; 
+//     xhr.open("GET", "http://192.168.30.30:3002/");
+//     xhr.send();
 // }
 
 

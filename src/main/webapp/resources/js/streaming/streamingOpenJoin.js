@@ -94,6 +94,8 @@ function testMsg(){
     connection.send('testMsg()보냄');
 }
 
+
+
 // .................채팅......................
 //엔터키 입력시
 $("#inputMsg").keydown(function(key){
@@ -109,12 +111,14 @@ connection.onmessage  = function(event) {
     var dataArr = event.data.split('##');
     console.log(dataArr);
     //채팅 넘어온 경우
-    if(dataArr[0] == 'chat'){
+   /* if(dataArr[0] == 'chat'){
         //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
         $('<div></div>').text(dataArr[1]+'').appendTo("#chat-box");
         $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
         
-    }else if(dataArr[0] == 'tts') {
+    }else*/
+    	
+    if(dataArr[0] == 'tts') {
     	
         if($("#mid").val() == $("#room-id").val()) {        	
             var info = dataArr[1].split('&');
@@ -136,14 +140,14 @@ connection.onmessage  = function(event) {
 
 //msg_send 클릭시
 $("#msg_send").click(function(){
-var output ='chat##';
+/*var output ='chat##';
 var chatData = '';
 chatData += $("#nickName").val();
 chatData += ' : ';
 chatData += $("#inputMsg").val();
 connection.send(output+chatData);
 $('<div></div>').text(chatData).appendTo("#chat-box");
-$("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
+$("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);*/
 
 //#inputMsg 비움
 $("#inputMsg").val("");
