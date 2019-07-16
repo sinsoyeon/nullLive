@@ -232,4 +232,6 @@
 		WHERE BNO = #{bno}
 	</delete>
 	
+	
+	
 </mapper>
