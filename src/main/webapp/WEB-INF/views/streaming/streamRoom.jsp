@@ -194,7 +194,7 @@
 <script src="${contextPath}/resources/js/streaming/RecordRTC.js"></script>
 <script src="${contextPath}/resources/js/streaming/TTSjs.js"></script>
 <!-- chat script -->
-<script src="https://192.168.220.169:3000/socket.io/socket.io.js"></script>
+<script src="https://192.168.30.30:3000/socket.io/socket.io.js"></script>
 <script>
 //방송 종료 처리
 $(window).on('beforeunload', function() {
@@ -312,7 +312,7 @@ function favoBtn(){
 //채팅
 $(document).ready(function(){
    //노드랑 바로 연결
-    var socket = io("https://192.168.220.169:3000");
+    var socket = io("https://192.168.30.30:3000");
     
   //엔터키 입력시
     $("#msg").keydown(function(key){
@@ -346,10 +346,19 @@ $(document).ready(function(){
       $("#msg").val("");
     });
       
+    
     //소켓 서버로 부터 send_msg를 통해 이벤트를 받을 경우 
       socket.on('send_msg', function(msg) {
-          //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
-          $('<div></div>').text(msg.name + " : " + msg.message).appendTo("#chat-box");
+    	  var roomId = $("#room-id").val();
+    	  var JSroomId = msg.roomId;
+    	  
+    	  console.log("룸: " + roomId + "JS룸: " + JSroomId);
+    	  
+    	  if(roomId == JSroomId){
+ 	         //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
+    	      $('<div></div>').text(msg.name + " : " + msg.message).appendTo("#chat-box");
+    		  
+    	  }
       });
     
      //DB에 저장되어 있는 내용을 가져올 경우
