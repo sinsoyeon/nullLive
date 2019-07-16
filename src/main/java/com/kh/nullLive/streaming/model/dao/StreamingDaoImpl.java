@@ -455,4 +455,16 @@ public class StreamingDaoImpl implements StreamingDao {
 		return sqlSession.insert("Streaming.favoStreamer",hmap);
 	}
 
+	//좋아요
+	@Override
+	public int selectedLike(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.update("Streaming.selectedLike",hmap);
+	}
+
+	//방송 중 신고
+	@Override
+	public int selectedReport(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.insert("Streaming.selectedReport",hmap);
+	}
+
 }

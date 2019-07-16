@@ -4675,8 +4675,8 @@ var RTCMultiConnection = function(roomid, forceOptions) {
             connection.closeBeforeUnload = false;
         }
 
-        //connection.userid 설정 (loginUser의 닉네임&ID로)
-        connection.userid = nickName+'_'+mid;
+        //connection.userid 설정 (loginUser의 ID로)
+        connection.userid = mid;
         connection.changeUserId = function(newUserId, callback) {
             callback = callback || function() {};
             connection.userid = newUserId || getRandomString();
@@ -4927,7 +4927,6 @@ var RTCMultiConnection = function(roomid, forceOptions) {
         connection.onclose = function(event) {
             if (!!connection.enableLogs) {
                 console.warn('Data connection has been closed between you & ', event.userid);
-                endingComment();
                 updateMembers();
             }
         };

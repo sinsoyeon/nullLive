@@ -39,11 +39,11 @@
   </nav>
   <footer>
     <div class="card border-secondary mb-3" id="footerArea">
-      <img src="" alt="IMG LOST" id="streamerProImg"/>
+      <img src="${contextPath}/resources/uploadFiles/profile_image/${broadInfo['FILENAME']}" alt="IMG LOST" id="streamerProImg"/>
       <div class="card-header">
       	<h4 id="footerTitle"><c:out value="${title}"/></h4>
         <c:out value="${broadInfo['NICKNAME']}"></c:out><br />
-        	누적 추천 수 : <c:out value="${broadInfo['SELECTS']}"></c:out><br />
+        	누적 추천 수 : <label id="cumulativeSelects"><c:out value="${broadInfo['SELECTS']}"></c:out></label><br />
         	좋아요 수 : <c:out value="${broadInfo['LIKES']}"></c:out>
         </div>
     </div>
@@ -61,7 +61,17 @@
 		<p>   현재 접속자</p>	
 		<div id="membersList"></div>
 	</div>
-	
+	<div id="userMenu">
+		<p id="selectedId"></p><div id="userMenuCloseBtn" onclick="userMenuCloseBtn();">X</div>
+		<br>
+		<ul>
+			<li><button class="btn btn-info" onclick="selectedLikeBtn();">좋아요</button></li>
+			<li><button class="btn btn-info" onclick="reportBtn();">신고하기</button></li>
+			<c:if test="${mid == roomId}">
+				<li><button class="btn btn-danger" onclick="kickUser();">강퇴하기</button></li>
+			</c:if>
+		</ul>
+	</div>
   </footer>
   <input type="hidden" id="broadMethod" value="${broadMethod}" />
   <input type="hidden" id="mid" value="${loginUser.mid}"/>
@@ -134,7 +144,45 @@
 		</div>
 	</div>
 </div>
-  
+
+<!-- 신고 모달 -->
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">신고하기</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<div class="form-group">
+				<label for="rTitle"> 제목 </label> <input
+					type="text" class="form-control" id="rTitle" name="bTitle" style=" width: 80%; "/>
+			</div>
+			<div class="form-group">
+				<label for="rType">신고유형 </label>
+				<select class="form-control" id="rType" name="reportType" style=" width: 40%; ">
+					<option value="기타">-------- 신고유형선택 --------</option>
+					<option value="저작권 침해">저작권 침해</option>
+					<option value="청소년 유해">청소년 유해</option>
+					<option value="불법/음란">불법/음란</option>
+					<option value="명예훼손">명예훼손</option>
+					<option value="기타">기타</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="rContent"> 내용 </label> 
+				<textarea rows="6" cols="30" class="form-control" id="rContent" name="bContent" style=" width: 80%; resize: none; " placeholder="신고내용을 상세히 적어 주시면 감사하겠습니다."></textarea>
+			</div>
+			<p class="btn btn-danger" id="modalReportBtn" onclick="selectedReport();">신고하기</p>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		</div>
+		</div>
+	</div>
+</div>
 
 
 <!-- rtc script -->
@@ -149,41 +197,44 @@
 <script>
 //방송 종료 처리
 $(window).on('beforeunload', function() {
-        var mid = $("#mid").val();
-        var roomId = $("#room-id").val();
-        var bhno = $("#bhno").val();
-        var ua  = navigator.userAgent.toLowerCase();
-        if(mid == roomId){
-	        if ((navigator.appName == 'Netscape' && ua.indexOf('trident') != -1) || (ua.indexOf("msie") != -1)){
-	            confirm('test1');
-	        }else{
-	            $.ajax({
-	                url:"endStreaming.st",
-	                type:"post",
-	                data:{mid:mid},
-	                success:function(data){
-                    endRecordAndService();
-	                  console.log("성공 "+data);
-	                }
-	            });
-	        	return confirm('test2');
-	      	}
-    	}else{
-    		if ((navigator.appName == 'Netscape' && ua.indexOf('trident') != -1) || (ua.indexOf("msie") != -1)){
-	            confirm('test1');
-	        }else{
-	            $.ajax({
-	                url:"exitStreaming.st",
-	                type:"post",
-	                data:{mid:mid,bhno:bhno},
-	                success:function(data){
-	                    console.log("성공 "+data);
-	                }
-	            });
-	        	return confirm('test2');
-	      	}
-    	}
+	beforeLeaveStreamRoom();
 });
+function beforeLeaveStreamRoom(){
+	var mid = $("#mid").val();
+	var roomId = $("#room-id").val();
+	var bhno = $("#bhno").val();
+	var ua  = navigator.userAgent.toLowerCase();
+	if(mid == roomId){
+		if ((navigator.appName == 'Netscape' && ua.indexOf('trident') != -1) || (ua.indexOf("msie") != -1)){
+			confirm('test1');
+		}else{
+			$.ajax({
+				url:"endStreaming.st",
+				type:"post",
+				data:{mid:mid},
+				success:function(data){
+				endRecordAndService();
+					console.log("성공 "+data);
+				}
+			});
+			return confirm('강퇴되셨습니다.');
+		}
+	}else{
+		if ((navigator.appName == 'Netscape' && ua.indexOf('trident') != -1) || (ua.indexOf("msie") != -1)){
+			confirm('test1');
+		}else{
+			$.ajax({
+				url:"exitStreaming.st",
+				type:"post",
+				data:{mid:mid,bhno:bhno},
+				success:function(data){
+					console.log("성공 "+data);
+				}
+			});
+			return confirm('강퇴되셨습니다.');
+		}
+	}
+}
 
 //추천 수 리로드(자동)
 // $(function(){

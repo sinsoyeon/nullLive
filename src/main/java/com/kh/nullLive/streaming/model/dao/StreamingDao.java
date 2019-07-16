@@ -197,4 +197,18 @@ public interface StreamingDao {
 	 */
 	int favoStreamer(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
 
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 16.
+	 * Comment : 좋아요
+	 */
+	int selectedLike(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 16.
+	 * Comment : 방송 중 신고
+	 */
+	int selectedReport(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
 }
