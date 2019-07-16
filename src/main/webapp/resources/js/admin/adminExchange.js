@@ -1,6 +1,9 @@
+var excno;
+function excnoThrow(excnoNum) {
+	excno = excnoNum;
+};
 $("#single #exchangeBtn").click(function(){
-	var excno = $("#excno").val();
-	alert(excno);
+	
 	$.ajax({
 		url:"exchange.ad",
 		type:"post",
@@ -8,7 +11,7 @@ $("#single #exchangeBtn").click(function(){
 		success:function(data){
 			
 			if(data == 'success'){
-				alert('모든 내역을 환전 처리하였습니다.');
+				alert('선택 내역을 환전 처리하였습니다.');
 			}
 			
 			$("#single").modal("hide");

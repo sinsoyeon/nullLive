@@ -225,24 +225,6 @@ height: auto; */
 	      <input type='hidden' name='listCnt' id='selected' value='${pi.listCnt}'>    
 	</form>
 
-
-
-	<div style='display: inline-block;'>
-		<p>남은 정지 : "+endDay+"일</p>
-	</div>
-	<div style='display: inline-block;'>
-		<select id='choiceStatus' class='form-control'>
-			<option value='Y'>활동중</option>
-			<option value='B3' selected>30일 정지</option>
-		</select>
-	</div>
-	<div style='display: inline-block;'>
-		<button onclick='userStatusUpdate()' class='btn btn-success btn-md'>적용</button>
-	</div>
-
-
-
-
 	<br>
 </body>
 <script>
@@ -301,11 +283,11 @@ var ban
 		            	if(mStatus == 'Y'){
 		            		$('#userDetailContent').append("<div style='display: inline-block;'> <select id='choiceStatus' class='form-control'> <option value='Y' selected>활동중</option> <option value='B3'>30일 정지</option> <option value='B6'>60일 정지</option> <option value='B9'>90일 정지</option> <option value='N'>영구정지</option> </select> </div> <div style='display: inline-block;'> <button onclick='userStatusUpdate()'class='btn btn-md'>적용</button> </div>");
 		            	}else if(banDay == 30){
-							$('#userDetailContent').append("<div style='display: inline-block;'> <p>남은 정지 : "+endDay+"일</p> </div> <div style='display: inline-block;'> <select id='choiceStatus' class='form-control'> <option value='Y'>활동중</option> <option value='B3' selected>30일 정지</option> </select> </div> <div style='display: inline-block;'> <button onclick='userStatusUpdate()' class='btn btn-success btn-md'>적용</button> </div>");
+							$('#userDetailContent').append("<div style='display: inline-block;'> <p>남은 정지 : "+endDay+"일</p> </div> <div style='display: inline-block;'> <select id='choiceStatus' class='form-control'> <option value='Y'>활동중</option> <option value='B3' selected>30일 정지</option> </select> </div> <div style='display: inline-block;'> <button onclick='userStatusUpdate()' class='btn btn-md'>적용</button> </div>");
             		    }else if(banDay == 60){
-            		      	$('#userDetailContent').append("<div style='display: inline-block;'> <p>남은 정지 : "+endDay+"일</p> </div> <div style='display: inline-block;'> <select id='choiceStatus' class='form-control'> <option value='Y'>활동중</option> <option value='B6' selected>60일 정지</option> </select> </div> <div style='display: inline-block;'> <button onclick='userStatusUpdate()' class='btn btn-success btn-md'>적용</button> </div>");
+            		      	$('#userDetailContent').append("<div style='display: inline-block;'> <p>남은 정지 : "+endDay+"일</p> </div> <div style='display: inline-block;'> <select id='choiceStatus' class='form-control'> <option value='Y'>활동중</option> <option value='B6' selected>60일 정지</option> </select> </div> <div style='display: inline-block;'> <button onclick='userStatusUpdate()' class='btn btn-md'>적용</button> </div>");
             		    }else if(banDay == 90){
-            		       	$('#userDetailContent').append("<div style='display: inline-block;'> <p>남은 정지 : "+endDay+"일</p> </div> <div style='display: inline-block;'> <select id='choiceStatus' class='form-control'> <option value='Y'>활동중</option> <option value='B9' selected>90일 정지</option> </select> </div> <div style='display: inline-block;'> <button onclick='userStatusUpdate()' class='btn btn-success btn-md'>적용</button> </div>");
+            		       	$('#userDetailContent').append("<div style='display: inline-block;'> <p>남은 정지 : "+endDay+"일</p> </div> <div style='display: inline-block;'> <select id='choiceStatus' class='form-control'> <option value='Y'>활동중</option> <option value='B9' selected>90일 정지</option> </select> </div> <div style='display: inline-block;'> <button onclick='userStatusUpdate()' class='btn btn-md'>적용</button> </div>");
             		    }else if(mStatus == 'N'){
             		    	$('#userDetailContent').append("<div> <p>영구 정지</p> </div> <div style='display: inline-block;'> <select id='choiceStatus' class='form-control'> <option value='Y'>활동중</option> <option value='N' selected>영구정지</option> </select> </div> <div style='display: inline-block;'> <button onclick='userStatusUpdate()' class='btn btn-md'>적용</button> </div>");
             		    }
