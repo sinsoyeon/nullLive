@@ -108,9 +108,10 @@ public class MemberServiceImpl implements MemberService {
 		}
 		if(bankAccount.getBankAccount() != null) {
 			bankAccount.setMno(m.getMno());
-			result += md.updateBankAccount(sqlSession,bankAccount);
+			result += md.disableBankAccount(sqlSession,bankAccount);
+			result += md.insertNewBankAccount(sqlSession,bankAccount);
 			
-			if(result <= 1 ) {
+			if(result <= 2 ) {
 				throw new UpdateMemberException("수정실패");
 			}
 		}

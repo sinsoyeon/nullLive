@@ -97,7 +97,7 @@ body::-webkit-scrollbar {
 						<li><a href=""><i class="fas fa-file-video fa-lg"></i><span>방송기록관리</span></a></li>
 						<li><a href="prohibitiveWordManage.st"><i class="fas fa-comment-slash fa-lg"></i><span>금칙어설정</span></a></li>
 						<li id="chartList"><a href="chartView.sm"><i class="fas fa-chart-line fa-lg"></i><span>통계페이지</span></a></li>
-						<li><a href="boardsSetting.st"><i class="fas fa-edit fa-lg"></i><span>게시판관리</span></a></li>
+						<!-- <li><a href="boardsSetting.st"><i class="fas fa-edit fa-lg"></i><span>게시판관리</span></a></li> -->
 						<li><a href="noticeBoard.st"><i class="fas fa-bullhorn fa-lg"></i><span>방송공지게시판</span></a></li>
 						<li><a onclick="location.href='communicationBoard.st?smno=${broadCenter.mno}'"><i class="fas fa-mouse-pointer fa-lg"></i><span>시청자소통게시판</span></a></li>
 						<li><a onclick="location.href='reportBlackListBoard.st?smno=${broadCenter.mno}'"><i class="fas fa-thumbs-down fa-lg"></i><span>블랙리스트제보</span></a></li>

@@ -61,7 +61,7 @@
 								<option value="26">신한은행</option>
 							</select>
 								계좌번호 : <input type="text" name="bankAccount" class="form-control" id="bankAccount"
-									placeholder="${bankAccount.account}" />
+									placeholder="${bankAccount.bankAccount}" />
 							</div>
 							<div>
 								은행주 : <input type="text" name="holder" class="form-control" id="holder"

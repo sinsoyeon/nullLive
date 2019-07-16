@@ -67,11 +67,11 @@ body::-webkit-scrollbar {
 						
 						<li><a href="start.st"><i class="fas fa-video fa-lg"></i> <span>방송하기</span></a></li>
 						
-						<li><a href=""> <i class="fas fa-envelope fa-lg"></i><span>쪽지</span></a></li>
+						<!-- <li><a href=""> <i class="fas fa-envelope fa-lg"></i><span>쪽지</span></a></li>
 						
 						<li><a href=""><i class="fas fa-cut"></i><span>클립영상</span></a></li>
 			
-						<li><a href=""> <i class="fas fa-desktop fa-lg"></i><span>다시보기</span></a></li>
+						<li><a href=""> <i class="fas fa-desktop fa-lg"></i><span>다시보기</span></a></li> -->
 			
 						<li><a href="updatePage.me"><i class="fas fa-id-badge"></i><span>개인정보수정</span></a></li>
 						

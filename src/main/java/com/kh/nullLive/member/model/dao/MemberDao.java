@@ -53,7 +53,7 @@ public interface MemberDao {
 	 * Date : 2019. 7. 3.
 	 * Comment : 계좌 정보 수정
 	 */
-	int updateBankAccount(SqlSessionTemplate sqlSession, BankAccount bankAccount);
+	int insertNewBankAccount(SqlSessionTemplate sqlSession, BankAccount bankAccount);
 	/**
 	 * Author : ryan
 	 * Date : 2019. 6. 21.
@@ -151,6 +151,14 @@ public interface MemberDao {
 	 */
 	BankAccount getBankAccount(SqlSessionTemplate sqlSession, int mno);
 
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 16.
+	 * Comment : 계좌 비활성화
+	 */
+	int disableBankAccount(SqlSessionTemplate sqlSession, BankAccount bankAccount);
+	
 	/**
 	 * Author : ryan
 	 * Date : 2019. 7. 3.
@@ -237,6 +245,7 @@ public interface MemberDao {
 	int updateAlarm(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
 
 	int selectCount(SqlSessionTemplate sqlSession, int mno);
+
 
 
 

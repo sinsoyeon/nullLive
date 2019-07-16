@@ -40,6 +40,8 @@
 		<!-- 파트너 -->
 		<typeAlias alias="Partner" type="com.kh.nullLive.partner.model.vo.Partner"/>
 
+		<!-- 계좌정보 -->
+		<typeAlias alias="BankAccount" type="com.kh.nullLive.member.model.vo.BankAccount"/>
 	</typeAliases>
 	
 	<mappers>

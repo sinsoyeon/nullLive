@@ -644,7 +644,7 @@
 	</select>
 	
 	<insert id="insertBankCert" parameterType="java.util.HashMap">
-		insert into bank_account values (seq_accno.nextval,#{bank_code},#{account},#{holder},'Y',#{mno})
+		insert into bank_account values (seq_accno.nextval,#{bankCode},#{bankAccount},#{holder},DEFAULT,#{mno})
 	</insert>
 	
 	<select id="getSubCount" resultType="_int">

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.ModelAndView;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -444,12 +445,13 @@ public class MemberController {
 		mv.addObject("result", true);
 
 		// 메세지 전송 부분(유료)
-		/*
-		 * try { JSONObject obj = (JSONObject) coolsms.send(hmap); //보내기 & 전송 결과
-		 * System.out.println("obj : "+obj.toString()); } catch (CoolsmsException e) {
-		 * System.out.println(e.getMessage()); System.out.println(e.getCode()); }
-		 */
-
+		try {
+			JSONObject obj = (JSONObject) coolsms.send(hmap); //보내기 & 전송 결과
+			System.out.println("obj : "+obj.toString()); 
+		} catch (CoolsmsException e) {
+			System.out.println(e.getMessage());
+			System.out.println(e.getCode());
+		}
 		return mv;
 	}
 
@@ -475,11 +477,13 @@ public class MemberController {
 		System.out.println("hmap : " + hmap);
 
 		// 메세지 전송 부분(유료)
-		/*
-		 * try { JSONObject obj = (JSONObject) coolsms.send(hmap); //보내기 & 전송 결과
-		 * System.out.println("obj : "+obj.toString()); } catch (CoolsmsException e) {
-		 * System.out.println(e.getMessage()); System.out.println(e.getCode()); }
-		 */
+		try {
+			JSONObject obj = (JSONObject) coolsms.send(hmap); //보내기 & 전송 결과
+			System.out.println("obj : "+obj.toString()); 
+		} catch (CoolsmsException e) {
+			System.out.println(e.getMessage());
+			System.out.println(e.getCode());
+		}
 
 		return "success";
 	}
