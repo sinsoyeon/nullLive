@@ -149,20 +149,26 @@
 			ORDER BY RNUM DESC
 	</select>
 	
-	<!-- 스트리머 검색(정연) -->
+	<!-- 스트리머 검색(정연,언) -->
 	<select id="searchStreamer" resultType="java.util.HashMap">
-		SELECT S.MNO, M.MID, M.NICK_NAME, M.RECEIVED_LIKES
-		FROM STREAMER S, MEMBER M
-		WHERE S.MNO = M.MNO
-		AND M.M_STATUS = 'Y'
+		SELECT S.MNO, M.MID, M.NICK_NAME, M.RECEIVED_LIKES, A.CHANGE_NAME
+		FROM STREAMER S
+		JOIN MEMBER M ON(S.MNO = M.MNO)
+		JOIN ATT_MANAGE AM ON(S.MNO = AM.MNO)
+		JOIN ATTACHMENT A ON(AM.ATTNO = A.ATTNO)
+		WHERE M.M_STATUS = 'Y'
+		ORDER BY M.RECEIVED_LIKES DESC
 	</select>
 	
 	<select id="searchStreamerName" parameterType="java.lang.String" resultType="java.util.HashMap">
-	SELECT S.MNO, M.MID, M.NICK_NAME, M.RECEIVED_LIKES
-	FROM STREAMER S, MEMBER M
-	WHERE S.MNO = M.MNO
-	AND M.NICK_NAME LIKE '%'||#{name}||'%'
+	SELECT S.MNO, M.MID, M.NICK_NAME, M.RECEIVED_LIKES, A.CHANGE_NAME
+	FROM STREAMER S
+	JOIN MEMBER M ON(S.MNO = M.MNO)
+	JOIN ATT_MANAGE AM ON(S.MNO = AM.MNO)
+	JOIN ATTACHMENT A ON(AM.ATTNO = A.ATTNO)
+	WHERE M.NICK_NAME LIKE '%'||#{name}||'%'
 	AND M.M_STATUS = 'Y'
+	ORDER BY M.RECEIVED_LIKES DESC
 	</select>
 	
 	<!-- broadCenter -->
