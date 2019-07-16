@@ -600,8 +600,22 @@
 		INSERT INTO MANAGER_AUTH VALUES(#{partnerCurrval},'공지','강퇴, 얼리기')
 	</insert>
 	
+	<!-- conBoard 업데이트  -->
+	<update id="updateConBoard" parameterType="java.util.HashMap">
+		UPDATE BOARD
+		SET BTITLE = #{board.bTitle},
+			BCONTENT = #{board.bContent},
+			MODIFY_DATE = SYSDATE
+		WHERE BNO = #{board.bno}
+	</update>
 	
-	
+	<!-- jBoard 업데이트 -->
+	<update id="updateJobConBoard" parameterType="java.util.HashMap">
+		UPDATE JOB_BOARD
+		SET CONT_CONTENT = #{jBoard.contContent},
+			PERPRICE = #{jBoard.perprice}
+		WHERE JBNO = #{jBoard.jbno}
+	</update>
 	
 	
 	

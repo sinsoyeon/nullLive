@@ -78,8 +78,8 @@
 					<br><br><br>
 					<!-- 마감일 -->
 					<div>
-						<h3>마감일</h3>
-						<input class="form-control" id="deadLine" type="date" name="deadLine"> 
+						<h3>마감일</h3> 
+						<input class="form-control" id="deadLine" type="date" name="deadLine" id="deadLine"> 
 					</div>
 					<br>
 				</div>
@@ -107,6 +107,10 @@
 </body>
 <script type="text/javascript">
 	    $(function(){
+	    	var now = new Date().toISOString().substring(0, 10);
+	    	$("#deadLine").val(now);
+	    	 
+	    	
 	        $("#save").click(function(){ 
 				var bTitle = $("#bTitle").val();        	
 				if(bTitle==""){

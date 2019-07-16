@@ -85,5 +85,9 @@ public interface JobBoardService {
 
 	ArrayList<HashMap<String, Object>> selectListEditorPartner(HashMap<String, Object> hmap);
 
+	HashMap<String,Object> showUpdateJobConBoard(int bno);
+
+	void updateJobConBoard(HashMap<String, Object> hmap) throws JobBoardInsertException;
+
 
 }
