@@ -213,7 +213,7 @@
 			$("#listArea td").each(function(){
 				var staDetail = $(this).text().trim();
 				//모집완료 , 등록만료글 이벤트 제거
-				if( staDetail == "모집완료" || staDetail == "등록만료"){
+				if( staDetail == "모집완료" || staDetail == "등록마감"){
 					$(this).parent().css({"background":"darkgray"});
 					$(this).parent().css({"color":"white"});
 					$(this).parent().find("td").each(function (){
