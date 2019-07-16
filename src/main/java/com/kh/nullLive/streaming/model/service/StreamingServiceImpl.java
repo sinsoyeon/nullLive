@@ -46,6 +46,15 @@ public class StreamingServiceImpl implements StreamingService {
 		return sd.getStreamerAddress(sqlSession,mno);
 	}
 
+	//방송 중인지
+	@Override
+	public void isBroading(String streamerAddress) throws EnterStreamingException {
+		int result = sd.isOnAir(sqlSession,streamerAddress); 
+		if(result <= 0) {
+			throw new EnterStreamingException("방송 중이 아닙니다.");
+		}
+	}
+	
 	//스트리밍 시청 시작
 	@Override
 	public HashMap<String, Object> enterStream(Member loginUser, String streamerAddress) throws EnterStreamingException {
@@ -283,5 +292,19 @@ public class StreamingServiceImpl implements StreamingService {
 		result = sd.favoStreamer(sqlSession,hmap);
 	}
 
+	//좋아요
+	@Override
+	public void selectedLike(HashMap<String, Object> hmap) throws UpdateMemberException {
+		int result = sd.selectedLike(sqlSession,hmap);
+		if(result == 0) {
+			throw new UpdateMemberException("좋아요 실패!");
+		}
+	}
+
+	//방송 중 신고
+	@Override
+	public void selectedReport(HashMap<String, Object> hmap) {
+		int result = sd.selectedReport(sqlSession,hmap);
+	}
 
 }

@@ -76,10 +76,11 @@ body{
     border-radius:20px;
 }
 #streamerProImg{
-    float:left;
-    width:100px;
-    height:100px;
-    margin:10px auto;
+    float: left;
+    width: 90px;
+    height: 90px;
+    margin: 10px auto;
+    margin-right: 15px;
 }
 #footerComuArea{
     margin:10px;
@@ -134,4 +135,52 @@ body::-webkit-scrollbar {
 }
 #membersList{
     color:black;
+}
+#userMenu{
+    position: fixed;
+    left: 700px;
+    top: 530px;
+    background-color: black;
+    width: 200px;
+    height: 130px;
+    border-radius:20px;
+
+}
+#userMenu #selectedId{
+    position: relative;
+    float: left;
+    color: white;
+    margin: 15px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+#userMenu #userMenuCloseBtn{
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    border-radius:5px;
+}
+#userMenu button {
+    position: absolute;
+    width: 65px;
+    height: 25px;
+    font-size: 0.5em;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+#userMenu ul{
+    padding: 5px 0px 5px 5px;
+    margin-top: 0;
+    margin-bottom: 5px;
+    margin-left: 28px;
+}
+#userMenu li{
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+#reportModal{
+    top:150px;
 }

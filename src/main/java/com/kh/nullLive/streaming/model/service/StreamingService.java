@@ -37,6 +37,14 @@ public interface StreamingService {
 
 	/**
 	 * Author : ryan
+	 * Date : 2019. 7. 16.
+	 * Comment : 방송중인지
+	 * @throws EnterStreamingException 
+	 */
+	void isBroading(String streamerAddress) throws EnterStreamingException;
+	
+	/**
+	 * Author : ryan
 	 * Date : 2019. 7. 7.
 	 * Comment : 스트리밍 시청 시작
 	 * @throws EnterStreamingException 
@@ -165,5 +173,20 @@ public interface StreamingService {
 	 * @Comment : 스트리머 즐겨찾기
 	 */
 	void favoStreamer(HashMap<String, Object> hmap) throws UpdateMemberException;
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 16.
+	 * Comment : 좋아요
+	 * @throws UpdateMemberException 
+	 */
+	void selectedLike(HashMap<String, Object> hmap) throws UpdateMemberException;
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 16.
+	 * Comment : 방송 중 신고
+	 */
+	void selectedReport(HashMap<String, Object> hmap);
 
 }
