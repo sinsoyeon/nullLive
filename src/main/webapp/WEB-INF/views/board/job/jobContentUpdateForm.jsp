@@ -62,19 +62,21 @@
 
 </head>
 <body>
+	<c:set var="board" value="${ boardMap.board }"/>
+	<c:set var="jBoard" value="${ boardMap.jBoard }"/>
 	<!-- 로그인 유저 처리 -->
 	<c:if test="${ empty loginUser }">
 		<jsp:forward page="../../member/needLogin.jsp"/>
 	</c:if>
 	
 	<jsp:include page="jobMenubar.jsp"/>
-	<h1 align="center">콘텐츠제작자 구인구직게시판</h1>
+	<h1 align="center">콘텐츠제작자 게시글 수정</h1>
 	<hr>
 	
 	<!-- 작성 영역 -->
 	<div class="outer">
 		<div class="">
-			<form action=insertJobBoard.jbo method="post" id="insertBoardFrm" enctype="multipart/form-data">
+			<form action=updateJobConBoard.jbo method="post" id="insertBoardFrm" enctype="multipart/form-data">
 				<!-- 제목영역 -->
 				<div>
 					<!-- 구인구직 유형 -->
@@ -82,9 +84,8 @@
 						<tr>
 							<td class="tdHeader">구인/구직</td>
 							<td>
-								<select class="form-control" name="jBtype" id="jBtype">
-									<option value="구인">구인</option>
-									<option value="구직">구직</option>
+								<select class="form-control" name="jBtype" id="jBtype" disabled="disabled">
+									<option value=""><c:out value="${ jBoard.JBtype }"></c:out></option>
 								</select>
 							</td>
 							
@@ -92,33 +93,32 @@
 						<tr>
 							<td class="tdHeader">카테고리</td>
 							<td colspan="1">
-								<select class="form-control" name="job">
-									<option value="편집자">편집자</option>
-									<option value="기타">기타</option>
+								<select class="form-control" name="job"  disabled="disabled">
+									<option value="${ jBoard.job }"><c:out value="${ jBoard.job }"></c:out>  </option>
 								</select>
 							</td>
 						</tr>
 						<tr>
 							<td class="tdHeader"><h3>제목 </h3></td>
-							<td style="vertical-align: middle;"><input class="form-control col-lg-12 col-md-12 col-sm-8" type="text" name="bTitle" placeholder="제목을 입력하세요"></td>
+							<td style="vertical-align: middle;"><input class="form-control col-lg-12 col-md-12 col-sm-8" type="text" name="bTitle" value="<c:out value="${ board.BTitle }"></c:out>"  placeholder="제목을 입력하세요"></td>
 							
 						</tr>
 						<tr>
 							<td  class="tdHeader">마감일</td>
 							<td>
-								<input class="form-control" type="date" name="deadLine" id="deadLine"> 
+								<input class="form-control" type="date" value='<c:out value="${ jBoard.deadLine }"/>' name="deadLine" id="deadLine" readonly="readonly"> 
 							</td>
 						</tr>
 						<tr>
 							<td class="tdHeader">건당 포인트</td>
 							<td colspan="1">
-								<input class="form-control" type="number" name="perprice" min="100" max="1000000" placeholder="1000point">
+								<input class="form-control" type="number" name="perprice" min="100" max="1000000" value="<c:out value="${ jBoard.perprice }"/>" placeholder="1000point">
 							</td>
 						</tr>
 						<tr>
 							<td class="tdHeader"><h3>계약내용</h3></td>
 							<td>
-								<textarea class="form-control" wrap="hard" id="contContent" name="contContent" rows="5" required placeholder="ex)10분 영상 편집 기준 건당 0000포인트"></textarea>
+								<textarea class="form-control" wrap="hard" id="contContent" name="contContent" rows="5" required placeholder="ex)10분 영상 편집 기준 건당 0000포인트"><c:out value="${ jBoard.contContent }"/></textarea>
 								<p>* 계약 내용은 상세히 작성해 주시기 바랍니다.</p>
 							</td>
 						</tr>
@@ -129,24 +129,28 @@
 						<input type="hidden" id="mno" name="bWriter" value="${ loginUser.mno }">
 						<!-- 구인구직타입 -->
 						<input type="hidden" name="bType" value="JOBCON">
+						<input type="hidden" name="jbno" value="${ jBoard.jbno }">
+						<input type="hidden" name="bno" value="${ board.bno }">
 					<br>
 				</div>
 				
 				<!-- 내용영역 -->
 				<div class="contentArea">
 					<h3>내용</h3>
-					<textarea name="bContent" id="editor" wrap="hard" required placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 400px;"></textarea>
+					<textarea name="bContent" id="editor" wrap="hard" required placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 400px;">
+						<c:out value="${ board.BContent }"/>
+					</textarea>
 				</div>
 				<br>
 				<!-- 첨부파일 영역 -->
 				<div>
-					<h3>첨부파일</h3>
 					<jsp:include page="attachmentForm.jsp"/>
+					
 				</div>
 				<br>
 				<!-- 하단 버튼영역 -->
 				<div align="center">
-					<input type="button" id="save" value="등록하기" class="btn">
+					<input type="button" id="save" value="수정하기" class="btn">
 					<button class="btn" onclick="location='jobContentList.jbo'">돌아가기</button>
 				</div>
 			</form>
@@ -157,11 +161,33 @@
 </body>
 <script type="text/javascript">
 	    $(function(){
+	    	if(${ boardMap.attList != null }){
+	    		$("#fileDiv").children().last().remove();
+				$("#fileDiv").children().last().remove();
+				$("#fileDiv").children().last().remove();
+				$("#fileDiv").children().last().remove();
+	    	}
+	    	$("#addFile").remove();
+	    	$("#delFile").remove();
+	    	<c:forEach var="att" items="${ boardMap.attList }"  >
+	    		var attName = '${ att.originName }';
+	    		
+				gfv_count1++;
+				gfv_count2++;
+				var input = "<input class='form-control fileForm' disabled='disabled' type='file' id=file_"+(gfv_count1)+" name=file_"+(gfv_count1)+" style='display : none'  ' onchange='fn_sizeChk(this),fn_getName(this)'>";
+				var label = '<label for=file_'+ (gfv_count2) +'><i class="fas fa-file-medical fa-3x"></i></label>';
+				var span = 	'<span id="fileName">'+ attName +' </span><br>';
+				$("#fileDiv").append(input); 
+				$("#fileDiv").append(label); 
+				$("#fileDiv").append(span); 
+				console.log("gfv_count1 : " + gfv_count1);
+				console.log("gfv_count2 : " + gfv_count2);
+				
+			</c:forEach>
+			
+	    	
 	    	
 	    	console.log($("#deadLine"));
-	    	
-	    	var now = new Date().toISOString().substring(0, 10);
-	    	$("#deadLine").val(now);
 	    	
 	        $("#save").click(function(){ 
 				var bTitle = $("#bTitle").val();

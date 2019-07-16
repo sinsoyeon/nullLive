@@ -18,7 +18,7 @@
 		<label for="file"><i class="fas fa-file-medical fa-3x"></i></label>
 		<span class="fileName"></span><br>
 	</div>
-	<a href=fn_deleteFile() class='btn' name='delete'>삭제</a>
+	<a href=fn_deleteFile() class='btn' name='delete' id="delFile">삭제</a>
 	<a href="#this" class="btn" id="addFile">파일 추가</a>
 	<script>
 	var gfv_count1 = 1;
@@ -69,7 +69,7 @@
 
 	}
 	function fn_sizeChk(obj){
-
+		console.log($(obj));
 		var maxSize = 20971520;
 		var size =obj.files[0].size;
 		

@@ -252,8 +252,10 @@
 	
 	//권한 모달 보여주기
 	function showMngAuthModal(mngMno){
+		$("#modal-body").find("#mngMno").remove();
 		$("#modal-body").append('<input type="hidden" value='+ mngMno +' id="mngMno">')
 		
+		console.log($("#mngMno").val());
 		
 		 $.ajax({
 			url:"mngAuthDetail.pt",
@@ -265,8 +267,24 @@
 				var boardAuthList = data.boardAuthList;
 				var chatAuthList = data.chatAuthList;
 				
+				console.log(boardAuthList);
+				
+				$("input[name='boardAuth']").each(function(){
+					$(this).prop("checked",false);
+				});
+				
+				$.each(boardAuthList , function(i){
+					console.log($(this).parent());
+					$(this).prop("checked",false);
+				});
+				$.each(chatAuthList , function(i){
+					$(this).prop("checked",false);
+				});
+				
+				
+				
 				//게시판 권한 체크
-				$.each(boardAuthList, function(i){
+			   $.each(boardAuthList, function(i){
 					$("input[name='boardAuth']").each(function(){
 						if($(this).val() == boardAuthList[i]){
 							$(this).prop("checked","true");
