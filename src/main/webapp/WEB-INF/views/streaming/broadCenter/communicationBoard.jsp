@@ -13,16 +13,19 @@
 	href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
 <body>
+	<header style="height: 50px;">
+		<jsp:include page="../../common/menubar.jsp" />
+	</header>
 	<div class="container-fluid">
 		<div class="row">
 
 			<!-- sidebar -->
-			<div class="col-sm-3">
+			<div class="col-sm-2">
 				<jsp:include page="../broadCenter/streamerMenu.jsp" />
 			</div>
 
 			<!-- main content -->
-			<div class="col-sm-9" style="padding-top: 80px;">
+			<div class="col-sm-10" style="padding-left: 55px; padding-top: 28px;">
 				<h3 id="ss">시청자 소통 게시판</h3>
 				<hr>
 				<c:if test="${firstCheck < 1}">
