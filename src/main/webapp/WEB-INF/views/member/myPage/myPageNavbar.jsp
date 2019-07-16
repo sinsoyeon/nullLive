@@ -18,7 +18,7 @@ body::-webkit-scrollbar {
 	top: 0;
 	left: 0;
 	bottom: 0;
-	background: #f5f5f5;
+	background: #e2f0d869;/*#f5f5f5;*/
 	font-family: 'Montserrat', sans-serif;
 	font-weight: lighter;
 }
@@ -30,7 +30,7 @@ body::-webkit-scrollbar {
 
 .sidebar ul li {
 	position: relative;
-	height: 60px;
+	height: 75px;
 }
 
 .sidebar ul li:hover {
@@ -61,7 +61,7 @@ body::-webkit-scrollbar {
 
  <body id="myPageNavbar">
 	<!-- 사이드바 -->
-	<nav class="sidebar" style="margin-top: 40px; width: 210px;">
+	<nav class="sidebar" style="margin-top: 50px; width: 210px;">
 					<ul style="margin-top: 15px;">
 						<li><a href="myPage.me"><i class="fas fa-home fa-lg"></i> <span>마이페이지 홈</span></a></li>
 						

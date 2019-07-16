@@ -11,7 +11,7 @@
 <style>
 #contentArea {
 	padding-left: 100px;
-	padding-top: 100px;
+	padding-top: 25px;
 }
 </style>
 </head>

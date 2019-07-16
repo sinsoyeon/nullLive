@@ -14,7 +14,8 @@
 		padding-top : 50px;
 		padding-bottom : 50px;
 		padding-left : 50px;
-		background-color: #e2f0d8;
+		background: #e2f0d869;
+		border-radius: 15px;
 	}
 </style>
 </head>
