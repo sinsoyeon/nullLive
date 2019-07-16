@@ -76,7 +76,7 @@ public interface BroadCenterDao {
 	int enableCommunityBoard(SqlSessionTemplate sqlSession, int smno);
 
 	//소통게시판 리스트 조회(정연)
-	ArrayList<HashMap<String, Object>> selectCommunityList(SqlSessionTemplate sqlSession, int smno);
+	ArrayList<HashMap<String, Object>> selectCommunityList(SqlSessionTemplate sqlSession, HashMap<String, Object> pagingHmap);
 
 	//스트리머 검색(정연)
 	ArrayList<HashMap<String, Object>> searchStreamer(SqlSessionTemplate sqlSession);
@@ -106,5 +106,7 @@ public interface BroadCenterDao {
 
 	//소통 게시물 삭제(정연)
 	int deleteCommu(SqlSessionTemplate sqlSession, int bno);
+
+	int getCommuBoardListCount(SqlSessionTemplate sqlSession, int smno);
 
 }
