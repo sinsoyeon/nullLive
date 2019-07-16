@@ -9,10 +9,36 @@
 <title>Insert title here</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">	
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>	
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Gothic+A1|Jua&display=swap" rel="stylesheet">
 <style>
 .pagination>li>a { border-radius: 50% !important;margin: 0 5px;}
 #clcListBtn{cursor:pointer;}
+
+
+.w3-bar w3-black{
+padding-left:460px !important;
+margin-top:140px !important;
+}
+
+#pointBtn{
+margin-left:472px !important;
+border-radius:10px;
+}
+
+#clcListBtn{
+border-radius:10px;
+}
+
+h4{
+ font-family: 'Jua', sans-serif !important;
+  font-size:30px !important;
+}
+
+.row{
+margin-top:20px;
+}
 </style>	
 </head>
 <body>
@@ -24,16 +50,16 @@
 		<jsp:include page="../../common/menubar.jsp" />
 	</header>
 		<jsp:include page="../myPage/myPageNavbar.jsp"/>
-				<ol class="breadcrumb" style="padding-left:460px !important; padding-top:-30px !important;">
-				    <li><a href="#" id="pointBtn">포인트(환전/충전) 기록</a></li>
-				    <li id="clcListBtn">정산 기록</li>
-				  </ol>	
+				  <div class="w3-bar w3-black">
+					  <a href="#" class="w3-bar-item w3-button" id="pointBtn">포인트(환전/충전) 기록</a>
+					  <a href="#" class="w3-bar-item w3-button" id="clcListBtn">정산 기록</a>
+				</div>
 		<div class="row">
 			<div class="col-md-3"></div>
 			
 			<div class="col-md-9" style=" padding-right: 6%; ">
 				<input type="hidden" value="${loginUser.mno}" id="mno" />	
-				<div id="myExcTableArea">
+				<div id="myExcTableArea" align="center">
 					
 					<h4 style="color: #333333 !important;" id="textLine1">포인트 환전 신청 내역</h4>
 					<table class="table" id="myExcTable">
@@ -58,7 +84,7 @@
 						</ul>
 					</div>
 				</div>
-				<div id="chargeArea">
+				<div id="chargeArea" align="center">
 					<h4 style="color: #333333 !important;" id="textLine1">NULL 충전 내역</h4>
 					<table class="table" id="chargeTable">
 						<thead class="thead-dark"
@@ -269,6 +295,8 @@
 		
 		$('#clcListBtn').click(function(){
 			clcBtnClick();
+			$(this).css("background","#D5D5D5");
+			$('#pointBtn').css("background","#000");
 		});
 		
 		function clcBtnClick(){
@@ -295,6 +323,8 @@
 			$('#reqCalListTable').hide();
 			$('.jumbotron').hide();
 			$('#reqCalListArea').hide();
+			$(this).css("background","#D5D5D5");
+			$('#clcListBtn').css("background","#000");
 		});
 		
 		$('#reqClcBtn').click(function(){
@@ -306,6 +336,7 @@
 			$('#reqCalArea').hide();
 			$('.jumbotron').show();
 			$('#reqCalListArea').show();
+
 		});
 		
 		$('#myStreamer').click(function(){

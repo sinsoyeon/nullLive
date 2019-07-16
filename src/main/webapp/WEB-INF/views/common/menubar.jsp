@@ -37,6 +37,7 @@ ul li.unread:after {
 
 #myAlarmArea{
 	width:360px;
+	background:#fff;
 }
 
 #paginArea{
@@ -51,7 +52,7 @@ text-align:center;
 background:#f5f5f5; 
 width:330px; 
 height:30px;
-margin-top:-11px;
+margin-top:-21px;
 text-align:center;
 }
 
@@ -61,7 +62,28 @@ font-size:12px;
 
 
 #checkBtn{
-margin-top:-10px;
+margin-top:-40px;
+margin-left:60px;
+  position:absolute;
+}
+
+
+#alarmText{
+ font:600 30px 'nbgL';
+  position:relative;
+  margin-bottom: 15px;
+  display: block;
+}
+
+#alarmText:after{
+  position:absolute;
+  content:"";
+  width: 47px;
+  height:3px;
+  background:#699306;
+  left:0;
+  bottom:-3px;
+  border:2px;
 }
 </style>
 </head>
@@ -109,8 +131,7 @@ margin-top:-10px;
 						<li><a href="logout.me"><i class="fas fa-sign-out-alt fa-lg" style="color: #fff;"></i></a></li>
 						<li><a href="main.ad">관리자 페이지</a></li>
 					</c:if>
-				</c:if>	
-				
+				</c:if>				
 			</ul>
 
 				</div>
@@ -121,16 +142,16 @@ margin-top:-10px;
 	<!-- 알람 창 -->
 	<div id="myAlarmArea" style="z-index:9999;">
 	
-		<div class="panel panel-primary">
+		<div class="" style="border:3px solid #699306;">
 			<div class="panel-heading">
-				<label class="panel-title" style="font-size:20px">알람</label>				
+				<label class="panel-title" id="alarmText" style="font-size:16px;">알람</label>				
 					<button type="button" class="btn btn-default btn-sm" id="checkBtn">
 					  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 					</button>
 			</div>
 			<div class="panel-body">
 				<div id="upArea">
-					<p>이전으로</p>
+					<p class="glyphicon glyphicon-triangle-top"></p>
 				</div>	
 				<div class="list-group">
 
@@ -139,7 +160,7 @@ margin-top:-10px;
 				<div id="paginArea">
 					<input type="hidden" id="maxPage" />
 					<input type="hidden" id="currentPage" />
-					<p>더 보기</p>
+					<p class="glyphicon glyphicon-triangle-bottom"></p>
 				</div>
 			</div>
 		</div>

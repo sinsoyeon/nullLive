@@ -248,7 +248,7 @@ public class MemberServiceImpl implements MemberService {
 		sendMail.setSubject("[NULLLIVE] / 회원가입 이메일 인증");
 		sendMail.setText(new StringBuffer().append("<h1>[NULL LIVE에 어서오세요!]</h1>")
 				.append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
-				.append("<a href='http://localhost:9001/nullLive/joinConfirm.me?mid=")
+				.append("<a href='http://192.168.30.30:9001/nullLive/joinConfirm.me?mid=")
 				.append(m.getMid())
 				.append("&email=")
 				.append(m.getEmail())

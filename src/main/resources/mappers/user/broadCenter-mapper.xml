@@ -234,7 +234,7 @@
 		SET B_STATUS = 99
 		WHERE BNO = #{bno}
 	</delete>
-	
+
 	<select id="getCommuBoardListCount" parameterType="_int" resultType="_int">
 		 SELECT COUNT(*)
 			FROM (SELECT ROWNUM RNUM, L.*
@@ -249,5 +249,4 @@
               	  AND B.B_STATUS=7
                	 ORDER BY B.BNO) L)
 	</select>
-	
 </mapper>

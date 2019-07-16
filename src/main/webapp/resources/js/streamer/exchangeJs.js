@@ -141,6 +141,13 @@ function reqClcList(mno,currentPage){
 			
 			var $endButton = $('<li class="page-item" onclick="reqClcList('+ mno + ',' + data.infoMap.pi.maxPage  +');"><a class="page-link"> >> </a></li>');
 			$("#reqClcPaging > ul").append($endButton);
+			
+			
+			if(clcList.length==0){
+				$("#reqCalTable > tbody").append('<tr><td colspan="6"><div class="alert alert-danger" role="alert">요청하신 정산 내역 및 처리가 없습니다. 파트너를 통해 스트리머님과의 협업을 시작해보세요.</div></td></tr>');
+			}else{
+			$("#reqCalTable > tbody").append('<tr><td colspan="5"><div class="alert alert-warning" role="alert">회원님의 정산 요청 결과 내역입니다.</div></td></tr>');						
+			}
 		}
 	})
 }
@@ -205,10 +212,28 @@ function calList(mno,currentPage){
 			
 			var $endButton = $('<li class="page-item" onclick="calList('+ mno + ',' + data.infoMap.pi.maxPage  +');"><a class="page-link"> >> </a></li>');
 			$("#clcPaging > ul").append($endButton);
+			
+			
+			if(clcList.length==0){
+				$("#calTable > tbody").append('<tr><td colspan="6"><div class="alert alert-danger" role="alert">요청 및 승인된 정산 내역이 없습니다. 파트너님을 구해보세</div></td></tr>');
+			}else{
+			$("#calTable > tbody").append('<tr><td colspan="5"><div class="alert alert-warning" role="alert">회원님의 정산 내역입니다.</div></td></tr>');						
+			}
 		}
 	})
 }
 
+
+function startTTS(data){
+	console.log('tts startTTS');
+	var info = data.split("&");
+	console.log(info);
+	var audio = new Audio();
+	audio.src = "${contextPath}/resources/uploadFiles/audio/" + info[0];
+	audio.play();
+	
+
+}
 
 $(document).on('click','#reqClcBtn',function(){
 	console.log('호출됨');

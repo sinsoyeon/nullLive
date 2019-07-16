@@ -8,6 +8,7 @@ $(function() {
 	$("#searchArea").hide();
 	$("#myExcTableArea").hide();
 	$("#checkId").text('');
+	$('#checkId').hide();
 });
 
 $("#streamerBtn").click(function() {
@@ -29,6 +30,7 @@ $("#streamerBtn").click(function() {
 				if (sno == null) {
 					$("#checkId").text('조회된 정보가 없습니다.');
 				} else {
+					$('#checkId').show();
 					$("#checkId").text(data.streamerInfo.NICK_NAME+'('+ data.streamerInfo.MID +')');
 				}
 			}
@@ -374,7 +376,7 @@ $("#checkId").click(function(){
 			type:"post",
 			data:{mno:mno,searchValue:searchValue,searchCondition:searchCondition},
 			success:function(data){
-				alert('ajax 성공!');
+			
 				var searchSponList = data.searchSponList;
 				
 				$.each(searchSponList, function(index, value) {
@@ -426,7 +428,7 @@ $("#checkId").click(function(){
 			type:"post",
 			data:{mno:mno,amount:amount},
 			success:function(data){
-				alert('ajax 성공');
+			
 				
 				
 

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,119 +9,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <!-- Google font -->
-<link href="https://fonts.googleapis.com/css?family=Cabin:400,700" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Montserrat:900" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Cabin:400,700"
+	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:900"
+	rel="stylesheet">
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <title>Insert title here</title>
-<style>
-* {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-body {
-  padding: 0;
-  margin: 0;
-}
-
-#notfound {
-  position: relative;
-  height: 100vh;
-}
-
-#notfound .notfound {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-}
-
-.notfound {
-  max-width: 520px;
-  width: 100%;
-  line-height: 1.4;
-  text-align: center;
-}
-
-.notfound .notfound-404 {
-  position: relative;
-  height: 240px;
-}
-
-.notfound .notfound-404 h1 {
-  font-family: 'Montserrat', sans-serif;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  font-size: 252px;
-  font-weight: 900;
-  margin: 0px;
-  color: #262626;
-  text-transform: uppercase;
-  letter-spacing: -40px;
-  margin-left: -20px;
-}
-
-.notfound .notfound-404 h1>span {
-  text-shadow: -8px 0px 0px #fff;
-}
-
-.notfound .notfound-404 h3 {
-  font-family: 'Cabin', sans-serif;
-  position: relative;
-  font-size: 16px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #262626;
-  margin: 0px;
-  letter-spacing: 3px;
-  padding-left: 6px;
-}
-
-.notfound h2 {
-  font-family: 'Cabin', sans-serif;
-  font-size: 20px;
-  font-weight: 400;
-  text-transform: uppercase;
-  color: #000;
-  margin-top: 0px;
-  margin-bottom: 25px;
-}
-
-@media only screen and (max-width: 767px) {
-  .notfound .notfound-404 {
-    height: 200px;
-  }
-  .notfound .notfound-404 h1 {
-    font-size: 200px;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  .notfound .notfound-404 {
-    height: 162px;
-  }
-  .notfound .notfound-404 h1 {
-    font-size: 162px;
-    height: 150px;
-    line-height: 162px;
-  }
-  .notfound h2 {
-    font-size: 16px;
-  }
-}
-</style>
 </head>
 <body>
 	<header style="height: 50px;">
@@ -134,31 +34,34 @@ body {
 			<div class="col-md-2">
 				<jsp:include page="../main/mainNavbar.jsp" />
 			</div>
-			<div id="notfound">
-				<div class="notfound">
-					<div class="notfound-404">
-						<h2>NullLive를 시작하기 위해 이메일 인증해주세요</h2>
-						<h1><span>N</span><span>L</span></h1>
-					</div>
-					<h2><c:out value="${joinMember.email}"></c:out>로 잠시후 인증 이메일이 전송됩니다.</h2>
-				</div>
+			<div class="col-md-10" style="padding-left: 55px; padding-top: 28px;">
+				<img alt="email" src="/nullLive/resources/image/email.png"
+					style="width: 73%; margin-left: 12%; margin-top: 11%;" />
+				<p
+					style="font-size: 15px; color: #555; margin-left: 24%; margin-top: 2%;">
+					<c:out value="${joinMember.email}"></c:out>
+					로 잠시 후 인증 이메일이 전송됩니다.
+				</p>
 			</div>
 		</div>
 	</div>
 	<script>
-	$(function(){
-		console.log('${joinMember}');
-		var mid = '${joinMember.mid}';
-		var email = '${joinMember.email}';
-		$.ajax({
-			url:"emailConfirm.me",
-			data:{mid:mid,email:email},
-			type:"post",
-			success:function(data){
-				alert('이메일 전송 완료');
-			}
-		});		
-	});
+		$(function() {
+			console.log('${joinMember}');
+			var mid = '${joinMember.mid}';
+			var email = '${joinMember.email}';
+			$.ajax({
+				url : "emailConfirm.me",
+				data : {
+					mid : mid,
+					email : email
+				},
+				type : "post",
+				success : function(data) {
+					alert('이메일 전송 완료');
+				}
+			});
+		});
 	</script>
 </body>
 </html>
