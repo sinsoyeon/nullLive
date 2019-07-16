@@ -17,7 +17,7 @@ div {
 	display: block;
 }
 
-#culBtn {
+#culBtn,#requestBtn {
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
     border-radius: 3px;
@@ -68,6 +68,10 @@ font-size: 12px;
 h4{
  font-family: 'Jua', sans-serif !important;
   font-size:30px !important;
+}
+
+#subscribeArea tr,td{
+text-align:center;
 }
 </style>
 </head>

@@ -373,12 +373,6 @@ $(document).ready(function(){
     
 });
 
-
-
-
-
-
-
 // $(document).ready(function(){
 //    var connectionOptions =  {
 //             "force new connection" : true,

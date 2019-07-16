@@ -4,8 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="//code.jquery.com/jquery.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+ <!-- <script src="//code.jquery.com/jquery.min.js"></script> -->
+<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+ <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>	 -->
+ <!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script> --> 
 <link href="https://fonts.googleapis.com/css?family=Literata&display=swap" rel="stylesheet">
 <style>
 body::-webkit-scrollbar {

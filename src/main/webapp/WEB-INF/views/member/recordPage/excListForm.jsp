@@ -39,6 +39,33 @@ h4{
 .row{
 margin-top:20px;
 }
+
+#okBtn,#confirmClc{
+  background-color: white;
+ background-color: #4CAF50; /* Green */
+  color: white;
+  border: 2px solid #4CAF50;
+    text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-right:15px;
+  margin-left:-15px;
+  border-radius:10px;
+  width:90px;
+}
+
+#cancelBtn,#declineBtn{
+  background-color: white;
+ background-color: #f44336!important; /* Green */
+  color: white;
+  border: 2px solid #f44336;
+    text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius:10px;
+}
 </style>	
 </head>
 <body>
