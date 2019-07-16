@@ -17,6 +17,7 @@ import com.kh.nullLive.board.model.vo.Board;
 import com.kh.nullLive.board.model.vo.JobBoard;
 import com.kh.nullLive.board.model.vo.PageInfo;
 import com.kh.nullLive.broadCenter.model.dao.BroadCenterDao;
+import com.kh.nullLive.common.AttchmentUtil;
 import com.kh.nullLive.common.attachment.model.exception.AttachmentInsertException;
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
 import com.kh.nullLive.common.paging.model.vo.PagingVo;
@@ -617,6 +618,40 @@ public class JobBoardServiceImpl implements JobBoardService{
 	@Override
 	public ArrayList<HashMap<String, Object>> selectListEditorPartner(HashMap<String, Object> hmap) {
 		return jbd.selectListPartner(sqlSession,hmap);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 16.
+	 * @comment : 구인구직 콘텐츠제작자 게시판 수정폼 조회
+	 */
+	@Override
+	public HashMap<String,Object> showUpdateJobConBoard(int bno) {
+		HashMap<String,Object> boardMap = new HashMap<>();
+		Board board = jbd.selectOneMngBoard(sqlSession, bno);
+		JobBoard jBoard = jbd.selectOneJobBoard(sqlSession, bno);
+		
+		boardMap.put("board", board);
+		boardMap.put("jBoard",jBoard);
+		
+		
+		return boardMap;
+			
+	}
+
+	/**
+	 * @author : uukk
+	 * @throws JobBoardInsertException 
+	 * @date : 2019. 7. 16.
+	 * @comment : 구인구직 콘텐츠 제작자 게시판 업데이트
+	 */
+	@Override
+	public void updateJobConBoard(HashMap<String, Object> hmap) throws JobBoardInsertException {
+		int bdResult = jbd.updateConBoard(sqlSession,hmap);
+		int jbdResult = jbd.updateJobConBoard(sqlSession,hmap);
+		if(bdResult<=0 || jbdResult<=0) {
+			throw new JobBoardInsertException("구인구직 수정 오류");
+		}
 	}
 
 

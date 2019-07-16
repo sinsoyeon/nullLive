@@ -182,6 +182,51 @@ public interface StreamingDao {
 
 	//즐겨찾기 한 BJ 목록
 	ArrayList<BroadList> selectfBjList(SqlSessionTemplate sqlSession, int mno);
+	
+	//구독 한 BJ 개수
+	int getsBjListCount(SqlSessionTemplate sqlSession, int mno);
 
+	//구독 한 BJ 목록
+	ArrayList<BroadList> selectsBjList(SqlSessionTemplate sqlSession, int mno);
+
+	//BJ의 Live 방송 개수
+	int getBLiveListCount(SqlSessionTemplate sqlSession, int smno);
+
+	//BJ의 Live 방송 목록
+	ArrayList<BroadList> selectBLiveList(SqlSessionTemplate sqlSession, int smno);
+
+	//BJ의 Vod 방송 개수
+	int getBVodListCount(SqlSessionTemplate sqlSession, int smno);
+
+	//BJ의 Vod 방송 목록
+	ArrayList<BroadList> selectBVodList(SqlSessionTemplate sqlSession, int smno);
+
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 16.
+	 * @Comment : 이미 즐겨찾기한 스트리머인지
+	 */
+	int isFavoStreamer(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 16.
+	 * @Comment : 스트리머 즐겨찾기
+	 */
+	int favoStreamer(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 16.
+	 * Comment : 좋아요
+	 */
+	int selectedLike(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 16.
+	 * Comment : 방송 중 신고
+	 */
+	int selectedReport(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
 
 }

@@ -30,7 +30,7 @@ public class BroadList {
 	/* 즐겨찾기 */
 	private int fano;				//FANO
 	private int favCount;			//스트리머를 즐겨찾기 한 사람 수(테이블엔 없음)
-	private String sGender;			//스트리머 성별
+	private String profileImg;		//프로필 이미지
 	/* 구독한BJ */
 	private int suno;				//SUNO
 	private int subCount;			//스트리머를 구독 한 사람 수(테이블엔 없음)

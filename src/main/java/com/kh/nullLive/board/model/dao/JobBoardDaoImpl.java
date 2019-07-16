@@ -458,6 +458,26 @@ public class JobBoardDaoImpl implements JobBoardDao {
 		
 	}
 
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 16.
+	 * @comment : 구인구직 콘텐츠 제작자 게시판
+	 */
+	@Override
+	public int updateConBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.update("Board.updateConBoard",hmap);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 16.
+	 * @comment : 구인구직 콘텐츠 제작자 jBoard 업데이트
+	 */
+	@Override
+	public int updateJobConBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.update("Board.updateJobConBoard",hmap);
+	}
+
 
 
 

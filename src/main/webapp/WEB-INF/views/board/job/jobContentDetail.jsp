@@ -102,7 +102,6 @@ th {
   height  : 50px;   
   position: relative;
   z-index : 5;
-  margin : 30px;
 }
  
 .tdHeader:before {
@@ -232,7 +231,7 @@ th {
 			</c:if>
 			<%-- 작성자인 경우 수정하기 버튼 활성화 --%>
 			<c:if test="${ loginUser.mno eq member.mno  }">
-				<button class="btn btn-primary btn-sm">수정하기</button>
+				<button class="btn btn-primary btn-sm" onclick="showUpdateForm(${ board.bno},${ contBoardList.size()} )">수정하기</button>
 			</c:if>
 			<button class="btn btn-primary btn-sm" onclick="location.href='jobBoardList.jbo?bType=JOBCON&url=board/job/jobContentList'">목록으로</button>
 			<br><br>
@@ -241,13 +240,13 @@ th {
 		
 		
 		<table>
-			<tr>
+			<tr style="vertical-align: middle;">
 				<td class="tdHeader" align="center"><h3>건당 금액</h3></td>
-				<td><c:out value="${ jBoard.perprice } <b>point</b>" escapeXml="false"/></td>
+				<td><p style="font-size: 30px; margin-top: 18px; "><c:out value="${ jBoard.perprice }" escapeXml="false"/> point</p></td>
 			</tr>
 			<tr>
 				<td class="tdHeader" align="center"><h3>계약 내용</h3></td>
-				<td><c:out value="${ jBoard.contContent }"/></td>
+				<td ><c:out value="${ jBoard.contContent }"/></td>
 			</tr>
 		</table>
 		
@@ -318,9 +317,10 @@ th {
 		<c:if test="${ loginUser.mno eq member.mno }">
 			<div>
 				<div>
-					<h4><b>지원현황(<c:out value="${ contBoardList.size() }"/>건)</b></h4>
-					<button class="btn btn-info btn-xs" onclick="fn_showContractList()">지원현황 보기</button>
-					<hr>
+					<h3><b>지원현황(<c:out value="${ contBoardList.size() }"/>건)</b>
+						<span id="contractListIcon"><i class="fas fa-toggle-off" onclick="fn_showContractList()"></i></span>
+					</h3>
+					
 				</div>
 				
 				<!-- 지원 현황 테이블 -->
@@ -535,6 +535,10 @@ th {
 	function fn_showContractList(){
 		$("#contractTable").toggle('slow');
 	}
+	//지원현황 토글
+	$("#contractListIcon").click(function(){
+		$("i",this).toggleClass("fa-toggle-on fa-toggle-off");
+	})
 
 	
 	//지원자 상세보기
@@ -625,7 +629,17 @@ th {
 		});
 		return false; 
 	}
-
+	//수정하기
+	function showUpdateForm(bno,contSize){
+		console.log(bno);
+		console.log(contSize);
+		
+		if(contSize<=0){
+			location.href='showUpdateJobConBoard.jbo?bno='+bno;
+		}else {
+			alert("지원자가 있는경우 수정할 수 없습니다");
+		}
+	}
 
 	//작성자 상세보기
 	function fn_showWritterDetail2(mno){

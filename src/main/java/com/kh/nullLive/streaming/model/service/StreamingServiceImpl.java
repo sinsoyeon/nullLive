@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.nullLive.member.model.exception.UpdateMemberException;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streaming.model.dao.StreamingDao;
 import com.kh.nullLive.streaming.model.exception.EnterStreamingException;
@@ -45,6 +46,15 @@ public class StreamingServiceImpl implements StreamingService {
 		return sd.getStreamerAddress(sqlSession,mno);
 	}
 
+	//방송 중인지
+	@Override
+	public void isBroading(String streamerAddress) throws EnterStreamingException {
+		int result = sd.isOnAir(sqlSession,streamerAddress); 
+		if(result <= 0) {
+			throw new EnterStreamingException("방송 중이 아닙니다.");
+		}
+	}
+	
 	//스트리밍 시청 시작
 	@Override
 	public HashMap<String, Object> enterStream(Member loginUser, String streamerAddress) throws EnterStreamingException {
@@ -236,7 +246,7 @@ public class StreamingServiceImpl implements StreamingService {
 		return result;
 	}
 
-	//즐겨찾기에서 최근 본 Live 방송 조회
+	//즐겨찾기에서 최근 본 Live 방송 개수
 	@Override
 	public int getlLiveListCount(int mno) {
 		return sd.getlLiveListCount(sqlSession, mno);
@@ -247,14 +257,14 @@ public class StreamingServiceImpl implements StreamingService {
 	public ArrayList<BroadList> selectlLiveList(int mno) {
 		return sd.selectlLiveList(sqlSession, mno);
 	}
-	
-	//즐겨찾기에서 최근 본 Live 방송 조회
+
+	//즐겨찾기에서 최근 본 Vod 방송 개수
 	@Override
 	public int getlVodListCount(int mno) {
 		return sd.getlVodListCount(sqlSession, mno);
 	}
 
-	//즐겨찾기에서 최근 본 Live 방송 조회
+	//즐겨찾기에서 최근 본 Vod 방송 조회
 	@Override
 	public ArrayList<BroadList> selectlVodList(int mno) {
 		return sd.selectlVodList(sqlSession, mno);
@@ -271,6 +281,66 @@ public class StreamingServiceImpl implements StreamingService {
 	public ArrayList<BroadList> selectfBjList(int mno) {
 		return sd.selectfBjList(sqlSession, mno);
 	}
+	
+	//구독 한 BJ 개수
+	@Override
+	public int getsBjListCount(int mno) {
+		return sd.getsBjListCount(sqlSession, mno);
+	}
 
+	//구독 한 BJ 목록
+	@Override
+	public ArrayList<BroadList> selectsBjList(int mno) {
+		return sd.selectsBjList(sqlSession, mno);
+	}
+
+	//BJ의 Live 방송 개수
+	@Override
+	public int getBLiveListCount(int smno) {
+		return sd.getBLiveListCount(sqlSession, smno);
+	}
+
+	//BJ의 Live 방송 목록
+	@Override
+	public ArrayList<BroadList> selectBLiveList(int smno) {
+		return sd.selectBLiveList(sqlSession, smno);
+	}
+
+	//BJ의 Vod 방송 개수
+	@Override
+	public int getBVodListCount(int smno) {
+		return sd.getBVodListCount(sqlSession, smno);
+	}
+
+	//BJ의 Vod 방송 목록
+	@Override
+	public ArrayList<BroadList> selectBVodList(int smno) {
+		return sd.selectBVodList(sqlSession, smno);
+  }
+  
+	//스트리머 즐겨찾기
+	@Override
+	public void favoStreamer(HashMap<String, Object> hmap) throws UpdateMemberException {
+		int result = sd.isFavoStreamer(sqlSession,hmap);
+		if(result > 0) {
+			throw new UpdateMemberException("이미 있음");
+		}
+		result = sd.favoStreamer(sqlSession,hmap);
+	}
+
+	//좋아요
+	@Override
+	public void selectedLike(HashMap<String, Object> hmap) throws UpdateMemberException {
+		int result = sd.selectedLike(sqlSession,hmap);
+		if(result == 0) {
+			throw new UpdateMemberException("좋아요 실패!");
+		}
+	}
+
+	//방송 중 신고
+	@Override
+	public void selectedReport(HashMap<String, Object> hmap) {
+		int result = sd.selectedReport(sqlSession,hmap);
+	}
 
 }

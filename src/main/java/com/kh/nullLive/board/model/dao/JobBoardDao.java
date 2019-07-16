@@ -122,5 +122,9 @@ public interface JobBoardDao {
 
 	int insertManagerAuth(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
 
+	int updateConBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+	int updateJobConBoard(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
 
 }

@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.google.gson.JsonObject;
 import com.kh.nullLive.board.model.exception.BoardSelectListException;
 import com.kh.nullLive.board.model.exception.ContConsentExcption;
+import com.kh.nullLive.board.model.exception.JobBoardInsertException;
 import com.kh.nullLive.board.model.exception.SelectOneBoardException;
 import com.kh.nullLive.board.model.service.JobBoardService;
 import com.kh.nullLive.board.model.vo.Board;
@@ -703,6 +704,49 @@ public class JobBoardController {
 	}
 	
 	
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 16.
+	 * @comment : 콘텐츠 제작자 게시판 업데이트폼 보여주기
+	 */
+	@RequestMapping("showUpdateJobConBoard.jbo")
+	public String showUpdateJobConBoard(HttpServletRequest request, Model model) {
+		
+		int bno = Integer.parseInt(request.getParameter("bno"));
+		HashMap<String,Object> boardMap = jbs.showUpdateJobConBoard(bno);
+		
+		ArrayList<Attachment> attList = jbs.selectListBoardAtt(bno);
+		
+		boardMap.put("attList", attList);
+		
+		model.addAttribute("boardMap",boardMap);
+		
+		return "board/job/jobContentUpdateForm";
+	}
+	
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 16.
+	 * @comment : 구인구직 콘텐츠제작자 게시판 업데이트
+	 */
+	@RequestMapping("updateJobConBoard.jbo")
+	public String updateJobConBoard(HttpServletRequest request,Board board,JobBoard jBoard, Model model) {
+		System.out.println(board);
+		System.out.println(jBoard);
+		
+		HashMap<String,Object> hmap = new HashMap<>();
+		hmap.put("board", board);
+		hmap.put("jBoard", jBoard);
+		
+		
+		try {
+			jbs.updateJobConBoard(hmap);
+			return "redirect:selectOneJobBoard.jbo?bno="+board.getBno();
+		} catch (JobBoardInsertException e) {
+			model.addAttribute("msg",e.getMessage());
+			return "common/errorPage";
+		}
+	}
 	
 	
 	

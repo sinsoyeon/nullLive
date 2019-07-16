@@ -40,6 +40,11 @@
 		background: lightgray;
 		height: 220px;
 	}
+	img{
+	width: 120px;
+	height: auto;
+	margin: 6%;
+	}
 </style>
 </head>
 <body>
@@ -74,8 +79,8 @@
 			<div class="col-lg-1 col-md-1"></div> 
 			<div id="mngBoard" class="col-lg-4 col-md-4">
 				<!-- 이미지영역  -->
-				<div class="boardIcon">
-					
+				<div class="boardIcon" align="center">
+					<img src="/nullLive/resources/image/manager.PNG" >
 				</div>
 				<!-- 글 영역 -->
 				<div class="boardTitle" align="center">
@@ -90,7 +95,8 @@
 			<div class="col-lg-2 col-md-2"></div>
 			<!-- 콘텐츠 제작자 게시판 선택 -->
 			<div id="conBoard" class="col-lg-4 col-md-4">
-				<div class="boardIcon">
+				<div class="boardIcon" align="center">
+				<img src="/nullLive/resources/image/editor.PNG" >
 				</div>
 				<div class="boardTitle" align="center">
 					<label>
