@@ -19,10 +19,10 @@
 <style>
 .outer {
 	width: 900px;
-	height: 500px;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 50px;
+	margin-bottom: 200px;
 }
 
 .contentArea {
@@ -241,11 +241,11 @@ th {
 		
 		<table>
 			<tr style="vertical-align: middle;">
-				<td class="tdHeader" align="center"><h3>건당 금액</h3></td>
+				<td class="tdHeader" align="center"><h3><b>건당 금액</b></h3></td>
 				<td><p style="font-size: 30px; margin-top: 18px; "><c:out value="${ jBoard.perprice }" escapeXml="false"/> point</p></td>
 			</tr>
 			<tr>
-				<td class="tdHeader" align="center"><h3>계약 내용</h3></td>
+				<td class="tdHeader" align="center"><h3><b>계약 내용</b></h3></td>
 				<td ><c:out value="${ jBoard.contContent }"/></td>
 			</tr>
 		</table>
