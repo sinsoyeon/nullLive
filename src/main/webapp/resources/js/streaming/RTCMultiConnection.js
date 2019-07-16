@@ -4695,9 +4695,9 @@ var RTCMultiConnection = function(roomid, forceOptions) {
 
         // all values in kbps
         connection.bandwidth = {
-            screen: false,
-            audio: false,
-            video: false
+            audio: 50,  // 50 kbps
+            video: 256, // 256 kbps
+            screen: 300 // 300 kbps
         };
 
         connection.codecs = {
