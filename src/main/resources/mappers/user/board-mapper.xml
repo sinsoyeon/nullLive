@@ -206,7 +206,7 @@
 	<!-- 고객센터 신고하기 쿼리문 -->
 	<insert id="insertReportBoard" parameterType="Board">
 		INSERT INTO BOARD
-		VALUES(SEQ_BNO.NEXTVAL, #{bTitle}, #{bContent}, SYSDATE, NULL, 0, 'REPORT', NULL, NULL, #{bEmail}, NULL, #{bWriter}, #{reportType}, 'R', #{reportMno}, 5)
+		VALUES(SEQ_BNO.NEXTVAL, #{bTitle}, #{bContent}, SYSDATE, NULL, 0, 'MREPORT', NULL, NULL, #{bEmail}, NULL, #{bWriter}, #{reportType}, 'R', #{reportMno}, 5)
 	</insert>
 	<!-- 고객센터 신고자 아이디로 mno 조회용 쿼리문 -->
 	<select id="selectRmno" parameterType="java.lang.String" resultType="_int">

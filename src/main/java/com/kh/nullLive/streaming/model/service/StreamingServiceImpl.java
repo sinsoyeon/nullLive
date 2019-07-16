@@ -246,7 +246,7 @@ public class StreamingServiceImpl implements StreamingService {
 		return result;
 	}
 
-	//즐겨찾기에서 최근 본 Live 방송 조회
+	//즐겨찾기에서 최근 본 Live 방송 개수
 	@Override
 	public int getlLiveListCount(int mno) {
 		return sd.getlLiveListCount(sqlSession, mno);
@@ -257,14 +257,14 @@ public class StreamingServiceImpl implements StreamingService {
 	public ArrayList<BroadList> selectlLiveList(int mno) {
 		return sd.selectlLiveList(sqlSession, mno);
 	}
-	
-	//즐겨찾기에서 최근 본 Live 방송 조회
+
+	//즐겨찾기에서 최근 본 Vod 방송 개수
 	@Override
 	public int getlVodListCount(int mno) {
 		return sd.getlVodListCount(sqlSession, mno);
 	}
 
-	//즐겨찾기에서 최근 본 Live 방송 조회
+	//즐겨찾기에서 최근 본 Vod 방송 조회
 	@Override
 	public ArrayList<BroadList> selectlVodList(int mno) {
 		return sd.selectlVodList(sqlSession, mno);
@@ -281,7 +281,43 @@ public class StreamingServiceImpl implements StreamingService {
 	public ArrayList<BroadList> selectfBjList(int mno) {
 		return sd.selectfBjList(sqlSession, mno);
 	}
+	
+	//구독 한 BJ 개수
+	@Override
+	public int getsBjListCount(int mno) {
+		return sd.getsBjListCount(sqlSession, mno);
+	}
 
+	//구독 한 BJ 목록
+	@Override
+	public ArrayList<BroadList> selectsBjList(int mno) {
+		return sd.selectsBjList(sqlSession, mno);
+	}
+
+	//BJ의 Live 방송 개수
+	@Override
+	public int getBLiveListCount(int smno) {
+		return sd.getBLiveListCount(sqlSession, smno);
+	}
+
+	//BJ의 Live 방송 목록
+	@Override
+	public ArrayList<BroadList> selectBLiveList(int smno) {
+		return sd.selectBLiveList(sqlSession, smno);
+	}
+
+	//BJ의 Vod 방송 개수
+	@Override
+	public int getBVodListCount(int smno) {
+		return sd.getBVodListCount(sqlSession, smno);
+	}
+
+	//BJ의 Vod 방송 목록
+	@Override
+	public ArrayList<BroadList> selectBVodList(int smno) {
+		return sd.selectBVodList(sqlSession, smno);
+  }
+  
 	//스트리머 즐겨찾기
 	@Override
 	public void favoStreamer(HashMap<String, Object> hmap) throws UpdateMemberException {

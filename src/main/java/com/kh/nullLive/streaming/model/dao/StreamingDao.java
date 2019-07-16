@@ -182,6 +182,24 @@ public interface StreamingDao {
 
 	//즐겨찾기 한 BJ 목록
 	ArrayList<BroadList> selectfBjList(SqlSessionTemplate sqlSession, int mno);
+	
+	//구독 한 BJ 개수
+	int getsBjListCount(SqlSessionTemplate sqlSession, int mno);
+
+	//구독 한 BJ 목록
+	ArrayList<BroadList> selectsBjList(SqlSessionTemplate sqlSession, int mno);
+
+	//BJ의 Live 방송 개수
+	int getBLiveListCount(SqlSessionTemplate sqlSession, int smno);
+
+	//BJ의 Live 방송 목록
+	ArrayList<BroadList> selectBLiveList(SqlSessionTemplate sqlSession, int smno);
+
+	//BJ의 Vod 방송 개수
+	int getBVodListCount(SqlSessionTemplate sqlSession, int smno);
+
+	//BJ의 Vod 방송 목록
+	ArrayList<BroadList> selectBVodList(SqlSessionTemplate sqlSession, int smno);
 
 	/**
 	 * @Author : ryan

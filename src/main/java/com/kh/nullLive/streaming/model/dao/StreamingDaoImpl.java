@@ -428,7 +428,7 @@ public class StreamingDaoImpl implements StreamingDao {
 
 		return list;
 	}
-	
+
 	//즐겨찾기 한 BJ 개수
 	@Override
 	public int getfBjListCount(SqlSessionTemplate sqlSession, int mno) {
@@ -439,6 +439,49 @@ public class StreamingDaoImpl implements StreamingDao {
 	@Override
 	public ArrayList<BroadList> selectfBjList(SqlSessionTemplate sqlSession, int mno) {
 		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.selectfBjList", mno);
+
+		return list;
+	}
+
+
+	//구독 한 BJ 개수
+	@Override
+	public int getsBjListCount(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("Streaming.sBjListCount", mno);
+	}
+
+	//구독 한 BJ 목록
+	@Override
+	public ArrayList<BroadList> selectsBjList(SqlSessionTemplate sqlSession, int mno) {
+		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.selectsBjList", mno);
+
+		return list;
+	}
+
+	//BJ의 Live 방송 개수
+	@Override
+	public int getBLiveListCount(SqlSessionTemplate sqlSession, int smno) {
+		return sqlSession.selectOne("Streaming.bLiveListCount", smno);
+	}
+
+	//BJ의 Live 방송 목록
+	@Override
+	public ArrayList<BroadList> selectBLiveList(SqlSessionTemplate sqlSession, int smno) {
+		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.selectBLiveList", smno);
+
+		return list;
+	}
+
+	//BJ의 Vod 방송 개수
+	@Override
+	public int getBVodListCount(SqlSessionTemplate sqlSession, int smno) {
+		return sqlSession.selectOne("Streaming.bVodListCount", smno);
+	}
+
+	//BJ의 Vod 방송 목록
+	@Override
+	public ArrayList<BroadList> selectBVodList(SqlSessionTemplate sqlSession, int smno) {
+		ArrayList<BroadList> list = (ArrayList) sqlSession.selectList("Streaming.selectBVodList", smno);
 
 		return list;
 	}

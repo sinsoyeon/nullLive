@@ -70,7 +70,7 @@
 		<result property="mno" column="MNO"/>
 		<result property="nickName" column="NICK_NAME"/>
 		<result property="favCount" column="FAVCOUNT"/>
-		<result property="sGender" column="GENDER"/>
+		<result property="profileImg" column="CHANGE_NAME"/>
 	</resultMap>
 	
 	<!-- 정언(구독한 BJ) -->
@@ -79,6 +79,7 @@
 		<result property="mno" column="MNO"/>
 		<result property="nickName" column="NICK_NAME"/>
 		<result property="subCount" column="SUBCOUNT"/>
+		<result property="profileImg" column="CHANGE_NAME"/>
 	</resultMap>
   
 	<!-- selectMember(reset용) -->
@@ -189,7 +190,7 @@
 		SELECT COUNT(*)
 		FROM (SELECT * FROM BROAD_HIS ORDER BY COUNT_VIEWERS DESC)
 		WHERE ROWNUM <= 10
-		AND BH_START_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
+		AND BH_STATUS= 'Y'
 		]]>
 	</select>
 	
@@ -204,7 +205,7 @@
 		      JOIN MEMBER M ON(BC.MNO = M.MNO)
 		      ORDER BY COUNT_VIEWERS DESC)
 		WHERE ROWNUM <= 10
-		AND BH_START_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
+		AND BH_STATUS= 'Y'
 		]]>
 	</select>
 	
@@ -214,7 +215,7 @@
 		SELECT COUNT(*)
 		FROM (SELECT * FROM BROAD_HIS ORDER BY COUNT_VIEWERS DESC)
 		WHERE ROWNUM <= 10
-		AND BH_START_DATE <> TO_CHAR(SYSDATE, 'YY/MM/DD')
+		AND BH_STATUS= 'N'
 		]]>
 	</select>
 	
@@ -229,7 +230,7 @@
 		      JOIN MEMBER M ON(BC.MNO = M.MNO)
 		      ORDER BY COUNT_VIEWERS DESC)
 		WHERE ROWNUM <= 10
-		AND BH_START_DATE <> TO_CHAR(SYSDATE, 'YY/MM/DD')
+		AND BH_STATUS= 'N'
 		]]>
 	</select>
 	
@@ -237,7 +238,7 @@
 	<select id="allLiveListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM BROAD_HIS
-		WHERE BH_START_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
+		WHERE BH_STATUS= 'Y'
 	</select>
 	
 	
@@ -247,30 +248,26 @@
 		FROM BROAD_HIS BH 
 		JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO)
 		JOIN MEMBER M ON(BC.MNO = M.MNO)
-		WHERE BH_START_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
+		WHERE BH_STATUS= 'Y'
 		ORDER BY BH_START_DATE DESC
 	</select>
 	
 	<!-- 메인페이지 All Vod 방송 수 조회용 쿼리문 (정언) -->
 	<select id="allVodListCount" resultType="_int">
-		<![CDATA[
 		SELECT COUNT(*)
 		FROM BROAD_HIS
-		WHERE BH_START_DATE <> TO_CHAR(SYSDATE, 'YY/MM/DD')
-		]]>
+		WHERE BH_STATUS= 'N'
 	</select>
 	
 	<!-- 전체조회 -->
 	<!-- 메인페이지 All Vod 방송 목록 조회용 쿼리문 (정언) -->
 	<select id="selectAllVodList" resultMap="broadListResultSet">
-		<![CDATA[
 		SELECT BH.BHNO, BC.BROAD_ADDRESS, M.MNO, M.NICK_NAME, BH.BH_START_DATE, BH.BH_END_DATE, BH.BH_STATUS, BH.COUNT_VIEWERS, BH.BCNO, BH.COUNT_RECOMMENDATION, BH.BROAD_TITLE, BH.BROAD_PWD, BH.BROAD_CATEGORY , BH.ADULT
 		FROM BROAD_HIS BH 
 		JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO)
 		JOIN MEMBER M ON(BC.MNO = M.MNO)
-		WHERE BH_START_DATE <> TO_CHAR(SYSDATE, 'YY/MM/DD')
+		WHERE BH_STATUS= 'N'
 		ORDER BY BH_START_DATE DESC
-		]]>
 	</select>
 	
 	<!-- 카테고리 -->
@@ -278,7 +275,7 @@
 	<select id="searchAllLiveCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM BROAD_HIS
-		WHERE BH_START_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
+		WHERE BH_STATUS= 'Y'
 		AND BROAD_CATEGORY = #{condition}
 	</select>
 	
@@ -289,7 +286,7 @@
 		FROM BROAD_HIS BH 
 		JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO)
 		JOIN MEMBER M ON(BC.MNO = M.MNO)
-		WHERE BH_START_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
+		WHERE BH_STATUS= 'Y'
 		AND BROAD_CATEGORY = #{condition}
 		ORDER BY BH_START_DATE DESC
 	</select>
@@ -299,7 +296,7 @@
 		<![CDATA[
 		SELECT COUNT(*)
 		FROM BROAD_HIS
-		WHERE BH_START_DATE <> TO_CHAR(SYSDATE, 'YY/MM/DD')
+		WHERE BH_STATUS= 'N'
 		AND BROAD_CATEGORY = #{condition}
 		]]>
 	</select>
@@ -312,7 +309,7 @@
 		FROM BROAD_HIS BH 
 		JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO)
 		JOIN MEMBER M ON(BC.MNO = M.MNO)
-		WHERE BH_START_DATE <> TO_CHAR(SYSDATE, 'YY/MM/DD')
+		WHERE BH_STATUS= 'N'
 		AND BROAD_CATEGORY = #{condition}
 		ORDER BY BH_START_DATE DESC
 		]]>
@@ -381,20 +378,18 @@
 		FROM BROAD_HIS BH 
 		JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO)
 		JOIN MEMBER M ON(BC.MNO = M.MNO)
-		WHERE BH_START_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
+		WHERE BH_STATUS= 'Y'
 		ORDER BY COUNT_VIEWERS DESC
 	</select>
 	
 	<!-- 메인페이지 시청자 순으로 정렬한 All Vod 방송 목록 조회용 쿼리문 (정언) -->
 	<select id="sortVAllVodList" resultMap="broadListResultSet">
-		<![CDATA[
 		SELECT BH.BHNO, BC.BROAD_ADDRESS, M.MNO, M.NICK_NAME, BH.BH_START_DATE, BH.BH_END_DATE, BH.BH_STATUS, BH.COUNT_VIEWERS, BH.BCNO, BH.COUNT_RECOMMENDATION, BH.BROAD_TITLE, BH.BROAD_PWD, BH.BROAD_CATEGORY , BH.ADULT
 		FROM BROAD_HIS BH 
 		JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO)
 		JOIN MEMBER M ON(BC.MNO = M.MNO)
-		WHERE BH_START_DATE <> TO_CHAR(SYSDATE, 'YY/MM/DD')
+		WHERE BH_STATUS= 'N'
 		ORDER BY COUNT_VIEWERS DESC
-		]]>
 	</select>
 	
 	<!-- 메인페이지 시청자 순으로 정렬한 All Live 방송 목록 조회용 쿼리문 -조건있음 (정언) -->
@@ -403,22 +398,20 @@
 		FROM BROAD_HIS BH 
 		JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO)
 		JOIN MEMBER M ON(BC.MNO = M.MNO)
-		WHERE BH_START_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
+		WHERE BH_STATUS= 'Y'
 		AND BROAD_CATEGORY = #{condition}
 		ORDER BY COUNT_VIEWERS DESC
 	</select>
 	
 	<!-- 메인페이지 시청자 순으로 정렬한 All Vod 방송 목록 조회용 쿼리문 -조건있음 (정언) -->
 	<select id="sortVAllVodList2" resultMap="broadListResultSet">
-		<![CDATA[
 		SELECT BH.BHNO, BC.BROAD_ADDRESS, M.MNO, M.NICK_NAME, BH.BH_START_DATE, BH.BH_END_DATE, BH.BH_STATUS, BH.COUNT_VIEWERS, BH.BCNO, BH.COUNT_RECOMMENDATION, BH.BROAD_TITLE, BH.BROAD_PWD, BH.BROAD_CATEGORY , BH.ADULT
 		FROM BROAD_HIS BH 
 		JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO)
 		JOIN MEMBER M ON(BC.MNO = M.MNO)
-		WHERE BH_START_DATE <> TO_CHAR(SYSDATE, 'YY/MM/DD')
+		WHERE BH_STATUS= 'N'
 		AND BROAD_CATEGORY = #{condition}
 		ORDER BY COUNT_VIEWERS DESC
-		]]>
 	</select>
 	
 	<!-- 메인페이지 추천 순으로 정렬한 All Live 방송 목록 조회용 쿼리문 (정언) -->
@@ -427,20 +420,18 @@
 		FROM BROAD_HIS BH 
 		JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO)
 		JOIN MEMBER M ON(BC.MNO = M.MNO)
-		WHERE BH_START_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
+		WHERE BH_STATUS= 'Y'
 		ORDER BY COUNT_RECOMMENDATION DESC
 	</select>
 	
 	<!-- 메인페이지 추천 순으로 정렬한 All Vod 방송 목록 조회용 쿼리문 (정언) -->
 	<select id="sortRAllVodList" resultMap="broadListResultSet">
-		<![CDATA[
 		SELECT BH.BHNO, BC.BROAD_ADDRESS, M.MNO, M.NICK_NAME, BH.BH_START_DATE, BH.BH_END_DATE, BH.BH_STATUS, BH.COUNT_VIEWERS, BH.BCNO, BH.COUNT_RECOMMENDATION, BH.BROAD_TITLE, BH.BROAD_PWD, BH.BROAD_CATEGORY , BH.ADULT
 		FROM BROAD_HIS BH 
 		JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO)
 		JOIN MEMBER M ON(BC.MNO = M.MNO)
-		WHERE BH_START_DATE <> TO_CHAR(SYSDATE, 'YY/MM/DD')
+		WHERE BH_STATUS= 'N'
 		ORDER BY COUNT_RECOMMENDATION DESC
-		]]>
 	</select>
 	
 	<!-- 메인페이지 추천 순으로 정렬한 All Live 방송 목록 조회용 쿼리문 -조건있음 (정언) -->
@@ -449,22 +440,20 @@
 		FROM BROAD_HIS BH 
 		JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO)
 		JOIN MEMBER M ON(BC.MNO = M.MNO)
-		WHERE BH_START_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
+		WHERE BH_STATUS= 'Y'
 		AND BROAD_CATEGORY = #{condition}
 		ORDER BY COUNT_RECOMMENDATION DESC
 	</select>
 	
 	<!-- 메인페이지 추천 순으로 정렬한 All Vod 방송 목록 조회용 쿼리문 -조건있음 (정언) -->
 	<select id="sortRAllVodList2" resultMap="broadListResultSet">
-		<![CDATA[
 		SELECT BH.BHNO, BC.BROAD_ADDRESS, M.MNO, M.NICK_NAME, BH.BH_START_DATE, BH.BH_END_DATE, BH.BH_STATUS, BH.COUNT_VIEWERS, BH.BCNO, BH.COUNT_RECOMMENDATION, BH.BROAD_TITLE, BH.BROAD_PWD, BH.BROAD_CATEGORY , BH.ADULT
 		FROM BROAD_HIS BH 
 		JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO)
 		JOIN MEMBER M ON(BC.MNO = M.MNO)
-		WHERE BH_START_DATE <> TO_CHAR(SYSDATE, 'YY/MM/DD')
+		WHERE BH_STATUS= 'N'
 		AND BROAD_CATEGORY = #{condition}
 		ORDER BY COUNT_RECOMMENDATION DESC
-		]]>
 	</select>
 	
 	<!-- 최근본방송 -->
@@ -480,7 +469,7 @@
 		      ORDER BY COUNT_VIEWERS DESC) L
 		      JOIN VIEW_HIS VH ON(VH.BHNO = L.BHNO)
 		      WHERE ROWNUM <= 10
-		      AND L.BH_START_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
+		      AND L.BH_STATUS= 'Y'
 		      AND VH.MNO = #{mno})
 		]]>
 	</select>
@@ -497,7 +486,7 @@
 		      ORDER BY COUNT_VIEWERS DESC) L
 		JOIN VIEW_HIS VH ON(VH.BHNO = L.BHNO)
 		WHERE ROWNUM <= 10
-		AND L.BH_START_DATE = TO_CHAR(SYSDATE, 'YY/MM/DD')
+		AND L.BH_STATUS= 'Y'
 		AND VH.MNO = #{mno}
 		ORDER BY VH.VIEW_START_DATE DESC
 		]]>
@@ -505,31 +494,27 @@
 	
 	<!-- 즐겨찾기에서 최근 본 Vod 방송 수 조회용 쿼리문 (정언) -->
 	<select id="lVodListCount" parameterType="_int" resultType="_int">
-		<![CDATA[
 		SELECT COUNT(*)
 		FROM (SELECT BH.BHNO, BC.BROAD_ADDRESS, M.MNO, M.NICK_NAME, BH.BH_START_DATE, BH.BH_END_DATE, BH.BH_STATUS, BH.COUNT_VIEWERS, BH.BCNO, BH.COUNT_RECOMMENDATION, BH.BROAD_TITLE, BH.BROAD_PWD, BH.BROAD_CATEGORY , BH.ADULT
 		      FROM BROAD_HIS BH 
 		      JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO)
 		      JOIN MEMBER M ON(BC.MNO = M.MNO)
 		      JOIN VIEW_HIS VH ON(VH.BHNO = BH.BHNO)
-		      WHERE BH_START_DATE <> TO_CHAR(SYSDATE, 'YY/MM/DD')
+		      WHERE BH_STATUS= 'N'
 		      AND VH.MNO = #{mno})
-		]]>
 	</select>
 	
 	
 	<!-- 즐겨찾기에서 최근 본 Vod 방송 목록 조회용 쿼리문 (정언) -->
 	<select id="selectlVodList" parameterType="_int" resultMap="broadListResultSet">
-		<![CDATA[
 		SELECT BH.BHNO, BC.BROAD_ADDRESS, M.MNO, M.NICK_NAME, BH.BH_START_DATE, BH.BH_END_DATE, BH.BH_STATUS, BH.COUNT_VIEWERS, BH.BCNO, BH.COUNT_RECOMMENDATION, BH.BROAD_TITLE, BH.BROAD_PWD, BH.BROAD_CATEGORY , BH.ADULT
 		FROM BROAD_HIS BH 
 		JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO)
 		JOIN MEMBER M ON(BC.MNO = M.MNO)
 		JOIN VIEW_HIS VH ON(VH.BHNO = BH.BHNO)
-		WHERE BH_START_DATE <> TO_CHAR(SYSDATE, 'YY/MM/DD')
+		WHERE BH_STATUS= 'N'
 		AND VH.MNO = #{mno}
 		ORDER BY VH.VIEW_START_DATE DESC
-		]]>
 	</select>
 	
 	<!-- 즐겨찾기 -->
@@ -546,15 +531,92 @@
 	
 	<!-- 즐겨찾기 한 BJ 목록 조회용 쿼리문 (정언) -->
 	<select id="selectfBjList" parameterType="_int" resultMap="favBjResultSet">
-		SELECT F.FANO, F.SNO MNO, M.NICK_NAME, (SELECT COUNT(*) FROM FAVORITES FC WHERE FC.SNO = F.SNO) FAVCOUNT, M.GENDER
+		SELECT F.FANO, F.SNO MNO, M.NICK_NAME, (SELECT COUNT(*) FROM FAVORITES FC WHERE FC.SNO = F.SNO) FAVCOUNT, A.CHANGE_NAME
 		FROM FAVORITES F
 		JOIN MEMBER M ON(F.SNO = M.MNO)
+		JOIN ATT_MANAGE AM ON(F.SNO = AM.MNO)
+		JOIN ATTACHMENT A ON(AM.ATTNO = A.ATTNO)
 		WHERE F.MNO = #{mno}
 		AND M.IS_STREAMER = 'Y'
 		ORDER BY (SELECT COUNT(*) FROM FAVORITES FC WHERE FC.SNO = F.SNO) DESC
 	</select>
 	
 	<!-- 구독한BJ -->
+	<!-- 구독 한 BJ 수 조회용 쿼리문 (정언) -->
+	<select id="sBjListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM (SELECT SH.SUNO, SH.SNO, M.NICK_NAME, (SELECT COUNT(*) FROM SUBSCRIPTION_HIS SHC WHERE SH.SNO = SHC.SNO) SUBCOUNT
+		      FROM SUBSCRIPTION_HIS SH
+		      JOIN MEMBER M ON(SH.SNO = M.MNO)
+		      WHERE SH.MNO = #{mno}
+		      AND M.IS_STREAMER = 'Y'
+		      AND SH.SU_STATUS = 'Y')
+	</select>
+	
+	
+	<!-- 구독 한 BJ 목록 조회용 쿼리문 (정언) -->
+	<select id="selectsBjList" parameterType="_int" resultMap="subBjResultSet">
+		SELECT SH.SUNO, SH.SNO MNO, M.NICK_NAME, (SELECT COUNT(*) FROM SUBSCRIPTION_HIS SHC WHERE SH.SNO = SHC.SNO) SUBCOUNT, A.CHANGE_NAME
+		FROM SUBSCRIPTION_HIS SH
+		JOIN MEMBER M ON(SH.SNO = M.MNO)
+		JOIN ATT_MANAGE AM ON(SH.SNO = AM.MNO)
+		JOIN ATTACHMENT A ON(AM.ATTNO = A.ATTNO)
+		WHERE SH.MNO = #{mno}
+		AND M.IS_STREAMER = 'Y'
+		AND SH.SU_STATUS = 'Y'
+		ORDER BY (SELECT COUNT(*) FROM SUBSCRIPTION_HIS SHC WHERE SH.SNO = SHC.SNO) DESC
+	</select>
+	
+	<!-- 스트리머의 방송 조회 -->
+	<!-- 스트리머의 Live 방송 수 조회용 쿼리문 (정언) -->
+	<select id="bLiveListCount" parameterType="_int" resultType="_int">
+		<![CDATA[
+		SELECT COUNT(*)
+		FROM (SELECT * FROM BROAD_HIS BH JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO) JOIN MEMBER M ON(BC.MNO = M.MNO) WHERE M.MNO = #{smno} ORDER BY COUNT_VIEWERS DESC)
+		WHERE ROWNUM <= 10
+		AND BH_STATUS= 'Y'
+		]]>
+	</select>
+	
+	<!-- 스트리머의 Live 방송 목록 조회용 쿼리문 (정언) -->
+	<select id="selectBLiveList" parameterType="_int" resultMap="broadListResultSet">
+		<![CDATA[
+		SELECT ROWNUM, BHNO, BROAD_ADDRESS, MNO, NICK_NAME, BH_START_DATE, BH_END_DATE, BH_STATUS, COUNT_VIEWERS, BCNO, COUNT_RECOMMENDATION, BROAD_TITLE, BROAD_PWD, BROAD_CATEGORY, ADULT
+		FROM (SELECT BH.BHNO, BC.BROAD_ADDRESS, M.MNO, M.NICK_NAME, BH.BH_START_DATE, BH.BH_END_DATE, BH.BH_STATUS, BH.COUNT_VIEWERS, BH.BCNO, BH.COUNT_RECOMMENDATION, BH.BROAD_TITLE, BH.BROAD_PWD, BH.BROAD_CATEGORY , BH.ADULT
+		      FROM BROAD_HIS BH 
+		      JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO)
+		      JOIN MEMBER M ON(BC.MNO = M.MNO)
+		      WHERE M.MNO = #{smno}
+		      ORDER BY COUNT_VIEWERS DESC)
+		WHERE ROWNUM <= 10
+		AND BH_STATUS= 'Y'
+		]]>
+	</select>
+	
+	<!-- 스트리머의 Vod 방송 수 조회용 쿼리문 (정언) -->
+	<select id="bVodListCount" parameterType="_int" resultType="_int">
+		<![CDATA[
+		SELECT COUNT(*)
+		FROM (SELECT * FROM BROAD_HIS BH JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO) JOIN MEMBER M ON(BC.MNO = M.MNO) WHERE M.MNO = #{smno} ORDER BY COUNT_VIEWERS DESC)
+		WHERE ROWNUM <= 10
+		AND BH_STATUS= 'N'
+		]]>
+	</select>
+	
+	<!-- 스트리머의 Vod 방송 목록 조회용 쿼리문 (정언) -->
+	<select id="selectBVodList" parameterType="_int" resultMap="broadListResultSet">
+		<![CDATA[
+		SELECT ROWNUM, BHNO, BROAD_ADDRESS, MNO, NICK_NAME, BH_START_DATE, BH_END_DATE, BH_STATUS, COUNT_VIEWERS, BCNO, COUNT_RECOMMENDATION, BROAD_TITLE, BROAD_PWD, BROAD_CATEGORY, ADULT
+		FROM (SELECT BH.BHNO, BC.BROAD_ADDRESS, M.MNO, M.NICK_NAME, BH.BH_START_DATE, BH.BH_END_DATE, BH.BH_STATUS, BH.COUNT_VIEWERS, BH.BCNO, BH.COUNT_RECOMMENDATION, BH.BROAD_TITLE, BH.BROAD_PWD, BH.BROAD_CATEGORY , BH.ADULT
+		      FROM BROAD_HIS BH 
+		      JOIN BROAD_CENTER BC ON(BH.BCNO = BC.BCNO)
+		      JOIN MEMBER M ON(BC.MNO = M.MNO)
+		      WHERE M.MNO = #{smno}
+		      ORDER BY COUNT_VIEWERS DESC)
+		WHERE ROWNUM <= 10
+		AND BH_STATUS= 'N'
+		]]>
+	</select>
 	
 	<!--  방송 시작시 알람 테이블 이력추가할 데이터 조회 (소연) -->
 	<select  id="subInfoMap" resultType="java.util.HashMap">

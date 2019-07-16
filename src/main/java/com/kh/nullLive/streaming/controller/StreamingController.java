@@ -194,14 +194,12 @@ public class StreamingController {
 		for(int i = 0; i < blist.size(); i++) {
 			HashMap<String, Object> hmap = new HashMap<String, Object>();
 			String sDate = fmt.format(blist.get(i).getStartDate());
-			String eDate = fmt.format(blist.get(i).getEndDate());
 
 			hmap.put("bhno", blist.get(i).getBhno());
 			hmap.put("broadAddress", blist.get(i).getBroadAddress());
 			hmap.put("mno", blist.get(i).getMno());
 			hmap.put("nickName", blist.get(i).getNickName());
 			hmap.put("startDate", sDate);
-			hmap.put("endDate", eDate);
 			hmap.put("bhStatus", blist.get(i).getBhStatus());
 			hmap.put("countViewers", blist.get(i).getCountViewers());
 			hmap.put("bcno", blist.get(i).getBcno());
@@ -290,14 +288,12 @@ public class StreamingController {
 			for(int i = 0; i < blist.size(); i++) {
 				HashMap<String, Object> hmap = new HashMap<String, Object>();
 				String sDate = fmt.format(blist.get(i).getStartDate());
-				String eDate = fmt.format(blist.get(i).getEndDate());
 
 				hmap.put("bhno", blist.get(i).getBhno());
 				hmap.put("broadAddress", blist.get(i).getBroadAddress());
 				hmap.put("mno", blist.get(i).getMno());
 				hmap.put("nickName", blist.get(i).getNickName());
 				hmap.put("startDate", sDate);
-				hmap.put("endDate", eDate);
 				hmap.put("bhStatus", blist.get(i).getBhStatus());
 				hmap.put("countViewers", blist.get(i).getCountViewers());
 				hmap.put("bcno", blist.get(i).getBcno());
@@ -333,14 +329,12 @@ public class StreamingController {
 			for(int i = 0; i < blist.size(); i++) {
 				HashMap<String, Object> hmap = new HashMap<String, Object>();
 				String sDate = fmt.format(blist.get(i).getStartDate());
-				String eDate = fmt.format(blist.get(i).getEndDate());
 
 				hmap.put("bhno", blist.get(i).getBhno());
 				hmap.put("broadAddress", blist.get(i).getBroadAddress());
 				hmap.put("mno", blist.get(i).getMno());
 				hmap.put("nickName", blist.get(i).getNickName());
 				hmap.put("startDate", sDate);
-				hmap.put("endDate", eDate);
 				hmap.put("bhStatus", blist.get(i).getBhStatus());
 				hmap.put("countViewers", blist.get(i).getCountViewers());
 				hmap.put("bcno", blist.get(i).getBcno());
@@ -530,14 +524,17 @@ public class StreamingController {
 			for(int i = 0; i < blist.size(); i++) {
 				HashMap<String, Object> hmap = new HashMap<String, Object>();
 				String sDate = fmt.format(blist.get(i).getStartDate());
-				String eDate = fmt.format(blist.get(i).getEndDate());
+				
+				if(blist.get(i).getEndDate() != null) {
+					String eDate = fmt.format(blist.get(i).getEndDate());
+					hmap.put("endDate", eDate);
+				}
 
 				hmap.put("bhno", blist.get(i).getBhno());
 				hmap.put("broadAddress", blist.get(i).getBroadAddress());
 				hmap.put("mno", blist.get(i).getMno());
 				hmap.put("nickName", blist.get(i).getNickName());
 				hmap.put("startDate", sDate);
-				hmap.put("endDate", eDate);
 				hmap.put("bhStatus", blist.get(i).getBhStatus());
 				hmap.put("countViewers", blist.get(i).getCountViewers());
 				hmap.put("bcno", blist.get(i).getBcno());
@@ -585,14 +582,17 @@ public class StreamingController {
 			for(int i = 0; i < blist.size(); i++) {
 				HashMap<String, Object> hmap = new HashMap<String, Object>();
 				String sDate = fmt.format(blist.get(i).getStartDate());
-				String eDate = fmt.format(blist.get(i).getEndDate());
-
+				
+				if(blist.get(i).getEndDate() != null) {
+					String eDate = fmt.format(blist.get(i).getEndDate());
+					hmap.put("endDate", eDate);
+				}
+				
 				hmap.put("bhno", blist.get(i).getBhno());
 				hmap.put("broadAddress", blist.get(i).getBroadAddress());
 				hmap.put("mno", blist.get(i).getMno());
 				hmap.put("nickName", blist.get(i).getNickName());
 				hmap.put("startDate", sDate);
-				hmap.put("endDate", eDate);
 				hmap.put("bhStatus", blist.get(i).getBhStatus());
 				hmap.put("countViewers", blist.get(i).getCountViewers());
 				hmap.put("bcno", blist.get(i).getBcno());
@@ -652,14 +652,17 @@ public class StreamingController {
 			for(int i = 0; i < blist.size(); i++) {
 				HashMap<String, Object> hmap = new HashMap<String, Object>();
 				String sDate = fmt.format(blist.get(i).getStartDate());
-				String eDate = fmt.format(blist.get(i).getEndDate());
+				
+				if(blist.get(i).getEndDate() != null) {
+					String eDate = fmt.format(blist.get(i).getEndDate());
+					hmap.put("endDate", eDate);
+				}
 
 				hmap.put("bhno", blist.get(i).getBhno());
 				hmap.put("broadAddress", blist.get(i).getBroadAddress());
 				hmap.put("mno", blist.get(i).getMno());
 				hmap.put("nickName", blist.get(i).getNickName());
 				hmap.put("startDate", sDate);
-				hmap.put("endDate", eDate);
 				hmap.put("bhStatus", blist.get(i).getBhStatus());
 				hmap.put("countViewers", blist.get(i).getCountViewers());
 				hmap.put("bcno", blist.get(i).getBcno());
@@ -707,14 +710,17 @@ public class StreamingController {
 			for(int i = 0; i < blist.size(); i++) {
 				HashMap<String, Object> hmap = new HashMap<String, Object>();
 				String sDate = fmt.format(blist.get(i).getStartDate());
-				String eDate = fmt.format(blist.get(i).getEndDate());
 
+				if(blist.get(i).getEndDate() != null) {
+					String eDate = fmt.format(blist.get(i).getEndDate());
+					hmap.put("endDate", eDate);
+				}
+				
 				hmap.put("bhno", blist.get(i).getBhno());
 				hmap.put("broadAddress", blist.get(i).getBroadAddress());
 				hmap.put("mno", blist.get(i).getMno());
 				hmap.put("nickName", blist.get(i).getNickName());
 				hmap.put("startDate", sDate);
-				hmap.put("endDate", eDate);
 				hmap.put("bhStatus", blist.get(i).getBhStatus());
 				hmap.put("countViewers", blist.get(i).getCountViewers());
 				hmap.put("bcno", blist.get(i).getBcno());
@@ -771,14 +777,12 @@ public class StreamingController {
 		for(int i = 0; i < blist.size(); i++) {
 			HashMap<String, Object> hmap = new HashMap<String, Object>();
 			String sDate = fmt.format(blist.get(i).getStartDate());
-			String eDate = fmt.format(blist.get(i).getEndDate());
 
 			hmap.put("bhno", blist.get(i).getBhno());
 			hmap.put("broadAddress", blist.get(i).getBroadAddress());
 			hmap.put("mno", blist.get(i).getMno());
 			hmap.put("nickName", blist.get(i).getNickName());
 			hmap.put("startDate", sDate);
-			hmap.put("endDate", eDate);
 			hmap.put("bhStatus", blist.get(i).getBhStatus());
 			hmap.put("countViewers", blist.get(i).getCountViewers());
 			hmap.put("bcno", blist.get(i).getBcno());
@@ -876,7 +880,7 @@ public class StreamingController {
 			hmap.put("mno", blist.get(i).getMno());
 			hmap.put("nickName", blist.get(i).getNickName());
 			hmap.put("favCount", blist.get(i).getFavCount());
-			hmap.put("sGender", blist.get(i).getSGender());
+			hmap.put("profileImg", blist.get(i).getProfileImg());
 
 			list.add(hmap);
 		}
@@ -884,6 +888,138 @@ public class StreamingController {
 		mv.addObject("list", list);
 		mv.setViewName("jsonView");
 		
+		return mv;
+	}
+	
+	/**
+	 * @author : eon
+	 * @date : 2019. 7. 15.
+	 * @comment : 구독 한 BJ 리스트 조회용 메소드
+	 */
+	@RequestMapping("sBjList.st")
+	public ModelAndView selectsBjList(HttpServletRequest request, ModelAndView mv, HttpServletResponse response) {
+		Member m = (Member) request.getSession().getAttribute("loginUser");
+		
+		int mno = m.getMno();
+		System.out.println("로그인 한 유저 : " + mno);
+		
+		int listCount = ss.getsBjListCount(mno);
+		System.out.println("구독 한 BJ 갯수 : " + listCount);
+
+		ArrayList<BroadList> blist = ss.selectsBjList(mno);
+		System.out.println("구독 한 BJ 목록 : " + blist);
+
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+
+		for(int i = 0; i < blist.size(); i++) {
+			HashMap<String, Object> hmap = new HashMap<String, Object>();
+
+			hmap.put("fano", blist.get(i).getFano());
+			hmap.put("mno", blist.get(i).getMno());
+			hmap.put("nickName", blist.get(i).getNickName());
+			hmap.put("subCount", blist.get(i).getSubCount());
+			hmap.put("profileImg", blist.get(i).getProfileImg());
+
+			list.add(hmap);
+		}
+
+		mv.addObject("list", list);
+		mv.setViewName("jsonView");
+		
+		return mv;
+	}
+	
+	/**
+	 * @author : eon
+	 * @date : 2019. 7. 16.
+	 * @comment : 즐겨찾기 한 스트리머의 Live 방송 리스트 조회용 메소드
+	 */
+	@RequestMapping("showBLive.st")
+	public ModelAndView showBLiveList(HttpServletRequest request, ModelAndView mv, HttpServletResponse response, @RequestParam int smno) {
+		System.out.println("스트리머" + smno);
+		
+		int listCount = ss.getBLiveListCount(smno);
+		System.out.println(smno + "의 방송 갯수(LIVE) : " + listCount);
+
+		ArrayList<BroadList> blist = ss.selectBLiveList(smno);
+		System.out.println(smno + "의 방송 목록(LIVE) : " + blist);
+
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+
+		for(int i = 0; i < blist.size(); i++) {
+			HashMap<String, Object> hmap = new HashMap<String, Object>();
+			String sDate = fmt.format(blist.get(i).getStartDate());
+
+			hmap.put("bhno", blist.get(i).getBhno());
+			hmap.put("broadAddress", blist.get(i).getBroadAddress());
+			hmap.put("mno", blist.get(i).getMno());
+			hmap.put("nickName", blist.get(i).getNickName());
+			hmap.put("startDate", sDate);
+			hmap.put("bhStatus", blist.get(i).getBhStatus());
+			hmap.put("countViewers", blist.get(i).getCountViewers());
+			hmap.put("bcno", blist.get(i).getBcno());
+			hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
+			hmap.put("bTitle", blist.get(i).getBTitle());
+			hmap.put("bPwd", blist.get(i).getBPwd());
+			hmap.put("pwdCheck", blist.get(i).getPwdCheck());
+			hmap.put("bCategory", blist.get(i).getBCategory());
+			hmap.put("adult", blist.get(i).getAdult());
+
+			list.add(hmap);
+		}
+
+		mv.addObject("list", list);
+		mv.setViewName("jsonView");
+
+		return mv;
+	}
+	
+	/**
+	 * @author : eon
+	 * @date : 2019. 7. 16.
+	 * @comment : 즐겨찾기 한 스트리머의 Vod 방송 리스트 조회용 메소드
+	 */
+	@RequestMapping("showBVod.st")
+	public ModelAndView showBVodList(HttpServletRequest request, ModelAndView mv, HttpServletResponse response, @RequestParam int smno) {
+		System.out.println("스트리머" + smno);
+		
+		int listCount = ss.getBVodListCount(smno);
+		System.out.println(smno + "의 방송 갯수(Vod) : " + listCount);
+
+		ArrayList<BroadList> blist = ss.selectBVodList(smno);
+		System.out.println(smno + "의 방송 목록(Vod) : " + blist);
+
+		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd");
+
+		for(int i = 0; i < blist.size(); i++) {
+			HashMap<String, Object> hmap = new HashMap<String, Object>();
+			String sDate = fmt.format(blist.get(i).getStartDate());
+			String eDate = fmt.format(blist.get(i).getEndDate());
+			
+			hmap.put("bhno", blist.get(i).getBhno());
+			hmap.put("broadAddress", blist.get(i).getBroadAddress());
+			hmap.put("mno", blist.get(i).getMno());
+			hmap.put("nickName", blist.get(i).getNickName());
+			hmap.put("startDate", sDate);
+			hmap.put("endDate", eDate);
+			hmap.put("bhStatus", blist.get(i).getBhStatus());
+			hmap.put("countViewers", blist.get(i).getCountViewers());
+			hmap.put("bcno", blist.get(i).getBcno());
+			hmap.put("countRecommendation", blist.get(i).getCountRecommendation());
+			hmap.put("bTitle", blist.get(i).getBTitle());
+			hmap.put("bPwd", blist.get(i).getBPwd());
+			hmap.put("pwdCheck", blist.get(i).getPwdCheck());
+			hmap.put("bCategory", blist.get(i).getBCategory());
+			hmap.put("adult", blist.get(i).getAdult());
+
+			list.add(hmap);
+		}
+
+		mv.addObject("list", list);
+		mv.setViewName("jsonView");
+
 		return mv;
 	}
 	
