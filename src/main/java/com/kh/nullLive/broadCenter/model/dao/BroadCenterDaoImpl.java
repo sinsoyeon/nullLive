@@ -120,8 +120,8 @@ public class BroadCenterDaoImpl implements BroadCenterDao {
 
 	//소통게시판 리스트 조회(정연)
 	@Override
-	public ArrayList<HashMap<String, Object>> selectCommunityList(SqlSessionTemplate sqlSession, int smno) {
-		return (ArrayList)sqlSession.selectList("BroadCenter.selectCommunityList", smno);
+	public ArrayList<HashMap<String, Object>> selectCommunityList(SqlSessionTemplate sqlSession, HashMap<String, Object> pagingHmap) {
+		return (ArrayList)sqlSession.selectList("BroadCenter.selectCommunityList", pagingHmap);
 	}
 
 	//스트리머 검색(정연)
@@ -181,6 +181,16 @@ public class BroadCenterDaoImpl implements BroadCenterDao {
 	@Override
 	public int deleteCommu(SqlSessionTemplate sqlSession, int bno) {
 		return sqlSession.delete("BroadCenter.deleteCommu", bno);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 16.
+	 * @comment : 페이징 처리를 위한 커뮤니티 리스트 카운트 조회
+	 */
+	@Override
+	public int getCommuBoardListCount(SqlSessionTemplate sqlSession, int smno) {
+		return sqlSession.selectOne("BroadCenter.getCommuBoardListCount",smno);
 	}
 	
 

@@ -274,15 +274,38 @@ th {
 				</div>
 			</c:forEach>
 		</div>
+					<!-- 지원하기 버튼 -->
+		<div class="btnArea col-lg-12" align="center">
+			<%-- 로그인된 유저이거나 작성자가 아닌경우 지원하기 버튼을 보여줌 --%>
+			<c:if test="${ !empty loginUser && loginUser.mno ne member.mno}">
+				<button class="btn btn-success btn-lg" onclick="fn_showContract()">지원하기</button>
+			</c:if>
+		</div>	
 		
 			<!-- 지원서 폼 -->
 			<div class="contractArea col-lg-12" id="conToggle" align="center">
-				<h2>지원서 작성</h2>
+				<h2><b>지원서 작성</b></h2>
 				<form action="insertMngContract.jbo" method="post" id="contractFrm" enctype="multipart/form-data">
-					<h3>제목</h3>
-					<input class="form-control col-lg-12 col-md-12 col-sm-8" type="text" name="bTitle" id="bTitle" placeholder="제목을 입력하세요">
-					<h3>내용</h3>
-					<textarea name="bContent" class="col-lg-12" id="editor" required  wrap="hard" placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 200px;"></textarea>
+					
+					<table class="table">
+						<tr>
+							<td style="vertical-align: middle" width="70px">
+								<b style="font-size: 20px">제목</b>
+							</td>
+							<td>
+								<input class="form-control col-lg-12 col-md-12 col-sm-8" type="text" name="bTitle" id="bTitle" placeholder="제목을 입력하세요">
+							</td>
+						</tr>
+						<tr>
+							<td style="vertical-align: middle" width="70px">
+								<b style="font-size: 20px">내용</b>
+							</td>
+							<td>
+								<textarea name="bContent" class="col-lg-12" id="editor" required  wrap="hard" placeholder="내용을입력하세요(4자이상)"  style="width: 880px; height: 200px;"></textarea>
+							</td>
+						</tr>
+						
+					</table>
 					<input type="hidden" value="${ board.bno }" name="refBno">
 					<input type="hidden" value="JOBMNGCONT" name="bType">
 					<input type="hidden" value="${ jBoard.job }" name="job">
@@ -290,22 +313,18 @@ th {
 					<input type="hidden" value="${ member.mno }" name="mno">
 					<input type="hidden" value="${ streamer.sno }" name="sno">
 					
-					<h3>첨부파일</h3>
+					<b style="font-size: 20px">첨부파일</b>
 					<jsp:include page="attachmentForm.jsp"/>
 				</form>
 				<button class="btn btn-success btn-sm" onclick="fn_ContractSumit()">제출하기</button>
+				<br><br><br><br><br><br><br><br><br>
 				<!-- 첨부파일 영역 -->
 			</div>
+			
 		
 		
 		
-			<!-- 지원하기 버튼 -->
-		<div class="btnArea col-lg-12" align="center">
-			<%-- 로그인된 유저이거나 작성자가 아닌경우 지원하기 버튼을 보여줌 --%>
-			<c:if test="${ !empty loginUser && loginUser.mno ne member.mno}">
-				<button class="btn btn-success btn-lg" onclick="fn_showContract()">지원하기</button>
-			</c:if>
-		</div>	
+
 		
 		
 		<br><br><br><br><br><br>

@@ -154,8 +154,8 @@ public class BroadCenterServiceImpl implements BroadCenterService {
 
 	//소통 게시판 리스트 조회(정연)
 	@Override
-	public ArrayList<HashMap<String, Object>> selectCommunityList(int smno) {
-		return bcd.selectCommunityList(sqlSession, smno);
+	public ArrayList<HashMap<String, Object>> selectCommunityList(HashMap<String, Object> pagingHmap) {
+		return bcd.selectCommunityList(sqlSession, pagingHmap);
 	}
 
 	//스트리머 검색(정연)
@@ -213,6 +213,16 @@ public class BroadCenterServiceImpl implements BroadCenterService {
 	@Override
 	public int deleteCommu(int bno) {
 		return bcd.deleteCommu(sqlSession, bno);
+	}
+
+	/**
+	 * @author : uukk
+	 * @date : 2019. 7. 16.
+	 * @comment : 페이징처리를 위한 listcount조회
+	 */
+	@Override
+	public int getCommuBoardListCount(int smno) {
+		return bcd.getCommuBoardListCount(sqlSession,smno);
 	}
 
 	

@@ -73,7 +73,7 @@ public interface BroadCenterService {
 	int enableCommunityBoard(int smno);
 
 	//소통 게시판 리스트 조회(정연)
-	ArrayList<HashMap<String, Object>> selectCommunityList(int smno);
+	ArrayList<HashMap<String, Object>> selectCommunityList(HashMap<String, Object> pagingHmap);
 
 	//스트리머 검색 (정연)
 	ArrayList<HashMap<String, Object>> searchStreamer();
@@ -103,6 +103,8 @@ public interface BroadCenterService {
 
 	//소통 게시물 삭제(정연)
 	int deleteCommu(int bno);
+
+	int getCommuBoardListCount(int smno);
 
 	
 

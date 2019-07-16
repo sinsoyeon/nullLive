@@ -25,6 +25,7 @@ import com.kh.nullLive.broadCenter.model.exception.StreamerUpdateException;
 import com.kh.nullLive.broadCenter.model.service.BroadCenterService;
 import com.kh.nullLive.broadCenter.model.vo.BroadCenter;
 import com.kh.nullLive.common.attachment.model.vo.Attachment;
+import com.kh.nullLive.common.paging.model.vo.PagingVo;
 import com.kh.nullLive.member.model.exception.ProfileException;
 import com.kh.nullLive.member.model.service.MemberService;
 import com.kh.nullLive.member.model.vo.Member;
@@ -133,7 +134,7 @@ public class centerController {
 
 	// 시청자 소통 게시판 페이지로 이동(정연)
 	@RequestMapping("communicationBoard.st")
-	public String communicationBoard(@RequestParam("smno") int smno, HttpSession session, Model model) {
+	public String communicationBoard(@RequestParam("smno") int smno, HttpSession session, Model model, PagingVo paging) {
 		int mno =  ((Member) session.getAttribute("loginUser")).getMno();
 		
 		HashMap<String, Object> commuInfo = new HashMap<String, Object>();
@@ -144,14 +145,20 @@ public class centerController {
 		int firstCheck = bcs.firstCheckCommunication(commuInfo);
 		
 		//System.out.println("체크: " + firstCheck);
+		HashMap<String,Object> pagingHmap = new HashMap<String,Object>();
+		pagingHmap.put("paging", paging);
+		pagingHmap.put("smno",smno);
 		
-		ArrayList<HashMap<String, Object>> list = bcs.selectCommunityList(smno);
+		
+		ArrayList<HashMap<String, Object>> list = bcs.selectCommunityList(pagingHmap);
 		int bbno = bcs.selectBbno(commuInfo); 
-		
+		paging.setTotal(bcs.getCommuBoardListCount(smno));
+		System.out.println(paging.getTotal());
 		
 		model.addAttribute("firstCheck", firstCheck);
 		model.addAttribute("list", list);
 		model.addAttribute("bbno", bbno);
+		model.addAttribute("pi",paging);
 		
 		
 		return "streaming/broadCenter/communicationBoard";
