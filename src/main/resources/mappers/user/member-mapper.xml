@@ -29,6 +29,15 @@
 		<result property="adult" column="ADULT"/>
 	</resultMap>
 	
+	<resultMap type="BankAccount" id="bankAccountResultSet">
+		<id property="accno" column="ACCNO"/>
+		<result property="bankCode" column="BANK_CODE"/>
+		<result property="bankAccount" column="BANK_ACCCOUNT"/>
+		<result property="holder" column="HOLDER"/>
+		<result property="bankStatus" column="BANK_CODE"/>
+		<result property="bankCode" column="BANK_CODE"/>
+	</resultMap>
+	
 	<resultMap type="Attachment" id="AttachmentResultSet">
 		<id property="attno" column="ATTNO"/>
 		<result property="uploadDate" column="UPLOAD_DATE"/>
@@ -110,6 +119,23 @@
 		PWD_MODIFY_DATE=SYSDATE
 		WHERE MID=#{mid}
 	</update>
+	
+	<select id="getBankAccountInfo" parameterType="_int" resultMap="bankAccountResultSet">
+		SELECT * FROM BANK_ACCOUNT
+		WHERE MNO=#{mno}
+		AND BANK_STATUS='Y'
+	</select>
+	
+	<update id="disableBankAccount" parameterType="BankAccount">
+		UPDATE BANK_ACCOUNT
+		SET BANK_STATUS='N'
+		WHERE MNO=#{mno}
+	</update>
+	
+	<insert id="updateBankAcount" parameterType="BankAccount">
+		INSERT INTO BANK_ACCOUNT(ACCNO,BANK_CODE,BANK_ACCOUNT,HOLDER,BANK_STATUS,MNO) VALUES
+		(SEQ_ACCNO.NEXTVAL,#{bankCode},#{bankAccount},#{holder},DEFAULT,#{mno})
+	</insert>
 	
 	<insert id="insertProImageDefault" parameterType="Attachment">
 		INSERT INTO ATTACHMENT(ATTNO,UPLOAD_DATE,FILE_PATH,MODIFY_DATE,DOWNLOAD,

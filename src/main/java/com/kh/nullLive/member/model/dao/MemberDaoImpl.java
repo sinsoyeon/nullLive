@@ -41,10 +41,15 @@ public class MemberDaoImpl implements MemberDao {
 	public int updateMember(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.update("Member.updateMember",m);
 	}
-	//계좌정보 수정
+	//이전 계좌 비활성화
 	@Override
-	public int updateBankAccount(SqlSessionTemplate sqlSession, BankAccount bankAccount) {
-		return sqlSession.update("Streamer.updateStreamerInfo",bankAccount);
+	public int disableBankAccount(SqlSessionTemplate sqlSession, BankAccount bankAccount) {
+		return sqlSession.update("Member.disableBankAccount",bankAccount);
+	}
+	//새로운 계좌 입력
+	@Override
+	public int insertNewBankAccount(SqlSessionTemplate sqlSession, BankAccount bankAccount) {
+		return sqlSession.insert("Member.updateBankAcount",bankAccount);
 	}
 	//비밀번호변경
 	@Override

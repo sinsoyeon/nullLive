@@ -46,7 +46,7 @@
 						
 					</div>
 					<div class="col-md-4" style="display: inline; float: right">
-						<img src="${contextPath}/resources/image/heart.jpg" width="15%" style="display: inline; float: left;"/>
+						<img src="${contextPath}/resources/image/searchlike.png" width="25%" style="display: inline; float: left;"/>
 						<p style="font-size:1.5em;font-family: 'Literata', serif;display: inline; float: left; margin-left:10px;"><c:out value="${sessionScope.loginUser.receivedLikes}"></c:out></p>
 					</div>
 				</div>
@@ -97,7 +97,7 @@
 					<br />
 					<hr style="margin-top:10px; width:300px;"/>
 					<div>
-						<h3>다시 보기</h3>
+						
 					</div>
 				</div>
 			</div>
