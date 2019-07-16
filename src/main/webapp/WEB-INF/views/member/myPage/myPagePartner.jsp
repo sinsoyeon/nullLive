@@ -49,6 +49,17 @@ text-align:center;
 	padding-right:40px;
 }
 
+#showClcBtn{
+  background-color: white;
+ background-color: #4CAF50; /* Green */
+  color: white;
+  border: 2px solid #4CAF50;
+    text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 18px;
+}
+
 </style>
 </head>
 <body>
@@ -148,6 +159,7 @@ text-align:center;
 			var mno = ${loginUser.mno};
 			selectClc(mno,1);
 			$('#selectClcList').show();
+			$(this).hide();
 		});
 		
 		
@@ -210,7 +222,6 @@ text-align:center;
 					var $endButton = $('<li class="page-item" onclick="selectClc('+ mno + ',' + data.infoMap.pi.maxPage  +');"> <a class="page-link"> >></a> </li>');
 					$("#myClcListPaging > ul").append($endButton);	
 					
-					$('#showClcBtn').hide();
 				}
 				
 			});

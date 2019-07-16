@@ -17,6 +17,8 @@
 <script src="${contextPath}/resources/css/streaming/getHTMLMediaElement.js"></script>
 <link rel="stylesheet" href="${contextPath}/resources/css/streaming/streamRoom.css" />
 <link rel="stylesheet" href="${ contextPath }/resources/css/soyeonCss.css">
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Gothic+A1|Jua|Song+Myung&display=swap" rel="stylesheet">
+
 </head>
 <body>
 <section id="page">
@@ -36,7 +38,7 @@
     	<button class="btn btn-default" data-toggle="modal" data-target="#sponModal" id="sponBtn" >후원</button>
 
    <!--  <input id="nickName" value="빠숑" type="text" hidden> -->
-     <!-- <div style="display:none;" id="otherClients"></div> --
+     <!-- <div style="display:none;" id="otherClients"></div> 
   </nav>
   <footer>
     <div class="card border-secondary mb-3" id="footerArea">
@@ -84,6 +86,7 @@
   <input type="hidden" id="nickName" value="${loginUser.nickName}" />
   <input type="hidden" id="endingComment" value="${broadInfo['ENDINGCOMMENT']}" />
   
+  
 </section>
   
 
@@ -92,13 +95,13 @@
       <div class="modal-content" style="z-index:99999;">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Login</h4>
+            <h4 class="modal-title">후원하기</h4>
          </div>
          <div class="modal-body">
             <form action="">
             <div id="infoArea">
             
-               <p align="center"><i class="fa fa-heart" style="font-size:48px;color:#ed7679"></i>빠숑님에게 별풍선 선물하기</p>
+               <p align="center" id="headerText">${broadInfo['STREAMERADDRESS']} 님에게 NULL 선물하기</p>
             </div>
          
             <p id="selectNull">보유 중인 NULL POINT : ${loginUser.point }</p>
@@ -129,11 +132,11 @@
                   <td>
                   <label>금액 입력</label>
                   </td>   
-                  <td colspan="2"><input type="number" placeholder="NULL" name="money" id="inputMoney"><label for="">  NULL</label></td>
+                  <td ><input type="number" placeholder="NULL" name="money" id="inputMoney"><label for="">  NULL</label></td>
                </tr>
-               <tr>
-                  <td><label for="">전송할 메시지 : </label></td>
-                  <td><textarea name="requestMsg" id="requestMsg" cols="30" rows="10"></textarea></td>
+               <tr style="padding-left:50px;">
+                  <td><label for="" style="width:100px;">전송할 메시지 : </label></td>
+                  <td><textarea name="requestMsg" id="requestMsg" cols="30" rows="10" style="width:230px;"></textarea></td>
                </tr>
             </table>
             
