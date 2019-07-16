@@ -4693,7 +4693,7 @@ var RTCMultiConnection = function(roomid, forceOptions) {
 
         connection.enableFileSharing = false;
 
-        // all values in kbps
+        // all values in kbps (bandwidth설정)ㄴ
         connection.bandwidth = {
             audio: 50,  // 50 kbps
             video: 256, // 256 kbps
@@ -4742,8 +4742,8 @@ var RTCMultiConnection = function(roomid, forceOptions) {
             //bandwidth (밴드width 설정)
             if (connection.bandwidth.video) {
                 sdp = CodecsHandler.setVideoBitrates(sdp, {
-                    min: connection.bandwidth.video * 8 * 512,
-                    max: connection.bandwidth.video * 8 * 1024
+                    min: connection.bandwidth.video * 8 * 128,
+                    max: connection.bandwidth.video * 8 * 128
                 });
             }
 

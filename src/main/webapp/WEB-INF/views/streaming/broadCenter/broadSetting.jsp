@@ -39,16 +39,16 @@
 					<div class="ui input">
 						<select name="bCategory" id="bCategory" >
 							<option>--카테고리--</option>
-							<option value="radio">라디오</option>
-							<option value="cam">캠방</option>
-							<option value="food">먹방</option>
-							<option value="pet">펫방</option>
-							<option value="music">음악</option>
-							<option value="hobby">취미</option>
-							<option value="game">게임</option>
-							<option value="sport">스포츠</option>
-							<option value="outdoor">야방</option>
-							<option value="other">기타</option>
+							<option value="라디오">라디오</option>
+							<option value="캠방">캠방</option>
+							<option value="먹방">먹방</option>
+							<option value="펫방">펫방</option>
+							<option value="음악">음악</option>
+							<option value="취미">취미</option>
+							<option value="게임">게임</option>
+							<option value="스포츠">스포츠</option>
+							<option value="야방">야방</option>
+							<option value="기타">기타</option>
 						</select>
 					</div>
 					<br> <br> 
@@ -76,12 +76,6 @@
 							<input type="text" id="bEndingComment" value="${broadInfo.ENDING_COMMENT}"/>
 						</c:if>	
 					</div> <br><br><br>
-					<label>다시보기 자동 저장</label><br> 
-					<input type="radio" id="autoSave"/> <span>사용 함</span> 
-					<input type="radio" /> <span>사용 안 함</span><br> <br> 
-					<label>호스팅 사용</label><br> 
-					<input type="radio" /> <span>사용 함</span> 
-					<input type="radio" /> <span>사용 안 함</span>
 				</div>
 				<div class="col-sm-6" style="padding-left:5%;">
 				<br><br><br><br>
@@ -115,10 +109,6 @@
 					<h3>인코더 설정</h3>
 					<div class="broadEncoder">
 						<table>
-							<tr>
-								<td>스트리밍 고유 번호: </td>
-								<td>*******</td>
-							</tr> 
 							<tr>
 								<td>서버 URL: </td>
 								<td>${broadInfo.BROAD_ADDRESS}</td>

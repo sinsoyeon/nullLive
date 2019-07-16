@@ -152,7 +152,12 @@ public class centerController {
 		
 		ArrayList<HashMap<String, Object>> list = bcs.selectCommunityList(pagingHmap);
 		int bbno = bcs.selectBbno(commuInfo); 
+		
+		System.out.println("리스트: " + list);
+		
 		paging.setTotal(bcs.getCommuBoardListCount(smno));
+		
+		System.out.println("커뮤인포: " + list);
 		System.out.println(paging.getTotal());
 		
 		model.addAttribute("firstCheck", firstCheck);
