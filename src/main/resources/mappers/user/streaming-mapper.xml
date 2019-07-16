@@ -562,4 +562,26 @@
 	<insert id="insertAlarm" parameterType="java.util.HashMap">
 		INSERT INTO ALARM_HIS VALUES (SEQ_ANO.NEXTVAL,#{MNO},#{SNO},NULL,#{SUNO},SYSDATE,0,1,'N')
 	</insert>
+	
+	<!-- 이지 즐겨찾기 했는지 -->
+	<select id="isFavoStreamer" parameterType="java.util.HashMap" resultType="_int">
+		SELECT COUNT(*) FROM FAVORITES
+		WHERE SNO = (SELECT SNO FROM STREAMER
+										JOIN MEMBER USING(MNO)
+										JOIN BROAD_CENTER USING(MNO)
+										WHERE BROAD_ADDRESS=#{sid})
+		AND MNO = (SELECT MNO FROM MEMBER WHERE MID=#{mid})
+		AND FA_STATUS='Y'
+	</select>
+	
+	<!-- 즐겨찾기 -->
+	<insert id="favoStreamer" parameterType="java.util.HashMap">
+		INSERT INTO FAVORITES(FANO,FA_STATUS,SNO,MNO)
+		VALUES(SEQ_FANO.NEXTVAL,DEFAULT,(
+										SELECT SNO FROM STREAMER
+										JOIN MEMBER USING(MNO)
+										JOIN BROAD_CENTER USING(MNO)
+										WHERE BROAD_ADDRESS=#{sid}
+		),(SELECT MNO FROM MEMBER WHERE MID=#{mid}))
+	</insert>
 </mapper>

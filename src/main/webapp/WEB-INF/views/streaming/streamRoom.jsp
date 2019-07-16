@@ -21,7 +21,7 @@
 <section id="page">
   <header>
   <h1 id="titleH"><c:out value="${title}"/></h1>
-  <img src="/nullLive/resources/image/logo.png" class="logo" onclick="location.href='index.jsp'" style="float:right;width: 164.72px;height: 57px;margin-top: -46px;">
+  <img src="/nullLive/resources/image/logo.png" class="logo" id="logo" onclick="location.href='index.jsp'">
   </header>
   <div id="VideoArea">
       <section class="make-center">
@@ -31,10 +31,8 @@
   <nav id="chatArea">
 	<div id="chat-box"></div>
     <input type="text" id="inputMsg"/>
-    <button id="msg_send">전송</button>
-    
-
-    <input id="nickName" value="빠숑" type="text" hidden>
+	<button class="btn btn-default" id="msg_send">전송</button>
+	<button class="btn btn-default" data-toggle="modal" data-target="#sponModal" id="sponBtn" >후원</button>
   	<!-- <div style="display:none;" id="otherClients"></div> -->
   	
 
@@ -50,12 +48,20 @@
         </div>
     </div>
     <div id="footerComuArea">
-    	<p>현재 추천 수 : <label id="currRecom"></label></p>
-    	<button class="btn btn-success" style="width:75px;" id="recomBtn" onclick="recomBtn()">추천</button>
-		<button onclick="endRecordAndService()">downtest</button>
-		<button data-toggle="modal" data-target="#sponModal" id="sponBtn"  style="background: pink; color: white;">결제테스트</button>
+		<p>   현재 시청자 수 : <label id="currMems">0</label></p>
+    	<p>   현재 추천 수 : <label id="currRecom">0</label></p>
+		<div id="btnArea">
+			<button class="btn btn-success" id="recomBtn" onclick="recomBtn()">추천</button>
+			<button class="btn btn-success" id="favoBtn" onclick="favoBtn()">즐겨찾기</button>
+		</div>
+		<!-- <button onclick="endRecordAndService()">downtest</button> -->
 	</div>
-	<div id="membersArea"></div>
+	
+	<div id="membersArea">
+		<p>   현재 접속자</p>	
+		<div id="membersList"></div>
+	</div>
+	
   </footer>
   <input type="hidden" id="broadMethod" value="${broadMethod}" />
   <input type="hidden" id="mid" value="${loginUser.mid}"/>
@@ -225,7 +231,29 @@ function recomBtn(){
 	});
 }
 
-
+//즐겨찾기
+function favoBtn(){
+	var mid = $("#mid").val();
+	var streamerAddress = $("#room-id").val();
+	if(mid != streamerAddress){
+		$.ajax({
+			url:'favoStreamer.st',
+			type:"post",
+			data:{mid:mid,streamerAddress:streamerAddress},
+			success:function(data){
+				console.log(data);
+				if(data == 'success'){
+					$("#favoBtn").attr('disabled',true);
+				}
+				if(data == 'already'){
+					alert('이미 즐겨찾기 하셨습니다.');
+				}
+			}
+		});		
+	}else{
+		alert('자신은 즐겨찾기 할 수 없습니다!');
+	}
+}
 
 
 function startTTS(data){

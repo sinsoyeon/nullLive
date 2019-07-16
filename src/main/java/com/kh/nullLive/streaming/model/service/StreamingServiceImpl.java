@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.nullLive.member.model.exception.UpdateMemberException;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streaming.model.dao.StreamingDao;
 import com.kh.nullLive.streaming.model.exception.EnterStreamingException;
@@ -270,6 +271,16 @@ public class StreamingServiceImpl implements StreamingService {
 	@Override
 	public ArrayList<BroadList> selectfBjList(int mno) {
 		return sd.selectfBjList(sqlSession, mno);
+	}
+
+	//스트리머 즐겨찾기
+	@Override
+	public void favoStreamer(HashMap<String, Object> hmap) throws UpdateMemberException {
+		int result = sd.isFavoStreamer(sqlSession,hmap);
+		if(result > 0) {
+			throw new UpdateMemberException("이미 있음");
+		}
+		result = sd.favoStreamer(sqlSession,hmap);
 	}
 
 
