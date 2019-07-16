@@ -77,7 +77,7 @@
 														<p class="s-name" style="font-size: 12px; color: #3498db;" id="bUser" onclick="goBroadCenter(${list.MNO});">${list.NICK_NAME}</p>
 														<p style="font-size: 11px; color: #999;">
 															<i class="fas fa-heart" style="color: red"></i> <span
-																id="subCount">${list.RECEIVED_LIKES}</span>명
+																id="count">${list.RECEIVED_LIKES}</span>명
 														</p>
 													</div>
 												</div>
@@ -119,7 +119,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
 
 
 	<script>
