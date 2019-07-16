@@ -16,8 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.nullLive.member.model.exception.UpdateMemberException;
 import com.kh.nullLive.member.model.vo.Member;
 import com.kh.nullLive.streaming.model.exception.EnterStreamingException;
 import com.kh.nullLive.streaming.model.exception.StreamingException;
@@ -56,24 +58,30 @@ public class StreamingController {
 	@RequestMapping("isAvailToEnter.st")
 	public String isAvailToEnter(Model model,@RequestParam(name="streamerAddress")String streamerAddress,
 									HttpServletResponse response) {
-		response.setContentType("text/html; charset=utf-8");
-		BroadHis broadHis = ss.getStreamingInfo(streamerAddress);
-		if(broadHis.getBpwd() != null && broadHis.getAdult().equals("Y")) {
-			model.addAttribute("streamerAddress",streamerAddress);
-			model.addAttribute("bpwd",broadHis.getBpwd());
-			model.addAttribute("badult",broadHis.getAdult());
-			return "streaming/streamingEntering";
-		}else if(broadHis.getBpwd() != null){
-			model.addAttribute("streamerAddress",streamerAddress);
-			model.addAttribute("bpwd",broadHis.getBpwd());
-			model.addAttribute("badult",broadHis.getAdult());
-			return "streaming/streamingEntering";
-		}else if(broadHis.getAdult().equals("Y")) {
-			model.addAttribute("streamerAddress",streamerAddress);
-			model.addAttribute("badult",broadHis.getAdult());
-			return "streaming/streamingEntering";
-		}else {
-			return "redirect:enterStreaming.st?streamerAddress="+streamerAddress;
+		try {
+			ss.isBroading(streamerAddress);
+			response.setContentType("text/html; charset=utf-8");
+			BroadHis broadHis = ss.getStreamingInfo(streamerAddress);
+			if(broadHis.getBpwd() != null && broadHis.getAdult().equals("Y")) {
+				model.addAttribute("streamerAddress",streamerAddress);
+				model.addAttribute("bpwd",broadHis.getBpwd());
+				model.addAttribute("badult",broadHis.getAdult());
+				return "streaming/streamingEntering";
+			}else if(broadHis.getBpwd() != null){
+				model.addAttribute("streamerAddress",streamerAddress);
+				model.addAttribute("bpwd",broadHis.getBpwd());
+				model.addAttribute("badult",broadHis.getAdult());
+				return "streaming/streamingEntering";
+			}else if(broadHis.getAdult().equals("Y")) {
+				model.addAttribute("streamerAddress",streamerAddress);
+				model.addAttribute("badult",broadHis.getAdult());
+				return "streaming/streamingEntering";
+			}else {
+				return "redirect:enterStreaming.st?streamerAddress="+streamerAddress;
+			}
+		} catch (EnterStreamingException e) {
+			model.addAttribute("msg",e.getMessage());
+			return "streaming/errorPage";
 		}
 	}
 
@@ -108,10 +116,7 @@ public class StreamingController {
 				model.addAttribute("mid",loginUser.getMid());
 
 				return "streaming/streamRoom";
-
 			}
-
-
 		} catch (EnterStreamingException e) {
 			model.addAttribute("msg",e.getMessage());
 			return "streaming/errorPage";
@@ -1017,4 +1022,64 @@ public class StreamingController {
 
 		return mv;
 	}
+	
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 16.
+	 * @Comment : 스트리머 즐겨찾기
+	 */
+	@ResponseBody
+	@RequestMapping("favoStreamer.st")
+	public String favoStreamer(String mid,String streamerAddress) {
+		HashMap<String,Object> hmap = new HashMap<String,Object>();
+		hmap.put("mid",mid);
+		hmap.put("sid",streamerAddress);
+		try {
+			ss.favoStreamer(hmap);
+			return "success";
+		} catch (UpdateMemberException e) {
+			return "already";
+		}
+	}
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 16.
+	 * Comment : 좋아요
+	 */
+	@ResponseBody
+	@RequestMapping("selectedLike.st")
+	public String selectedLike(String mid,String sid) {
+		HashMap<String,Object> hmap = new HashMap<String,Object>();
+		hmap.put("mid",mid);
+		hmap.put("sid", sid);
+		
+		try {
+			ss.selectedLike(hmap);
+			return "success";
+		} catch (UpdateMemberException e) {
+			return "fail";
+		}
+	}
+	
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 16.
+	 * Comment : 방송 중 신고하기
+	 */
+	@ResponseBody
+	@RequestMapping("selectedReport.st")
+	public String selectedReport(String mid,String sid,String rType,String rTitle, String rContent) {
+		HashMap<String,Object> hmap = new HashMap<String,Object>();
+		hmap.put("mid", mid);
+		hmap.put("sid", sid);
+		hmap.put("rType", rType);
+		hmap.put("rTitle", rTitle);
+		hmap.put("rContent", rContent);
+		
+		ss.selectedReport(hmap);
+		
+		return "success";
+	}
+	
 }

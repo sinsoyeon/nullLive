@@ -71,7 +71,10 @@ body::-webkit-scrollbar {
 <body>
 	<jsp:include page="../../common/menubar.jsp" />
 	<div class="row">
-		
+		<!-- ryan -->
+		<c:if test="${empty sessionScope.loginUser}">
+			<jsp:forward page="../needLogin.jsp" />
+		</c:if>
 			<div style="width: 210px;margin-top: -15px;height: 170px;">
 				<div class="profile">
 					<img class="img-circle" alt="Cinque Terre" id="profileImg" onclick="location.href='main.st?smno=${broadCenter.mno}'">

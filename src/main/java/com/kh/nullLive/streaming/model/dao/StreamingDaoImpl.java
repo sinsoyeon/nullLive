@@ -443,6 +443,7 @@ public class StreamingDaoImpl implements StreamingDao {
 		return list;
 	}
 
+
 	//구독 한 BJ 개수
 	@Override
 	public int getsBjListCount(SqlSessionTemplate sqlSession, int mno) {
@@ -484,4 +485,29 @@ public class StreamingDaoImpl implements StreamingDao {
 
 		return list;
 	}
+
+	//이미 즐겨찾기한 유저인지
+	@Override
+	public int isFavoStreamer(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.selectOne("Streaming.isFavoStreamer",hmap);
+	}
+	
+	//스트리머 즐겨찾기
+	@Override
+	public int favoStreamer(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.insert("Streaming.favoStreamer",hmap);
+	}
+
+	//좋아요
+	@Override
+	public int selectedLike(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.update("Streaming.selectedLike",hmap);
+	}
+
+	//방송 중 신고
+	@Override
+	public int selectedReport(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap) {
+		return sqlSession.insert("Streaming.selectedReport",hmap);
+	}
+
 }

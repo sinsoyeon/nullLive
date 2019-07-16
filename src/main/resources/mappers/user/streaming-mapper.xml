@@ -317,7 +317,12 @@
 	
 	<!-- 방송 시작 스트리밍 정보 가져오기-->
 	<select id="getStreamingInfo" parameterType="BroadHis" resultType="java.util.HashMap">
-		SELECT CUMULATIVE_SELECTION selects, MID streamerId, NICK_NAME nickName, RECEIVED_LIKES likes,BROAD_ADDRESS streamerAddress,ENDING_COMMENT endingComment FROM STREAMER
+		SELECT CUMULATIVE_SELECTION selects, MID streamerId, NICK_NAME nickName, RECEIVED_LIKES likes,
+	    	BROAD_ADDRESS streamerAddress,ENDING_COMMENT endingComment,
+		    (SELECT CHANGE_NAME FROM ATTACHMENT JOIN ATT_MANAGE USING(ATTNO) 
+		     WHERE USAGE='프로필이미지' AND ATT_STATUS='Y'
+	     	AND MNO=(SELECT MNO FROM MEMBER WHERE MID=#{streamerId})) fileName
+	    FROM STREAMER
 		JOIN MEMBER USING(MNO)
 		JOIN BROAD_CENTER USING(MNO)
 		WHERE MID = #{streamerId}
@@ -326,7 +331,10 @@
 	<!-- 방송 입장 스트리밍 정보 가져오기 -->
 	<select id="getBroadInfo" parameterType="java.lang.String" resultType="java.util.HashMap">
 		SELECT CUMULATIVE_SELECTION selects, MID streamerId, NICK_NAME nickName, RECEIVED_LIKES likes,
-	    	BROAD_ADDRESS streamerAddress,ENDING_COMMENT endingComment,BROAD_TITLE title,BHNO bhno
+	    	BROAD_ADDRESS streamerAddress,ENDING_COMMENT endingComment,BROAD_TITLE title,BHNO bhno,
+            (SELECT CHANGE_NAME FROM ATTACHMENT JOIN ATT_MANAGE USING(ATTNO) 
+		     WHERE USAGE='프로필이미지' AND ATT_STATUS='Y'
+		     AND MNO=(SELECT MNO FROM MEMBER WHERE MID=#{streamerAddress})) fileName
 	    FROM STREAMER
 		JOIN MEMBER USING(MNO)
 		JOIN BROAD_CENTER USING(MNO)
@@ -623,5 +631,43 @@
 	<!-- 나를 구독하는 사람들에게 알람 보내기 (소연) -->
 	<insert id="insertAlarm" parameterType="java.util.HashMap">
 		INSERT INTO ALARM_HIS VALUES (SEQ_ANO.NEXTVAL,#{MNO},#{SNO},NULL,#{SUNO},SYSDATE,0,1,'N')
+	</insert>
+	
+	<!-- 이지 즐겨찾기 했는지 -->
+	<select id="isFavoStreamer" parameterType="java.util.HashMap" resultType="_int">
+		SELECT COUNT(*) FROM FAVORITES
+		WHERE SNO = (SELECT SNO FROM STREAMER
+										JOIN MEMBER USING(MNO)
+										JOIN BROAD_CENTER USING(MNO)
+										WHERE BROAD_ADDRESS=#{sid})
+		AND MNO = (SELECT MNO FROM MEMBER WHERE MID=#{mid})
+		AND FA_STATUS='Y'
+	</select>
+	
+	<!-- 즐겨찾기 -->
+	<insert id="favoStreamer" parameterType="java.util.HashMap">
+		INSERT INTO FAVORITES(FANO,FA_STATUS,SNO,MNO)
+		VALUES(SEQ_FANO.NEXTVAL,DEFAULT,(
+										SELECT SNO FROM STREAMER
+										JOIN MEMBER USING(MNO)
+										JOIN BROAD_CENTER USING(MNO)
+										WHERE BROAD_ADDRESS=#{sid}
+		),(SELECT MNO FROM MEMBER WHERE MID=#{mid}))
+	</insert>
+	
+	<!-- 좋아요 -->
+	<update id="selectedLike" parameterType="java.util.HashMap">
+		UPDATE MEMBER
+		SET RECEIVED_LIKES=(SELECT RECEIVED_LIKES FROM MEMBER WHERE MID=#{sid})+1
+		WHERE MID=#{sid}
+	</update>
+	
+	<!-- 방송 중 신고 -->
+	<insert id="selectedReport" parameterType="java.util.HashMap">
+		INSERT INTO BOARD
+		VALUES(SEQ_BNO.NEXTVAL, #{rTitle}, #{rContent}, 
+        SYSDATE, NULL, 0, 'MREPORT', NULL, NULL, NULL, NULL,
+        (SELECT MNO FROM MEMBER WHERE MID=#{mid}), #{rType}, 'R', 
+        (SELECT MNO FROM MEMBER WHERE MID=#{sid}), 5)
 	</insert>
 </mapper>

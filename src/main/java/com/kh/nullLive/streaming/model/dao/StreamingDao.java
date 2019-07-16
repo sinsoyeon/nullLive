@@ -201,5 +201,32 @@ public interface StreamingDao {
 	//BJ의 Vod 방송 목록
 	ArrayList<BroadList> selectBVodList(SqlSessionTemplate sqlSession, int smno);
 
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 16.
+	 * @Comment : 이미 즐겨찾기한 스트리머인지
+	 */
+	int isFavoStreamer(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+	/**
+	 * @Author : ryan
+	 * @Date : 2019. 7. 16.
+	 * @Comment : 스트리머 즐겨찾기
+	 */
+	int favoStreamer(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 16.
+	 * Comment : 좋아요
+	 */
+	int selectedLike(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
+
+	/**
+	 * Author : ryan
+	 * Date : 2019. 7. 16.
+	 * Comment : 방송 중 신고
+	 */
+	int selectedReport(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
 
 }
