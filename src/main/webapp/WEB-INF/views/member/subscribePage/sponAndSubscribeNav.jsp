@@ -11,6 +11,11 @@
 th {
 text-align:center !important;
 }
+
+.menu-section{
+margin-top:-9px;
+top:10px;
+}
 </style>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -35,7 +40,9 @@ text-align:center !important;
 			<div class="row">
 				<div class="col-md-12">
 					<div class="navbar-collapse collapse " style="">
+					
 						<ul id="menu-top" class="nav navbar-nav navbar-right">
+							<li><a class="glyphicon glyphicon-user" style="margin-right:575px;" href="myPage.me"></a></li>							
 							<li><a class="menu-top-active" href="#">구독하기</a></li>
 						<!-- 	<li><a href="#" class="sponTab">포인트 충전</a></li> -->
 							<li><a href="#" class="subListTab">구독내역</a></li>

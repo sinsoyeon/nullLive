@@ -10,9 +10,64 @@
 	href="${ contextPath }/resources/css/bootstrap/main.css">
 <link rel="stylesheet"
 	href="https://unpkg.com/tachyons@4.8.0/css/tachyons.min.css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>	
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Gothic+A1|Jua&display=swap" rel="stylesheet">	
 <style>
 div {
 	display: block;
+}
+
+#culBtn {
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+    border-radius: 3px;
+    background-color: #555555;
+    border:3px solid #555555 !important;
+    color: white !important;
+    margin-bottm:3px;
+}
+
+#logModal i{
+font-size:50px;
+ text-align:center;
+ padding-top:18px;
+}
+
+#userArea{
+	width:110px;
+	height:100px;
+ border-radius: 50%;
+ border:3px solid #555555 !important;
+ text-align:center;
+}
+
+#culBtn:hover {
+  background-color: white !important; /* Green */
+  color: black !important;
+}
+
+#streamerBtn{
+background-color: #008CBA;
+border:none !important;
+color: white !important;
+font-size: 12px;
+}
+
+#checkId{
+	width:500px;
+	height:100px;
+	background:#555;
+	text-align:center;
+	float:center;
+	font-weight:bold;
+	font-size:15px;
+	color:white;
+	padding-top:30px;
+}
+
+h4{
+ font-family: 'Jua', sans-serif !important;
+  font-size:30px !important;
 }
 </style>
 </head>
@@ -87,7 +142,7 @@ div {
 				<!-- 구독 내역 조회용 Div -->
 				<div id="subscribeArea">
 
-					<h4 style="color: #333333 !important;" id="textLine1">내가 구독한
+					<h4 style="color: #333333 !important;" id="textLine1" align="center">내가 구독한
 						스트리머</h4>
 					<table class="table" id="mySubscribeArea">
 						<thead class="thead-dark"
@@ -111,7 +166,7 @@ div {
 						</ul>
 					</div>	
 
-					<h4 style="color: #333333 !important;" id="textLine2">나를 구독한
+					<h4 style="color: #333333 !important;" id="textLine2" align="center">나를 구독한
 						사용자</h4>
 					<table class="table" id="subscribeForMeArea"
 						style="text-align: center" align="center;">
@@ -138,7 +193,7 @@ div {
 
 				<!-- 스폰 조회용 Div -->
 				<div id="sponTableArea">
-					<h4 style="color: #333333 !important;" id="textLine2">내가 후원한
+					<h4 style="color: #333333 !important;" id="textLine2" align="center">내가 후원한
 						사용자</h4>
 					<table class="table" id="sponTable" style="text-align: center">
 						<thead class="thead-dark"
@@ -162,8 +217,8 @@ div {
 				</div>	
 
 					<button id="culBtn">환전 신청</button>
-					<br />
-					<h4 style="color: #333333 !important;" id="textLine2">나를 후원
+				
+					<h4 style="color: #333333 !important; padding-left:300px;" id="textLine2">나를 후원
 						사용자</h4>
 					<table class="table" id="sponForMeTable" style="text-align: center">
 						<thead class="thead-dark"
@@ -186,6 +241,7 @@ div {
 					</ul>
 				</div>	
 					<div id="searchArea" align="center" style="height: 50px;">
+						
 						<table style="padding: 100px !important;" id="searchTable">
 							<tr>
 								<td><label for="">검색 유형 : </label> <select
@@ -217,7 +273,7 @@ div {
 	<div id="logModal" class="modal fade" role="dialog"
 		style="z-index: 99999;">
 		<div class="modal-dialog" role="document" style="z-index: 99999;">
-
+			
 			<div class="modal-content" style="z-index: 99999;">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -226,8 +282,9 @@ div {
 				</div>
 				<div class="modal-body">
 					<div id="bodyArea" align="center">
+						<p id="userArea" ><i class="glyphicon glyphicon-user"></i></p>
 						<h4>스트리머 아이디를 입력하세요!</h4>
-						<br /> <input type="hidden" id="sno" /> 
+						<input type="hidden" id="sno" /> 
 						<input type="hidden" id="mid" value="${loginUser.mid }" />
 						<label for="">아이디</label>
 						&nbsp;&nbsp;&nbsp; <input type="text" id="streamerId" />&nbsp;&nbsp;&nbsp;
