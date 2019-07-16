@@ -132,9 +132,11 @@
 		VALUES(SEQ_BBNO.NEXTVAL, '소통게시판', '소통', 'ALL', 'Y', #{smno})
 	</insert>
 	
-	<!-- 소통게시판 리스트 조회(정연 )-->
-	<select id="selectCommunityList" parameterType="_int" resultType="java.util.HashMap">
-		SELECT *
+	<!-- 소통게시판 리스트 조회(정연 , 병욱(페이징))-->
+	<select id="selectCommunityList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT * FROM
+       	(select ROWNUM RNUM2, P.* FROM
+        (SELECT *
 			FROM (SELECT ROWNUM RNUM, L.*
         		FROM ( SELECT B.BNO BNO, B.BTITLE BTITLE, B.BCONTENT BCONTENT, TO_CHAR(B.WRITTEN_DATE,'yyyy/mm/dd') WRITTEN_DATE, B.MODIFY_DATE MODIFY_DATE, 
         				B.BCOUNT BCOUNT, B.BTYPE BTYPE, B.BWRITER BWRITER, B.B_STATUS STATUS, M2.MNO MMNO, M2.NICK_NAME MNICK_NAME, M.MNO SMNO, BB.BBNO BBNO
@@ -143,10 +145,11 @@
               	  AND BC.BCNO = BB.BCNO
               	  AND BB.BBNO = B.BBNO
               	  AND B.BWRITER = M2.MNO
-              	  AND M.MNO = #{smno}
+              	  AND M.MNO =  #{smno}
               	  AND B.B_STATUS=7
                	 ORDER BY B.BNO) L)
-			ORDER BY RNUM DESC
+				ORDER BY RNUM DESC) P)
+             WHERE RNUM2 BETWEEN #{paging.start} AND #{paging.last}
 	</select>
 	
 	<!-- 스트리머 검색(정연,언) -->
@@ -231,5 +234,20 @@
 		SET B_STATUS = 99
 		WHERE BNO = #{bno}
 	</delete>
+	
+	<select id="getCommuBoardListCount" parameterType="_int" resultType="_int">
+		 SELECT COUNT(*)
+			FROM (SELECT ROWNUM RNUM, L.*
+        		FROM ( SELECT B.BNO BNO, B.BTITLE BTITLE, B.BCONTENT BCONTENT, TO_CHAR(B.WRITTEN_DATE,'yyyy/mm/dd') WRITTEN_DATE, B.MODIFY_DATE MODIFY_DATE, 
+        				B.BCOUNT BCOUNT, B.BTYPE BTYPE, B.BWRITER BWRITER, B.B_STATUS STATUS, M2.MNO MMNO, M2.NICK_NAME MNICK_NAME, M.MNO SMNO, BB.BBNO BBNO
+               	 FROM BOARD B, BRO_BOARD BB, BROAD_CENTER BC, MEMBER M, MEMBER M2
+               	 WHERE M.MNO = BC.MNO
+              	  AND BC.BCNO = BB.BCNO
+              	  AND BB.BBNO = B.BBNO
+              	  AND B.BWRITER = M2.MNO
+              	  AND M.MNO = #{smno}
+              	  AND B.B_STATUS=7
+               	 ORDER BY B.BNO) L)
+	</select>
 	
 </mapper>
