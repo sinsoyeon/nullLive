@@ -90,7 +90,7 @@
 				</div>
 				<div class="col-md-3" style="display: block; float:left;margin-left:20px;margin-top:10px;width:200px;" align="center">
 					<button class="form-control btn btn-primary" onclick="toBroadCenter()">방송국으로</button>
-					<button style="margin-top:10px;" class="form-control btn btn-primary" onclick="location.href='start.st?smno=${loginUser.mno}'">방송시작</button>
+					<%-- <button style="margin-top:10px;" class="form-control btn btn-primary" onclick="location.href='start.st?smno=${loginUser.mno}'">방송시작</button> --%>
 					<!-- <button onclick="enterStreaming();">방송보기 test</button> -->
 				</div>
 				<div class="col-md-5" style="display: block; clear: left;">

@@ -343,4 +343,12 @@ public class StreamingServiceImpl implements StreamingService {
 		int result = sd.selectedReport(sqlSession,hmap);
 	}
 
+	
+	/*
+	 * //스트리머 파트너 조회(정연)
+	 * 
+	 * @Override public ArrayList<HashMap<String, Object>> streamerPartner(String
+	 * streamerAddress) { return sd.streamerPartner(sqlSession, streamerAddress); }
+	 */
+
 }

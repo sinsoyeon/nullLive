@@ -96,8 +96,8 @@ public class BroadCenterServiceImpl implements BroadCenterService {
 	
 	//파트너 상세 조회(정연)
 	@Override
-	public HashMap<String, Object> partnerDetail(int mno) throws StreamerUpdateException{
-		HashMap<String, Object> detail = bcd.partnerDetail(sqlSession, mno);
+	public HashMap<String, Object> partnerDetail(HashMap<String, Object> need) throws StreamerUpdateException{
+		HashMap<String, Object> detail = bcd.partnerDetail(sqlSession, need);
 		
 		if(detail == null) {
 			throw new StreamerUpdateException("매니저 상세 조회 실패!");

@@ -229,4 +229,9 @@ public interface StreamingDao {
 	 */
 	int selectedReport(SqlSessionTemplate sqlSession, HashMap<String, Object> hmap);
 
+	/*
+	 * //파트너 리스트 조회(정연) ArrayList<HashMap<String, Object>>
+	 * streamerPartner(SqlSessionTemplate sqlSession, String streamerAddress);
+	 */
+
 }

@@ -78,8 +78,8 @@ public class BroadCenterDaoImpl implements BroadCenterDao {
 
 	//파트너 상세 조회(정연)
 	@Override
-	public HashMap<String, Object> partnerDetail(SqlSessionTemplate sqlSession, int mno) {
-		return sqlSession.selectOne("BroadCenter.partnerDetail", mno);
+	public HashMap<String, Object> partnerDetail(SqlSessionTemplate sqlSession, HashMap<String, Object> need) {
+		return sqlSession.selectOne("BroadCenter.partnerDetail", need);
 	}
 
 	//프로필 조회(정연)

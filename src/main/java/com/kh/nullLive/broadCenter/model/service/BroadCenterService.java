@@ -52,7 +52,7 @@ public interface BroadCenterService {
 
 	
 	//파트너 상세 조회(정연)
-	HashMap<String, Object> partnerDetail(int mno) throws StreamerUpdateException;
+	HashMap<String, Object> partnerDetail(HashMap<String, Object> need) throws StreamerUpdateException;
 
 	//프로필 조회(정연)
 	Attachment getProfile(int mno) throws StreamerUpdateException;

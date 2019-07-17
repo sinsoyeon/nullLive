@@ -510,4 +510,14 @@ public class StreamingDaoImpl implements StreamingDao {
 		return sqlSession.insert("Streaming.selectedReport",hmap);
 	}
 
+	
+	/*
+	 * //파트너 리스트 조회(정연)
+	 * 
+	 * @Override public ArrayList<HashMap<String, Object>>
+	 * streamerPartner(SqlSessionTemplate sqlSession, String streamerAddress) {
+	 * return (ArrayList)sqlSession.selectList("Streaming.streamerPartner",
+	 * streamerAddress); }
+	 */
+
 }
