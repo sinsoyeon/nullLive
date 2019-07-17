@@ -37,7 +37,7 @@
     	<button class="btn btn-default" data-toggle="modal" data-target="#sponModal" id="sponBtn" >후원</button>
 
    <!--  <input id="nickName" value="빠숑" type="text" hidden> -->
-     <!-- <div style="display:none;" id="otherClients"></div> --
+     <!-- <div style="display:none;" id="otherClients"></div> -->
   </nav>
   <footer>
     <div class="card border-secondary mb-3" id="footerArea">
@@ -415,90 +415,6 @@ $(document).ready(function(){
     
 });
 
-
-
-
-
-// $(document).ready(function(){
-//    var connectionOptions =  {
-//             "force new connection" : true,
-//             "reconnectionAttempts": "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
-//             "timeout" : 10000, //before connect_error and connect_timeout are emitted.
-//             "transports" : ["websocket"]
-//         };
-//    console.log(connectionOptions);
-
-//     var socket = io("192.168.0.61:3002", {secure:true});
-//     console.log(socket);
-// })
-
-//채팅
-// $(document).ready(function(){
-//   var socket = io("http://192.168.30.30:9011");
-    
-//   //엔터키 입력시
-//   $("#inputMsg").keydown(function(key){
-//     if(key.keyCode == 13){
-//       //msg_send 클릭
-//       msg_send.click();
-//     }
-//   });
-    
-//   //msg_send 클릭시
-//   
-//     $("#msg_send").click(function(){
-//     /* var output ='';
-//     output += $("#nickName").val();
-//     output += ' : ';
-//     output += $("#inputMsg").val(); */
-      
-//     //소켓에 send_msg 이벤트로 msg 전달
-//     socket.emit('send_msg',{
-//       name: $('#nickName').val(),
-//       message : $("#inputMsg").val()
-    
-//     });
-    
-      
-//     /* socket.emit("send_msg", output); */
-    
-    
-//     //#inputMsg 비움
-//     $("#inputMsg").val("");
-//   });
-    
-//   //소켓 서버로 부터 send_msg를 통해 이벤트를 받을 경우 
-//     socket.on('send_msg', function(msg) {
-//         //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
-//         $('<div></div>').text(msg.name + " : " + msg.message).appendTo("#chat-box");
-//     });
-  
-//   //DB에 저장되어 있는 내용을 가져올 경우
-//   socket.on('preload', function(data){
-//     $('<div></div>').text(data.name + " : " + data.message).appendTo("#chat-box");
-//   });
-
-// });
-
-
-
-// window.onload = function(){
-//    var xhr = new XMLHttpRequest();
-//     xhr.onload = function(){
-//      console.log(xhr.response);  
-//     }; 
-//     xhr.open("GET", "http://192.168.30.30:3002/");
-//     xhr.send();
-
-// window.onload = function(){
-//     $("#logModal").modal('hide');
-//    var xhr = new XMLHttpRequest();
-//     xhr.onload = function(){
-//      console.log(xhr.response);  
-//     }; 
-//     xhr.open("GET", "http://192.168.30.30:3002/");
-//     xhr.send();
-// }
 
 var emoStatus=0;
 $('#eButton').click(function() {

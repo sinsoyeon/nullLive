@@ -180,6 +180,14 @@ function calList(mno,currentPage){
 			}else if(value["CLC_STATUS"]=='N' && value["DEC_STATUS"]=='N'){
 				status ='거절 완료';
 			}
+			
+			var date = '';
+			
+			if(value["CLC_DATE"] == undefined){
+				date = ' ';
+			}else{
+				date =	value["CLC_DATE"];
+			}
 
 			console.log(value["CLCNO"]);
 			$("#calTable > tbody").append('<tr id="myTr"><td><input type="hidden" id="clcno" name="clcno" value="'
@@ -187,7 +195,7 @@ function calList(mno,currentPage){
 					'"' + '/>' +value["NICK_NAME"] + '</td><td>'
 					+ value["SDATE"] + '</td><td>' 
 					+ value["EDATE"] + '</td><td>'
-					+ value["CLC_DATE"] + '</td><td>'
+					+ date + '</td><td>'
 					+ value["CLC_AMOUNT"] + '</td><td>'
 					+ status +'</td></tr>')
 					
