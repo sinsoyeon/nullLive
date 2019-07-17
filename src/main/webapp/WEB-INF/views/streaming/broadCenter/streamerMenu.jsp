@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +10,8 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet"
 	href="${ contextPath }/resources/css/semantic/semantic.min.css">
-	<script type="text/javascript" src="${ contextPath }/resources/css/semantic/semantic.min.js"></script>
+<script type="text/javascript"
+	src="${ contextPath }/resources/css/semantic/semantic.min.js"></script>
 <link rel="stylesheet"
 	href="${ contextPath }/resources/css/streamer/streamerMenu.css">
 <!-- <script src="https://code.jquery.com/jquery-1.4.4.min.js"></script> -->
@@ -18,8 +19,8 @@
 body::-webkit-scrollbar {
 	display: none;
 }
-
-.sidebar {
+/* 스트리머 사이드바 */
+#sidebar {
 	position: fixed;
 	z-index: 9;
 	top: 0;
@@ -30,41 +31,83 @@ body::-webkit-scrollbar {
 	font-weight: lighter;
 }
 
-.sidebar ul {
+#sidebar ul {
 	list-style-type: none;
 	padding: 0;
 }
 
-.sidebar ul li {
+#sidebar ul li {
 	position: relative;
-	height: 35px;
+	height: 42px;
 }
 
-.sidebar ul li:hover {
-	cursor:pointer;
+#sidebar ul li:hover {
+	cursor: pointer;
 }
 
-.sidebar ul li a {
+#sidebar ul li a {
 	text-decoration: none;
 	color: black;
 }
 
-.sidebar ul li a:hover {
-	color:  #4a8522;
+#sidebar ul li a:hover {
+	color: #4a8522;
 }
 
-.sidebar ul li a i {
+#sidebar ul li a i {
 	text-align: center;
 	width: 70px;
 }
 
-.sidebar ul li a span {
+#sidebar ul li a span {
 	font-size: 14px;
 	padding-left: 17px;
 	line-height: 50px;
 }
-body::-webkit-scrollbar {
-	display: none;
+/* 일반 사용자 사이드바 */
+#sideba {
+	position: fixed;
+	z-index: 9;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	background: #e2f0d869;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: lighter;
+}
+
+#sideba ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+#sideba ul li {
+	position: relative;
+	height: 65px;
+}
+
+#sideba ul li:hover {
+	cursor: pointer;
+}
+
+#sideba ul li a {
+	text-decoration: none;
+	color: black;
+}
+
+#sideba ul li a:hover {
+	color: #4a8522;
+}
+
+#sideba ul li a i {
+	text-align: center;
+	width: 70px;
+}
+
+#sideba ul li a span {
+	font-size: 14px;
+	padding-left: 17px;
+	line-height: 50px;
 }
 .profile{
 	background:#e2f0d869;
@@ -73,7 +116,6 @@ body::-webkit-scrollbar {
 </style>
 </head>
 <body>
-	<jsp:include page="../../common/menubar.jsp" />
 	<div class="row">
 		<!-- ryan -->
 		<c:if test="${empty sessionScope.loginUser}">
@@ -105,30 +147,31 @@ body::-webkit-scrollbar {
 					</ul>
 				</nav>
 			</div>
-		
 	</div>
 
 
-<script>
-	window.onload=function(){
-		$.ajax({
-			url: "profile.sm",
-			type:"get",
-			success:function(data){
-				//console.log(data.data);
-				$("#profileImg").attr('src', "${contextPath}/resources/uploadFiles/profile_image/" + data.changeName);
-				$("#nickName").text(data.data.NICK_NAME);
-				$("#id").text("@"+data.data.MID);
-			},
-			error:function(){
-				console.log("프로필 조회 실패!");
-			}
-		});
-		
-	}
+	<script>
+		window.onload = function() {
+			$.ajax({
+				url : "profile.sm",
+				type : "get",
+				success : function(data) {
+					//console.log(data.data);
+					$("#profileImg").attr(
+							'src',
+							"${contextPath}/resources/uploadFiles/profile_image/"
+									+ data.changeName);
+					$("#nickName").text(data.data.NICK_NAME);
+					$("#id").text("@" + data.data.MID);
+				},
+				error : function() {
+					console.log("프로필 조회 실패!");
+				}
+			});
 
-</script>
-	
+		}
+	</script>
+
 
 </body>
 </html>

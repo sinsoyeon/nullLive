@@ -19,7 +19,7 @@ th, td{
 	float:right;
 }
 tr:hover{
-	background:#CFEFCF;
+	background:#e2f0d869;
 }
 #update{
 	float:right;
@@ -28,6 +28,5 @@ tr:hover{
 	font-size:14px;
 }
 .row{
-	background:#f6f8fa;
 	color:#446600;
 }

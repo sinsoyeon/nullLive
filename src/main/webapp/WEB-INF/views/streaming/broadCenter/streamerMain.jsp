@@ -40,10 +40,10 @@
 								<td>${mainInfo.SHSNO}</td>
 							</c:if>
 						</tr>
-					</table><br><br><br>
+					</table><br><br>
 
 					<div class="introBox">
-						<label style="font-size: 25px; font-wight: bold;">인사말</label><br>
+						<label style="font-size: 25px; font-wight: bold;">인사말</label><br><br>
 						<div class="intro">
 							<br> <label>${mainInfo.BCINTRO}</label>
 						</div>

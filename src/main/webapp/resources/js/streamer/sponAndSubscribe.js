@@ -168,7 +168,7 @@ $("#checkId").click(function(){
 				$.each(mySubscribeList,function(index,value){
 					if(value["SU_PERIOD_DATE"]=='X'){
 						subscribeType = '장기 구독자';
-						su_period_date = ""
+						su_period_date = "영원히 함께해요"
 					} else{
 						subscribeType ='정기 구독자';
 						su_period_date = value["SU_PERIOD_DATE"];
@@ -303,19 +303,34 @@ $("#checkId").click(function(){
 				});
 				
 				//sponPaging//sponForMePaging
+				
+				
 				var $firstButton = $('<li class="page-item" onclick="selectSponList(1);"><a class="page-link"> << </a></li>');
-				
-				
 				$("#sponForMePaging > ul").append($firstButton);
 				
 				console.log(data.infoMap.pi.maxPage);
-				for(var i = 0; i <data.infoMap.pi.maxPage;i++){
+				for(var i = 0; i < 5;i++){
 					$("#sponForMePaging >ul ").append('<li class="page-item" onclick="selectSponList('+ (i+1) +')"><a class="page-link">' + (i+1) + '</a></li>');
 					
 					
 				};
 				
-				var $endButton = $('<li class="page-item" onclick="selectSponList('+ data.infoMap.pi.maxPage  +');"><a class="page-link"> >> </a></li>');
+				if(data.infoMap.pi.maxPage >= 6){
+					var $lastBtn = $('<li class="page-item" onclick="selectSponList('+ 6  +');"><a class="page-link" id="last"> 6 </a></li>');
+					$("#sponForMePaging > ul").append($lastBtn);	
+					
+				}
+				
+				var $endButton;
+				console.log(currentPage);
+				if(currentPage > 6 && currentPage<= data.infoMap.pi.maxPage ){	
+					
+					$endButton = $('<li class="page-item" onclick="selectSponList('+ (parseInt(currentPage) + 1)  +');"><a class="page-link"> >> </a></li>');
+			
+				/*	$("#last").val(currentPage);*/
+				}else{
+					$endButton = $('<li class="page-item" onclick="selectSponList(' + data.infoMap.pi.maxPage  +');"><a class="page-link"> >> </a></li>');
+				}
 				$("#sponForMePaging > ul").append($endButton);				
 			}
 		})

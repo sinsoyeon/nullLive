@@ -16,6 +16,9 @@
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
 <style>
+body::-webkit-scrollbar {
+	display: none;
+}
 ul li.unread:after {
 	content: attr(data-content);
 	position: absolute;
@@ -38,52 +41,61 @@ ul li.unread:after {
 #myAlarmArea{
 	width:360px;
 	background:#fff;
+	border-radius: 9px;
 }
 
 #paginArea{
-background:#f5f5f5; 
-width:330px; 
-height:30px;
-margin-top:-20px;
-text-align:center;
+	background:#e2f0d869; 
+	width:9%; 
+	height:30px;
+	margin-top:-20px;
+	text-align:center;
+	border-radius: 50px;
+	margin-left: 46%;
 }
 
 #upArea{
-background:#f5f5f5; 
-width:330px; 
-height:30px;
-margin-top:-21px;
-text-align:center;
+	background: #e2f0d869;
+    width: 9%;
+    height: 30px;
+    margin-top: -21px;
+    text-align: center;
+    border-radius: 50px;
+    margin-left: 46%;
 }
 
 .list-group *{
-font-size:12px;
+	font-size:12px;
 }
 
 
 #checkBtn{
-margin-top:-40px;
-margin-left:60px;
-  position:absolute;
+	margin-top: -32px;
+    margin-left: 40px;
+    position: absolute;
+    width: 19px;
+    height: 20px;
+    background: none;
+    border: none;
 }
 
 
 #alarmText{
- font:600 30px 'nbgL';
-  position:relative;
-  margin-bottom: 15px;
-  display: block;
+ 	font:600 30px 'nbgL';
+  	position:relative;
+  	margin-bottom: 15px;
+  	display: block;
 }
 
 #alarmText:after{
-  position:absolute;
-  content:"";
-  width: 47px;
-  height:3px;
-  background:#699306;
-  left:0;
-  bottom:-3px;
-  border:2px;
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 2px;
+    background: #e2f0d8e0;
+    left: 0;
+    bottom: -9px;
+    border: 2px;
 }
 </style>
 </head>
@@ -142,16 +154,16 @@ margin-left:60px;
 	<!-- 알람 창 -->
 	<div id="myAlarmArea" style="z-index:9999;">
 	
-		<div class="" style="border:3px solid #699306;">
+		<div class="" style="border: 1px solid #ddd;border-radius: 9px;">
 			<div class="panel-heading">
-				<label class="panel-title" id="alarmText" style="font-size:16px;">알람</label>				
-					<button type="button" class="btn btn-default btn-sm" id="checkBtn">
-					  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				<label class="panel-title" id="alarmText" style="font-size: 15px;font-weight: 500;">알람</label>				
+					<button type="button" id="checkBtn">
+					<i class="far fa-check-square" style=" font-size: 17px; color: #ccc; margin-left: -6px; "></i>					  
 					</button>
 			</div>
 			<div class="panel-body">
 				<div id="upArea">
-					<p class="glyphicon glyphicon-triangle-top"></p>
+					<p class="glyphicon glyphicon-triangle-top" style=" margin-top: 6px; color: #3c763de0; "></p>
 				</div>	
 				<div class="list-group">
 
@@ -160,7 +172,7 @@ margin-left:60px;
 				<div id="paginArea">
 					<input type="hidden" id="maxPage" />
 					<input type="hidden" id="currentPage" />
-					<p class="glyphicon glyphicon-triangle-bottom"></p>
+					<p class="glyphicon glyphicon-triangle-bottom" style=" margin-top: 8px; color: #3c763de0; "></p>
 				</div>
 			</div>
 		</div>
