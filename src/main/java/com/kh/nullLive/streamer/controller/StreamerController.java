@@ -452,9 +452,17 @@ public class StreamerController {
 	
 	//파트너 상세 조회(정연)
 	@RequestMapping(value = "partnerDetail.sm")
-	@ResponseBody public ModelAndView PartnerDetail(@RequestParam("mno")int mno, ModelAndView modelAndView) throws StreamerUpdateException {
-
-		HashMap<String, Object> data = bcs.partnerDetail(mno);
+	@ResponseBody public ModelAndView PartnerDetail(@RequestParam("mno")int mno, ModelAndView modelAndView, HttpSession session) throws StreamerUpdateException {
+		BroadCenter broadCenter = (BroadCenter) session.getAttribute("broadCenter");
+		int smno = broadCenter.getMno();
+		
+		System.out.println("에메노: " + mno + "\n에세메노: " + smno);
+		
+		HashMap<String, Object> need = new HashMap<String, Object>();
+		need.put("mno",mno);
+		need.put("smno", smno);
+		
+		HashMap<String, Object> data = bcs.partnerDetail(need);
 
 		System.out.println("디테일: " + data);
 

@@ -112,7 +112,7 @@
 					<thead class="thead-light">
 						<tr class="table-success"
 							style="background: #446600 !important; color: white;">
-							<th scope="col"></th>
+							<th scope="col"><input type="checkbox" /></th>
 							<th scope="col">아이디</th>
 							<th scope="col">닉네임</th>
 							<th scope="col">시작 날짜</th>
@@ -123,7 +123,6 @@
 					<c:forEach var="editor" items="${partnerList}">
 						<c:if test="${editor.PTYPE eq '편집자' }">
 						<tr>
-							<td style="visibility: hidden;"></td>
 							<td><input type="checkbox" /></td>
 							<td><c:out value="${editor.MID}" /></td>
 							<td><c:out value="${editor.NICK_NAME}" /></td>
@@ -224,16 +223,14 @@
 
 <script>
 	$(".table tbody td").click(function(){
-		var mno = $(this).parent().children().eq(5).text();
-		
-		
+		//var mno = $(this).parent().children().eq(5).text();
+		var mno = $(this).closest('td').siblings('.tableMno').text();
+	
 		console.log("m:" + mno); 
 		
 		 $.ajax({
 			url:"partnerDetail.sm",
 			data:{mno:mno},
-			dataType: "json",
-			contentType:"application/json;charset=UTF-8", 
 			type:"get",
 			success:function(data){
 				console.log(data);

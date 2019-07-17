@@ -670,4 +670,16 @@
         (SELECT MNO FROM MEMBER WHERE MID=#{mid}), #{rType}, 'R', 
         (SELECT MNO FROM MEMBER WHERE MID=#{sid}), 5)
 	</insert>
+	
+	
+	<!-- 
+	<select id="streamerPartner" parameterType="java.lang.String" resultType="java.util.HashMap">
+		SELECT P.MNO, M.NICK_NAME
+		FROM PARTNER P , MEMBER M
+		WHERE P.SNO = (SELECT S.SNO
+						FROM STREAMER S, BROAD_CENTER BC
+						WHERE BC.BROAD_ADDRESS = #{streamerAddress}
+		AND S.MNO = BC.MNO)
+		AND P.MNO = M.MNO
+	</select> -->
 </mapper>

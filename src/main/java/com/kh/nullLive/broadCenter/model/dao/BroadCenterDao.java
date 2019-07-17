@@ -55,7 +55,7 @@ public interface BroadCenterDao {
 	HashMap<String, Object> selectOneBlackList(SqlSessionTemplate sqlSession, HashMap<String, Object> infoMap);
 
 	//파트너 상세 조회(정연)
-	HashMap<String, Object> partnerDetail(SqlSessionTemplate sqlSession, int mno);
+	HashMap<String, Object> partnerDetail(SqlSessionTemplate sqlSession, HashMap<String, Object> need);
 
 	//프로필 조회(정연)
 	Attachment getProfile(SqlSessionTemplate sqlSession, int mno);

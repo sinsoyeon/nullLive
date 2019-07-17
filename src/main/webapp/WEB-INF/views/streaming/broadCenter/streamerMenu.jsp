@@ -109,6 +109,10 @@ body::-webkit-scrollbar {
 	padding-left: 17px;
 	line-height: 50px;
 }
+.profile{
+	background:#e2f0d869;
+	color:black;
+}
 </style>
 </head>
 <body>
@@ -117,67 +121,32 @@ body::-webkit-scrollbar {
 		<c:if test="${empty sessionScope.loginUser}">
 			<jsp:forward page="../needLogin.jsp" />
 		</c:if>
-		<div style="width: 210px; margin-top: -15px; height: 170px;">
-		<c:if test="${loginUser.isStreamer eq 'Y'}">
-			<nav id="sidebar" style="width: 210px;">
+			<div >
+				<nav class="sidebar" style="margin-top: 30px; width: 210px;">
 				<div class="profile">
-					<img class="img-circle" alt="Cinque Terre" id="profileImg"
-						onclick="location.href='main.st?smno=${broadCenter.mno}'">
-					<h4 id="nickName" style="color: black;"></h4>
-					<h5 id="id" style="color: #767676f2"></h5>
+					<img class="img-circle" alt="Cinque Terre" id="profileImg" onclick="location.href='main.st?smno=${broadCenter.mno}'">
+					<h3  id="nickName" style="color: black"></h3>
+					<h5 id="id" style="color: black"></h5>
 				</div>
-				<ul style="margin-top: 1%;">
-					<li><a href="broadSetting.st"><i class="fas fa-cog fa-lg"></i><span>방송기능설정</span></a></li>
-					<li><a href="partnerManage.st?mno=${loginUser.mno}"><i
-							class="fas fa-user-cog fa-lg"></i><span>매니저 설정</span></a></li>
-					<li><a href="blackListManage.st"><i
-							class="fas fa-angry fa-lg"></i><span>블랙리스트관리</span></a></li>
-					<!-- <li><a href=""><i class="fas fa-file-video fa-lg"></i><span>방송기록관리</span></a></li> -->
-					<li><a href="prohibitiveWordManage.st"><i
-							class="fas fa-comment-slash fa-lg"></i><span>금칙어설정</span></a></li>
-					<li id="chartList"><a href="chartView.sm"><i
-							class="fas fa-chart-line fa-lg"></i><span>통계페이지</span></a></li>
-					<!-- 일반 사용자 -->
-					<!-- <li><a href="boardsSetting.st"><i class="fas fa-edit fa-lg"></i><span>게시판관리</span></a></li> -->
-					<li><a href="noticeBoard.st"><i
-							class="fas fa-bullhorn fa-lg"></i><span>방송공지게시판</span></a></li>
-					<li><a
-						onclick="location.href='communicationBoard.st?smno=${broadCenter.mno}'"><i
-							class="fas fa-mouse-pointer fa-lg"></i><span>시청자소통게시판</span></a></li>
-					<li><a
-						onclick="location.href='reportBlackListBoard.st?smno=${broadCenter.mno}'"><i
-							class="fas fa-thumbs-down fa-lg"></i><span>블랙리스트제보</span></a></li>
-					<li><a onclick="location.href='updateProfile.st'"><i
-							class="fas fa-id-badge fa-lg"></i><span>개인정보수정</span></a></li>
-				</ul>
-			</nav>
-		</c:if>
-		<c:if test="${loginUser.isStreamer ne 'Y'}">
-			<nav id="sideba" style="width: 210px;">
-				<div class="profile">
-					<img class="img-circle" alt="Cinque Terre" id="profileImg" style="margin-top: 80px; height: 140px; width: 140px; background: white;"
-						onclick="location.href='main.st?smno=${broadCenter.mno}'">
-					<h4 id="nickName" style="color: black;margin-top: 10%;"></h4>
-					<h5 id="id" style="color: #767676f2"></h5>
-				</div>
-				<ul style="margin-top: 10%;">
-					<!-- 일반 사용자 -->
-					<!-- <li><a href="boardsSetting.st"><i class="fas fa-edit fa-lg"></i><span>게시판관리</span></a></li> -->
-					<li><a href="noticeBoard.st"><i
-							class="fas fa-bullhorn fa-lg"></i><span>방송공지게시판</span></a></li>
-					<li><a
-						onclick="location.href='communicationBoard.st?smno=${broadCenter.mno}'"><i
-							class="fas fa-mouse-pointer fa-lg"></i><span>시청자소통게시판</span></a></li>
-					<li><a
-						onclick="location.href='reportBlackListBoard.st?smno=${broadCenter.mno}'"><i
-							class="fas fa-thumbs-down fa-lg"></i><span>블랙리스트제보</span></a></li>
-					<li><a onclick="location.href='updateProfile.st'"><i
-							class="fas fa-id-badge fa-lg"></i><span>개인정보수정</span></a></li>
-				</ul>
-			</nav>
-		</c:if>
-		</div>
-
+				<br><br><br>
+					<ul style=" margin-top: -4px; ">
+					<c:if test="${loginUser.mno eq broadCenter.mno}">
+						<h4 style="padding-left:20px;">방송국 설정</h4>
+						<li><a href="broadSetting.st"><i class="fas fa-cog fa-lg"></i><span>방송기능설정</span></a></li>
+						<li><a href="partnerManage.st?mno=${loginUser.mno}"><i class="fas fa-user-cog fa-lg"></i><span>매니저 설정</span></a></li>
+						<li><a href="blackListManage.st"><i class="fas fa-angry fa-lg"></i><span>블랙리스트관리</span></a></li>
+						<!-- <li><a href=""><i class="fas fa-file-video fa-lg"></i><span>방송기록관리</span></a></li> -->
+						<li id="chartList"><a href="chartView.sm"><i class="fas fa-chart-line fa-lg"></i><span>통계페이지</span></a></li>
+					</c:if>
+					<br><br>
+						<h4 style="padding-left:20px;">스트리머 게시판</h4>
+						<li><a href="noticeBoard.st"><i class="fas fa-bullhorn fa-lg"></i><span>방송공지게시판</span></a></li>
+						<li><a onclick="location.href='communicationBoard.st?smno=${broadCenter.mno}'"><i class="fas fa-mouse-pointer fa-lg"></i><span>시청자소통게시판</span></a></li>
+						<%-- <li><a onclick="location.href='reportBlackListBoard.st?smno=${broadCenter.mno}'"><i class="fas fa-thumbs-down fa-lg"></i><span>블랙리스트제보</span></a></li> --%>
+						<!-- <li><a onclick="location.href='updateProfile.st'"><i class="fas fa-id-badge fa-lg"></i><span>개인정보수정</span></a></li> -->
+					</ul>
+				</nav>
+			</div>
 	</div>
 
 

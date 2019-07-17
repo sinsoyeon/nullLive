@@ -144,7 +144,14 @@ public class centerController {
 		
 		int firstCheck = bcs.firstCheckCommunication(commuInfo);
 		
-		//System.out.println("체크: " + firstCheck);
+		System.out.println("체크: " + firstCheck);
+		
+		if(firstCheck<1) {
+			model.addAttribute("firstCheck", firstCheck);
+			
+			return "streaming/broadCenter/communicationBoard";
+		}
+		
 		HashMap<String,Object> pagingHmap = new HashMap<String,Object>();
 		pagingHmap.put("paging", paging);
 		pagingHmap.put("smno",smno);
@@ -237,19 +244,24 @@ public class centerController {
 	}
 
 	
-	  //파트너 상세 조회(정연)
-	  @RequestMapping(value = "partnerDetail.st" , produces = "application/text; charset=UTF-8" )
-	  @ResponseBody public String PartnerDetail(@RequestParam("mno")int mno, Model model) throws StreamerUpdateException {
-		  HashMap<String, Object> data = bcs.partnerDetail(mno);
-	  
-		  System.out.println("디테일: " + data);
-	  
-		  Gson gson = new Gson();
-	  
-		  model.addAttribute("data", data);
-	  
-		  return gson.toJson(data);
-	  }
+	/*
+	 * //파트너 상세 조회(정연)
+	 * 
+	 * @RequestMapping(value = "partnerDetail.st" , produces =
+	 * "application/text; charset=UTF-8" )
+	 * 
+	 * @ResponseBody public String PartnerDetail(@RequestParam("mno")int mno, Model
+	 * model) throws StreamerUpdateException { HashMap<String, Object> data =
+	 * bcs.partnerDetail(mno);
+	 * 
+	 * System.out.println("디테일: " + data);
+	 * 
+	 * Gson gson = new Gson();
+	 * 
+	 * model.addAttribute("data", data);
+	 * 
+	 * return gson.toJson(data); }
+	 */
 	  
 	  
 	  //시청자 소통 게시판 생성(정연)

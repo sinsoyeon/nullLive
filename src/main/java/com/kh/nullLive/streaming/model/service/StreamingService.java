@@ -207,4 +207,8 @@ public interface StreamingService {
 	 */
 	void selectedReport(HashMap<String, Object> hmap);
 
+	
+	//파트너 조회(정연)
+	//ArrayList<HashMap<String, Object>> streamerPartner(String streamerAddress);
+
 }

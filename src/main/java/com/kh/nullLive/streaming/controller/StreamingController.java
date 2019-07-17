@@ -110,10 +110,15 @@ public class StreamingController {
 				return "redirect:index.jsp";
 			}else {
 				HashMap<String,Object> hmap = ss.enterStream(loginUser,streamerAddress);
+				
+				//ArrayList<HashMap<String, Object>> mlist = ss.streamerPartner(streamerAddress);
+				
 				model.addAttribute("broadInfo",hmap);		//방송 정보 담아가야함
 				model.addAttribute("title", hmap.get("TITLE"));
 				model.addAttribute("bhno",hmap.get("BHNO"));
 				model.addAttribute("mid",loginUser.getMid());
+				
+				//model.addAttribute("mlist", mlist);
 
 				return "streaming/streamRoom";
 			}

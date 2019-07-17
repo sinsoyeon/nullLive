@@ -93,7 +93,16 @@
   <input type="hidden" id="point" value="${loginUser.point}" />
   <input type="hidden" id="nickName" value="${loginUser.nickName}" />
   <input type="hidden" id="endingComment" value="${broadInfo['ENDINGCOMMENT']}" />
+
+  <%-- 
+  <c:forEach var="editor" items="${partnerList}">
+			<c:if test="${editor.PTYPE eq '편집자' }">
+					<input type="hidden" class="mlistValue"/><c:out value="${editor.NICK_NAME}" />
+				</c:if>
+	</c:forEach> --%>
   
+  
+
 </section>
   
 
@@ -204,7 +213,8 @@
 <script src="${contextPath}/resources/js/streaming/RecordRTC.js"></script>
 <script src="${contextPath}/resources/js/streaming/TTSjs.js"></script>
 <!-- chat script -->
-<script src="https://192.168.110.131:3000/socket.io/socket.io.js"></script>
+<script src="https://192.168.1.130:3000/socket.io/socket.io.js"></script>
+
 <script>
 //방송 종료 처리
 $(window).on('beforeunload', function() {
@@ -324,7 +334,8 @@ function favoBtn(){
 //채팅
 $(document).ready(function(){
    //노드랑 바로 연결
-    var socket = io("https://192.168.110.131:3000");
+    var socket = io("https://192.168.1.130:3000");
+
     
   //엔터키 입력시
     $("#msg").keydown(function(key){
@@ -349,7 +360,9 @@ $(document).ready(function(){
       socket.emit('send_msg',{
         name: $('#nickName').val(),
         message : $("#msg").val(),
-        roomId : $("#room-id").val()
+        roomId : $("#room-id").val(),
+        mid : $("#mid").val(),
+        mno : $("#mno").val()
       
       });
       
@@ -378,6 +391,25 @@ $(document).ready(function(){
     //소켓 서버로 부터 send_msg를 통해 이벤트를 받을 경우 
       socket.on('send_msg', function(msg) {
           //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
+          
+          if(msg.mid == $("#room-id").val()){
+        	  console.log("스트리머!");
+        	  
+	          $('<div style="color:blue;"></div>').html("<img src='${contextPath}/resources/image/emoticon/sword.png'> "+ msg.name + " : " + msg.message).appendTo("#chat-box");
+          }else{
+        	  $('<div></div>').text(msg.name + " : " + msg.message).appendTo("#chat-box");
+          }
+          
+          $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
+          
+      });
+      socket.on('send_emo', function(emo) {
+          //div 태그를 만들어 텍스트를 emo로 지정을 한뒤 #chat_box에 추가를 시켜준다.
+          $('<div></div>').html(emo.name + " : <img src='${contextPath}/resources/image/emoticon/"+emo.message+".png'>").appendTo("#chat-box");
+          $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
+      });
+      
+     
           
           var roomId = $("#room-id").val();
           var JSroomId = msg.roomId;
@@ -436,9 +468,19 @@ function startTTS(data){
 	   var audio = new Audio();
 	   audio.src = "${contextPath}/resources/uploadFiles/audio/" + info[0];
 	   audio.play();
+}
 	   
 
-	}
+var emoStatus=0;
+$('#eButton').click(function() {
+	if(emoStatus == 0){
+		$('#emoticon').css("display","block");
+		emoStatus = 1;
+	}else{
+		$('#emoticon').css("display","none");
+		emoStatus = 0;
+		}
+});
 
 </script>
 </body>

@@ -50,10 +50,6 @@
 					</div>
 					<br><br><br>
 					<div class="broadStatus">
-					<label>방송 상태:</label>
-					<label>방송 전</label><br>
-					<label>현재 시청자 수:</label>
-					<label>200</label>
 					
 					<!-- 방송화면 삽입-->
 					<br><br>
