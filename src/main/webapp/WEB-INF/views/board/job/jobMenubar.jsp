@@ -17,6 +17,9 @@
 	href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
 <title>Insert title here</title>
 <style>
+body::-webkit-scrollbar {
+	display: none;
+}
 .logo:hover{
 	cursor:pointer;
 }

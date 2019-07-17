@@ -12,10 +12,6 @@
 #contentArea {
 	padding-left: 225px;
 }
-#streamerPartnerArea{
-	background: #e9e9e9;
-	margin: 2%;
-}
 #streamerPartnerTable, #streamerPartnerTable tr>th{
 text-align: center;
 }
@@ -50,14 +46,14 @@ text-align:center;
 }
 
 #showClcBtn{
-  background-color: white;
- background-color: #4CAF50; /* Green */
-  color: white;
-  border: 2px solid #4CAF50;
+    background-color: white;
+    color: #4CAF50;
+    border: 1px solid #4CAF50;
     text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 18px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-left: 43%;
 }
 
 </style>
@@ -74,7 +70,7 @@ text-align:center;
 	<div id="contentArea" class="container-fluid" >
 		<div id='streamerPartnerArea' align="center">
 		<br>
-			<h2>나와 함께 일 하는 스트리머</h2>
+			<h2 style="font-size: 21px;font-weight: bold;color: #555;margin-top: 2px;">나와 함께 일 하는 스트리머</h2>
 		<br>
 				<table class="table" id="streamerPartnerTable">
 					<thead class="thead-light">
@@ -150,7 +146,7 @@ text-align:center;
 			</div>
 			
 			<div id="btnArea">
-				<button type="button" id="showClcBtn">정산하기</button>		
+				<button class="btn btn-default" type="button" id="showClcBtn">정산하기</button>		
 			</div>	
 	</div>
 	<script>
