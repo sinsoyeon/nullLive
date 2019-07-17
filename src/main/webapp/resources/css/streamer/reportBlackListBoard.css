@@ -3,6 +3,7 @@
 	width:100%;
 	border:1px solid gray;
 	text-align:center;
+	margin-top: 4%;
 }
 .reportTable th{
 	text-align:center;
@@ -17,7 +18,7 @@ th, td{
 	float:right;
 }
 tr:hover{
-	background:#79d279;
+	background:#e2f0d869;
 }
 #update{
 	float:right;
@@ -26,6 +27,5 @@ tr:hover{
 	font-size:14px;
 }
 .row{
-	background:#f6f8fa;
 	color:#446600;
 }

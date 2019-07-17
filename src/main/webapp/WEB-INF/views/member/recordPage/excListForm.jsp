@@ -21,9 +21,12 @@
 padding-left:460px !important;
 margin-top:140px !important;
 }
-
+.w3-bar{
+	overflow: hidden;
+    margin-left: 210px;
+}
 #pointBtn{
-margin-left:472px !important;
+margin-left:276px !important;
 border-radius:10px;
 }
 

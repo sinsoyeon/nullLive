@@ -12,13 +12,11 @@
 	border: 1px solid lightgray;
 }
 .profileArea{
-	margin-left:auto;
-	margin-right:auto;
-	width:200px;
-	height:200px;
-	background:lightgray;
+	width: 200px;
+    height: 250px;
+    border-radius: 15px;
+    border: 1px solid #d3d3d3bf;
 }
 .row{
-	background:#f6f8fa;
 	color:#446600;
 }

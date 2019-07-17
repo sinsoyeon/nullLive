@@ -7,6 +7,10 @@
 <meta charset="UTF-8">
 <title>마이페이지</title>
 <style>
+::-webkit-scrollbar {height: 13px; }
+::-webkit-scrollbar-track {  background: none; }
+::-webkit-scrollbar-thumb {  background: none; border-radius:8px;}
+::-webkit-scrollbar-thumb:hover {background: #e2f0d8;}
 #contentArea {
 	padding-left: 225px;
 }
@@ -27,34 +31,34 @@
 	<jsp:include page="myPageNavbar.jsp" />
 	<!-- Main -->
 	<div class="container-fluid" id="contentArea">
-		<div class="row alert alert-success">
-			<div class="col-md-12" style="display: inline; min-width: 1024;">
+		<div class="row">
+			<div class="col-md-12" style="display: inline;margin-top: 4%;padding-left: 5%;padding-right: 6%;background: #e2f0d869;border-radius: 15px;margin-left: 4%;width: 750px;">
 				<div class="col-md-4" style="display: inline; float: left;" onclick="modifyProImage()">
-					<img src="${contextPath}/resources/uploadFiles/profile_image/${imgSource}" style="width:100%;"/>
+					<img class="img-circle" src="${contextPath}/resources/uploadFiles/profile_image/${imgSource}" style="width: 150px;height: 150px;margin: 13px 0;"/>
 				</div>
-				<div class="alert alert-success col-md-8"
-					style="display: inline; float: left;">
-					<h3>
+				<div class="col-md-8"
+					style="display: inline;float: left;margin-top: 20px;">
+					<h3 style=" margin-left: 13px; font-size: 20px;">
 						<c:out value="${sessionScope.loginUser.name}" />
 					</h3>
-					<h5>
+					<h5 style=" margin-left: 13px; color: #446600;">
 						<c:out value="${sessionScope.loginUser.nickName}"/> 님의 페이지입니다.
 					</h5>
-					<br /> <br />
-					<div class="col-md-5" style="display: inline; float: left;">
-						<p style="font-size:1.5em;font-family: 'Literata', serif;">Null Point : <c:out value="${sessionScope.loginUser.point}" /> P</p>
+					<br />
+					<div class="col-md-5" style="display: inline;float: left;">
+						<p style="font-size:19px;width: 220px;">Null Point : <c:out value="${sessionScope.loginUser.point}" /> P</p>
 						
 					</div>
 					<div class="col-md-4" style="display: inline; float: right">
 						<img src="${contextPath}/resources/image/searchlike.png" width="25%" style="display: inline; float: left;"/>
-						<p style="font-size:1.5em;font-family: 'Literata', serif;display: inline; float: left; margin-left:10px;"><c:out value="${sessionScope.loginUser.receivedLikes}"></c:out></p>
+						<p style="font-size:19px;display: inline; float: left; margin-left:10px;"><c:out value="${sessionScope.loginUser.receivedLikes}"></c:out></p>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="row" style="margin-left: 20px;margin-top:20px;">
 			<div class="col-md-6" style="height: 450px !important;">
-				<h3>구독하는 방송</h3>
+				<h3 style=" font-size: 20px; ">구독하는 방송</h3>
 				<div id="subListArea">
 					<table class="table" id="subListTable" >
 						<thead class="thead-light">
@@ -83,22 +87,18 @@
 					</table>
 				</div>
 			</div>
-			<div class="col-md-6" style="height: 450px !important;padding-top: 15px;">
+			<div class="col-md-6" style="height: 450px !important;padding-top: 15px;margin-top: 4%;">
 				<div class="col-md-2" style="display: block; float: left; width:100px;">
 					<img src="${contextPath}/resources/image/profile_sample.PNG"
-						width="100px" />
+						width="100px" height="100px" />
 				</div>
 				<div class="col-md-3" style="display: block; float:left;margin-left:20px;margin-top:10px;width:200px;" align="center">
 					<button class="form-control btn btn-primary" onclick="toBroadCenter()">방송국으로</button>
-					<button style="margin-top:10px;" class="form-control btn btn-primary" onclick="location.href='start.st?smno=${loginUser.mno}'">방송시작</button>
+					<%-- <button style="margin-top:10px;" class="form-control btn btn-primary" onclick="location.href='start.st?smno=${loginUser.mno}'">방송시작</button> --%>
 					<!-- <button onclick="enterStreaming();">방송보기 test</button> -->
 				</div>
 				<div class="col-md-5" style="display: block; clear: left;">
-					<br />
-					<hr style="margin-top:10px; width:300px;"/>
-					<div>
-						
-					</div>
+					
 				</div>
 			</div>
 		</div>

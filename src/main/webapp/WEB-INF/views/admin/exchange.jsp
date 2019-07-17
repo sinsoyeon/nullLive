@@ -80,7 +80,7 @@ tr>th {
 						<td>${exchange.name}</td>	
 						<td>${exchange.excAmount}</td>	
 						<td>${exchange.applicationDate}</td>	
-						<td><input type="button" value="환전하기" data-toggle="modal" data-target="#single" class="btn btn-success"></td>	
+						<td><input type="button" value="환전하기" data-toggle="modal" data-target="#single" class="btn btn-success" onclick='excnoThrow(${exchange.excno})'></td>	
 					</tr>
 				</c:if>
 				
@@ -178,7 +178,6 @@ tr>th {
 <script type="text/javascript" src="${contextPath}/resources/js/admin/adminExchange.js"></script>
 </body>
 <script>
-var excno;
 	$(function() {
 		$('li:eq(3)').addClass('active');
 		$('#menu3').addClass('active in');
@@ -191,31 +190,7 @@ var excno;
 			else{
 				$("#checkbox input").prop('checked', false);}
 		});
-		/* $('tbody>tr').click(function() {
-			excno  = $(this).children().eq(1).html();
-		});
-		$("#exchange").click(function() {
-			location.href='exchange.ad?excno='+excno
-		});
-		$("#allExchange").click(function() {
-			alert("allExchange");
-		}); */
-		
-		
-	})
-	
-	function exchange() {
-		
-		
-		
-		return false;
-	}
-	function allExchange() {
-		
-		
-		
-		return false;
-	}
+	});
 	
 	
 </script>

@@ -17,8 +17,6 @@
 <script src="${contextPath}/resources/css/streaming/getHTMLMediaElement.js"></script>
 <link rel="stylesheet" href="${contextPath}/resources/css/streaming/streamRoom.css" />
 <link rel="stylesheet" href="${ contextPath }/resources/css/soyeonCss.css">
-<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Gothic+A1|Jua|Song+Myung&display=swap" rel="stylesheet">
-
 </head>
 <body>
 <section id="page">
@@ -33,12 +31,13 @@
   </div>
   <nav id="chatArea">
    <div id="chat-box"></div>
-    <input type="text" id="msg"/>
+   <input type="button" value="E" style="border: none;" id='eButton'>
+    <input type="text" id="msg" style="width: 150px;"/>
     <button id="msg_send">전송</button>
     	<button class="btn btn-default" data-toggle="modal" data-target="#sponModal" id="sponBtn" >후원</button>
 
    <!--  <input id="nickName" value="빠숑" type="text" hidden> -->
-     <!-- <div style="display:none;" id="otherClients"></div> 
+     <!-- <div style="display:none;" id="otherClients"></div> -->
   </nav>
   <footer>
     <div class="card border-secondary mb-3" id="footerArea">
@@ -60,7 +59,16 @@
 		</div>
 		<!-- <button onclick="endRecordAndService()">downtest</button> -->
 	</div>
-  
+  <div id="emoticon">
+  	<img src="${contextPath}/resources/image/emoticon/smail.png" class="emoticonImg" id="smail">
+  	<img src="${contextPath}/resources/image/emoticon/angry.png" class="emoticonImg" id="angry">
+  	<img src="${contextPath}/resources/image/emoticon/heart.png" class="emoticonImg" id="heart">
+  	<img src="${contextPath}/resources/image/emoticon/good.png" class="emoticonImg" id="good">
+  	<input value="smail" hidden id='smailVal'>
+  	<input value="angry" hidden id='angryVal'>
+  	<input value="heart" hidden id='heartVal'>
+  	<input value="good" hidden id='goodVal'>
+  </div>
 	<div id="membersArea">
 		<p>   현재 접속자</p>	
 		<div id="membersList"></div>
@@ -86,7 +94,6 @@
   <input type="hidden" id="nickName" value="${loginUser.nickName}" />
   <input type="hidden" id="endingComment" value="${broadInfo['ENDINGCOMMENT']}" />
   
-  
 </section>
   
 
@@ -95,13 +102,13 @@
       <div class="modal-content" style="z-index:99999;">
          <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">후원하기</h4>
+            <h4 class="modal-title">Login</h4>
          </div>
          <div class="modal-body">
             <form action="">
             <div id="infoArea">
             
-               <p align="center" id="headerText">${broadInfo['STREAMERADDRESS']} 님에게 NULL 선물하기</p>
+               <p align="center"><i class="fa fa-heart" style="font-size:48px;color:#ed7679"></i>빠숑님에게 별풍선 선물하기</p>
             </div>
          
             <p id="selectNull">보유 중인 NULL POINT : ${loginUser.point }</p>
@@ -132,11 +139,11 @@
                   <td>
                   <label>금액 입력</label>
                   </td>   
-                  <td ><input type="number" placeholder="NULL" name="money" id="inputMoney"><label for="">  NULL</label></td>
+                  <td colspan="2"><input type="number" placeholder="NULL" name="money" id="inputMoney"><label for="">  NULL</label></td>
                </tr>
-               <tr style="padding-left:50px;">
-                  <td><label for="" style="width:100px;">전송할 메시지 : </label></td>
-                  <td><textarea name="requestMsg" id="requestMsg" cols="30" rows="10" style="width:230px;"></textarea></td>
+               <tr>
+                  <td><label for="">전송할 메시지 : </label></td>
+                  <td><textarea name="requestMsg" id="requestMsg" cols="30" rows="10"></textarea></td>
                </tr>
             </table>
             
@@ -197,12 +204,14 @@
 <script src="${contextPath}/resources/js/streaming/RecordRTC.js"></script>
 <script src="${contextPath}/resources/js/streaming/TTSjs.js"></script>
 <!-- chat script -->
-<script src="https://192.168.30.30:3000/socket.io/socket.io.js"></script>
+<script src="https://192.168.110.131:3000/socket.io/socket.io.js"></script>
 <script>
 //방송 종료 처리
 $(window).on('beforeunload', function() {
 	beforeLeaveStreamRoom();
 });
+  
+
   
 function beforeLeaveStreamRoom(){
 	var mid = $("#mid").val();
@@ -315,7 +324,7 @@ function favoBtn(){
 //채팅
 $(document).ready(function(){
    //노드랑 바로 연결
-    var socket = io("https://192.168.30.30:3000");
+    var socket = io("https://192.168.110.131:3000");
     
   //엔터키 입력시
     $("#msg").keydown(function(key){
@@ -343,26 +352,59 @@ $(document).ready(function(){
         roomId : $("#room-id").val()
       
       });
-
+      
       
       //#inputMsg 비움
       $("#msg").val("");
     });
-      
     
+  //이모티콘 클릭시
+     $(".emoticonImg").click(function(){
+    	 var emoticonImg = $(this).attr('id');
+  	      //소켓에 send_emo 이벤트로 msg 전달
+  	      socket.emit('send_emo',{
+  	        name: $('#nickName').val(),
+  	        message : emoticonImg,
+  	        roomId : $("#room-id").val()
+  	      });
+         
+         //#inputMsg 비움
+         $("#msg").val("");
+       });
+  
+    
+  
+   
     //소켓 서버로 부터 send_msg를 통해 이벤트를 받을 경우 
       socket.on('send_msg', function(msg) {
-    	  var roomId = $("#room-id").val();
-    	  var JSroomId = msg.roomId;
-    	  
-    	  console.log("룸: " + roomId + "JS룸: " + JSroomId);
-    	  
-    	  if(roomId == JSroomId){
- 	         //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
-    	      $('<div></div>').text(msg.name + " : " + msg.message).appendTo("#chat-box");
-    		  
-    	  }
+          //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
+          
+          var roomId = $("#room-id").val();
+          var JSroomId = msg.roomId;
+          
+          if(roomId == JSroomId){
+          
+          $('<div></div>').text(msg.name + " : " + msg.message).appendTo("#chat-box");
+          $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
+          
+          }
       });
+      socket.on('send_emo', function(emo) {
+          //div 태그를 만들어 텍스트를 emo로 지정을 한뒤 #chat_box에 추가를 시켜준다.
+          
+          
+          var roomId = $("#room-id").val();
+          var JSroomId = emo.roomId;
+          
+          if(roomId == JSroomId){
+          
+          $('<div></div>').html(emo.name + " : <img src='${contextPath}/resources/image/emoticon/"+emo.message+".png'>").appendTo("#chat-box");
+          $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
+          
+          }
+      });
+      
+      
     
      //DB에 저장되어 있는 내용을 가져올 경우
     socket.on('preload', function(data){
@@ -373,87 +415,30 @@ $(document).ready(function(){
     
 });
 
-// $(document).ready(function(){
-//    var connectionOptions =  {
-//             "force new connection" : true,
-//             "reconnectionAttempts": "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
-//             "timeout" : 10000, //before connect_error and connect_timeout are emitted.
-//             "transports" : ["websocket"]
-//         };
-//    console.log(connectionOptions);
 
-//     var socket = io("192.168.0.61:3002", {secure:true});
-//     console.log(socket);
-// })
-
-//채팅
-// $(document).ready(function(){
-//   var socket = io("http://192.168.30.30:9011");
-    
-//   //엔터키 입력시
-//   $("#inputMsg").keydown(function(key){
-//     if(key.keyCode == 13){
-//       //msg_send 클릭
-//       msg_send.click();
-//     }
-//   });
-    
-//   //msg_send 클릭시
-//   
-//     $("#msg_send").click(function(){
-//     /* var output ='';
-//     output += $("#nickName").val();
-//     output += ' : ';
-//     output += $("#inputMsg").val(); */
-      
-//     //소켓에 send_msg 이벤트로 msg 전달
-//     socket.emit('send_msg',{
-//       name: $('#nickName').val(),
-//       message : $("#inputMsg").val()
-    
-//     });
-    
-      
-//     /* socket.emit("send_msg", output); */
-    
-    
-//     //#inputMsg 비움
-//     $("#inputMsg").val("");
-//   });
-    
-//   //소켓 서버로 부터 send_msg를 통해 이벤트를 받을 경우 
-//     socket.on('send_msg', function(msg) {
-//         //div 태그를 만들어 텍스트를 msg로 지정을 한뒤 #chat_box에 추가를 시켜준다.
-//         $('<div></div>').text(msg.name + " : " + msg.message).appendTo("#chat-box");
-//     });
-  
-//   //DB에 저장되어 있는 내용을 가져올 경우
-//   socket.on('preload', function(data){
-//     $('<div></div>').text(data.name + " : " + data.message).appendTo("#chat-box");
-//   });
-
-// });
+var emoStatus=0;
+$('#eButton').click(function() {
+	if(emoStatus == 0){
+		$('#emoticon').css("display","block");
+		emoStatus = 1;
+	}else{
+		$('#emoticon').css("display","none");
+		emoStatus = 0;
+		}
+})
 
 
 
-// window.onload = function(){
-//    var xhr = new XMLHttpRequest();
-//     xhr.onload = function(){
-//      console.log(xhr.response);  
-//     }; 
-//     xhr.open("GET", "http://192.168.30.30:3002/");
-//     xhr.send();
+function startTTS(data){
+	   console.log('tts startTTS');
+	   var info = data.split("&");
+	   console.log(info);
+	   var audio = new Audio();
+	   audio.src = "${contextPath}/resources/uploadFiles/audio/" + info[0];
+	   audio.play();
+	   
 
-// window.onload = function(){
-//     $("#logModal").modal('hide');
-//    var xhr = new XMLHttpRequest();
-//     xhr.onload = function(){
-//      console.log(xhr.response);  
-//     }; 
-//     xhr.open("GET", "http://192.168.30.30:3002/");
-//     xhr.send();
-// }
-
+	}
 
 </script>
 </body>

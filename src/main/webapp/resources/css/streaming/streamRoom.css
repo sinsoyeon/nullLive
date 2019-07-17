@@ -184,3 +184,14 @@ body::-webkit-scrollbar {
 #reportModal{
     top:150px;
 }
+#emoticon{
+	display: none; 
+	width: 135px;
+    height: 33px;
+    border: 1px solid darkgray;
+    background: #ecfce0;
+    position: absolute;
+    left: 729px;
+    top: 547px;
+    z-index: 999;
+}
